@@ -10,6 +10,10 @@ Install Tutrlebot packages using:
 ```sh
 sudo sudo apt-get install ros-indigo-turtlebot ros-indigo-turtlebot-apps ros-indigo-turtlebot-interactions ros-indigo-turtlebot-simulator ros-indigo-kobuki-ftdi ros-indigo-rocon-remocon ros-indigo-rocon-qt-library ros-indigo-ar-track-alvar-msgs
 ```
+Install Eband local planner:
+```sh
+sudo apt-get install ros-indigo-eband-local-planner
+```
 
 ## How to use
 To launch simulation with multiple Turtlebots:
