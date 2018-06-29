@@ -3,7 +3,7 @@
   <arg name="tf_prefix" default=""/>
   <arg name="ns" default="" />
   <!-- Map server -->
-  <arg name="map_file" default="/home/aufarz/Downloads/ANPL_map_clean/ANPL_map_clean.yaml"/>
+  <arg name="map_file" default="$(find multiple_turtlebots)map/playground.yaml"/>
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
     <param name="frame_id" value="/$(arg tf_prefix)/map"/>
   </node>
