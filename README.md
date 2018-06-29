@@ -8,7 +8,7 @@ This is launch files used to spawn multiple Turtlebots in single Gazebo simulati
 Install ROS Indigo;
 Install Tutrlebot packages using:
 ```sh
-sudo apt-get install ros-indigo-turtlebot-gazebo
+sudo sudo apt-get install ros-indigo-turtlebot ros-indigo-turtlebot-apps ros-indigo-turtlebot-interactions ros-indigo-turtlebot-simulator ros-indigo-kobuki-ftdi ros-indigo-rocon-remocon ros-indigo-rocon-qt-library ros-indigo-ar-track-alvar-msgs
 ```
 
 ## How to use
