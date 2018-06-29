@@ -5,7 +5,9 @@ This is launch files used to spawn multiple Turtlebots in single Gazebo simulati
 
 ## Prerequisites
 
-Install ROS Indigo;
+Install ROS Indigo or Kinetic.
+
+### Indigo:
 Install Tutrlebot packages using:
 ```sh
 sudo sudo apt-get install ros-indigo-turtlebot ros-indigo-turtlebot-apps ros-indigo-turtlebot-interactions ros-indigo-turtlebot-simulator ros-indigo-kobuki-ftdi ros-indigo-rocon-remocon ros-indigo-rocon-qt-library ros-indigo-ar-track-alvar-msgs
@@ -15,15 +17,21 @@ Install Eband local planner:
 sudo apt-get install ros-indigo-eband-local-planner
 ```
 
+### Kinetic
+
+Install Tutrlebot packages using:
+```sh
+sudo sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-kinetic-turtlebot-interactions ros-kinetic-turtlebot-simulator ros-kinetic-kobuki-ftdi ros-kinetic-ar-track-alvar-msgs
+```
+Install Eband local planner:
+```sh
+sudo apt-get install ros-kinetic-eband-local-planner
+```
+
 ## How to use
 To launch simulation with multiple Turtlebots:
 ```sh
 roslaunch multiple_turtlebots multiple_turtlebot_world.launch
-```
-
-To add them AMCL algorithms and move bases:
-```sh
-roslaunch multiple_turtlebots amcl_wo_map.launch
 ```
 
 To view navaigation and AMCL results:
