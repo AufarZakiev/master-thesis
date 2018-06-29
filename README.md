@@ -5,10 +5,10 @@ This is launch files used to spawn multiple Turtlebots in single Gazebo simulati
 
 ## Prerequisites
 
-Install ROS Indigo or Kinetic;
+Install ROS Indigo;
 Install Tutrlebot packages using:
 ```sh
-sudo apt-get install ros-<your distro>-turtlebot-gazebo
+sudo apt-get install ros-indigo-turtlebot-gazebo
 ```
 
 ## How to use
