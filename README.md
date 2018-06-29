@@ -3,6 +3,14 @@
 ## Overview
 This is launch files used to spawn multiple Turtlebots in single Gazebo simulation with AMCL and goal navigation performed.
 
+## Prerequisites
+
+Install ROS Indigo or Kinetic;
+Install Tutrlebot packages using:
+```sh
+sudo apt-get install ros-<your distro>-turtlebot-gazebo
+```
+
 ## How to use
 To launch simulation with multiple Turtlebots:
 ```sh
