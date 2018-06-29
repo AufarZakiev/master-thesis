@@ -30,5 +30,5 @@ roslaunch multiple_turtlebots view_navigation.launch
 ## Troubleshooting
 If you met complains about `TURTLEBOT_3D_SENSOR` type following:
 ```sh
-TURTLEBOT_3D_SENSOR=kinect
+export TURTLEBOT_3D_SENSOR=kinect
 ```
