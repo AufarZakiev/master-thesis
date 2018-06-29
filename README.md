@@ -17,7 +17,7 @@ Install Eband local planner:
 sudo apt-get install ros-indigo-eband-local-planner
 ```
 
-### Kinetic
+### Kinetic:
 
 Install Tutrlebot packages using:
 ```sh
