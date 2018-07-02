@@ -687,6 +687,8 @@ Visualization Manager:
       Topic: /turtlebot1/initialpose
     - Class: rviz/SetGoal
       Topic: /turtlebot1/move_base_simple/goal
+    - Class: rviz/SetGoal
+      Topic: /turtlebot2/move_base_simple/goal
     - Class: rviz/Measure
     - Class: rviz/PublishPoint
       Single click: true
