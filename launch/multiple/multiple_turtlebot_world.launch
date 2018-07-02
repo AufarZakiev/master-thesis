@@ -10,6 +10,8 @@
   <arg name="y" default="0"/>
   <arg name="z" default="0.1"/>
 
+  <param name="/robot_description" command="$(find xacro)/xacro.py $(find turtlebot_description)/robots/kobuki_hexagons_kinect.urdf.xacro" />
+
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="use_sim_time" value="true"/>
     <arg name="debug" value="false"/>
@@ -18,7 +20,6 @@
   </include>
 
   <group ns="turtlebot1">
-    <param name="tf_prefix" value="robot1_tf"/>
     <include file="$(find multiple_turtlebots)/launch/multiple/spawn_turtlebot.launch" >
       <arg name="x" default="$(arg x)"/>
       <arg name="y" default="$(arg y)"/>
@@ -29,7 +30,6 @@
   </group>
 
   <group ns="turtlebot2">
-    <param name="tf_prefix" value="robot2_tf"/>
     <include file="$(find multiple_turtlebots)/launch/multiple/spawn_turtlebot.launch" >
       <arg name="x" default="-5"/>
       <arg name="y" default="-5"/>
