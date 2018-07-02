@@ -1,9 +1,15 @@
 <!-- 
     ROS navigation stack with velocity smoother and safety (reactive) controller
 -->
+
 <launch>
-  <include file="$(find turtlebot_navigation)/launch/includes/velocity_smoother.launch.xml"/>
-  <include file="$(find turtlebot_navigation)/launch/includes/safety_controller.launch.xml"/>
+  <arg name="ns" default="" />
+  <include file="$(find multiple_turtlebots)/launch/multiple/includes/velocity_smoother.launch.xml">
+    <arg name="ns" value="$(arg ns)" />
+  </include>
+  <include file="$(find multiple_turtlebots)/launch/multiple/includes/safety_controller.launch.xml">
+    <arg name="ns" value="$(arg ns)" />
+  </include>
   
   <arg name="odom_frame_id"   default="odom"/>
   <arg name="base_frame_id"   default="base_footprint"/>
@@ -34,9 +40,8 @@
     <param name="local_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
     <param name="DWAPlannerROS/global_frame_id" value="$(arg odom_frame_id)"/>
 
-    <remap from="cmd_vel" to="/turtlebot1/navigation_velocity_smoother/raw_cmd_vel"/>
+    <remap from="cmd_vel" to="/$(arg ns)/navigation_velocity_smoother/raw_cmd_vel"/>
     <remap from="odom" to="$(arg odom_topic)"/>
     <remap from="scan" to="$(arg laser_topic)"/>
-    <remap from="map" to="/map"/>
   </node>
 </launch>

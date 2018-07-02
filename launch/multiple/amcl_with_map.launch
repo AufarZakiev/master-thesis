@@ -3,12 +3,12 @@
   <arg name="tf_prefix" default=""/>
   <arg name="ns" default="" />
   <!-- Map server -->
-  <arg name="map_file" default="$(find multiple_turtlebots)map/playground.yaml"/>
+  <arg name="map_file" default="$(find multiple_turtlebots)/map/playground.yaml"/>
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
     <param name="frame_id" value="/$(arg tf_prefix)/map"/>
   </node>
   <!-- AMCL -->
-  <arg name="custom_amcl_launch_file" default="$(find multiple_turtlebots)/launch/multiple/includes/amcl/$(arg 3d_sensor)_amcl.launch.xml"/>
+  <arg name="custom_amcl_launch_file" default="$(find turtlebot_navigation)/launch/includes/amcl/$(arg 3d_sensor)_amcl.launch.xml"/>
   <arg name="initial_pose_x" default="0.0"/> 
   <arg name="initial_pose_y" default="0.0"/> 
   <arg name="initial_pose_a" default="0.0"/>
@@ -23,7 +23,7 @@
   </include>
 
   <!-- Move base -->
-  <include file="$(find multiple_turtlebots)/launch/multiple/includes/move_base_test.launch.xml">
+  <include file="$(find multiple_turtlebots)/launch/multiple/includes/move_base.launch.xml">
     <arg name="odom_frame_id"   default="odom"/>
     <arg name="base_frame_id"   default="base_footprint"/>
     <arg name="global_frame_id" default="map"/>

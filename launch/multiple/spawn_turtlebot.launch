@@ -40,7 +40,7 @@
     <remap from="scan" to="scan"/>
   </node>
 
-  <include file="$(find multiple_turtlebots)/launch/multiple/amcl_wo_map.launch" >
+  <include file="$(find multiple_turtlebots)/launch/multiple/amcl_with_map.launch" >
     <arg name="tf_prefix" value="$(arg tf_prefix)" />
     <arg name="ns" value="$(arg ns)" />
     <arg name="initial_pose_x" value="$(arg x)"/>
