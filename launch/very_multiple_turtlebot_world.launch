@@ -19,7 +19,7 @@
 
   <group ns="turtlebot1">
     <param name="tf_prefix" value="robot1_tf"/>
-    <include file="$(find multiple_turtlebots)/launch/multiple/spawn_turtlebot.launch" >
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
       <arg name="x" default="$(arg x)"/>
       <arg name="y" default="$(arg y)"/>
       <arg name="z" default="$(arg z)"/>
@@ -30,7 +30,7 @@
 
   <group ns="turtlebot2">
     <param name="tf_prefix" value="robot2_tf"/>
-    <include file="$(find multiple_turtlebots)/launch/multiple/spawn_turtlebot.launch" >
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
       <arg name="x" default="0"/>
       <arg name="y" default="5"/>
       <arg name="z" default="0.1"/>
@@ -41,7 +41,7 @@
 
   <group ns="turtlebot3">
     <param name="tf_prefix" value="robot3_tf"/>
-    <include file="$(find multiple_turtlebots)/launch/multiple/spawn_turtlebot.launch" >
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
       <arg name="x" default="0"/>
       <arg name="y" default="-5"/>
       <arg name="z" default="0.1"/>
@@ -52,7 +52,7 @@
 
   <group ns="turtlebot4">
     <param name="tf_prefix" value="robot4_tf"/>
-    <include file="$(find multiple_turtlebots)/launch/multiple/spawn_turtlebot.launch" >
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
       <arg name="x" default="0"/>
       <arg name="y" default="-10"/>
       <arg name="z" default="0.1"/>
@@ -63,7 +63,7 @@
 
   <group ns="turtlebot5">
     <param name="tf_prefix" value="robot5_tf"/>
-    <include file="$(find multiple_turtlebots)/launch/multiple/spawn_turtlebot.launch" >
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
       <arg name="x" default="5"/>
       <arg name="y" default="0"/>
       <arg name="z" default="0.1"/>
@@ -74,7 +74,7 @@
 
   <group ns="turtlebot6">
     <param name="tf_prefix" value="robot6_tf"/>
-    <include file="$(find multiple_turtlebots)/launch/multiple/spawn_turtlebot.launch" >
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
       <arg name="x" default="5"/>
       <arg name="y" default="5"/>
       <arg name="z" default="0.1"/>
@@ -85,7 +85,7 @@
 
   <group ns="turtlebot7">
     <param name="tf_prefix" value="robot7_tf"/>
-    <include file="$(find multiple_turtlebots)/launch/multiple/spawn_turtlebot.launch" >
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
       <arg name="x" default="5"/>
       <arg name="y" default="-5"/>
       <arg name="z" default="0.1"/>
@@ -96,7 +96,7 @@
 
   <group ns="turtlebot8">
     <param name="tf_prefix" value="robot8_tf"/>
-    <include file="$(find multiple_turtlebots)/launch/multiple/spawn_turtlebot.launch" >
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
       <arg name="x" default="5"/>
       <arg name="y" default="10"/>
       <arg name="z" default="0.1"/>
