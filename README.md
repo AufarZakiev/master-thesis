@@ -39,6 +39,13 @@ To launch AMCL and map_server on all robots:
 ```sh
 roslaunch multiple_turtlebots multiple_kinect_amcl.launch
 ```
+
+OR
+
+To launch gmapping on all robots:
+```sh
+roslaunch multiple_turtlebots multiple_kinect_gmapping.launch
+```
 ---
 To spawn multiple LRF Turtlebots:
 ```sh
