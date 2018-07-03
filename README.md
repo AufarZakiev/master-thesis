@@ -16,6 +16,10 @@ Install Eband local planner:
 ```sh
 sudo apt-get install ros-indigo-eband-local-planner
 ```
+Install Hector SLAM:
+```sh
+sudo apt-get install ros-indigo-hector-slam
+```
 
 ### Kinetic:
 
@@ -26,6 +30,10 @@ sudo sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-k
 Install Eband local planner:
 ```sh
 sudo apt-get install ros-kinetic-eband-local-planner
+```
+Install Hector SLAM:
+```sh
+sudo apt-get install ros-kinetic-hector-slam
 ```
 
 ## How to use
