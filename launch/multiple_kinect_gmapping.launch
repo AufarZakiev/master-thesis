@@ -1,0 +1,17 @@
+<launch>
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0.1"/>
+
+  <group ns="turtlebot1">
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_gmapping.launch" >
+      <arg name="tf_prefix" value="robot1_tf" />
+    </include>
+  </group>
+
+  <group ns="turtlebot2">
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_gmapping.launch" >
+      <arg name="tf_prefix" value="robot2_tf" />
+    </include>
+  </group>
+</launch>

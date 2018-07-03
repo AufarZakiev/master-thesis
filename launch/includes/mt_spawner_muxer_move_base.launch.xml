@@ -1,3 +1,5 @@
+<!-- Spawner is edited to be common for all robots (/robot_description). Both spawner and muxer depend on namespace(ns)-->
+
 <launch>
   <arg name="base"/>
   <arg name="stacks"/>
@@ -5,17 +7,14 @@
   <arg name="x" default="0.0"/>
   <arg name="y" default="0.0"/>
   <arg name="z" default="0.0"/>
-  <arg name="ns" default="" />
-  
-  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_$(arg 3d_sensor).urdf.xacro'" />
-  <param name="robot_description" command="$(arg urdf_file)" />
+  <arg name="ns" default=""/>
   
   <!-- Gazebo model spawner -->
   <node name="spawn_turtlebot_model" pkg="gazebo_ros" type="spawn_model"
         args="-x $(arg x)
               -y $(arg y)                         
               -z $(arg z)
-              -unpause -urdf -param robot_description -model $(arg ns)_mobile_base"/>
+              -unpause -urdf -param /robot_description -model $(arg ns)_mobile_base"/>
   
   <!-- Velocity muxer -->
   <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
@@ -27,4 +26,9 @@
 
   <!-- Bumper/cliff to pointcloud (not working, as it needs sensors/core messages) -->
   <include file="$(find turtlebot_bringup)/launch/includes/kobuki/bumper2pc.launch.xml"/>
+
+  <!-- Move base. Depends on namespace (ns) -->
+  <include file="$(find multiple_turtlebots)/launch/includes/mt_move_base.launch.xml">
+    <arg name="ns" value="$(arg ns)" />
+  </include>
 </launch>

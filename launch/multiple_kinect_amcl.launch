@@ -1,0 +1,27 @@
+<launch>
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0.1"/>
+
+  <group ns="turtlebot1">
+    <!-- AMCL + map server + fake laser. All depend on transform prefix (tf_prefix)-->
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_amcl_map.launch" >
+      <arg name="tf_prefix" value="robot1_tf" />
+
+      <arg name="initial_pose_x" value="$(arg x)"/>
+      <arg name="initial_pose_y" value="$(arg y)"/>
+      <arg name="initial_pose_a" value="$(arg z)"/>
+    </include>
+  </group>
+
+  <group ns="turtlebot2">
+    <!-- AMCL + map server + fake laser. All depend on transform prefix (tf_prefix)-->
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_amcl_map.launch" >
+      <arg name="tf_prefix" value="robot2_tf" />
+
+      <arg name="initial_pose_x" value="$(arg x)"/>
+      <arg name="initial_pose_y" value="$(arg y)"/>
+      <arg name="initial_pose_a" value="$(arg z)"/>
+    </include>
+  </group>
+</launch>

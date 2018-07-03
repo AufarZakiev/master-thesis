@@ -1,0 +1,31 @@
+<launch>
+  <arg name="tf_prefix" default=""/>
+  <arg name="ns" default="" />
+  <param name="tf_prefix" value="$(arg tf_prefix)"/>
+
+  <!-- Robot inside state pub-->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="30.0" />
+  </node>
+
+  <!-- World-map transformation. Depend on transform prefix-->
+  <node pkg="tf" type="static_transform_publisher" name="$(arg tf_prefix)_broadcaster" args="0 0 0 0 0 0 1 world $(arg tf_prefix)/map 100" />
+
+  <arg name="base"      value="$(optenv TURTLEBOT_BASE kobuki)"/> <!-- create, roomba -->
+  <arg name="stacks"    value="$(optenv TURTLEBOT_STACKS hexagons)"/>  <!-- circles, hexagons -->
+  <arg name="3d_sensor" value="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro -->
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0.1"/>
+
+  <!-- Model spawner + velocity muxer + move_base. All depend on namespace(ns)-->
+  <include file="$(find multiple_turtlebots)/launch/includes/mt_spawner_muxer_move_base.launch.xml">
+    <arg name="base" value="$(arg base)"/>
+    <arg name="stacks" value="$(arg stacks)"/>
+    <arg name="3d_sensor" value="$(arg 3d_sensor)"/>
+    <arg name="x" default="$(arg x)"/>
+    <arg name="y" default="$(arg y)"/>
+    <arg name="z" default="$(arg z)"/>
+    <arg name="ns" value="$(arg ns)" />
+  </include>
+</launch>

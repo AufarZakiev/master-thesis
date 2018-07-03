@@ -1,0 +1,20 @@
+<launch>
+  <arg name="3d_sensor" default="$(env TURTLEBOT_3D_SENSOR)"/>  
+  <arg name="tf_prefix" default=""/>
+  <arg name="ns" default=""/>
+
+  <!-- Hector SLAM -->
+  <include file="$(find multiple_turtlebots)/launch/includes/hector_mapping_map_frame.launch">
+    <arg name="pub_map_odom_transform" value="true" />
+    <arg name="base_frame" value="$(arg tf_prefix)/base_footprint" />
+    <arg name="odom_frame" value="$(arg tf_prefix)/odom" />
+    <arg name="map_frame" value="$(arg tf_prefix)/map" />
+
+    <arg name="scan_topic" value="hokuyo_scan" />
+  </include>
+  <include file="$(find hector_geotiff)/launch/geotiff_mapper.launch">
+    <arg name="trajectory_publish_rate" value="4" />
+  </include>
+
+</launch>
+
