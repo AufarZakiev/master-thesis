@@ -11,7 +11,7 @@
   <arg name="z" default="0.1"/>
 
   <!-- Robot description is common for all the robots -->
-  <param name="robot_description" command="$(find xacro)/xacro.py $(find turtlebot_hector_mapping)/xacro/turtlebot_laser_setup.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find turtlebot_laser)/xacro/turtlebot_laser_setup.xacro" />
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="use_sim_time" value="true"/>
