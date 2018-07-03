@@ -29,12 +29,28 @@ sudo apt-get install ros-kinetic-eband-local-planner
 ```
 
 ## How to use
-To launch simulation with multiple Turtlebots:
+
+To spawn multiple Kinect Turtlebots:
 ```sh
-roslaunch multiple_turtlebots multiple_turtlebot_world.launch
+roslaunch multiple_turtlebots multiple_kinect_turtlebot_world.launch
 ```
 
-To view navaigation and AMCL results:
+To launch AMCL and map_server on all robots:
+```sh
+roslaunch multiple_turtlebots multiple_kinect_amcl.launch
+```
+---
+To spawn multiple LRF Turtlebots:
+```sh
+roslaunch multiple_turtlebots multiple_laser_turtlebot_world.launch
+```
+
+To launch hector_mapping on all robots:
+```sh
+roslaunch multiple_turtlebots multiple_laser_hector.launch
+```
+----
+To view navigation in RViz:
 ```sh 
 roslaunch multiple_turtlebots view_navigation.launch
 ```
