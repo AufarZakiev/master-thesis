@@ -1,0 +1,13 @@
+<launch>
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0.1"/>
+
+  <group ns="turtlebot1">
+
+  </group>
+
+  <group ns="turtlebot2">
+
+  </group>
+</launch>

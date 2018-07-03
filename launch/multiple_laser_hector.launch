@@ -1,0 +1,21 @@
+<launch>
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0.1"/>
+
+  <group ns="turtlebot1">
+    <!-- Hector SLAM with args. -->
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot1_tf"/>
+      <arg name="ns" default="turtlebot1"/>
+    </include>
+  </group>
+
+  <group ns="turtlebot2">
+    <!-- Hector SLAM with args. -->
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot2_tf"/>
+      <arg name="ns" default="turtlebot2"/>
+    </include>
+  </group>
+</launch>

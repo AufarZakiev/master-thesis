@@ -23,9 +23,6 @@
     <arg name="global_frame_id" default="$(arg tf_prefix)/map"/>
   </include>
 
-  <!-- World-map transformation. Depend on transform prefix-->
-  <node pkg="tf" type="static_transform_publisher" name="$(arg tf_prefix)_broadcaster" args="0 0 0 0 0 0 1 world $(arg tf_prefix)/map 100" />
-
   <!-- Fake laser. Depend on transform prefix -->
   <node pkg="nodelet" type="nodelet" name="laserscan_nodelet_manager" args="manager"/>
   <node pkg="nodelet" type="nodelet" name="depthimage_to_laserscan"
