@@ -28,6 +28,11 @@
       <arg name="tf_prefix" value="robot1_tf" />
       <arg name="ns" value="turtlebot1" />
     </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot2_tf"/>
+      <arg name="ns" default="turtlebot2"/>
+    </include>
   </group>
 
   <group ns="turtlebot2">
@@ -37,6 +42,11 @@
       <arg name="z" default="0.1"/>
       <arg name="tf_prefix" value="robot2_tf" />
       <arg name="ns" value="turtlebot2" />
+    </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot2_tf"/>
+      <arg name="ns" default="turtlebot2"/>
     </include>
   </group>
 </launch>

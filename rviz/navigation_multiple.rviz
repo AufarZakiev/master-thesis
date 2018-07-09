@@ -4,14 +4,11 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
-        - /Status1
-        - /RobotModel1
         - /Map1
         - /Global Map1/Planner1
         - /Local Map1/Planner1
         - /Local Map1/Trajectory Cloud1
-        - /RobotModel_21
+        - /Map_21
       Splitter Ratio: 0.725000024
     Tree Height: 843
   - Class: rviz/Selection
@@ -32,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan_2
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -55,27 +52,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_depth_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        camera_rgb_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_rgb_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         caster_back_link:
           Alpha: 1
           Show Axes: false
@@ -102,17 +78,17 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        hokuyo_laser_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         plate_bottom_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
         plate_middle_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        plate_top_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -147,16 +123,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        pole_kinect_0_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole_kinect_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         pole_middle_0_link:
           Alpha: 1
           Show Axes: false
@@ -173,26 +139,6 @@ Visualization Manager:
           Show Trail: false
           Value: true
         pole_middle_3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole_top_0_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole_top_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole_top_2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole_top_3_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -247,12 +193,12 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Map
       Topic: /turtlebot1/map
       Unreliable: false
       Use Timestamp: false
-      Value: true
+      Value: false
     - Class: rviz/Group
       Displays:
         - Alpha: 0.699999988
@@ -445,27 +391,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_depth_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        camera_rgb_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_rgb_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         caster_back_link:
           Alpha: 1
           Show Axes: false
@@ -492,17 +417,17 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        hokuyo_laser_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         plate_bottom_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
         plate_middle_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        plate_top_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -537,16 +462,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        pole_kinect_0_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole_kinect_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         pole_middle_0_link:
           Alpha: 1
           Show Axes: false
@@ -563,26 +478,6 @@ Visualization Manager:
           Show Trail: false
           Value: true
         pole_middle_3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole_top_0_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole_top_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole_top_2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole_top_3_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -676,9 +571,19 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Map_2
       Topic: /turtlebot2/map
+      Unreliable: false
+      Use Timestamp: false
+      Value: false
+    - Alpha: 0.699999988
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /united_map
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -707,7 +612,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -6.38002014
+      Angle: 0
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
@@ -717,11 +622,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 49.0122528
+      Scale: 4.88247252
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 0.842587471
-      Y: -0.361880124
+      X: -3.14116025
+      Y: -2.90759277
     Saved: ~
 Window Geometry:
   Displays:

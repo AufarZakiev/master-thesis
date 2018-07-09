@@ -1,0 +1,150 @@
+<launch>
+  <arg name="world_file"  default="$(env TURTLEBOT_GAZEBO_WORLD_FILE)"/>
+
+  <arg name="base"      value="$(optenv TURTLEBOT_BASE kobuki)"/> <!-- create, roomba -->
+  <arg name="battery"   value="$(optenv TURTLEBOT_BATTERY /proc/acpi/battery/BAT0)"/>  <!-- /proc/acpi/battery/BAT0 --> 
+  <arg name="gui" default="true"/>
+  <arg name="stacks"    value="$(optenv TURTLEBOT_STACKS hexagons)"/>  <!-- circles, hexagons --> 
+  <arg name="3d_sensor" value="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro --> 
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0.1"/>
+
+  <!-- Robot description is common for all the robots -->
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find turtlebot_laser)/xacro/turtlebot_laser_setup.xacro" />
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="use_sim_time" value="true"/>
+    <arg name="debug" value="false"/>
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="world_name" value="$(arg world_file)"/>
+  </include>
+
+  <group ns="turtlebot1">
+    <param name="tf_prefix" value="robot1_tf"/>
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
+      <arg name="x" default="$(arg x)"/>
+      <arg name="y" default="$(arg y)"/>
+      <arg name="z" default="$(arg z)"/>
+      <arg name="tf_prefix" value="robot1_tf" />
+      <arg name="ns" value="turtlebot1" />
+    </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot1_tf"/>
+      <arg name="ns" default="turtlebot1"/>
+    </include>
+  </group>
+
+  <group ns="turtlebot2">
+    <param name="tf_prefix" value="robot2_tf"/>
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
+      <arg name="x" default="0"/>
+      <arg name="y" default="5"/>
+      <arg name="z" default="0.1"/>
+      <arg name="tf_prefix" value="robot2_tf" />
+      <arg name="ns" value="turtlebot2" />
+    </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot2_tf"/>
+      <arg name="ns" default="turtlebot2"/>
+    </include>
+  </group>
+
+  <group ns="turtlebot3">
+    <param name="tf_prefix" value="robot3_tf"/>
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
+      <arg name="x" default="0"/>
+      <arg name="y" default="-5"/>
+      <arg name="z" default="0.1"/>
+      <arg name="tf_prefix" value="robot3_tf" />
+      <arg name="ns" value="turtlebot3" />
+    </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot3_tf"/>
+      <arg name="ns" default="turtlebot3"/>
+    </include>
+  </group>
+
+  <group ns="turtlebot4">
+    <param name="tf_prefix" value="robot4_tf"/>
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
+      <arg name="x" default="0"/>
+      <arg name="y" default="-10"/>
+      <arg name="z" default="0.1"/>
+      <arg name="tf_prefix" value="robot4_tf" />
+      <arg name="ns" value="turtlebot4" />
+    </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot4_tf"/>
+      <arg name="ns" default="turtlebot4"/>
+    </include>
+  </group>
+
+  <group ns="turtlebot5">
+    <param name="tf_prefix" value="robot5_tf"/>
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
+      <arg name="x" default="5"/>
+      <arg name="y" default="0"/>
+      <arg name="z" default="0.1"/>
+      <arg name="tf_prefix" value="robot5_tf" />
+      <arg name="ns" value="turtlebot5" />
+    </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot5_tf"/>
+      <arg name="ns" default="turtlebot5"/>
+    </include>
+  </group>
+
+  <group ns="turtlebot6">
+    <param name="tf_prefix" value="robot6_tf"/>
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
+      <arg name="x" default="5"/>
+      <arg name="y" default="5"/>
+      <arg name="z" default="0.1"/>
+      <arg name="tf_prefix" value="robot6_tf" />
+      <arg name="ns" value="turtlebot6" />
+    </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot6_tf"/>
+      <arg name="ns" default="turtlebot6"/>
+    </include>
+  </group>
+
+  <group ns="turtlebot7">
+    <param name="tf_prefix" value="robot7_tf"/>
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
+      <arg name="x" default="5"/>
+      <arg name="y" default="-5"/>
+      <arg name="z" default="0.1"/>
+      <arg name="tf_prefix" value="robot7_tf" />
+      <arg name="ns" value="turtlebot7" />
+    </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot7_tf"/>
+      <arg name="ns" default="turtlebot7"/>
+    </include>
+  </group>
+
+  <group ns="turtlebot8">
+    <param name="tf_prefix" value="robot8_tf"/>
+    <include file="$(find multiple_turtlebots)/launch/includes/spawn_turtlebot.launch" >
+      <arg name="x" default="5"/>
+      <arg name="y" default="10"/>
+      <arg name="z" default="0.1"/>
+      <arg name="tf_prefix" value="robot8_tf" />
+      <arg name="ns" value="turtlebot8" />
+    </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot8_tf"/>
+      <arg name="ns" default="turtlebot8"/>
+    </include>
+  </group>
+</launch>

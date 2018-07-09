@@ -1,0 +1,4 @@
+<launch>
+    <param name="robots_number" value="8" />
+  <node pkg="multiple_turtlebots" type="map_union_node" name="map_union_node" output="screen"/>
+</launch>
