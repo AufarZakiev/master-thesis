@@ -9,47 +9,6 @@ inline size_t index(size_t i, size_t column, uint32_t width) {
     return (width * i) + column;
 }
 
-//class TransformWithSizes{
-//public:
-//    TransformWithSizes(){
-//        transform = new geometry_msgs::TransformStamped();
-//        width = 0;
-//        height = 0;
-//    }
-//
-//    geometry_msgs::TransformStamped *getTransform() const {
-//        return transform;
-//    }
-//
-//    void setTransformX(geometry_msgs::TransformStamped transform) {
-//        TransformWithSizes::transform->transform.translation.x = transform.transform.translation.x;
-//    }
-//
-//    void setTransformY(geometry_msgs::TransformStamped transform) {
-//        TransformWithSizes::transform->transform.translation.y = transform.transform.translation.y;
-//    }
-//
-//    int32_t getWidth() const {
-//        return width;
-//    }
-//
-//    void setWidth(int32_t width) {
-//        TransformWithSizes::width = width;
-//    }
-//
-//    int32_t getHeight() const {
-//        return height;
-//    }
-//
-//    void setHeight(int32_t height) {
-//        TransformWithSizes::height = height;
-//    }
-//private:
-//    geometry_msgs::TransformStamped *transform;
-//    int32_t width;
-//    int32_t height;
-//};
-
 void initialize_united_map(ros::NodeHandle &n_, int robots_number, nav_msgs::OccupancyGrid &united_map,
                            std::vector<geometry_msgs::TransformStamped> &saved_transforms,
                            geometry_msgs::Vector3 &base_vector) {
@@ -88,8 +47,7 @@ void initialize_united_map(ros::NodeHandle &n_, int robots_number, nav_msgs::Occ
                         retrieved_map.info.width / 2;
                 if (min_X_coord > temp) {
                     min_X_coord = temp;
-                    base_vector.x = fabs(transformStamped.transform.translation.x / united_map.info.resolution) +
-                                    retrieved_map.info.width / 2.0;
+                    base_vector.x = fabs(transformStamped.transform.translation.x / united_map.info.resolution);
                 }
 
                 temp = (int32_t) (round(transformStamped.transform.translation.x / united_map.info.resolution)) +
@@ -100,8 +58,7 @@ void initialize_united_map(ros::NodeHandle &n_, int robots_number, nav_msgs::Occ
                        retrieved_map.info.height / 2;
                 if (min_Y_coord > temp) {
                     min_Y_coord = temp;
-                    base_vector.y = fabs(transformStamped.transform.translation.y / united_map.info.resolution) +
-                                    retrieved_map.info.height / 2.0;
+                    base_vector.y = fabs(transformStamped.transform.translation.y / united_map.info.resolution);
                 }
 
                 temp = (int32_t) (round(transformStamped.transform.translation.y / united_map.info.resolution)) +
@@ -120,6 +77,9 @@ void initialize_united_map(ros::NodeHandle &n_, int robots_number, nav_msgs::Occ
     united_map.info.height = (uint32_t) (abs(min_Y_coord) + max_Y_coord);
     united_map.info.origin.position.x = min_X_coord * united_map.info.resolution;
     united_map.info.origin.position.y = min_Y_coord * united_map.info.resolution;
+
+    base_vector.y+=+retrieved_map.info.height / 2.0;
+    base_vector.x+=+retrieved_map.info.width / 2.0;
 };
 
 // Node is based on the assumption that all the merged maps have same resolution and orientation
@@ -138,7 +98,7 @@ int main(int argc, char **argv) {
     tf2_ros::TransformListener tf_listener(tf_buffer); // listener to perform proper transforms
     geometry_msgs::TransformStamped transform; // object to store listened transforms
     int robots_number = 0; // count of Turtlebots
-    geometry_msgs::Vector3 base_vector;
+    geometry_msgs::Vector3 base_vector; // vector between world's (0,0) point and most left-down map corner
     std::vector<geometry_msgs::TransformStamped> savedTransforms(
             1); // robots transforms relatively to world frame storage. First cell is empty
     // get robots number
@@ -151,7 +111,7 @@ int main(int argc, char **argv) {
     // united map initialization
     initialize_united_map(n_, robots_number, united_map, savedTransforms, base_vector);
 
-    ROS_INFO("United map params{ height: %d, width: %d, origin_x: %f, origin_y: %f", united_map.info.width,
+    ROS_INFO("United map params{ height: %d, width: %d, origin_x: %f, origin_y: %f }", united_map.info.width,
              united_map.info.height, united_map.info.origin.position.x, united_map.info.origin.position.y);
     united_map.data = std::vector<signed char>(united_map.info.width * united_map.info.height, -1);
     // main node cycle
@@ -172,8 +132,8 @@ int main(int argc, char **argv) {
             ROS_INFO("r: %d, x = %d, y = %d", r, r_transform_x, r_transform_y);
             for (size_t i = 0; i < retrieved_map.info.height; ++i) {
                 for (size_t j = 0; j < retrieved_map.info.width; ++j) {
-                    auto t1 = (int) round(base_vector.y );
-                    auto t2 = (int) round(base_vector.x );
+                    auto t1 = (int) round(base_vector.y);
+                    auto t2 = (int) round(base_vector.x);
                     signed char &current_cell = united_map.data[index(
                             t1 + r_transform_y - retrieved_map.info.height/2 + i,
                             t2 + r_transform_x - retrieved_map.info.width/2 + j,
@@ -182,6 +142,7 @@ int main(int argc, char **argv) {
                 }
             }
         }
+
         //ROS_INFO("MIN: x = %d, y = %d, MAX: x = %d, y = %d", min_X_coord, min_Y_coord, max_X_coord, max_Y_coord);
         pub_.publish(united_map);
         ros::spinOnce();
