@@ -4,6 +4,7 @@
 #include <geometry_msgs/TransformStamped.h>
 #include <tf2_ros/transform_listener.h>
 #include "string"
+#include "chrono"
 
 inline size_t index(size_t i, size_t column, uint32_t width) {
     return (width * i) + column;
@@ -108,6 +109,9 @@ int main(int argc, char **argv) {
         ROS_ERROR("Failed to get param 'robots_number'. Setting to default value = 2.");
         robots_number = 2;
     }
+
+    std::chrono::time_point<std::chrono::system_clock> start, end;
+
     // united map initialization
     initialize_united_map(n_, robots_number, united_map, savedTransforms, base_vector);
 
@@ -120,6 +124,7 @@ int main(int argc, char **argv) {
         united_map.header.seq++;
         united_map.header.stamp = ros::Time::now();
         for (int r = 1; r < robots_number + 1; r++) {
+            start = std::chrono::system_clock::now();
             client = n_.serviceClient<nav_msgs::GetMap>(
                     "/turtlebot" + std::__cxx11::to_string(r) +
                     "/dynamic_map"); // Service to retrieve map from hector_mapping
@@ -129,7 +134,6 @@ int main(int argc, char **argv) {
                     savedTransforms[r].transform.translation.x / united_map.info.resolution);
             auto r_transform_y = (int) round(
                     savedTransforms[r].transform.translation.y / united_map.info.resolution);
-            ROS_INFO("r: %d, x = %d, y = %d", r, r_transform_x, r_transform_y);
             for (size_t i = 0; i < retrieved_map.info.height; ++i) {
                 for (size_t j = 0; j < retrieved_map.info.width; ++j) {
                     auto t1 = (int) round(base_vector.y);
@@ -141,6 +145,10 @@ int main(int argc, char **argv) {
                     if (current_cell == -1) current_cell = retrieved_map.data[index(i, j, retrieved_map.info.width)];
                 }
             }
+            end = std::chrono::system_clock::now();
+            long elapsed_milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>
+                    (end-start).count();
+            ROS_INFO("r: %d, x = %d, y = %d. Elapsed time: %lu", r, r_transform_x, r_transform_y, elapsed_milliseconds);
         }
 
         //ROS_INFO("MIN: x = %d, y = %d, MAX: x = %d, y = %d", min_X_coord, min_Y_coord, max_X_coord, max_Y_coord);
