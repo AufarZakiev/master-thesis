@@ -11,9 +11,9 @@ inline size_t index(size_t i, size_t column, uint32_t width)
   return (width * i) + column;
 }
 
-void initializeUnitedMap(ros::NodeHandle &n_, int robots_number, nav_msgs::OccupancyGrid &united_map,
-                         std::vector<geometry_msgs::TransformStamped> &saved_transforms,
-                         geometry_msgs::Vector3 &base_vector)
+void initializeUnitedMap(ros::NodeHandle& n_, int robots_number, nav_msgs::OccupancyGrid& united_map,
+                         std::vector<geometry_msgs::TransformStamped>& saved_transforms,
+                         geometry_msgs::Vector3& base_vector)
 {
   nav_msgs::GetMap srv;
   tf2_ros::Buffer tfBuffer;
@@ -126,7 +126,7 @@ int main(int argc, char** argv)
   std::chrono::time_point<std::chrono::system_clock> start, end;
 
   // united map initialization
-    initializeUnitedMap(n_, robots_number, united_map, savedTransforms, base_vector);
+  initializeUnitedMap(n_, robots_number, united_map, savedTransforms, base_vector);
 
   ROS_INFO("United map params{ height: %d, width: %d, origin_x: %f, origin_y: %f }", united_map.info.width,
            united_map.info.height, united_map.info.origin.position.x, united_map.info.origin.position.y);
