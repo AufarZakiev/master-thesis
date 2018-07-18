@@ -5,11 +5,11 @@ void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double
 {
   if (n_.getParam(param_name, param_variable))
   {
-    ROS_INFO("Got param %s: %d", param_name, param_variable);
+    ROS_INFO("Got param %s: %f", param_name.c_str(), param_variable);
   }
   else
   {
-    ROS_ERROR("Failed to get param %s. Setting to default value", param_name);
+    ROS_ERROR("Failed to get param %s. Setting to default value", param_name.c_str());
   }
 }
 
@@ -17,11 +17,11 @@ void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, int& p
 {
   if (n_.getParam(param_name, param_variable))
   {
-    ROS_INFO("Got param %s: %d", param_name, param_variable);
+    ROS_INFO("Got param %s: %d", param_name.c_str(), param_variable);
   }
   else
   {
-    ROS_ERROR("Failed to get param %s. Setting to default value", param_name);
+    ROS_ERROR("Failed to get param %s. Setting to default value", param_name.c_str());
   }
 }
 
@@ -30,6 +30,11 @@ double getVectorDistance(const Vector_t& v1, const Vector_t& v2)
   double x_coord = v1(0, 0) - v2(0, 0);
   double y_coord = v1(1, 0) - v2(1, 0);
   return sqrt(x_coord * x_coord + y_coord * y_coord);
+}
+
+RigidObject::RigidObject(Position_t position)
+{
+  current_position_ = position;
 }
 
 Position_t RigidObject::getPosition() const
@@ -51,6 +56,10 @@ double getVectorLength(const Vector_t& v)
 {
   return sqrt(v(0, 0) * v(0, 0) + v(1, 0) * v(1, 0));
 };
+double getVectorLength(const Eigen::Vector3d& v)
+{
+  return sqrt(v(0, 0) * v(0, 0) + v(1, 0) * v(1, 0) + v(2, 0) * v(2, 0));
+};
 bool isEdgePreserved(const Robot& i, const Robot& j)
 {
   // indicator function prototype
@@ -61,7 +70,9 @@ bool isObjectOnLineSegment(const RigidObject& o, const RigidObject& line_start, 
   // check if the object o is on the line between objects
   Position_t o_s = getRelativePosition(o, line_start);
   Position_t o_e = getRelativePosition(o, line_end);
-  bool isPointOnLine = (getVectorLength(o_s.cross(o_e)) == 0.0);
+  Eigen::Vector3d o_s_3d(o_s(0, 0), o_s(1, 0), 0);
+  Eigen::Vector3d o_e_3d(o_e(0, 0), o_e(1, 0), 0);
+  bool isPointOnLine = (getVectorLength(o_s_3d.cross(o_e_3d)) == 0.0);
   bool isPointBetweenSegmentEnds = (o_s.dot(o_e) <= 0.0);
   return isPointOnLine && isPointBetweenSegmentEnds;
 };

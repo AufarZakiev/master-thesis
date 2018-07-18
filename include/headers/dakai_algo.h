@@ -13,6 +13,7 @@ typedef Eigen::Vector2d Vector_t;    // to store vectors between points
 class RigidObject
 {
 public:
+  RigidObject(Position_t position);
   Position_t getPosition() const;
 
 private:
@@ -39,7 +40,8 @@ typedef std::unordered_set<RigidObject> Set_t;                 // to store info 
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double& param_variable);
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, int& param_variable);
 double getVectorDistance(const Vector_t& v1, const Vector_t& v2);  // get distance between two vectors
-double getVectorLength(const Vector_t& v);
+double getVectorLength(const Vector_t& v); // get 2d vector length
+double getVectorLength(const Eigen::Vector3d& v); // get 3d vector length
 Position_t getRelativePosition(const RigidObject& o1, const RigidObject& o2);  // get position of o2 in respect to o1
 bool isEdgePreserved(const Robot& i, const Robot& j);                          // indicator function prototype
 bool isObjectOnLineSegment(const RigidObject& o, const RigidObject& line_start,
