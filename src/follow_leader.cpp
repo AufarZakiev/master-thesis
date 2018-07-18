@@ -13,13 +13,13 @@ int main(int argc, char** argv)
   double NEIGHBOURHOOD_DISTANCE;
   double EDGE_DELETION_DISTANCE;
 
-  get_param(n_, "robots_count", ROBOTS_COUNT);
-  get_param(n_, "robots_distance", ROBOTS_AVOIDANCE_DISTANCE);
-  get_param(n_, "obstacle_avoidance_distance", OBSTACLES_AVOIDANCE_DISTANCE);
-  get_param(n_, "sensing_distance", SENSING_DISTANCE);
-  get_param(n_, "los_clearance_distance", LOS_CLEARANCE_DISTANCE);
-  get_param(n_, "neightbourhood_distance", NEIGHBOURHOOD_DISTANCE);
-  get_param(n_, "edge_deletion_distance", EDGE_DELETION_DISTANCE);
+  getNotifiedParam(n_, "robots_count", ROBOTS_COUNT);
+  getNotifiedParam(n_, "robots_distance", ROBOTS_AVOIDANCE_DISTANCE);
+  getNotifiedParam(n_, "obstacle_avoidance_distance", OBSTACLES_AVOIDANCE_DISTANCE);
+  getNotifiedParam(n_, "sensing_distance", SENSING_DISTANCE);
+  getNotifiedParam(n_, "los_clearance_distance", LOS_CLEARANCE_DISTANCE);
+  getNotifiedParam(n_, "neightbourhood_distance", NEIGHBOURHOOD_DISTANCE);
+  getNotifiedParam(n_, "edge_deletion_distance", EDGE_DELETION_DISTANCE);
 
   while (ros::ok())
   {
