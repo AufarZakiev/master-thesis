@@ -79,7 +79,10 @@ bool isObjectOnLineSegment(const RigidObject& o, const RigidObject& line_start, 
 bool isObjectInDSpace(const RigidObject& o, const RigidObject& left_border, const RigidObject& right_border)
 {
   // check if the object is in the D-space
-  return true;
+  Position_t o_l = getRelativePosition(left_border, o);
+  Position_t o_r = getRelativePosition(right_border, o);
+  Position_t r_l = getRelativePosition(left_border, right_border);
+  return (o_l.dot(r_l) > 0.0 && o_r.dot(r_l) < 0.0);
 };
 double getProjectionPhi(const Vector_t& p, const Vector_t& q)
 {
