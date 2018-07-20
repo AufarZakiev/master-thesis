@@ -125,6 +125,10 @@ TEST(getProjectionPhiTest, ShouldPass)
   p << 2, 3;
   q << 3, -2;
   EXPECT_EQ(p, getProjectionPhi(p, q));
+  p << 4, 7;
+  q << 8, 0;
+  a << 0, 7;
+  EXPECT_EQ(a, getProjectionPhi(p, q));
 }
 
 int main(int argc, char** argv)
