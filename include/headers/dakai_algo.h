@@ -3,9 +3,10 @@
 
 #include <ros/ros.h>
 #include "../Eigen/Dense"
+#include "variables.h"
 #include <cmath>
-#include <boost/graph/adjacency_matrix.hpp>  // graph implementation
-#include <unordered_set>                     // fast set implementation
+#include <boost/graph/adjacency_list.hpp>  // graph implementation
+#include <unordered_set>                   // fast set implementation
 
 typedef Eigen::Vector2d Position_t;  // to store objects' (robots, obstacles) positions in respect to (0,0) point
 typedef Eigen::Vector2d Vector_t;    // to store vectors between points
@@ -33,12 +34,15 @@ class Obstacle : RigidObject
 {
 };
 
-typedef Eigen::Vector2d ControlInput_t;                        // to store control input vectors
-typedef boost::adjacency_matrix<boost::undirectedS> UGraph_t;  // to store information about connections
-typedef std::unordered_set<RigidObject> Set_t;                 // to store info about math sets
+typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, RigidObject> RigidGraph;
+typedef boost::graph_traits<RigidGraph>::vertex_descriptor RigidVertex;
+typedef boost::graph_traits<RigidGraph>::edge_descriptor RigidEdge;  // to store information about connections
 
-void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double& param_variable);
-void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, int& param_variable);
+typedef Eigen::Vector2d ControlInput_t;         // to store control input vectors
+typedef std::unordered_set<RigidObject> Set_t;  // to store info about math sets
+
+void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double param_variable);
+void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, int param_variable);
 double getVectorDistance(const Vector_t& v1, const Vector_t& v2);  // get distance between two vectors
 double getVectorLength(const Vector_t& v);                         // get 2d vector length
 double getVectorLength(const Eigen::Vector3d& v);                  // get 3d vector length

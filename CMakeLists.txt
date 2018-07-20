@@ -7,6 +7,7 @@ add_compile_options(-std=c++11)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
+set(Boost_USE_MULTITHREADED ON)
 find_package(catkin REQUIRED COMPONENTS
         geometry_msgs
         roscpp
@@ -118,7 +119,6 @@ catkin_package(
 ## Your package locations should be listed before other locations
 
 include_directories(
-        include
         ${catkin_INCLUDE_DIRS}
 )
 
@@ -138,7 +138,7 @@ include_directories(
 #add_executable(${ PROJECT_NAME } _node src / multiple_turtlebots_node.cpp)
 
 add_executable(map_union_node src/map_union.cpp)
-add_executable(follow_leader src/follow_leader.cpp)
+add_executable(follow_leader src/follow_leader.cpp src/dakai_algo.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -161,7 +161,6 @@ target_link_libraries(map_union_node
 
 
 target_link_libraries(follow_leader
-        include
         ${catkin_LIBRARIES}
         )
 #############

@@ -1,7 +1,8 @@
 #include <ros/init.h>
 #include "../include/headers/dakai_algo.h"
+#include <tuple>
 
-void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double& param_variable)
+void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double param_variable)
 {
   if (n_.getParam(param_name, param_variable))
   {
@@ -13,7 +14,7 @@ void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double
   }
 }
 
-void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, int& param_variable)
+void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, int param_variable)
 {
   if (n_.getParam(param_name, param_variable))
   {
@@ -100,8 +101,16 @@ Vector_t getProjectionPhi(const Vector_t& p, const Vector_t& q)
   Vector_t f = scale * h * q;                                           // result vector
   return f;
 };
-bool isObjectInTSpace(const RigidObject& m, const RigidObject& i, const RigidObject& j)
+bool isObjectInTSpace(const RigidObject& m, const RigidObject& i, const RigidObject& j,
+                      const RigidGraph& rg)  // three objects to check and graph with edges to save
 {
   // check if (i,j,m) forms T set
+  Vector_t mi = getRelativePosition(i, m);
+  Vector_t ji = getRelativePosition(i, j);
+  bool isPhiLessThanDeletionDistance = getVectorLength(getProjectionPhi(mi, ji)) <= constants::EDGE_DELETION_DISTANCE;
+  bool isMPointInDSpace = isObjectInDSpace(m, i, j);
+  // RigidVertex m_v = boost::vertex(m);
+  // bool areVectorsInGraph = boost::edge(i, j, rg).second && boost::edge(j, m, rg).second && boost::edge(m, i,
+  // rg).second;
   return true;
 };
