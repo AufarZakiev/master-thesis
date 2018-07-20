@@ -1,4 +1,4 @@
-#include "headers/dakai_algo.h"
+#include "../include/headers/dakai_algo.h"
 
 int main(int argc, char** argv)
 {

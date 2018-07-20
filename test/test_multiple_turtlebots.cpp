@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <headers/dakai_algo.h>
+#include "../include/headers/dakai_algo.h"
 
 TEST(VectorDistanceTest, ShouldPass)
 {
@@ -115,6 +115,16 @@ TEST(isObjectInDSpaceTest, BorderCases)
   v2 << 3, 3;
   o << 2, 0;
   EXPECT_EQ(false, isObjectInDSpace(o, v1, v2));
+}
+
+TEST(getProjectionPhiTest, ShouldPass)
+{
+  Vector_t p;
+  Vector_t q;
+  Vector_t a;
+  p << 2, 3;
+  q << 3, -2;
+  EXPECT_EQ(p, getProjectionPhi(p, q));
 }
 
 int main(int argc, char** argv)

@@ -1,5 +1,5 @@
 #include <ros/init.h>
-#include "headers/dakai_algo.h"
+#include "../include/headers/dakai_algo.h"
 
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double& param_variable)
 {
@@ -60,6 +60,10 @@ double getVectorLength(const Eigen::Vector3d& v)
 {
   return sqrt(v(0, 0) * v(0, 0) + v(1, 0) * v(1, 0) + v(2, 0) * v(2, 0));
 };
+double getSquaredVectorLength(const Vector_t& v)
+{
+  return v(0, 0) * v(0, 0) + v(1, 0) * v(1, 0);
+};
 bool isEdgePreserved(const Robot& i, const Robot& j)
 {
   // indicator function prototype
@@ -82,12 +86,19 @@ bool isObjectInDSpace(const RigidObject& o, const RigidObject& left_border, cons
   Position_t o_l = getRelativePosition(left_border, o);
   Position_t o_r = getRelativePosition(right_border, o);
   Position_t r_l = getRelativePosition(left_border, right_border);
-  return (o_l.dot(r_l) > 0.0 && o_r.dot(r_l) < 0.0);
+  return (o_l.dot(r_l) > 0.0) && (o_r.dot(r_l) < 0.0);
 };
-double getProjectionPhi(const Vector_t& p, const Vector_t& q)
+Vector_t getProjectionPhi(const Vector_t& p, const Vector_t& q)
 {
   // get projection of vector p on the line orthogonal to q
-  return true;
+  Eigen::Matrix2d h;
+  h << 0, -1, 1, 0;
+  Eigen::RowVector2d p_row;
+  p_row << p(0, 0), p(1, 0);
+  Vector_t temp = h * q;                                                // vector, orthogonal to q
+  double scale = (p_row * h * q / getSquaredVectorLength(temp)).sum();  // scaling factor
+  Vector_t f = scale * h * q;                                           // result vector
+  return f;
 };
 bool isObjectInTSpace(const RigidObject& m, const RigidObject& i, const RigidObject& j)
 {
