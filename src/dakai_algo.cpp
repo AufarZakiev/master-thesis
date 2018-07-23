@@ -1,6 +1,7 @@
 #include <ros/init.h>
 #include "../include/headers/dakai_algo.h"
 #include <tuple>
+#include <utility>
 
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double param_variable)
 {
@@ -33,15 +34,30 @@ double getVectorDistance(const Vector_t& v1, const Vector_t& v2)
   return sqrt(x_coord * x_coord + y_coord * y_coord);
 }
 
+RigidObject::RigidObject()
+{
+  current_position_ << 0, 0;
+}
+
 RigidObject::RigidObject(Position_t position)
 {
-  current_position_ = position;
+  current_position_ = std::move(position);
 }
 
 Position_t RigidObject::getPosition() const
 {
   return current_position_;
 }
+
+std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const RigidGraph& graph)
+{
+  for (RigidObjectDesc id = 0; id < boost::num_vertices(graph); ++id)
+  {
+    if (graph[id].getPosition() == ro.getPosition())
+      return std::make_pair(id, true);
+  }
+  return std::make_pair(0, false);
+};
 
 double Robot::getUmax() const
 {
@@ -101,16 +117,25 @@ Vector_t getProjectionPhi(const Vector_t& p, const Vector_t& q)
   Vector_t f = scale * h * q;                                           // result vector
   return f;
 };
+
+bool isVectorInGraph(const RigidObject& i, const RigidObject& j, const RigidGraph& rg)
+{
+  RigidObjectDesc i_d, j_d;
+  bool i_found, j_found;
+  std::tie(i_d, i_found) = findVertexInGraph(i, rg);
+  std::tie(j_d, j_found) = findVertexInGraph(j, rg);
+  if (!(i_found && j_found))
+    return false;                           // check if the vertices exist
+  return boost::edge(i_d, j_d, rg).second;  // check if the edge between vertices exist
+};
 bool isObjectInTSpace(const RigidObject& m, const RigidObject& i, const RigidObject& j,
-                      const RigidGraph& rg)  // three objects to check and graph with edges to save
+                      const RigidGraph& rg)  // three objects to check and graph with edges chosen to be saved
 {
   // check if (i,j,m) forms T set
   Vector_t mi = getRelativePosition(i, m);
   Vector_t ji = getRelativePosition(i, j);
   bool isPhiLessThanDeletionDistance = getVectorLength(getProjectionPhi(mi, ji)) <= constants::EDGE_DELETION_DISTANCE;
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
-  // RigidVertex m_v = boost::vertex(m);
-  // bool areVectorsInGraph = boost::edge(i, j, rg).second && boost::edge(j, m, rg).second && boost::edge(m, i,
-  // rg).second;
+  bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
   return true;
-};
+}

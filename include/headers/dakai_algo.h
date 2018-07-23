@@ -14,6 +14,7 @@ typedef Eigen::Vector2d Vector_t;    // to store vectors between points
 class RigidObject
 {
 public:
+  RigidObject();
   RigidObject(Position_t position);
   Position_t getPosition() const;
 
@@ -34,13 +35,20 @@ class Obstacle : RigidObject
 {
 };
 
-typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, RigidObject> RigidGraph;
-typedef boost::graph_traits<RigidGraph>::vertex_descriptor RigidVertex;
-typedef boost::graph_traits<RigidGraph>::edge_descriptor RigidEdge;  // to store information about connections
+struct Edge
+{
+};
 
+typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, RigidObject, Edge> RigidGraph;  // to store
+                                                                                                          // information
+                                                                                                          // about
+                                                                                                          // connections
+typedef boost::graph_traits<RigidGraph>::vertex_descriptor RigidObjectDesc;
+typedef boost::graph_traits<RigidGraph>::edge_descriptor EdgeDesc;
 typedef Eigen::Vector2d ControlInput_t;         // to store control input vectors
 typedef std::unordered_set<RigidObject> Set_t;  // to store info about math sets
 
+std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const RigidGraph& graph);
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double param_variable);
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, int param_variable);
 double getVectorDistance(const Vector_t& v1, const Vector_t& v2);  // get distance between two vectors
@@ -56,6 +64,8 @@ bool isObjectInDSpace(const RigidObject& o, const RigidObject& left_border,
                       const RigidObject& right_border);  // check if the object is in the D-space
 Vector_t getProjectionPhi(const Vector_t& p,
                           const Vector_t& q);  // get projection of vector p on the line orthogonal to q
+bool isVectorInGraph(const RigidObject& i, const RigidObject& j,
+                     const RigidGraph& rg);  // Check if the edge with vertices i,j exists in graph rg
 bool isObjectInTSpace(const RigidObject& m, const RigidObject& i,
                       const RigidObject& j);  // check if (i,j,m) forms T set
 

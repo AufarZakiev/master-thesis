@@ -131,6 +131,24 @@ TEST(getProjectionPhiTest, ShouldPass)
   EXPECT_EQ(a, getProjectionPhi(p, q));
 }
 
+TEST(isVectorInGraphTest, ShouldPass)
+{
+  RigidGraph rg;
+  Position_t v1;
+  Position_t v2;
+  v1 << 0, 0;
+  v2 << 1, 1;
+  RigidObject r1(v1);
+  RigidObject r2(v2);
+
+  RigidObjectDesc r1_d = boost::add_vertex(r1, rg);
+  RigidObjectDesc r2_d = boost::add_vertex(r2, rg);
+  EXPECT_EQ(false, isVectorInGraph(r1, r2, rg));
+  boost::add_edge(r1_d, r2_d, rg);
+  EXPECT_EQ(true, isVectorInGraph(r1, r2, rg));
+  boost::remove_edge(r1_d, r2_d, rg);
+}
+
 int main(int argc, char** argv)
 {
   testing::InitGoogleTest(&argc, argv);
