@@ -17,6 +17,7 @@ public:
   RigidObject();
   RigidObject(Position_t position);
   Position_t getPosition() const;
+  void setPosition(Position_t position);
 
 private:
   Position_t current_position_;  // current Object position

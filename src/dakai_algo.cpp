@@ -49,6 +49,11 @@ Position_t RigidObject::getPosition() const
   return current_position_;
 }
 
+void RigidObject::setPosition(Position_t position)
+{
+  current_position_ = std::move(position);
+}
+
 std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const RigidGraph& graph)
 {
   for (RigidObjectDesc id = 0; id < boost::num_vertices(graph); ++id)
@@ -135,7 +140,8 @@ double angleBetweenVectorsInRadians(const Vector_t& v1, const Vector_t& v2)
   return alpha;
 }
 
-bool isObjectInTSet(const RigidObject &i, const RigidObject &j, const RigidObject &m, const RigidGraph &rg)  // three objects to check and graph with edges chosen to be saved
+bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m,
+                    const RigidGraph& rg)  // three objects to check and graph with edges chosen to be saved
 {
   // check if (i,j,m) forms T set
   Vector_t mi = getRelativePosition(i, m);
