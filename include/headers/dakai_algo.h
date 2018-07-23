@@ -71,5 +71,6 @@ Vector_t getProjectionPhi(const Vector_t& p,
 bool isVectorInGraph(const RigidObject& i, const RigidObject& j,
                      const RigidGraph& rg);  // Check if the edge with vertices i,j exists in graph rg
 bool isObjectInTSet(const RigidObject &i, const RigidObject &j, const RigidObject &m, const RigidGraph &rg);  // check if (i,j,m) forms T set
+bool isObjectInDashedTSet(const RigidObject &i, const RigidObject &j, const RigidObject &m, const RigidGraph &rg);  // check if (i,j,m) forms T-dash set
 
 #endif  // PROJECT_DAKAI_ALGO_H

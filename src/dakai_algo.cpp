@@ -154,3 +154,16 @@ bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObjec
   return isAngleBetweenVectorsGreaterThanZero && isPhiLessThanDeletionDistance && isMPointInDSpace &&
          areAllVectorsInGraph;
 }
+
+bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg)
+{
+  Vector_t mi = getRelativePosition(i, m);
+  Vector_t mj = getRelativePosition(j, m);
+  Vector_t ji = getRelativePosition(i, j);
+  bool areDistancesEqual = getVectorLength(ji) == constants::NEIGHBOURHOOD_DISTANCE &&
+                           getVectorLength(mj) == constants::NEIGHBOURHOOD_DISTANCE &&
+                           getVectorLength(mi) == constants::ROBOTS_AVOIDANCE_DISTANCE;
+  bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
+  bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(mi, mj) > 0.0;
+  return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;
+}
