@@ -167,7 +167,7 @@ TEST(angleBetweenVectorsInRadiansTest, ShouldPass)
   EXPECT_EQ(-M_PI, angleBetweenVectorsInRadians(v2, v1));
 }
 
-TEST(isObjectInTSpaceTest, ShouldPass)
+TEST(isObjectInTSetTest, ShouldPass)
 {
   RigidGraph rg;
   Position_t v1;
@@ -187,6 +187,8 @@ TEST(isObjectInTSpaceTest, ShouldPass)
   boost::add_edge(i_d, j_d, rg);
   boost::add_edge(j_d, m_d, rg);
   boost::add_edge(m_d, i_d, rg);
+
+  EXPECT_EQ(true, isObjectInTSet(i, j, m, rg));
 }
 
 int main(int argc, char** argv)

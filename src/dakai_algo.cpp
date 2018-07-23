@@ -129,21 +129,22 @@ bool isVectorInGraph(const RigidObject& i, const RigidObject& j, const RigidGrap
   return boost::edge(i_d, j_d, rg).second;  // check if the edge between vertices exist
 }
 
-double angleBetweenVectorsInRadians(const Vector_t &v1, const Vector_t &v2)
+double angleBetweenVectorsInRadians(const Vector_t& v1, const Vector_t& v2)
 {
   double alpha = atan2(v2(1, 0), v2(0, 0)) - atan2(v1(1, 0), v1(0, 0));
   return alpha;
 }
 
-bool isObjectInTSpace(const RigidObject& m, const RigidObject& i, const RigidObject& j,
-                      const RigidGraph& rg)  // three objects to check and graph with edges chosen to be saved
+bool isObjectInTSet(const RigidObject &i, const RigidObject &j, const RigidObject &m, const RigidGraph &rg)  // three objects to check and graph with edges chosen to be saved
 {
   // check if (i,j,m) forms T set
   Vector_t mi = getRelativePosition(i, m);
+  Vector_t mj = getRelativePosition(j, m);
   Vector_t ji = getRelativePosition(i, j);
   bool isPhiLessThanDeletionDistance = getVectorLength(getProjectionPhi(mi, ji)) <= constants::EDGE_DELETION_DISTANCE;
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
   bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
-
-  return isPhiLessThanDeletionDistance && isMPointInDSpace && areAllVectorsInGraph;
+  bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(mi, mj) > 0.0;
+  return isAngleBetweenVectorsGreaterThanZero && isPhiLessThanDeletionDistance && isMPointInDSpace &&
+         areAllVectorsInGraph;
 }
