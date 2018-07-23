@@ -149,6 +149,46 @@ TEST(isVectorInGraphTest, ShouldPass)
   boost::remove_edge(r1_d, r2_d, rg);
 }
 
+TEST(angleBetweenVectorsInRadiansTest, ShouldPass)
+{
+  Vector_t v1;
+  Vector_t v2;
+  v1 << 1, 0;
+  v2 << 0, 1;
+  EXPECT_EQ(M_PI / 2, angleBetweenVectorsInRadians(v1, v2));
+  EXPECT_EQ(-M_PI / 2, angleBetweenVectorsInRadians(v2, v1));
+  v1 << 1, 0;
+  v2 << 1, 1;
+  EXPECT_EQ(M_PI / 4, angleBetweenVectorsInRadians(v1, v2));
+  EXPECT_EQ(-M_PI / 4, angleBetweenVectorsInRadians(v2, v1));
+  v1 << 1, 0;
+  v2 << -1, 0;
+  EXPECT_EQ(M_PI, angleBetweenVectorsInRadians(v1, v2));
+  EXPECT_EQ(-M_PI, angleBetweenVectorsInRadians(v2, v1));
+}
+
+TEST(isObjectInTSpaceTest, ShouldPass)
+{
+  RigidGraph rg;
+  Position_t v1;
+  Position_t v2;
+  Position_t v3;
+  v1 << 0, 0;
+  v2 << 1, 0;
+  v3 << 0.5, 0.5;
+  RigidObject i(v1);
+  RigidObject j(v2);
+  RigidObject m(v3);
+
+  RigidObjectDesc i_d = boost::add_vertex(i, rg);
+  RigidObjectDesc j_d = boost::add_vertex(j, rg);
+  RigidObjectDesc m_d = boost::add_vertex(m, rg);
+
+  boost::add_edge(i_d, j_d, rg);
+  boost::add_edge(j_d, m_d, rg);
+  boost::add_edge(m_d, i_d, rg);
+}
+
 int main(int argc, char** argv)
 {
   testing::InitGoogleTest(&argc, argv);

@@ -8,6 +8,6 @@ const double OBSTACLES_AVOIDANCE_DISTANCE = 1;
 const double SENSING_DISTANCE = 1;
 const double LOS_CLEARANCE_DISTANCE = 1;
 const double NEIGHBOURHOOD_DISTANCE = 1;
-const double EDGE_DELETION_DISTANCE = 1;
+const double EDGE_DELETION_DISTANCE = 10;
 }
 #endif  // PROJECT_VARIABLES_H

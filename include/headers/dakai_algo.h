@@ -58,6 +58,8 @@ double getSquaredVectorLength(const Vector_t& v);  // get 2d vector squared leng
                                                    // squared
 Position_t getRelativePosition(const RigidObject& o1, const RigidObject& o2);  // get position of o2 in respect to o1
 bool isEdgePreserved(const Robot& i, const Robot& j);                          // indicator function prototype
+double angleBetweenVectorsInRadians(const Vector_t &v1,
+                                    const Vector_t &v2);  // get the angle between two vectors in counter-clockwise direction in radians
 bool isObjectOnLineSegment(const RigidObject& o, const RigidObject& line_start,
                            const RigidObject& line_end);  // check if the object o is on the line between objects
 bool isObjectInDSpace(const RigidObject& o, const RigidObject& left_border,

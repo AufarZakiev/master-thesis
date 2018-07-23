@@ -127,7 +127,14 @@ bool isVectorInGraph(const RigidObject& i, const RigidObject& j, const RigidGrap
   if (!(i_found && j_found))
     return false;                           // check if the vertices exist
   return boost::edge(i_d, j_d, rg).second;  // check if the edge between vertices exist
-};
+}
+
+double angleBetweenVectorsInRadians(const Vector_t &v1, const Vector_t &v2)
+{
+  double alpha = atan2(v2(1, 0), v2(0, 0)) - atan2(v1(1, 0), v1(0, 0));
+  return alpha;
+}
+
 bool isObjectInTSpace(const RigidObject& m, const RigidObject& i, const RigidObject& j,
                       const RigidGraph& rg)  // three objects to check and graph with edges chosen to be saved
 {
@@ -137,5 +144,6 @@ bool isObjectInTSpace(const RigidObject& m, const RigidObject& i, const RigidObj
   bool isPhiLessThanDeletionDistance = getVectorLength(getProjectionPhi(mi, ji)) <= constants::EDGE_DELETION_DISTANCE;
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
   bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
-  return true;
+
+  return isPhiLessThanDeletionDistance && isMPointInDSpace && areAllVectorsInGraph;
 }
