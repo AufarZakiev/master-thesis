@@ -99,7 +99,7 @@ int main(int argc, char** argv)
   // Initiate ROS and needed vars
 
   ros::init(argc, argv, "maps_union_node");
-  ros::NodeHandle n_;
+  ros::NodeHandle n_("~");
   ros::Publisher pub_ = n_.advertise<nav_msgs::OccupancyGrid>("/united_map", 1);
   ros::ServiceClient client;              // client to connect to various services
   nav_msgs::GetMap srv;                   // srv object to be called
