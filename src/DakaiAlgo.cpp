@@ -1,9 +1,9 @@
 #include <ros/init.h>
-#include "../include/headers/dakai_algo.h"
+#include "../include/headers/DakaiAlgo.h"
 #include <tuple>
 #include <utility>
 
-void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double param_variable)
+void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double& param_variable)
 {
   if (n_.getParam(param_name, param_variable))
   {
@@ -15,7 +15,7 @@ void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double
   }
 }
 
-void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, int param_variable)
+void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, int& param_variable)
 {
   if (n_.getParam(param_name, param_variable))
   {

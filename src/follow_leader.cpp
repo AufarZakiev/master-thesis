@@ -1,11 +1,11 @@
-#include "../include/headers/dakai_algo.h"
+#include "../include/headers/DakaiAlgo.h"
 
 int main(int argc, char** argv)
 {
   // Initiate ROS and needed vars
 
-  ros::init(argc, argv, "maps_union_node");
-  ros::NodeHandle n_;
+  ros::init(argc, argv, "follow_leader_node");
+  ros::NodeHandle n_("~");
 
   getNotifiedParam(n_, "robots_count", constants::ROBOTS_COUNT);
   getNotifiedParam(n_, "robots_distance", constants::ROBOTS_AVOIDANCE_DISTANCE);
@@ -15,9 +15,5 @@ int main(int argc, char** argv)
   getNotifiedParam(n_, "neighbourhood_distance", constants::NEIGHBOURHOOD_DISTANCE);
   getNotifiedParam(n_, "edge_deletion_distance", constants::EDGE_DELETION_DISTANCE);
 
-  while (ros::ok())
-  {
-    ros::spinOnce();
-  }
   return 0;
 }

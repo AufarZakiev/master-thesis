@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/headers/dakai_algo.h"
+#include "../include/headers/DakaiAlgo.h"
 
 TEST(VectorDistanceTest, ShouldPass)
 {
@@ -189,10 +189,10 @@ TEST(isObjectInTSetTest, ShouldPass)
   boost::add_edge(m_d, i_d, rg);
   EXPECT_EQ(true, isObjectInTSet(i, j, m, rg));
 
-  boost::remove_edge(i_d,j_d,rg);
+  boost::remove_edge(i_d, j_d, rg);
   EXPECT_EQ(false, isObjectInTSet(i, j, m, rg));
 
-  boost::add_edge(i_d,j_d,rg);
+  boost::add_edge(i_d, j_d, rg);
   EXPECT_EQ(true, isObjectInTSet(i, j, m, rg));
 
   v3 << -0.5, -0.5;

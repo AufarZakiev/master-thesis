@@ -138,7 +138,7 @@ include_directories(
 #add_executable(${ PROJECT_NAME } _node src / multiple_turtlebots_node.cpp)
 
 add_executable(map_union_node src/map_union.cpp)
-add_executable(follow_leader src/follow_leader.cpp src/dakai_algo.cpp)
+add_executable(follow_leader_node src/follow_leader.cpp src/DakaiAlgo.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -160,7 +160,7 @@ target_link_libraries(map_union_node
 )
 
 
-target_link_libraries(follow_leader
+target_link_libraries(follow_leader_node
         ${catkin_LIBRARIES}
         )
 #############
@@ -203,9 +203,10 @@ target_link_libraries(follow_leader
 #############
 
 ## Add gtest based cpp test target and link libraries
-catkin_add_gtest(${PROJECT_NAME}-test test/test_multiple_turtlebots.cpp src/dakai_algo.cpp)
-if(TARGET ${PROJECT_NAME}-test)
-   target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES})
+
+catkin_add_gtest(multiple-turtlebots-test test/test_multiple_turtlebots.cpp src/DakaiAlgo.cpp)
+if(TARGET multiple-turtlebots-test)
+   target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES})
 endif()
 
 ## Add folders to be run by python nosetests

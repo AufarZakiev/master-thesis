@@ -1,0 +1,11 @@
+<launch>
+  <node pkg="multiple_turtlebots" type="follow_leader_node" name="follow_leader_node" output="screen">
+      <param name="robots_count" value="2" />
+      <param name="robots_distance" value="1" />
+      <param name="obstacle_avoidance_distance" value="10" />
+      <param name="sensing_distance" value="10" />
+      <param name="los_clearance_distance" value="20" />
+      <param name="neighbourhood_distance" value="1" />
+      <param name="edge_deletion_distance" value="3" />
+  </node>
+</launch>
