@@ -55,6 +55,10 @@ std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const 
   return std::make_pair(0, false);
 };
 
+Robot::Robot(Position_t position) : RigidObject(position)
+{
+}
+
 double Robot::getUmax() const
 {
   return u_max_;
@@ -77,9 +81,17 @@ double getSquaredVectorLength(const Vector_t& v)
 {
   return v(0, 0) * v(0, 0) + v(1, 0) * v(1, 0);
 };
-bool isEdgePreserved(const Robot& i, const Robot& j)
+bool isEdgePreserved(const Robot& i, const Robot& j, const RigidGraph& rg, const Variables& v)
 {
-  // indicator function prototype
+  for (RigidObjectDesc id = 0; id < boost::num_vertices(rg); ++id)  // TODO: check if this can be done through hashes
+  {
+    if (rg[id].getPosition() != i.getPosition() && rg[id].getPosition() != j.getPosition())
+    {
+      if (isObjectInTSet(i, j, rg[id], rg, v) || isObjectInTSet(j, i, rg[id], rg, v) ||
+          isObjectInDashedTSet(i, j, rg[id], rg, v) || isObjectInDashedTSet(j, i, rg[id], rg, v))
+        return false;
+    }
+  }
   return true;
 };
 bool isObjectOnLineSegment(const RigidObject& o, const RigidObject& line_start, const RigidObject& line_end)

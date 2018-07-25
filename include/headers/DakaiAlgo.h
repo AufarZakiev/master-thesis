@@ -23,16 +23,17 @@ private:
   Position_t current_position_;  // current Object position
 };
 
-class Robot : RigidObject
+class Robot : public RigidObject
 {
 public:
+  Robot(Position_t position);
   double getUmax() const;
 
 private:
   double u_max_;  // maximum speed of movement
 };
 
-class Obstacle : RigidObject
+class Obstacle : public RigidObject
 {
 };
 
@@ -57,7 +58,8 @@ double getVectorLength(const Eigen::Vector3d& v);                  // get 3d vec
 double getSquaredVectorLength(const Vector_t& v);  // get 2d vector squared length to save precision when it used
                                                    // squared
 Position_t getRelativePosition(const RigidObject& o1, const RigidObject& o2);  // get position of o2 in respect to o1
-bool isEdgePreserved(const Robot& i, const Robot& j);                          // indicator function prototype
+bool isEdgePreserved(const Robot& i, const Robot& j, const RigidGraph& rg,
+                     const Variables& v);  // indicator function prototype
 double angleBetweenVectorsInRadians(const Vector_t& v1,
                                     const Vector_t& v2);  // get the angle between two vectors in counter-clockwise
                                                           // direction in radians

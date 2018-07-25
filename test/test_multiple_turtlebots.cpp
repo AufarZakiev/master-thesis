@@ -240,6 +240,43 @@ TEST(isObjectInDashedTSetTest, ShouldPass)
   v3 << 5, -12;
   m.setPosition(v3);
   EXPECT_EQ(false, isObjectInDashedTSet(i, j, m, rg, v));
+
+  v3 << 5, -10;
+  m.setPosition(v3);
+  EXPECT_EQ(false, isObjectInDashedTSet(i, j, m, rg, v));
+}
+
+TEST(isEdgePreservedTest, ShouldPass)
+{
+  Variables& v = Variables::getInstance();
+  v.setParam("neighbourhood_distance", 13.0f);
+  v.setParam("robots_avoidance_distance", 1.0f);
+  v.setParam("edge_deletion_distance", 10.0f);
+
+  RigidGraph rg;
+  Position_t v1, v2, v3, v4, v5, v6;
+  v1 << 0, 0;
+  v2 << 1, 0;
+  v3 << 0.5, 0.5;
+  v4 << 0.5, -0.5;
+  v5 << -1, 0;
+  v6 << -0.5, 0.5;
+  Robot r1(v1);
+  Robot r2(v2);
+  Robot r3(v3);
+  Robot r4(v4);
+  Robot r5(v5);
+  Robot r6(v6);
+
+  RigidObjectDesc r1_d = boost::add_vertex(r1, rg);
+  RigidObjectDesc r2_d = boost::add_vertex(r2, rg);
+  RigidObjectDesc r3_d = boost::add_vertex(r3, rg);
+
+  boost::add_edge(r1_d, r2_d, rg);
+  boost::add_edge(r2_d, r3_d, rg);
+  boost::add_edge(r3_d, r1_d, rg);
+
+  EXPECT_EQ(false, isEdgePreserved(r1, r2, rg, v));
 }
 
 int main(int argc, char** argv)
