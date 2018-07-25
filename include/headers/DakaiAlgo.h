@@ -50,8 +50,7 @@ typedef Eigen::Vector2d ControlInput_t;         // to store control input vector
 typedef std::unordered_set<RigidObject> Set_t;  // to store info about math sets
 
 std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const RigidGraph& graph);
-void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double& param_variable);
-void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, int& param_variable);
+void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, Variables& v);
 double getVectorDistance(const Vector_t& v1, const Vector_t& v2);  // get distance between two vectors
 double getVectorLength(const Vector_t& v);                         // get 2d vector length
 double getVectorLength(const Eigen::Vector3d& v);                  // get 3d vector length
@@ -70,9 +69,9 @@ Vector_t getProjectionPhi(const Vector_t& p,
                           const Vector_t& q);  // get projection of vector p on the line orthogonal to q
 bool isVectorInGraph(const RigidObject& i, const RigidObject& j,
                      const RigidGraph& rg);  // Check if the edge with vertices i,j exists in graph rg
-bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m,
-                    const RigidGraph& rg);  // check if (i,j,m) forms T set
-bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m,
-                          const RigidGraph& rg);  // check if (i,j,m) forms T-dash set
+bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
+                    const Variables& v);  // check if (i,j,m) forms T set
+bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
+                          const Variables& v);  // check if (i,j,m) forms T-dash set
 
 #endif  // PROJECT_DAKAI_ALGO_H

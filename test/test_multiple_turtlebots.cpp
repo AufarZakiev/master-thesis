@@ -169,6 +169,9 @@ TEST(angleBetweenVectorsInRadiansTest, ShouldPass)
 
 TEST(isObjectInTSetTest, ShouldPass)
 {
+  Variables& v = Variables::getInstance();
+  v.setParam("edge_deletion_distance", 10.0f);
+
   RigidGraph rg;
   Position_t v1;
   Position_t v2;
@@ -187,17 +190,18 @@ TEST(isObjectInTSetTest, ShouldPass)
   boost::add_edge(i_d, j_d, rg);
   boost::add_edge(j_d, m_d, rg);
   boost::add_edge(m_d, i_d, rg);
-  EXPECT_EQ(true, isObjectInTSet(i, j, m, rg));
+
+  EXPECT_EQ(true, isObjectInTSet(i, j, m, rg, v));
 
   boost::remove_edge(i_d, j_d, rg);
-  EXPECT_EQ(false, isObjectInTSet(i, j, m, rg));
+  EXPECT_EQ(false, isObjectInTSet(i, j, m, rg, v));
 
   boost::add_edge(i_d, j_d, rg);
-  EXPECT_EQ(true, isObjectInTSet(i, j, m, rg));
+  EXPECT_EQ(true, isObjectInTSet(i, j, m, rg, v));
 
   v3 << -0.5, -0.5;
   m.setPosition(v3);
-  EXPECT_EQ(false, isObjectInTSet(i, j, m, rg));
+  EXPECT_EQ(false, isObjectInTSet(i, j, m, rg, v));
 }
 
 int main(int argc, char** argv)

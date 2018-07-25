@@ -1,13 +1,23 @@
 #ifndef PROJECT_VARIABLES_H
 #define PROJECT_VARIABLES_H
-namespace constants
+
+#include <map>
+
+class Variables
 {
-  static int ROBOTS_COUNT;  // TODO: default values from paper
-  static double ROBOTS_AVOIDANCE_DISTANCE;
-  static double OBSTACLES_AVOIDANCE_DISTANCE;
-  static double SENSING_DISTANCE;
-  static double LOS_CLEARANCE_DISTANCE;
-  static double NEIGHBOURHOOD_DISTANCE;
-  static double EDGE_DELETION_DISTANCE;
-}
+public:
+  static Variables& getInstance();
+
+  bool getParam(std::string param_name, double& value_ref) const;
+
+  bool setParam(std::string, double value);
+
+protected:
+  Variables();
+  Variables(const Variables&) = delete;
+  Variables& operator=(Variables&) = delete;
+  static Variables instance;
+  std::map<std::string, double> storage;
+};
+
 #endif  // PROJECT_VARIABLES_H

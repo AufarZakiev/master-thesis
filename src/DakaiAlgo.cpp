@@ -1,25 +1,16 @@
 #include <ros/init.h>
 #include "../include/headers/DakaiAlgo.h"
+#include "../include/headers/Variables.h"
 #include <tuple>
 #include <utility>
 
-void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, double& param_variable)
+void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, Variables& v)
 {
+  double param_variable;
   if (n_.getParam(param_name, param_variable))
   {
     ROS_INFO("Got param %s: %f", param_name.c_str(), param_variable);
-  }
-  else
-  {
-    ROS_ERROR("Failed to get param %s. Setting to default value", param_name.c_str());
-  }
-}
-
-void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, int& param_variable)
-{
-  if (n_.getParam(param_name, param_variable))
-  {
-    ROS_INFO("Got param %s: %d", param_name.c_str(), param_variable);
+    v.setParam(param_name, param_variable);
   }
   else
   {
@@ -140,14 +131,16 @@ double angleBetweenVectorsInRadians(const Vector_t& v1, const Vector_t& v2)
   return alpha;
 }
 
-bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m,
-                    const RigidGraph& rg)  // three objects to check and graph with edges chosen to be saved
+bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
+                    const Variables& v)  // three objects to check and graph with edges chosen to be saved
 {
   // check if (i,j,m) forms T set
   Vector_t mi = getRelativePosition(i, m);
   Vector_t mj = getRelativePosition(j, m);
   Vector_t ji = getRelativePosition(i, j);
-  bool isPhiLessThanDeletionDistance = getVectorLength(getProjectionPhi(mi, ji)) <= constants::EDGE_DELETION_DISTANCE;
+  double EDGE_DELETION_DISTANCE;
+  v.getParam("edge_deletion_distance", EDGE_DELETION_DISTANCE);
+  bool isPhiLessThanDeletionDistance = (getVectorLength(getProjectionPhi(mi, ji)) <= EDGE_DELETION_DISTANCE);
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
   bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(mi, mj) > 0.0;
@@ -155,14 +148,18 @@ bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObjec
          areAllVectorsInGraph;
 }
 
-bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg)
+bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
+                          const Variables& v)
 {
   Vector_t mi = getRelativePosition(i, m);
   Vector_t mj = getRelativePosition(j, m);
   Vector_t ji = getRelativePosition(i, j);
-  bool areDistancesEqual = getVectorLength(ji) == constants::NEIGHBOURHOOD_DISTANCE &&
-                           getVectorLength(mj) == constants::NEIGHBOURHOOD_DISTANCE &&
-                           getVectorLength(mi) == constants::ROBOTS_AVOIDANCE_DISTANCE;
+  double NEIGHBOURHOOD_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE;
+  v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
+  v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
+  bool areDistancesEqual = getVectorLength(ji) == NEIGHBOURHOOD_DISTANCE &&
+                           getVectorLength(mj) == ROBOTS_AVOIDANCE_DISTANCE &&
+                           getVectorLength(mi) == ROBOTS_AVOIDANCE_DISTANCE;
   bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(mi, mj) > 0.0;
   return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;
