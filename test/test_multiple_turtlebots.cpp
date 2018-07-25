@@ -251,7 +251,7 @@ TEST(isEdgePreservedTest, ShouldPass)
   Variables& v = Variables::getInstance();
   v.setParam("neighbourhood_distance", 13.0f);
   v.setParam("robots_avoidance_distance", 1.0f);
-  v.setParam("edge_deletion_distance", 10.0f);
+  v.setParam("edge_deletion_distance", 5.0f);
 
   RigidGraph rg;
   Position_t v1, v2, v3, v4, v5, v6;
@@ -277,6 +277,19 @@ TEST(isEdgePreservedTest, ShouldPass)
   boost::add_edge(r3_d, r1_d, rg);
 
   EXPECT_EQ(false, isEdgePreserved(r1, r2, rg, v));
+
+  boost::add_vertex(r4, rg);
+  boost::add_vertex(r5, rg);
+  boost::add_vertex(r6, rg);
+
+  EXPECT_EQ(false, isEdgePreserved(r1, r2, rg, v));
+
+  boost::remove_vertex(r3_d,rg);
+  v3 << 6,0;
+  r3.setPosition(v3);
+  r3_d = boost::add_vertex(r3, rg);
+  boost::add_edge(r3_d, r1_d, rg);
+  EXPECT_EQ(true, isEdgePreserved(r1, r2, rg, v));
 }
 
 int main(int argc, char** argv)
