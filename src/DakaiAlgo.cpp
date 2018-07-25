@@ -136,14 +136,16 @@ bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObjec
 {
   // check if (i,j,m) forms T set
   Vector_t mi = getRelativePosition(i, m);
+  Vector_t im = getRelativePosition(m, i);
   Vector_t mj = getRelativePosition(j, m);
+  Vector_t jm = getRelativePosition(m, j);
   Vector_t ji = getRelativePosition(i, j);
   double EDGE_DELETION_DISTANCE;
   v.getParam("edge_deletion_distance", EDGE_DELETION_DISTANCE);
   bool isPhiLessThanDeletionDistance = (getVectorLength(getProjectionPhi(mi, ji)) <= EDGE_DELETION_DISTANCE);
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
   bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
-  bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(mi, mj) > 0.0;
+  bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   return isAngleBetweenVectorsGreaterThanZero && isPhiLessThanDeletionDistance && isMPointInDSpace &&
          areAllVectorsInGraph;
 }
@@ -152,15 +154,17 @@ bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const Rigi
                           const Variables& v)
 {
   Vector_t mi = getRelativePosition(i, m);
+  Vector_t im = getRelativePosition(m, i);
   Vector_t mj = getRelativePosition(j, m);
+  Vector_t jm = getRelativePosition(m, j);
   Vector_t ji = getRelativePosition(i, j);
   double NEIGHBOURHOOD_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE;
   v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
   v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
   bool areDistancesEqual = getVectorLength(ji) == NEIGHBOURHOOD_DISTANCE &&
-                           getVectorLength(mj) == ROBOTS_AVOIDANCE_DISTANCE &&
+                           getVectorLength(mj) == NEIGHBOURHOOD_DISTANCE &&
                            getVectorLength(mi) == ROBOTS_AVOIDANCE_DISTANCE;
   bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
-  bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(mi, mj) > 0.0;
+  bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;
 }
