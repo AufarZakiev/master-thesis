@@ -170,12 +170,13 @@ bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const Rigi
   Vector_t mj = getRelativePosition(j, m);
   Vector_t jm = getRelativePosition(m, j);
   Vector_t ji = getRelativePosition(i, j);
-  double NEIGHBOURHOOD_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE;
+  double NEIGHBOURHOOD_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE, SMALL_POSITIVE_CONSTANT;
   v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
   v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
-  bool areDistancesEqual = getVectorLength(ji) == NEIGHBOURHOOD_DISTANCE &&
-                           getVectorLength(mj) == NEIGHBOURHOOD_DISTANCE &&
-                           getVectorLength(mi) == ROBOTS_AVOIDANCE_DISTANCE;
+  v.getParam("small_positive_constant", SMALL_POSITIVE_CONSTANT);
+  bool areDistancesEqual = (getVectorLength(ji) - NEIGHBOURHOOD_DISTANCE) < SMALL_POSITIVE_CONSTANT &&
+                           (getVectorLength(mj) - NEIGHBOURHOOD_DISTANCE) < SMALL_POSITIVE_CONSTANT &&
+                           (getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE) < SMALL_POSITIVE_CONSTANT;
   bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;

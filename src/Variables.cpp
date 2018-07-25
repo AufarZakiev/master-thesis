@@ -10,6 +10,7 @@ Variables::Variables()
   storage.insert(std::pair<std::string, double>("los_clearance_distance", -1.0f));
   storage.insert(std::pair<std::string, double>("neighbourhood_distance", -1.0f));
   storage.insert(std::pair<std::string, double>("edge_deletion_distance", -1.0f));
+  storage.insert(std::pair<std::string, double>("small_positive_constant", 0.1f));
 }
 
 Variables& Variables::getInstance()

@@ -275,13 +275,11 @@ TEST(isEdgePreservedTest, ShouldPass)
   boost::add_edge(r1_d, r2_d, rg);
   boost::add_edge(r2_d, r3_d, rg);
   boost::add_edge(r3_d, r1_d, rg);
-
   EXPECT_EQ(false, isEdgePreserved(r1, r2, rg, v));
 
   boost::add_vertex(r4, rg);
   boost::add_vertex(r5, rg);
   boost::add_vertex(r6, rg);
-
   EXPECT_EQ(false, isEdgePreserved(r1, r2, rg, v));
 
   boost::remove_vertex(r3_d,rg);

@@ -16,6 +16,7 @@ int main(int argc, char** argv)
   getNotifiedParam(n_, "los_clearance_distance", v);
   getNotifiedParam(n_, "neighbourhood_distance", v);
   getNotifiedParam(n_, "edge_deletion_distance", v);
+  getNotifiedParam(n_, "small_positive_constant", v);
 
   return 0;
 }
