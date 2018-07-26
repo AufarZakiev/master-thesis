@@ -282,6 +282,9 @@ TEST(isEdgePreservedTest, ShouldPass)
   boost::add_vertex(r6, rg);
   EXPECT_EQ(false, isEdgePreserved(r1, r2, rg, v));
 
+  boost::remove_edge(r3_d, r1_d, rg);
+  EXPECT_EQ(true, isEdgePreserved(r1, r2, rg, v));
+
   boost::remove_vertex(r3_d,rg);
   v3 << 6,0;
   r3.setPosition(v3);
