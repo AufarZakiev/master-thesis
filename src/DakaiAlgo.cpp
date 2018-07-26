@@ -181,5 +181,3 @@ bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const Rigi
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;
 }
-
-
