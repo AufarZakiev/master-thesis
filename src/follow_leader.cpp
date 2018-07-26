@@ -12,7 +12,7 @@ int main(int argc, char** argv)
   getNotifiedParam(n_, "robots_count", v);
   getNotifiedParam(n_, "robots_distance", v);
   getNotifiedParam(n_, "obstacle_avoidance_distance", v);
-  getNotifiedParam(n_, "sensing_distance",v);
+  getNotifiedParam(n_, "sensing_distance", v);
   getNotifiedParam(n_, "los_clearance_distance", v);
   getNotifiedParam(n_, "neighbourhood_distance", v);
   getNotifiedParam(n_, "edge_deletion_distance", v);

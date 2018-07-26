@@ -285,12 +285,27 @@ TEST(isEdgePreservedTest, ShouldPass)
   boost::remove_edge(r3_d, r1_d, rg);
   EXPECT_EQ(true, isEdgePreserved(r1, r2, rg, v));
 
-  boost::remove_vertex(r3_d,rg);
-  v3 << 6,0;
+  boost::remove_vertex(r3_d, rg);
+  v3 << 6, 0;
   r3.setPosition(v3);
   r3_d = boost::add_vertex(r3, rg);
   boost::add_edge(r3_d, r1_d, rg);
   EXPECT_EQ(true, isEdgePreserved(r1, r2, rg, v));
+}
+
+TEST(partialDerivativeTest, ShouldPass)
+{
+  Variables& v = Variables::getInstance();
+  double x = M_PI / 2;
+  double EQUALITY_CASE;
+  v.getParam("equality_case", EQUALITY_CASE);
+  EXPECT_NEAR(partialDerivative(x, sin, v), 0, EQUALITY_CASE);
+  EXPECT_NEAR(partialDerivative(x, cos, v), -1, EQUALITY_CASE);
+  x = M_PI;
+  EXPECT_NEAR(partialDerivative(x, sin, v), -1, EQUALITY_CASE);
+  EXPECT_NEAR(partialDerivative(x, cos, v), 0, EQUALITY_CASE);
+  x = 2;
+  EXPECT_NEAR(partialDerivative(x, [](double x) { return x * x * x; }, v), 12, EQUALITY_CASE);
 }
 
 int main(int argc, char** argv)

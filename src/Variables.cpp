@@ -10,7 +10,9 @@ Variables::Variables()
   storage.insert(std::pair<std::string, double>("los_clearance_distance", -1.0f));
   storage.insert(std::pair<std::string, double>("neighbourhood_distance", -1.0f));
   storage.insert(std::pair<std::string, double>("edge_deletion_distance", -1.0f));
-  storage.insert(std::pair<std::string, double>("small_positive_constant", 0.1f));
+  storage.insert(std::pair<std::string, double>("small_positive_constant", 0.1f)); // for checking distances for equality
+  storage.insert(std::pair<std::string, double>("derivative_epsilon", 0.01f));
+  storage.insert(std::pair<std::string, double>("equality_case", 0.000001f)); // for checking numbers for equality
 }
 
 Variables& Variables::getInstance()
