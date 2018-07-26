@@ -308,6 +308,18 @@ TEST(partialDerivativeTest, ShouldPass)
   EXPECT_NEAR(partialDerivative(x, [](double x) { return x * x * x; }, v), 12, EQUALITY_CASE);
 }
 
+TEST(fullDerivativeTest, ShouldPass)
+{
+  Variables& v = Variables::getInstance();
+  double EQUALITY_CASE;
+  v.getParam("equality_case", EQUALITY_CASE);
+  Position_t p;
+  p << 1,1;
+  EXPECT_NEAR(fullDerivative(p,[](double x, double y){return x*y;},v), 2, EQUALITY_CASE);
+  p << 2,2;
+  EXPECT_NEAR(fullDerivative(p,[](double x, double y){return x*x*y*y;},v), 32, EQUALITY_CASE);
+}
+
 int main(int argc, char** argv)
 {
   testing::InitGoogleTest(&argc, argv);
