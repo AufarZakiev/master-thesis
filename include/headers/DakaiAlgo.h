@@ -16,7 +16,7 @@ class RigidObject
 {
 public:
   RigidObject();
-  RigidObject(Position_t position);
+  explicit RigidObject(Position_t position);
   Position_t getPosition() const;
   void setPosition(Position_t position);
 
@@ -27,7 +27,7 @@ private:
 class Robot : public RigidObject
 {
 public:
-  Robot(Position_t position);
+  explicit Robot(Position_t position);
   double getUmax() const;
 
 private:
@@ -48,6 +48,7 @@ typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, RigidO
                                                                                                           // connections
 typedef boost::graph_traits<RigidGraph>::vertex_descriptor RigidObjectDesc;
 typedef boost::graph_traits<RigidGraph>::edge_descriptor EdgeDesc;
+typedef boost::graph_traits<RigidGraph>::adjacency_iterator adjacency_it;
 typedef Eigen::Vector2d ControlInput_t;         // to store control input vectors
 typedef std::unordered_set<RigidObject> Set_t;  // to store info about math sets
 
@@ -76,5 +77,8 @@ bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObjec
                     const Variables& v);  // check if (i,j,m) forms T set
 bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
                           const Variables& v);  // check if (i,j,m) forms T-dash set
+double collisionPotential(double z, const Variables& v);
+
+double interrobotCollisionPotential(const Robot& i, const RigidGraph& rg, const Variables& v); // potential function depending on interrobot distance
 
 #endif  // PROJECT_DAKAI_ALGO_H

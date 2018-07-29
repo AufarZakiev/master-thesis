@@ -55,7 +55,7 @@ std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const 
   return std::make_pair(0, false);
 };
 
-Robot::Robot(Position_t position) : RigidObject(position)
+Robot::Robot(Position_t position) : RigidObject(std::move(position))
 {
 }
 
@@ -180,4 +180,44 @@ bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const Rigi
   bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;
+}
+
+double collisionPotential(double z, const Variables& v)
+{
+  double ROBOTS_AVOIDANCE_DISTANCE, NEIGHBOURHOOD_DISTANCE, DESIRED_DISTANCE, K1, K2;
+  v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
+  v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
+  v.getParam("desired_distance", DESIRED_DISTANCE);
+  v.getParam("k1", K1);
+  v.getParam("k2", K2);
+  double part1 = [&](double z) {
+    return (z - DESIRED_DISTANCE) * (z - DESIRED_DISTANCE) * (NEIGHBOURHOOD_DISTANCE - z) /
+           ((NEIGHBOURHOOD_DISTANCE - ROBOTS_AVOIDANCE_DISTANCE) *
+                (NEIGHBOURHOOD_DISTANCE - ROBOTS_AVOIDANCE_DISTANCE) * (z - ROBOTS_AVOIDANCE_DISTANCE) +
+            (DESIRED_DISTANCE - ROBOTS_AVOIDANCE_DISTANCE) * (DESIRED_DISTANCE - ROBOTS_AVOIDANCE_DISTANCE) *
+                (NEIGHBOURHOOD_DISTANCE - z) / K1);
+  }(z);
+  double part2 = [&](double z) {
+    return (z - DESIRED_DISTANCE) * (z - DESIRED_DISTANCE) * (z - ROBOTS_AVOIDANCE_DISTANCE) /
+           ((NEIGHBOURHOOD_DISTANCE - ROBOTS_AVOIDANCE_DISTANCE) *
+                (NEIGHBOURHOOD_DISTANCE - ROBOTS_AVOIDANCE_DISTANCE) * (NEIGHBOURHOOD_DISTANCE - z) +
+            (ROBOTS_AVOIDANCE_DISTANCE - DESIRED_DISTANCE) * (ROBOTS_AVOIDANCE_DISTANCE - DESIRED_DISTANCE) *
+                (z - ROBOTS_AVOIDANCE_DISTANCE) / K2);
+  }(z);
+  return part1 + part2;
+}
+
+double interrobotCollisionPotential(const Robot& i, const RigidGraph& rg, const Variables& v)
+{
+  double sum = 0;
+  RigidObjectDesc i_d;
+  bool i_found = false;
+  std::tie(i_d, i_found) = findVertexInGraph(i, rg);
+  adjacency_it nb, nb_end;
+  for (std::tie(nb, nb_end) = boost::adjacent_vertices(i_d, rg); nb != nb_end; ++nb)
+  {
+    double arg = getVectorLength((Vector_t)(i.getPosition() - rg[*nb].getPosition()));
+    sum += collisionPotential(arg, v);
+  }
+  return sum;
 }

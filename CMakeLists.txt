@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
         tf2
         tf
 )
+find_package(PythonLibs 2.7 REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 #find_package(Boost REQUIRED COMPONENTS system)
@@ -206,7 +207,8 @@ target_link_libraries(follow_leader_node
 
 catkin_add_gtest(multiple-turtlebots-test test/test_multiple_turtlebots.cpp src/DakaiAlgo.cpp src/Variables.cpp)
 if(TARGET multiple-turtlebots-test)
-   target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES} gmock)
+    include_directories(${PYTHON_INCLUDE_DIRS})
+   target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} gmock)
 endif()
 
 ## Add folders to be run by python nosetests

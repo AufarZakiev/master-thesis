@@ -20,16 +20,17 @@ double partialDerivative(const double& point, function_type objective_func, cons
 };
 
 template <typename function_type>
-double fullDerivative(const Eigen::Vector2d& point, function_type objective_func, const Variables& v)
+double fullDerivative(const Eigen::Vector2d& point, function_type objective_func,
+                      const Variables& v)  // function to compute full derivative of the 2-variable function
 {
   double dx1;
   v.getParam("derivative_epsilon", dx1);
   const double dx2 = dx1 * 2;
   const double dx3 = dx1 * 3;
 
-  double m1 = (objective_func(point(0, 0) + dx1, point(1, 0)) - objective_func(point(0, 0) - dx1, point(1, 0))) / 2;
-  double m2 = (objective_func(point(0, 0) + dx2, point(1, 0)) - objective_func(point(0, 0) - dx2, point(1, 0))) / 4;
-  double m3 = (objective_func(point(0, 0) + dx3, point(1, 0)) - objective_func(point(0, 0) - dx3, point(1, 0))) / 6;
+  double m1 = (objective_func(point(0, 0) + dx1, point(1, 0)) - objective_func(point(0, 0) - dx1, point(1, 0))) / 2.0;
+  double m2 = (objective_func(point(0, 0) + dx2, point(1, 0)) - objective_func(point(0, 0) - dx2, point(1, 0))) / 4.0;
+  double m3 = (objective_func(point(0, 0) + dx3, point(1, 0)) - objective_func(point(0, 0) - dx3, point(1, 0))) / 6.0;
 
   double fifteen_m1 = 15 * m1;
   double six_m2 = 6 * m2;
@@ -37,9 +38,9 @@ double fullDerivative(const Eigen::Vector2d& point, function_type objective_func
 
   double answer = ((fifteen_m1 - six_m2) + m3) / ten_dx1;
 
-  m1 = (objective_func(point(0, 0), point(1, 0) + dx1) - objective_func(point(0, 0), point(1, 0) - dx1)) / 2;
-  m2 = (objective_func(point(0, 0), point(1, 0) + dx2) - objective_func(point(0, 0), point(1, 0) - dx2)) / 4;
-  m3 = (objective_func(point(0, 0), point(1, 0) + dx3) - objective_func(point(0, 0), point(1, 0) - dx3)) / 6;
+  m1 = (objective_func(point(0, 0), point(1, 0) + dx1) - objective_func(point(0, 0), point(1, 0) - dx1)) / 2.0;
+  m2 = (objective_func(point(0, 0), point(1, 0) + dx2) - objective_func(point(0, 0), point(1, 0) - dx2)) / 4.0;
+  m3 = (objective_func(point(0, 0), point(1, 0) + dx3) - objective_func(point(0, 0), point(1, 0) - dx3)) / 6.0;
 
   fifteen_m1 = 15 * m1;
   six_m2 = 6 * m2;

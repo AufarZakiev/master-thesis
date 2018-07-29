@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../include/headers/DakaiAlgo.h"
+#include "../include/headers/matplotlibcpp.h"  // uses this library https://github.com/lava/matplotlib-cpp to draw plots
 
 TEST(VectorDistanceTest, ShouldPass)
 {
@@ -32,27 +33,52 @@ TEST(isObjectOnLineSegmentTest, ShouldPass)
   v1 << 3, 3;
   v2 << 2, 2;
   o << 2.5, 2.5;
-  EXPECT_EQ(true, isObjectOnLineSegment(o, v1, v2));
+
+  RigidObject r1(v1);
+  RigidObject r2(v2);
+  RigidObject ro(o);
+
+  EXPECT_EQ(true, isObjectOnLineSegment(ro, r1, r2));
+
   v1 << -3, 3;
   v2 << -2, 2;
   o << -2.5, 2.5;
-  EXPECT_EQ(true, isObjectOnLineSegment(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(true, isObjectOnLineSegment(ro, r1, r2));
+
   v1 << -4, -3;
   v2 << -1, -1;
   o << -2.5, -2;
-  EXPECT_EQ(true, isObjectOnLineSegment(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(true, isObjectOnLineSegment(ro, r1, r2));
+
   v1 << 3, 3;
   v2 << 2, 2;
   o << 1, 1;
-  EXPECT_EQ(false, isObjectOnLineSegment(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(false, isObjectOnLineSegment(ro, r1, r2));
+
   v1 << -3, 3;
   v2 << -2, 2;
   o << -4, 4;
-  EXPECT_EQ(false, isObjectOnLineSegment(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(false, isObjectOnLineSegment(ro, r1, r2));
+
   v1 << -4, -3;
   v2 << -1, -1;
   o << -2, -2;
-  EXPECT_EQ(false, isObjectOnLineSegment(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(false, isObjectOnLineSegment(ro, r1, r2));
 }
 
 TEST(isObjectInDSpaceTest, NonBorderCases)
@@ -63,43 +89,84 @@ TEST(isObjectInDSpaceTest, NonBorderCases)
   v1 << 3, 3;
   v2 << 2, 2;
   o << 2.5, 2.5;
-  EXPECT_EQ(true, isObjectInDSpace(o, v1, v2));
+
+  RigidObject r1(v1);
+  RigidObject r2(v2);
+  RigidObject ro(o);
+
+  EXPECT_EQ(true, isObjectInDSpace(ro, r1, r2));
+
   v1 << -3, 3;
   v2 << -2, 2;
   o << -2.5, 2.5;
-  EXPECT_EQ(true, isObjectInDSpace(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(true, isObjectInDSpace(ro, r1, r2));
+
   v1 << -4, -3;
   v2 << -1, -1;
   o << -2.5, -2;
-  EXPECT_EQ(true, isObjectInDSpace(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(true, isObjectInDSpace(ro, r1, r2));
+
   v1 << -3, -3;
   v2 << -1, -1;
   o << -3, -1;
-  EXPECT_EQ(true, isObjectInDSpace(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(true, isObjectInDSpace(ro, r1, r2));
+
   o << -4, 0;
-  EXPECT_EQ(true, isObjectInDSpace(o, v1, v2));
+  ro.setPosition(o);
+  EXPECT_EQ(true, isObjectInDSpace(ro, r1, r2));
+
   o << -5, 1;
-  EXPECT_EQ(true, isObjectInDSpace(o, v1, v2));
+  ro.setPosition(o);
+  EXPECT_EQ(true, isObjectInDSpace(ro, r1, r2));
+
   o << -2.5, -0.5;
-  EXPECT_EQ(true, isObjectInDSpace(o, v1, v2));
+  ro.setPosition(o);
+  EXPECT_EQ(true, isObjectInDSpace(ro, r1, r2));
+
   v1 << -1, -1;
   v2 << 1, 1;
   o << 2, -2;
-  EXPECT_EQ(true, isObjectInDSpace(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(true, isObjectInDSpace(ro, r1, r2));
+
   v1 << 3, 3;
   v2 << 2, 2;
   o << 1, 1;
-  EXPECT_EQ(false, isObjectInDSpace(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(false, isObjectInDSpace(ro, r1, r2));
+
   v1 << -3, 3;
   v2 << -2, 2;
   o << -4, 4;
-  EXPECT_EQ(false, isObjectInDSpace(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(false, isObjectInDSpace(ro, r1, r2));
+
   v1 << -4, -3;
   v2 << -1, -1;
   o << -2, -2;
-  EXPECT_EQ(true, isObjectInDSpace(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(true, isObjectInDSpace(ro, r1, r2));
+
   o << -4, -4;
-  EXPECT_EQ(false, isObjectInDSpace(o, v1, v2));
+  ro.setPosition(o);
+  EXPECT_EQ(false, isObjectInDSpace(ro, r1, r2));
 }
 
 TEST(isObjectInDSpaceTest, BorderCases)
@@ -110,11 +177,19 @@ TEST(isObjectInDSpaceTest, BorderCases)
   v1 << 1, 1;
   v2 << 3, 3;
   o << 5, 1;
-  EXPECT_EQ(false, isObjectInDSpace(o, v1, v2));
+
+  RigidObject r1(v1);
+  RigidObject r2(v2);
+  RigidObject ro(o);
+
+  EXPECT_EQ(false, isObjectInDSpace(ro, r1, r2));
   v1 << 1, 1;
   v2 << 3, 3;
   o << 2, 0;
-  EXPECT_EQ(false, isObjectInDSpace(o, v1, v2));
+  r1.setPosition(v1);
+  r2.setPosition(v2);
+  ro.setPosition(o);
+  EXPECT_EQ(false, isObjectInDSpace(ro, r1, r2));
 }
 
 TEST(getProjectionPhiTest, ShouldPass)
@@ -314,10 +389,46 @@ TEST(fullDerivativeTest, ShouldPass)
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
   Position_t p;
-  p << 1,1;
-  EXPECT_NEAR(fullDerivative(p,[](double x, double y){return x*y;},v), 2, EQUALITY_CASE);
-  p << 2,2;
-  EXPECT_NEAR(fullDerivative(p,[](double x, double y){return x*x*y*y;},v), 32, EQUALITY_CASE);
+  p << 1, 1;
+  EXPECT_NEAR(fullDerivative(p, [](double x, double y) { return x * y; }, v), 2, EQUALITY_CASE);
+  p << 2, 2;
+  EXPECT_NEAR(fullDerivative(p, [](double x, double y) { return x * x * y * y; }, v), 32, EQUALITY_CASE);
+}
+
+TEST(CollisionPotential, ShouldPass)
+{
+  namespace plt = matplotlibcpp;
+
+  Variables& v = Variables::getInstance();
+  v.setParam("neighbourhood_distance", 1.0f);
+  v.setParam("robots_avoidance_distance", 0.3f);
+  v.setParam("desired_distance", 0.65f);
+  double EQUALITY_CASE;
+  v.getParam("equality_case", EQUALITY_CASE);
+  // Prepare data.
+  size_t n = 20000;
+  std::vector<double> x(n), y(n);
+  for (size_t i = 0; i < n; ++i)
+  {
+    x.at(i) = 0.3 + 0.7 * double(i) / (n-1);
+    y.at(i) = collisionPotential(0.3 + 0.7 * double(i) / (n-1), v);
+  }
+
+  EXPECT_NEAR(y[0], 10, EQUALITY_CASE);
+  EXPECT_NEAR(y[n / 2], 0, EQUALITY_CASE);
+  EXPECT_NEAR(y[n - 1], 10, EQUALITY_CASE);
+
+  // Set the size of output image = 1200x780 pixels
+  plt::figure_size(1200, 780);
+  // Plot line from given x and y data. Color is selected automatically.
+  plt::named_plot("Psi", x, y);
+  // Set x-axis to interval [0,1000000]
+  plt::xlim(0.25, 1.05);
+  plt::ylim(-1, 12);
+  // Enable legend.
+  plt::legend();
+  // Save the image (file format is determined by the extension)
+  plt::save("./basic.png");
 }
 
 int main(int argc, char** argv)
