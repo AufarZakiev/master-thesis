@@ -14,9 +14,19 @@ Variables::Variables()
       std::pair<std::string, double>("small_positive_constant", 0.1f));  // for checking distances for equality
   storage.insert(std::pair<std::string, double>("derivative_epsilon", 0.01f));
   storage.insert(std::pair<std::string, double>("equality_case", 0.00001f));  // for checking numbers for equality
-  storage.insert(std::pair<std::string, double>("desired_distance", -1.0f));    // desired distance between robots
+  storage.insert(std::pair<std::string, double>("desired_distance", -1.0f));  // desired distance between robots
   storage.insert(std::pair<std::string, double>("k1", 10.0f));  // design parameters in collision potential function
   storage.insert(std::pair<std::string, double>("k2", 10.0f));  // design parameters in collision potential function
+  storage.insert(
+      std::pair<std::string, double>("c1", 10.0f));  // design weights of potential functions - interrobot collisions
+  storage.insert(
+      std::pair<std::string, double>("c2", 10.0f));  // design weights of potential functions - obstacle collisions
+  storage.insert(std::pair<std::string, double>("c3", 10.0f));  // design weights of potential functions - LOS preserve
+  storage.insert(std::pair<std::string, double>("c4", 10.0f));  // design weights of potential functions - cohesion
+  storage.insert(std::pair<std::string, double>("obstacle_care_distance", 10.0f));  // distance on that potential
+                                                                                    // function of obstacle avoidance
+                                                                                    // starts to increase
+
 }
 
 Variables& Variables::getInstance()

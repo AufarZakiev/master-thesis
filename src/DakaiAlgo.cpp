@@ -182,7 +182,7 @@ bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const Rigi
   return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;
 }
 
-double collisionPotential(double z, const Variables& v)
+double partialInterrobotCollisionPotential(double z, const Variables& v)
 {
   double ROBOTS_AVOIDANCE_DISTANCE, NEIGHBOURHOOD_DISTANCE, DESIRED_DISTANCE, K1, K2;
   v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
@@ -217,7 +217,39 @@ double interrobotCollisionPotential(const Robot& i, const RigidGraph& rg, const 
   for (std::tie(nb, nb_end) = boost::adjacent_vertices(i_d, rg); nb != nb_end; ++nb)
   {
     double arg = getVectorLength((Vector_t)(i.getPosition() - rg[*nb].getPosition()));
-    sum += collisionPotential(arg, v);
+    sum += partialInterrobotCollisionPotential(arg, v);
   }
   return sum;
 }
+
+double partialObstacleCollisionPotential(double z, const Variables& v)
+{
+  double OBSTACLE_CARE_DISTANCE, OBSTACLE_AVOIDANCE_DISTANCE, SMALL_POSITIVE_CONSTANT;
+  v.getParam("obstacle_care_distance", OBSTACLE_CARE_DISTANCE);
+  v.getParam("obstacles_avoidance_distance", OBSTACLE_AVOIDANCE_DISTANCE);
+  v.getParam("small_positive_constant", SMALL_POSITIVE_CONSTANT);
+  double potential = 0;
+  if (z >= OBSTACLE_CARE_DISTANCE)
+    return 0;
+  potential = (1.0 / ((z - OBSTACLE_AVOIDANCE_DISTANCE) / (OBSTACLE_CARE_DISTANCE - OBSTACLE_AVOIDANCE_DISTANCE)) +
+               SMALL_POSITIVE_CONSTANT) -
+              (1.0 / (1.0 + SMALL_POSITIVE_CONSTANT));
+  potential = potential * potential / 2;
+  return potential;
+}
+
+// double obstacleCollisionPotential(const Robot& i, Set_t detected_obstacles, const Variables& v)
+//{
+//  double OBSTACLE_CARE_DISTANCE;
+//  v.getParam("obstacle_care_distance", OBSTACLE_CARE_DISTANCE);
+//  double min_distance = OBSTACLE_CARE_DISTANCE * 2;
+////  for (auto it = detected_obstacles.begin(); it != detected_obstacles.end(); it++)
+////  {
+////    //double dist = getRelativePosition(i.getPosition(), detected_obstacles[*it].getPosition());
+//////    if (dist < min_distance)
+//////    {
+//////      min_distance = dist;
+//////    }
+////  }
+//  return min_distance;
+//}

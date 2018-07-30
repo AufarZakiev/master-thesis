@@ -77,8 +77,10 @@ bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObjec
                     const Variables& v);  // check if (i,j,m) forms T set
 bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
                           const Variables& v);  // check if (i,j,m) forms T-dash set
-double collisionPotential(double z, const Variables& v);
+double partialInterrobotCollisionPotential(double z, const Variables &v);
 
 double interrobotCollisionPotential(const Robot& i, const RigidGraph& rg, const Variables& v); // potential function depending on interrobot distance
+
+double partialObstacleCollisionPotential(double z, const Variables& v);
 
 #endif  // PROJECT_DAKAI_ALGO_H
