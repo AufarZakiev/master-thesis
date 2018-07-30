@@ -85,4 +85,6 @@ double partialObstacleCollisionPotential(double z, const Variables& v); // poten
 
 double partialLOSPreservePotential(double z, const Variables& v); // potential function depending on LOS preservation
 
+double partialCohesionPotential(double z, const Variables& v); // potential function of group cohesion
+
 #endif  // PROJECT_DAKAI_ALGO_H

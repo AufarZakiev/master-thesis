@@ -253,3 +253,14 @@ double partialLOSPreservePotential(double z, const Variables& v)
   potential = potential * potential / 2;
   return potential;
 }
+
+double partialCohesionPotential(double z, const Variables& v)
+{
+  double NEIGHBOURHOOD_DISTANCE;
+  v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
+  double potential = 0;
+  if (z <= NEIGHBOURHOOD_DISTANCE)
+    return 0;
+  potential = (z - NEIGHBOURHOOD_DISTANCE) * (z - NEIGHBOURHOOD_DISTANCE) / 2;
+  return potential;
+}
