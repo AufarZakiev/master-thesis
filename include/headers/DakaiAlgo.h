@@ -81,6 +81,8 @@ double partialInterrobotCollisionPotential(double z, const Variables &v);
 
 double interrobotCollisionPotential(const Robot& i, const RigidGraph& rg, const Variables& v); // potential function depending on interrobot distance
 
-double partialObstacleCollisionPotential(double z, const Variables& v);
+double partialObstacleCollisionPotential(double z, const Variables& v); // potential function depending on distance to obstacles
+
+double partialLOSPreservePotential(double z, const Variables& v); // potential function depending on LOS preservation
 
 #endif  // PROJECT_DAKAI_ALGO_H

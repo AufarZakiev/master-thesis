@@ -238,18 +238,18 @@ double partialObstacleCollisionPotential(double z, const Variables& v)
   return potential;
 }
 
-// double obstacleCollisionPotential(const Robot& i, Set_t detected_obstacles, const Variables& v)
-//{
-//  double OBSTACLE_CARE_DISTANCE;
-//  v.getParam("obstacle_care_distance", OBSTACLE_CARE_DISTANCE);
-//  double min_distance = OBSTACLE_CARE_DISTANCE * 2;
-////  for (auto it = detected_obstacles.begin(); it != detected_obstacles.end(); it++)
-////  {
-////    //double dist = getRelativePosition(i.getPosition(), detected_obstacles[*it].getPosition());
-//////    if (dist < min_distance)
-//////    {
-//////      min_distance = dist;
-//////    }
-////  }
-//  return min_distance;
-//}
+double partialLOSPreservePotential(double z, const Variables& v)
+{
+  double LOS_CLEARANCE_DISTANCE, LOS_CLEARANCE_CARE_DISTANCE, SMALL_POSITIVE_CONSTANT;
+  v.getParam("los_clearance_distance", LOS_CLEARANCE_DISTANCE);
+  v.getParam("los_clearance_care_distance", LOS_CLEARANCE_CARE_DISTANCE);
+  v.getParam("small_positive_constant", SMALL_POSITIVE_CONSTANT);
+  double potential = 0;
+  if (z >= LOS_CLEARANCE_CARE_DISTANCE)
+    return 0;
+  potential = (1.0 / ((z - LOS_CLEARANCE_DISTANCE) / (LOS_CLEARANCE_CARE_DISTANCE - LOS_CLEARANCE_DISTANCE)) +
+               SMALL_POSITIVE_CONSTANT) -
+              (1.0 / (1.0 + SMALL_POSITIVE_CONSTANT));
+  potential = potential * potential / 2;
+  return potential;
+}

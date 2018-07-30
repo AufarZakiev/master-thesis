@@ -8,6 +8,7 @@ Variables::Variables()
   storage.insert(std::pair<std::string, double>("obstacles_avoidance_distance", -1.0f));
   storage.insert(std::pair<std::string, double>("sensing_distance", -1.0f));
   storage.insert(std::pair<std::string, double>("los_clearance_distance", -1.0f));
+  storage.insert(std::pair<std::string, double>("los_clearance_care_distance", -1.0f));
   storage.insert(std::pair<std::string, double>("neighbourhood_distance", -1.0f));
   storage.insert(std::pair<std::string, double>("edge_deletion_distance", -1.0f));
   storage.insert(
