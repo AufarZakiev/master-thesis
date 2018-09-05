@@ -139,7 +139,7 @@ include_directories(
 #add_executable(${ PROJECT_NAME } _node src / multiple_turtlebots_node.cpp)
 
 add_executable(map_union_node src/map_union.cpp)
-add_executable(follow_leader_node src/follow_leader.cpp src/DakaiAlgo.cpp src/Variables.cpp)
+add_executable(follow_leader_node src/follow_leader.cpp src/RigidObject.cpp src/Variables.cpp src/RobotGraph.cpp src/DakaiAlgo.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -205,7 +205,7 @@ target_link_libraries(follow_leader_node
 
 ## Add gtest based cpp test target and link libraries
 
-catkin_add_gtest(multiple-turtlebots-test test/test_multiple_turtlebots.cpp src/DakaiAlgo.cpp src/Variables.cpp)
+catkin_add_gtest(multiple-turtlebots-test test/test_multiple_turtlebots.cpp src/RigidObject.cpp src/Variables.cpp src/RobotGraph.cpp src/DakaiAlgo.cpp)
 if(TARGET multiple-turtlebots-test)
     include_directories(${PYTHON_INCLUDE_DIRS})
    target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} gmock)

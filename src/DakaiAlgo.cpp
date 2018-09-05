@@ -1,8 +1,8 @@
 #include <ros/init.h>
 #include "../include/headers/DakaiAlgo.h"
 #include "../include/headers/Variables.h"
-#include <tuple>
-#include <utility>
+#include "../include/headers/RigidObject.h"
+#include "../include/headers/RobotGraph.h"
 
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, Variables& v)
 {
@@ -25,55 +25,16 @@ double getVectorDistance(const Vector_t& v1, const Vector_t& v2)
   return sqrt(x_coord * x_coord + y_coord * y_coord);
 }
 
-RigidObject::RigidObject()
-{
-  current_position_ << 0, 0;
-}
-
-RigidObject::RigidObject(Position_t position)
-{
-  current_position_ = std::move(position);
-}
-
-Position_t RigidObject::getPosition() const
-{
-  return current_position_;
-}
-
-void RigidObject::setPosition(Position_t position)
-{
-  current_position_ = std::move(position);
-}
-
-std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const RigidGraph& graph)
-{
-  for (RigidObjectDesc id = 0; id < boost::num_vertices(graph); ++id)
-  {
-    if (graph[id].getPosition() == ro.getPosition())
-      return std::make_pair(id, true);
-  }
-  return std::make_pair(0, false);
-};
-
-Robot::Robot(Position_t position) : RigidObject(std::move(position))
-{
-}
-
-double Robot::getUmax() const
-{
-  return u_max_;
-}
-
 Position_t getRelativePosition(const RigidObject& o1, const RigidObject& o2)
 {
   // get position of o2 in respect to o1
   return o2.getPosition() - o1.getPosition();
 };
-double getVectorLength(const Vector_t& v)
+double get2DVectorLength(const Vector_t& v)
 {
   return sqrt(v(0, 0) * v(0, 0) + v(1, 0) * v(1, 0));
 };
-double getVectorLength(const Eigen::Vector3d& v)
+double getVector3DLength(const Eigen::Vector3d& v)
 {
   return sqrt(v(0, 0) * v(0, 0) + v(1, 0) * v(1, 0) + v(2, 0) * v(2, 0));
 };
@@ -81,14 +42,14 @@ double getSquaredVectorLength(const Vector_t& v)
 {
   return v(0, 0) * v(0, 0) + v(1, 0) * v(1, 0);
 };
-bool isEdgePreserved(const Robot& i, const Robot& j, const RigidGraph& rg, const Variables& v)
+bool isEdgePreserved(const Robot& i, const Robot& j, const RobotGraph& rg, const Variables& v)
 {
-  for (RigidObjectDesc id = 0; id < boost::num_vertices(rg); ++id)  // TODO: check if this can be done through hashes
+  for (const Robot& m : rg.robots)
   {
-    if (rg[id].getPosition() != i.getPosition() && rg[id].getPosition() != j.getPosition())
+    if (m.getId() != i.getId() && m.getId() != j.getId())
     {
-      if (isObjectInTSet(i, j, rg[id], rg, v) || isObjectInTSet(j, i, rg[id], rg, v) ||
-          isObjectInDashedTSet(i, j, rg[id], rg, v) || isObjectInDashedTSet(j, i, rg[id], rg, v))
+      if (isObjectInTSet(i, j, m, rg, v) || isObjectInTSet(j, i, m, rg, v) || isObjectInDashedTSet(i, j, m, rg, v) ||
+          isObjectInDashedTSet(j, i, m, rg, v))
         return false;
     }
   }
@@ -101,7 +62,7 @@ bool isObjectOnLineSegment(const RigidObject& o, const RigidObject& line_start, 
   Position_t o_e = getRelativePosition(o, line_end);
   Eigen::Vector3d o_s_3d(o_s(0, 0), o_s(1, 0), 0);
   Eigen::Vector3d o_e_3d(o_e(0, 0), o_e(1, 0), 0);
-  bool isPointOnLine = (getVectorLength(o_s_3d.cross(o_e_3d)) == 0.0);
+  bool isPointOnLine = (getVector3DLength(o_s_3d.cross(o_e_3d)) == 0.0);
   bool isPointBetweenSegmentEnds = (o_s.dot(o_e) <= 0.0);
   return isPointOnLine && isPointBetweenSegmentEnds;
 };
@@ -126,24 +87,13 @@ Vector_t getProjectionPhi(const Vector_t& p, const Vector_t& q)
   return f;
 };
 
-bool isVectorInGraph(const RigidObject& i, const RigidObject& j, const RigidGraph& rg)
-{
-  RigidObjectDesc i_d, j_d;
-  bool i_found, j_found;
-  std::tie(i_d, i_found) = findVertexInGraph(i, rg);
-  std::tie(j_d, j_found) = findVertexInGraph(j, rg);
-  if (!(i_found && j_found))
-    return false;                           // check if the vertices exist
-  return boost::edge(i_d, j_d, rg).second;  // check if the edge between vertices exist
-}
-
 double angleBetweenVectorsInRadians(const Vector_t& v1, const Vector_t& v2)
 {
   double alpha = atan2(v2(1, 0), v2(0, 0)) - atan2(v1(1, 0), v1(0, 0));
   return alpha;
 }
 
-bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
+bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m, const RobotGraph& rg,
                     const Variables& v)  // three objects to check and graph with edges chosen to be saved
 {
   // check if (i,j,m) forms T set
@@ -154,16 +104,15 @@ bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObjec
   Vector_t ji = getRelativePosition(i, j);
   double EDGE_DELETION_DISTANCE;
   v.getParam("edge_deletion_distance", EDGE_DELETION_DISTANCE);
-  bool isPhiLessThanDeletionDistance = (getVectorLength(getProjectionPhi(mi, ji)) <= EDGE_DELETION_DISTANCE);
+  bool isPhiLessThanDeletionDistance = (get2DVectorLength(getProjectionPhi(mi, ji)) <= EDGE_DELETION_DISTANCE);
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
-  bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
+  bool areAllVectorsInGraph = rg.isEdgeExist(i, j) && rg.isEdgeExist(j, m) && rg.isEdgeExist(m, i);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   return isAngleBetweenVectorsGreaterThanZero && isPhiLessThanDeletionDistance && isMPointInDSpace &&
          areAllVectorsInGraph;
 }
 
-bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
-                          const Variables& v)
+bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const RobotGraph& rg, const Variables& v)
 {
   Vector_t mi = getRelativePosition(i, m);
   Vector_t im = getRelativePosition(m, i);
@@ -174,15 +123,15 @@ bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const Rigi
   v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
   v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
   v.getParam("small_positive_constant", SMALL_POSITIVE_CONSTANT);
-  bool areDistancesEqual = (getVectorLength(ji) - NEIGHBOURHOOD_DISTANCE) < SMALL_POSITIVE_CONSTANT &&
-                           (getVectorLength(mj) - NEIGHBOURHOOD_DISTANCE) < SMALL_POSITIVE_CONSTANT &&
-                           (getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE) < SMALL_POSITIVE_CONSTANT;
-  bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
+  bool areDistancesEqual = (get2DVectorLength(ji) - NEIGHBOURHOOD_DISTANCE) < SMALL_POSITIVE_CONSTANT &&
+                           (get2DVectorLength(mj) - NEIGHBOURHOOD_DISTANCE) < SMALL_POSITIVE_CONSTANT &&
+                           (get2DVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE) < SMALL_POSITIVE_CONSTANT;
+  bool areAllVectorsInGraph = rg.isEdgeExist(i, j) && rg.isEdgeExist(j, m) && rg.isEdgeExist(m, i);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;
 }
 
-double partialInterrobotCollisionPotential(double z, const Variables& v)
+double phiInterrobotCollisionPotential(double z, const Variables& v)
 {
   double ROBOTS_AVOIDANCE_DISTANCE, NEIGHBOURHOOD_DISTANCE, DESIRED_DISTANCE, K1, K2;
   v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
@@ -207,22 +156,18 @@ double partialInterrobotCollisionPotential(double z, const Variables& v)
   return part1 + part2;
 }
 
-double interrobotCollisionPotential(const Robot& i, const RigidGraph& rg, const Variables& v)
+double psiInterrobotCollisionPotential(const Robot& i, const RobotGraph& robot_graph, const Variables& v)
 {
   double sum = 0;
-  RigidObjectDesc i_d;
-  bool i_found = false;
-  std::tie(i_d, i_found) = findVertexInGraph(i, rg);
-  adjacency_it nb, nb_end;
-  for (std::tie(nb, nb_end) = boost::adjacent_vertices(i_d, rg); nb != nb_end; ++nb)
+  for (const Robot& j : robot_graph.robots)
   {
-    double arg = getVectorLength((Vector_t)(i.getPosition() - rg[*nb].getPosition()));
-    sum += partialInterrobotCollisionPotential(arg, v);
+    double arg = get2DVectorLength(i.getPosition() - j.getPosition());
+    sum += phiInterrobotCollisionPotential(arg, v);
   }
   return sum;
 }
 
-double partialObstacleCollisionPotential(double z, const Variables& v)
+double phiObstacleCollisionPotential(double z, const Variables& v)
 {
   double OBSTACLE_CARE_DISTANCE, OBSTACLE_AVOIDANCE_DISTANCE, SMALL_POSITIVE_CONSTANT;
   v.getParam("obstacle_care_distance", OBSTACLE_CARE_DISTANCE);
@@ -238,7 +183,26 @@ double partialObstacleCollisionPotential(double z, const Variables& v)
   return potential;
 }
 
-double partialLOSPreservePotential(double z, const Variables& v)
+Obstacle psiObstacleCollisionHelperFunc(const Robot& i, const Obstacle_set& current_obstacle_set)
+{
+  Obstacle o_min = *current_obstacle_set.begin();
+  for (const auto& o : current_obstacle_set)
+  {
+    if (get2DVectorLength(o.getPosition() - i.getPosition()) < get2DVectorLength(o_min.getPosition() - i.getPosition()))
+    {
+      o_min = o;
+    }
+  }
+  return o_min;
+}
+
+double psiObstacleCollisionPotential(const Robot& i, const Obstacle_set& current_obstacle_set, const Variables& v)
+{
+  phiObstacleCollisionPotential(
+      get2DVectorLength(i.getPosition() - psiObstacleCollisionHelperFunc(i, current_obstacle_set).getPosition()), v);
+}
+
+double phiLOSPreservePotential(double z, const Variables& v)
 {
   double LOS_CLEARANCE_DISTANCE, LOS_CLEARANCE_CARE_DISTANCE, SMALL_POSITIVE_CONSTANT;
   v.getParam("los_clearance_distance", LOS_CLEARANCE_DISTANCE);
@@ -254,7 +218,48 @@ double partialLOSPreservePotential(double z, const Variables& v)
   return potential;
 }
 
-double partialCohesionPotential(double z, const Variables& v)
+Obstacle psiLOSPreserveHelperFunc(const Robot& i, const Robot& current_j, const Obstacle_set& current_obstacle_set_in_D)
+{
+  Obstacle o_min = *current_obstacle_set_in_D.begin();
+  for (const auto& o : current_obstacle_set_in_D)
+  {
+    if (get2DVectorLength(getProjectionPhi(getRelativePosition(i, o), getRelativePosition(i, current_j))) <
+        get2DVectorLength(getProjectionPhi(getRelativePosition(i, o_min), getRelativePosition(i, current_j))))
+    {
+      o_min = o;
+    }
+  }
+  return o_min;
+}
+
+Robot psiLOSPreserveHelperFunc2(const Robot& i, const Obstacle_set& i_obstacle_set,
+                                const Robot_set& neighbourhood_robots_sigma)
+{
+  Robot r_min = *neighbourhood_robots_sigma.begin();
+  for (const auto& r : neighbourhood_robots_sigma)
+  {
+    if (get2DVectorLength(psiLOSPreserveHelperFunc(i, r, i_obstacle_set).getPosition()) <
+        get2DVectorLength(psiLOSPreserveHelperFunc(i, r_min, i_obstacle_set).getPosition()))
+    {
+      r_min = r;
+    }
+  }
+  return r_min;
+}
+
+double psiLOSPreservePotential(const Robot& i, const Obstacle_set& i_obstacle_set,
+                               const Robot_set& i_neighbourhood_sigma_set,
+                               const Obstacle_set& current_obstacle_set_in_D, const Variables& v)
+{
+  Robot j_star = psiLOSPreserveHelperFunc2(i, i_obstacle_set, i_neighbourhood_sigma_set);
+  return phiLOSPreservePotential(
+      get2DVectorLength(getProjectionPhi(
+          i.getPosition() - psiLOSPreserveHelperFunc(i, j_star, current_obstacle_set_in_D).getPosition(),
+          i.getPosition() - j_star.getPosition())),
+      v);
+}
+
+double phiCohesionPotential(double z, const Variables& v)
 {
   double NEIGHBOURHOOD_DISTANCE;
   v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
@@ -262,5 +267,37 @@ double partialCohesionPotential(double z, const Variables& v)
   if (z <= NEIGHBOURHOOD_DISTANCE)
     return 0;
   potential = (z - NEIGHBOURHOOD_DISTANCE) * (z - NEIGHBOURHOOD_DISTANCE) / 2;
+  return potential;
+}
+
+double psiCohesionPotential(const Robot& i, const Robot_set& sensed_robots_set, const Variables& v)
+{
+  double sum = 0;
+  for (auto& sensed : sensed_robots_set)
+  {
+    sum += phiCohesionPotential(get2DVectorLength(i.getPosition() - sensed.getPosition()), v);
+  }
+  return sum;
+}
+
+double potentialFunction(const Robot_set& all_robots, const RobotGraph& robot_graph, const Obstacle_set& i_obstacle_set,
+                         const Variables& v, const Robot_set& neighbourhood_robots_sgima,
+                         const Obstacle_set& i_obstacle_set_in_D, const Robot_set& sensed_robots_set)
+{
+  double C1, C2, C3, C4;
+  v.getParam("c1", C1);
+  v.getParam("c2", C2);
+  v.getParam("c3", C3);
+  v.getParam("c4", C4);
+
+  double potential = 0;
+  for (auto& i : all_robots)
+  {
+    potential += C1 * psiInterrobotCollisionPotential(i, robot_graph, v) +
+                 C2 * psiObstacleCollisionPotential(i, i_obstacle_set, v) +
+                 C3 * psiLOSPreservePotential(i, i_obstacle_set, neighbourhood_robots_sgima, i_obstacle_set_in_D, v) +
+                 C4 * psiCohesionPotential(i, sensed_robots_set, v);
+  }
+
   return potential;
 }

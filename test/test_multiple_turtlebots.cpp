@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "../include/headers/DakaiAlgo.h"
 #include "../include/headers/matplotlibcpp.h"  // uses this library https://github.com/lava/matplotlib-cpp to draw plots
+#include "RigidObject.h"
 
 TEST(VectorDistanceTest, ShouldPass)
 {
@@ -18,11 +19,11 @@ TEST(VectorLengthTest, ShouldPass)
 {
   Eigen::Vector2d v;
   v << 3, 3;
-  EXPECT_EQ(sqrt(18), getVectorLength(v));
+  EXPECT_EQ(sqrt(18), get2DVectorLength(v));
   v << 3, 4;
-  EXPECT_EQ(5, getVectorLength(v));
+  EXPECT_EQ(5, get2DVectorLength(v));
   v << -3, -4;
-  EXPECT_EQ(5, getVectorLength(v));
+  EXPECT_EQ(5, get2DVectorLength(v));
 }
 
 TEST(isObjectOnLineSegmentTest, ShouldPass)
@@ -411,7 +412,7 @@ TEST(partialInterrobotCollisionPotentialTest, ShouldPass)
   for (size_t i = 0; i < n; ++i)
   {
     x.at(i) = 0.3 + 0.7 * double(i) / (n - 1);
-    y.at(i) = partialInterrobotCollisionPotential(0.3 + 0.7 * double(i) / (n - 1), v);
+    y.at(i) = phiInterrobotCollisionPotential(0.3 + 0.7 * double(i) / (n - 1), v);
   }
 
   EXPECT_NEAR(y[0], 10, EQUALITY_CASE);
@@ -448,7 +449,7 @@ TEST(partialObstacleCollisionPotentialTest, ShouldPass)
   for (size_t i = 0; i < n; ++i)
   {
     x.at(i) = 0.1 + 0.4 * double(i) / (n - 1);
-    y.at(i) = partialObstacleCollisionPotential(0.1 + 0.4 * double(i) / (n - 1), v);
+    y.at(i) = phiObstacleCollisionPotential(0.1 + 0.4 * double(i) / (n - 1), v);
   }
 
   EXPECT_GT(y[0], 8);
@@ -484,7 +485,7 @@ TEST(partialLOSPreservePotentialTest, ShouldPass)
   for (size_t i = 0; i < n; ++i)
   {
     x.at(i) = 0.1 + 0.4 * double(i) / (n - 1);
-    y.at(i) = partialLOSPreservePotential(0.1 + 0.4 * double(i) / (n - 1), v);
+    y.at(i) = phiLOSPreservePotential(0.1 + 0.4 * double(i) / (n - 1), v);
   }
 
   EXPECT_GT(y[0], 8);
@@ -493,7 +494,7 @@ TEST(partialLOSPreservePotentialTest, ShouldPass)
   // Set the size of output image = 1200x780 pixels
   plt::figure_size(1200, 780);
   // Plot line from given x and y data. Color is selected automatically.
-  plt::named_plot("Phi Obstacle", x, y);
+  plt::named_plot("LOS clearance", x, y);
   // Set x-axis to interval [0,1000000]
   plt::xlim(0.0, 0.5);
   plt::ylim(0, 10);
@@ -518,7 +519,7 @@ TEST(partialCohesionPotentialTest, ShouldPass)
   for (size_t i = 0; i < n; ++i)
   {
     x.at(i) = 0.1 + 4.9 * double(i) / (n - 1);
-    y.at(i) = partialCohesionPotential(0.1 + 4.9 * double(i) / (n - 1), v);
+    y.at(i) = phiCohesionPotential(0.1 + 4.9 * double(i) / (n - 1), v);
   }
 
   EXPECT_GT(y[n-1], 4);
@@ -528,7 +529,7 @@ TEST(partialCohesionPotentialTest, ShouldPass)
   plt::figure_size(1200, 780);
   // Plot line from given x and y data. Color is selected automatically.
   plt::named_plot("Phi Cohesion", x, y);
-  // Set x-axis to interval [0,1000000]
+  // Set axes to interval [0,1000000]
   plt::xlim(0.0, 5.1);
   plt::ylim(0, 10);
   // Enable legend.
