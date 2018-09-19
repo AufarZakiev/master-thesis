@@ -12,12 +12,10 @@ public:
 
   bool setParam(std::string, double value);
 
-  Variables(const Variables&) = delete;
-
-  Variables& operator=(Variables&) = delete;
-
 protected:
   Variables();
+  Variables(const Variables&) = delete;
+  Variables& operator=(Variables&) = delete;
   static Variables instance;
   std::map<std::string, double> storage;
 };
