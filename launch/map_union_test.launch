@@ -1,5 +1,6 @@
 <launch>
-  <node pkg="multiple_turtlebots" type="map_union_node" name="map_union_node" output="screen">
-    <param name="robots_number" value="2" />
-  </node>
+    <arg name="robots_number" default="9"/>
+    <node pkg="multiple_turtlebots" type="map_union_node" name="map_union_node" output="screen">
+        <param name="robots_number" value="$(arg robots_number)"/>
+    </node>
 </launch>

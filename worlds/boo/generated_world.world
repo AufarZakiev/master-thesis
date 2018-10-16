@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+<world name="default">
+<include>
+<uri>model://sun</uri>
+</include>
+<model name="my_mesh"><static>true</static><link name="body"><visual name="visual">
+<pose>-10 -9 0 0 0 0</pose>
+<geometry>
+<mesh><uri>file:///home/aufarz/clion projects/Simulation-tool-gazebo-dae/cmake-build-debug/boo/boo.dae</uri></mesh>
+</geometry>
+</visual><collision name="collision1">
+<pose>-10 -9 0 0 0 0</pose>
+<geometry>
+<mesh><uri>file:///home/aufarz/clion projects/Simulation-tool-gazebo-dae/cmake-build-debug/boo/boo.dae</uri></mesh>
+</geometry>
+</collision></link>
+</model>
+</world>
+</sdf>

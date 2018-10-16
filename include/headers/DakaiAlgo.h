@@ -8,6 +8,7 @@
 #include <cmath>
 #include <boost/graph/adjacency_list.hpp>  // graph implementation
 #include <unordered_set>                   // fast set implementation
+#include <algorithm>
 
 typedef Eigen::Vector2d Position_t;  // to store objects' (robots, obstacles) positions in respect to (0,0) point
 typedef Eigen::Vector2d Vector_t;    // to store vectors between points
@@ -79,12 +80,19 @@ bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const Rigi
                           const Variables& v);  // check if (i,j,m) forms T-dash set
 double partialInterrobotCollisionPotential(double z, const Variables &v);
 
-double interrobotCollisionPotential(const Robot& i, const RigidGraph& rg, const Variables& v); // potential function depending on interrobot distance
+double interrobotCollisionPotential(const Robot& i, const RigidGraph& robots_near_preserved, const Variables& v); // potential function depending on interrobot distance
 
 double partialObstacleCollisionPotential(double z, const Variables& v); // potential function depending on distance to obstacles
 
+double obstacleCollisionPotential(const Robot& i, const Obstacle& nearest_obstacle, const Variables& v);
+
 double partialLOSPreservePotential(double z, const Variables& v); // potential function depending on LOS preservation
 
+double LOSPreservePotential(const Robot& i, const Obstacle& nearest_obstacle_to_LOS_in_D_set_j_star,
+                            const Robot& j_star, const Variables& v);
+
 double partialCohesionPotential(double z, const Variables& v); // potential function of group cohesion
+
+double cohesionPotential(const Robot& i, const RigidGraph& all_robots, const Variables& v);
 
 #endif  // PROJECT_DAKAI_ALGO_H

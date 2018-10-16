@@ -83,7 +83,7 @@ double getSquaredVectorLength(const Vector_t& v)
 };
 bool isEdgePreserved(const Robot& i, const Robot& j, const RigidGraph& rg, const Variables& v)
 {
-  for (RigidObjectDesc id = 0; id < boost::num_vertices(rg); ++id)  // TODO: check if this can be done through hashes
+  for (RigidObjectDesc id = 0; id < boost::num_vertices(rg); ++id)
   {
     if (rg[id].getPosition() != i.getPosition() && rg[id].getPosition() != j.getPosition())
     {
@@ -207,18 +207,23 @@ double partialInterrobotCollisionPotential(double z, const Variables& v)
   return part1 + part2;
 }
 
-double interrobotCollisionPotential(const Robot& i, const RigidGraph& rg, const Variables& v)
+double interrobotCollisionPotential(const Robot& i, const RigidGraph& robots_near_preserved, const Variables& v)
 {
   double sum = 0;
-  RigidObjectDesc i_d;
-  bool i_found = false;
-  std::tie(i_d, i_found) = findVertexInGraph(i, rg);
-  adjacency_it nb, nb_end;
-  for (std::tie(nb, nb_end) = boost::adjacent_vertices(i_d, rg); nb != nb_end; ++nb)
+  for (RigidObjectDesc id = 0; id < boost::num_vertices(robots_near_preserved); ++id)
   {
-    double arg = getVectorLength((Vector_t)(i.getPosition() - rg[*nb].getPosition()));
+    double arg = getVectorLength(getRelativePosition(i, robots_near_preserved[id]));
     sum += partialInterrobotCollisionPotential(arg, v);
   }
+
+  //  bool i_found = false;
+  //  std::tie(i_d, i_found) = findVertexInGraph(i, robots_near_preserved);
+  //  adjacency_it nb, nb_end;
+  //  for (std::tie(nb, nb_end) = boost::adjacent_vertices(i_d, robots_near_preserved); nb != nb_end; ++nb)
+  //  {
+  //    double arg = getVectorLength((Vector_t)(i.getPosition() - robots_near_preserved[*nb].getPosition()));
+  //    sum += partialInterrobotCollisionPotential(arg, v);
+  //  }
   return sum;
 }
 
@@ -238,6 +243,12 @@ double partialObstacleCollisionPotential(double z, const Variables& v)
   return potential;
 }
 
+double obstacleCollisionPotential(const Robot& i, const Obstacle& nearest_obstacle, const Variables& v)
+{
+  Vector_t io = getRelativePosition(nearest_obstacle, i);
+  partialObstacleCollisionPotential(getVectorLength(io), v);
+}
+
 double partialLOSPreservePotential(double z, const Variables& v)
 {
   double LOS_CLEARANCE_DISTANCE, LOS_CLEARANCE_CARE_DISTANCE, SMALL_POSITIVE_CONSTANT;
@@ -254,6 +265,15 @@ double partialLOSPreservePotential(double z, const Variables& v)
   return potential;
 }
 
+double LOSPreservePotential(const Robot& i, const Obstacle& nearest_obstacle_to_LOS_in_D_set_j_star,
+                            const Robot& j_star, const Variables& v)
+{
+  return partialLOSPreservePotential(
+      getVectorLength(getProjectionPhi(getRelativePosition(nearest_obstacle_to_LOS_in_D_set_j_star, i),
+                                       getRelativePosition(j_star, i))),
+      v);
+}
+
 double partialCohesionPotential(double z, const Variables& v)
 {
   double NEIGHBOURHOOD_DISTANCE;
@@ -261,6 +281,16 @@ double partialCohesionPotential(double z, const Variables& v)
   double potential = 0;
   if (z <= NEIGHBOURHOOD_DISTANCE)
     return 0;
-  potential = (z - NEIGHBOURHOOD_DISTANCE) * (z - NEIGHBOURHOOD_DISTANCE) / 2;
+  potential = (z - NEIGHBOURHOOD_DISTANCE) * (z - NEIGHBOURHOOD_DISTANCE) / 2; // TODO: must be no obstacles around
   return potential;
+}
+
+double cohesionPotential(const Robot& i, const RigidGraph& all_robots, const Variables& v)
+{
+  double sum = 0;
+  for (RigidObjectDesc id = 0; id < boost::num_vertices(all_robots); ++id)
+  {
+    double arg = getVectorLength(getRelativePosition(i, all_robots[id]));
+    sum += partialInterrobotCollisionPotential(arg, v);
+  }
 }
