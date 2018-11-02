@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(PythonLibs 2.7 REQUIRED)
 
 ## System dependencies are found with CMake's conventions
-#find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS iostreams)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -206,9 +206,21 @@ target_link_libraries(follow_leader_node
 ## Add gtest based cpp test target and link libraries
 
 catkin_add_gtest(multiple-turtlebots-test test/test_multiple_turtlebots.cpp src/DakaiAlgo.cpp src/Variables.cpp)
+catkin_add_gtest(multiple-turtlebots-test-fields test/test_fields.cpp src/DakaiAlgo.cpp src/Variables.cpp)
+catkin_add_gtest(multiple-turtlebots-test-functions test/test_functions.cpp src/DakaiAlgo.cpp src/Variables.cpp)
 if(TARGET multiple-turtlebots-test)
-    include_directories(${PYTHON_INCLUDE_DIRS})
-   target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} gmock)
+    include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+   target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
+endif()
+
+if(TARGET multiple-turtlebots-test-fields)
+    include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+    target_link_libraries(multiple-turtlebots-test-fields ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
+endif()
+
+if(TARGET multiple-turtlebots-test-functions)
+    include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+    target_link_libraries(multiple-turtlebots-test-functions ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
 endif()
 
 ## Add folders to be run by python nosetests

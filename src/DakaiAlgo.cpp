@@ -190,6 +190,7 @@ double partialInterrobotCollisionPotential(double z, const Variables& v)
   v.getParam("desired_distance", DESIRED_DISTANCE);
   v.getParam("k1", K1);
   v.getParam("k2", K2);
+  if (z > NEIGHBOURHOOD_DISTANCE || z < ROBOTS_AVOIDANCE_DISTANCE) return 0;
   double part1 = [&](double z) {
     return (z - DESIRED_DISTANCE) * (z - DESIRED_DISTANCE) * (NEIGHBOURHOOD_DISTANCE - z) /
            ((NEIGHBOURHOOD_DISTANCE - ROBOTS_AVOIDANCE_DISTANCE) *
@@ -207,23 +208,14 @@ double partialInterrobotCollisionPotential(double z, const Variables& v)
   return part1 + part2;
 }
 
-double interrobotCollisionPotential(const Robot& i, const RigidGraph& robots_near_preserved, const Variables& v)
+double interrobotCollisionPotential(const RigidObject& position, const RigidGraph& robots_near_preserved, const Variables& v)
 {
   double sum = 0;
   for (RigidObjectDesc id = 0; id < boost::num_vertices(robots_near_preserved); ++id)
   {
-    double arg = getVectorLength(getRelativePosition(i, robots_near_preserved[id]));
+    double arg = getVectorLength(getRelativePosition(position, robots_near_preserved[id]));
     sum += partialInterrobotCollisionPotential(arg, v);
   }
-
-  //  bool i_found = false;
-  //  std::tie(i_d, i_found) = findVertexInGraph(i, robots_near_preserved);
-  //  adjacency_it nb, nb_end;
-  //  for (std::tie(nb, nb_end) = boost::adjacent_vertices(i_d, robots_near_preserved); nb != nb_end; ++nb)
-  //  {
-  //    double arg = getVectorLength((Vector_t)(i.getPosition() - robots_near_preserved[*nb].getPosition()));
-  //    sum += partialInterrobotCollisionPotential(arg, v);
-  //  }
   return sum;
 }
 
@@ -285,12 +277,13 @@ double partialCohesionPotential(double z, const Variables& v)
   return potential;
 }
 
-double cohesionPotential(const Robot& i, const RigidGraph& all_robots, const Variables& v)
+double cohesionPotential(const RigidObject& position, const RigidGraph& all_robots, const Variables& v)
 {
   double sum = 0;
   for (RigidObjectDesc id = 0; id < boost::num_vertices(all_robots); ++id)
   {
-    double arg = getVectorLength(getRelativePosition(i, all_robots[id]));
-    sum += partialInterrobotCollisionPotential(arg, v);
+    double arg = getVectorLength(getRelativePosition(position, all_robots[id]));
+    sum += partialCohesionPotential(arg, v);
   }
+  return sum;
 }

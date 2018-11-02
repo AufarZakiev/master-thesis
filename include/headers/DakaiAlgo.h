@@ -80,7 +80,7 @@ bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const Rigi
                           const Variables& v);  // check if (i,j,m) forms T-dash set
 double partialInterrobotCollisionPotential(double z, const Variables &v);
 
-double interrobotCollisionPotential(const Robot& i, const RigidGraph& robots_near_preserved, const Variables& v); // potential function depending on interrobot distance
+double interrobotCollisionPotential(const RigidObject& position, const RigidGraph& robots_near_preserved, const Variables& v); // potential function depending on interrobot distance
 
 double partialObstacleCollisionPotential(double z, const Variables& v); // potential function depending on distance to obstacles
 
@@ -93,6 +93,7 @@ double LOSPreservePotential(const Robot& i, const Obstacle& nearest_obstacle_to_
 
 double partialCohesionPotential(double z, const Variables& v); // potential function of group cohesion
 
-double cohesionPotential(const Robot& i, const RigidGraph& all_robots, const Variables& v);
+double cohesionPotential(const RigidObject& position, const RigidGraph& all_robots, const Variables& v);
+
 
 #endif  // PROJECT_DAKAI_ALGO_H
