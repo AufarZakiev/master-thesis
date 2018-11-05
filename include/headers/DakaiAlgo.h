@@ -21,7 +21,7 @@ public:
   Position_t getPosition() const;
   void setPosition(Position_t position);
 
-private:
+protected:
   Position_t current_position_;  // current Object position
 };
 
@@ -37,6 +37,8 @@ private:
 
 class Obstacle : public RigidObject
 {
+public:
+  explicit Obstacle(Position_t position);
 };
 
 struct Edge
@@ -84,7 +86,7 @@ double interrobotCollisionPotential(const RigidObject& position, const RigidGrap
 
 double partialObstacleCollisionPotential(double z, const Variables& v); // potential function depending on distance to obstacles
 
-double obstacleCollisionPotential(const Robot& i, const Obstacle& nearest_obstacle, const Variables& v);
+double obstacleCollisionPotential(const RigidObject& position, const Obstacle& nearest_obstacle, const Variables& v);
 
 double partialLOSPreservePotential(double z, const Variables& v); // potential function depending on LOS preservation
 

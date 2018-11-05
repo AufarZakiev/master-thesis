@@ -209,6 +209,52 @@ TEST(InterrobotPotentialTest_2_robots, ShouldPass)
   gp.flush();
 }
 
+TEST(ObstaclePotentialTest_obstacle, ShouldPass)
+{
+  Variables& v = Variables::getInstance();
+  v.setParam("obstacles_avoidance_distance", 1.0);
+  v.setParam("obstacle_care_distance", 3.0);
+  v.setParam("small_positive_constant", 0.01);
+
+  Vector_t v1;
+  v1 << 6.0, 6.0;
+  Obstacle o1(v1);
+
+  std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
+  for (int i = 0; i < 60; i++)
+  {
+    frame[i].resize(60);
+    for (int j = 0; j < 60; j++)
+    {
+      Vector_t temp;
+      temp << i/4.0, j/4.0;
+      RigidObject point(temp);
+      frame[i][j] = std::make_tuple(temp(0,0),temp(1,0), obstacleCollisionPotential(point, o1, v));
+    }
+  }
+
+  Gnuplot gp;
+  gp << "set term png\n";
+  gp << "set output \"Obstacle_collision_fields.png\"\n";
+  gp << "set view 60, 30, 1, 1\n";
+  gp << "set samples 51, 51\n";
+  gp << "set style data lines\n";
+  gp << "set pm3d\n";
+  gp << "set title \"Obstacle_collision field\"\n";
+  gp << "set xlabel \"X axis\"\n";
+  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
+  gp << "set xrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
+  gp << "set ylabel \"Y axis\"\n";
+  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
+  gp << "set yrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
+  gp << "set zlabel \"Z axis\"\n";
+  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
+  gp << "set zrange [ -1.00000 : 10.00000 ] noreverse nowriteback\n";
+  gp << "splot [0:15] [0:15] '-' \n";
+  gp.send2d(frame);
+  gp.flush();
+}
+
 int main(int argc, char** argv)
 {
   testing::InitGoogleTest(&argc, argv);

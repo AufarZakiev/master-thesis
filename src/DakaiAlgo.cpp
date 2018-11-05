@@ -45,6 +45,11 @@ void RigidObject::setPosition(Position_t position)
   current_position_ = std::move(position);
 }
 
+Obstacle::Obstacle(Position_t position)
+{
+  current_position_ = std::move(position);
+}
+
 std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const RigidGraph& graph)
 {
   for (RigidObjectDesc id = 0; id < boost::num_vertices(graph); ++id)
@@ -235,9 +240,9 @@ double partialObstacleCollisionPotential(double z, const Variables& v)
   return potential;
 }
 
-double obstacleCollisionPotential(const Robot& i, const Obstacle& nearest_obstacle, const Variables& v)
+double obstacleCollisionPotential(const RigidObject& position, const Obstacle& nearest_obstacle, const Variables& v)
 {
-  Vector_t io = getRelativePosition(nearest_obstacle, i);
+  Vector_t io = getRelativePosition(position, nearest_obstacle);
   partialObstacleCollisionPotential(getVectorLength(io), v);
 }
 
