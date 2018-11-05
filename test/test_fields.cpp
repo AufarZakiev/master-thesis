@@ -240,7 +240,55 @@ TEST(ObstaclePotentialTest_obstacle, ShouldPass)
   gp << "set samples 51, 51\n";
   gp << "set style data lines\n";
   gp << "set pm3d\n";
-  gp << "set title \"Obstacle_collision field\"\n";
+  gp << "set title \"Obstacle collision field\"\n";
+  gp << "set xlabel \"X axis\"\n";
+  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
+  gp << "set xrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
+  gp << "set ylabel \"Y axis\"\n";
+  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
+  gp << "set yrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
+  gp << "set zlabel \"Z axis\"\n";
+  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
+  gp << "set zrange [ -1.00000 : 10.00000 ] noreverse nowriteback\n";
+  gp << "splot [0:15] [0:15] '-' \n";
+  gp.send2d(frame);
+  gp.flush();
+}
+
+TEST(LOSPotentialTest_obstacle, ShouldPass)
+{
+  Variables& v = Variables::getInstance();
+  v.setParam("los_clearance_distance", 1.0);
+  v.setParam("los_clearance_care_distance", 3.0);
+  v.setParam("small_positive_constant", 0.01);
+
+  Vector_t v1, v2;
+  v1 << 10.0, 10.0;
+  v2 << 3.0, 3.0;
+  Obstacle o1(v1);
+  Robot r1(v2);
+
+  std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
+  for (int i = 0; i < 60; i++)
+  {
+    frame[i].resize(60);
+    for (int j = 0; j < 60; j++)
+    {
+      Vector_t temp;
+      temp << i/4.0, j/4.0;
+      RigidObject point(temp);
+      frame[i][j] = std::make_tuple(temp(0,0),temp(1,0), LOSPreservePotential(point, o1,r1, v));
+    }
+  }
+
+  Gnuplot gp;
+  gp << "set term png\n";
+  gp << "set output \"LOS_fields.png\"\n";
+  gp << "set view 20, 60, 1, 1\n";
+  gp << "set samples 51, 51\n";
+  gp << "set style data lines\n";
+  gp << "set pm3d\n";
+  gp << "set title \"LOS field\"\n";
   gp << "set xlabel \"X axis\"\n";
   gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
   gp << "set xrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";

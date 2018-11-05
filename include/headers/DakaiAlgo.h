@@ -90,7 +90,7 @@ double obstacleCollisionPotential(const RigidObject& position, const Obstacle& n
 
 double partialLOSPreservePotential(double z, const Variables& v); // potential function depending on LOS preservation
 
-double LOSPreservePotential(const Robot& i, const Obstacle& nearest_obstacle_to_LOS_in_D_set_j_star,
+double LOSPreservePotential(const RigidObject& position, const Obstacle& nearest_obstacle_to_LOS_in_D_set_j_star,
                             const Robot& j_star, const Variables& v);
 
 double partialCohesionPotential(double z, const Variables& v); // potential function of group cohesion

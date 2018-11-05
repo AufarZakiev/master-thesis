@@ -195,7 +195,8 @@ double partialInterrobotCollisionPotential(double z, const Variables& v)
   v.getParam("desired_distance", DESIRED_DISTANCE);
   v.getParam("k1", K1);
   v.getParam("k2", K2);
-  if (z > NEIGHBOURHOOD_DISTANCE || z < ROBOTS_AVOIDANCE_DISTANCE) return 0;
+  if (z > NEIGHBOURHOOD_DISTANCE || z < ROBOTS_AVOIDANCE_DISTANCE)
+    return 0;
   double part1 = [&](double z) {
     return (z - DESIRED_DISTANCE) * (z - DESIRED_DISTANCE) * (NEIGHBOURHOOD_DISTANCE - z) /
            ((NEIGHBOURHOOD_DISTANCE - ROBOTS_AVOIDANCE_DISTANCE) *
@@ -213,7 +214,8 @@ double partialInterrobotCollisionPotential(double z, const Variables& v)
   return part1 + part2;
 }
 
-double interrobotCollisionPotential(const RigidObject& position, const RigidGraph& robots_near_preserved, const Variables& v)
+double interrobotCollisionPotential(const RigidObject& position, const RigidGraph& robots_near_preserved,
+                                    const Variables& v)
 {
   double sum = 0;
   for (RigidObjectDesc id = 0; id < boost::num_vertices(robots_near_preserved); ++id)
@@ -262,12 +264,12 @@ double partialLOSPreservePotential(double z, const Variables& v)
   return potential;
 }
 
-double LOSPreservePotential(const Robot& i, const Obstacle& nearest_obstacle_to_LOS_in_D_set_j_star,
+double LOSPreservePotential(const RigidObject& position, const Obstacle& nearest_obstacle_to_LOS_in_D_set_j_star,
                             const Robot& j_star, const Variables& v)
 {
   return partialLOSPreservePotential(
-      getVectorLength(getProjectionPhi(getRelativePosition(nearest_obstacle_to_LOS_in_D_set_j_star, i),
-                                       getRelativePosition(j_star, i))),
+      getVectorLength(getProjectionPhi(getRelativePosition(position, nearest_obstacle_to_LOS_in_D_set_j_star),
+                                       getRelativePosition(position, j_star))),
       v);
 }
 
@@ -278,7 +280,7 @@ double partialCohesionPotential(double z, const Variables& v)
   double potential = 0;
   if (z <= NEIGHBOURHOOD_DISTANCE)
     return 0;
-  potential = (z - NEIGHBOURHOOD_DISTANCE) * (z - NEIGHBOURHOOD_DISTANCE) / 2; // TODO: must be no obstacles around
+  potential = (z - NEIGHBOURHOOD_DISTANCE) * (z - NEIGHBOURHOOD_DISTANCE) / 2;  // TODO: must be no obstacles around
   return potential;
 }
 
