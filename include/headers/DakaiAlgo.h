@@ -64,7 +64,7 @@ double getSquaredVectorLength(const Vector_t& v);  // get 2d vector squared leng
                                                    // squared
 Position_t getRelativePosition(const RigidObject& o1, const RigidObject& o2);  // get position of o2 in respect to o1
 bool isEdgePreserved(const Robot& i, const Robot& j, const RigidGraph& rg,
-                     const Variables& v);  // indicator function prototype
+                     const Variables& v);  // indicator function
 double angleBetweenVectorsInRadians(const Vector_t& v1,
                                     const Vector_t& v2);  // get the angle between two vectors in counter-clockwise
                                                           // direction in radians
@@ -80,9 +80,11 @@ bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObjec
                     const Variables& v);  // check if (i,j,m) forms T set
 bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
                           const Variables& v);  // check if (i,j,m) forms T-dash set
-double partialInterrobotCollisionPotential(double z, const Variables &v);
 
-double interrobotCollisionPotential(const RigidObject& position, const RigidGraph& robots_near_preserved, const Variables& v); // potential function depending on interrobot distance
+
+double partialInterrobotCollisionPotential(double z, const Variables &v); // potential function depending on interrobot distance
+
+double interrobotCollisionPotential(const RigidObject& position, const RigidGraph& robots_near_preserved, const Variables& v);
 
 double partialObstacleCollisionPotential(double z, const Variables& v); // potential function depending on distance to obstacles
 

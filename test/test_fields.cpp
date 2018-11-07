@@ -3,6 +3,33 @@
 
 #include "../include/gnuplot-iostream/gnuplot-iostream.h"
 
+void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>> &frame, const std::string& filename, int rot_x_angle, int rot_z_angle) {
+  Gnuplot gp;
+  gp << "set term png\n";
+  gp << "set output \"";
+  gp << filename.c_str();
+  gp << "\"\n";
+  gp << "set view ";
+  gp << rot_x_angle;
+  gp << ", ";
+  gp << rot_z_angle;
+  gp << ", 1, 1\n";
+  gp << "set samples 51, 51\n";
+  gp << "set style data lines\n";
+  gp << "set pm3d\n";
+  gp << "set title \"LOS field\"\n";
+  gp << "set xlabel \"X axis\"\n";
+  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
+  gp << "set ylabel \"Y axis\"\n";
+  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
+  gp << "set zlabel \"Z axis\"\n";
+  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
+  gp << "set zrange [ -1.00000 : 10.00000 ] noreverse nowriteback\n";
+  gp << "splot [0:15] [0:15] '-' \n";
+  gp.send2d(frame);
+  gp.flush();
+}
+
 TEST(CohesionPotentialTest_4_robots, ShouldPass)
 {
   Variables& v = Variables::getInstance();
@@ -36,26 +63,7 @@ TEST(CohesionPotentialTest_4_robots, ShouldPass)
     }
   }
 
-  Gnuplot gp;
-  gp << "set term png\n";
-  gp << "set output \"Cohesion_field_4_robots_uniform.png\"\n";
-  gp << "set view 0, 90, 1, 1\n";
-  gp << "set samples 51, 51\n";
-  gp << "set style data lines\n";
-  gp << "set pm3d\n";
-  gp << "set title \"Cohesion field\"\n";
-  gp << "set xlabel \"X axis\"\n";
-  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set xrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set ylabel \"Y axis\"\n";
-  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
-  gp << "set yrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set zlabel \"Z axis\"\n";
-  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set zrange [ -0.50000 : 450.00000 ] noreverse nowriteback\n";
-  gp << "splot [0:15] [0:15] '-' \n";
-  gp.send2d(frame);
-  gp.flush();
+  printPlot(frame, "Cohesion_field_4_robots_uniform.png", 0, 90);
 }
 
 TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
@@ -85,26 +93,7 @@ TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
     }
   }
 
-  Gnuplot gp;
-  gp << "set term png\n";
-  gp << "set output \"Cohesion_field_2_robots_offset.png\"\n";
-  gp << "set view 0, 90, 1, 1\n";
-  gp << "set samples 51, 51\n";
-  gp << "set style data lines\n";
-  gp << "set pm3d\n";
-  gp << "set title \"Cohesion field\"\n";
-  gp << "set xlabel \"X axis\"\n";
-  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set xrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set ylabel \"Y axis\"\n";
-  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
-  gp << "set yrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set zlabel \"Z axis\"\n";
-  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set zrange [ -0.50000 : 450.00000 ] noreverse nowriteback\n";
-  gp << "splot [0:15] [0:15] '-' \n";
-  gp.send2d(frame);
-  gp.flush();
+  printPlot(frame, "Cohesion_field_2_robots_cohesive.png", 0, 90);
 }
 
 TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
@@ -134,26 +123,7 @@ TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
     }
   }
 
-  Gnuplot gp;
-  gp << "set term png\n";
-  gp << "set output \"Cohesion_field_2_robots_cohesive.png\"\n";
-  gp << "set view 60, 30, 1, 1\n";
-  gp << "set samples 51, 51\n";
-  gp << "set style data lines\n";
-  gp << "set pm3d\n";
-  gp << "set title \"Cohesion field\"\n";
-  gp << "set xlabel \"X axis\"\n";
-  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set xrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set ylabel \"Y axis\"\n";
-  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
-  gp << "set yrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set zlabel \"Z axis\"\n";
-  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set zrange [ -0.50000 : 450.00000 ] noreverse nowriteback\n";
-  gp << "splot [0:15] [0:15] '-' \n";
-  gp.send2d(frame);
-  gp.flush();
+  printPlot(frame, "Cohesion_field_2_robots_cohesive.png", 60, 30);
 }
 
 TEST(InterrobotPotentialTest_2_robots, ShouldPass)
@@ -187,26 +157,7 @@ TEST(InterrobotPotentialTest_2_robots, ShouldPass)
     }
   }
 
-  Gnuplot gp;
-  gp << "set term png\n";
-  gp << "set output \"Interrobot_field_2_robots.png\"\n";
-  gp << "set view 60, 30, 1, 1\n";
-  gp << "set samples 51, 51\n";
-  gp << "set style data lines\n";
-  gp << "set pm3d\n";
-  gp << "set title \"Interrobot collision field\"\n";
-  gp << "set xlabel \"X axis\"\n";
-  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set xrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set ylabel \"Y axis\"\n";
-  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
-  gp << "set yrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set zlabel \"Z axis\"\n";
-  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set zrange [ -2.00000 : 450.00000 ] noreverse nowriteback\n";
-  gp << "splot [0:15] [0:15] '-' \n";
-  gp.send2d(frame);
-  gp.flush();
+  printPlot(frame, "Interrobot_field_2_robots.png", 60, 30);
 }
 
 TEST(ObstaclePotentialTest_obstacle, ShouldPass)
@@ -233,26 +184,8 @@ TEST(ObstaclePotentialTest_obstacle, ShouldPass)
     }
   }
 
-  Gnuplot gp;
-  gp << "set term png\n";
-  gp << "set output \"Obstacle_collision_fields.png\"\n";
-  gp << "set view 60, 30, 1, 1\n";
-  gp << "set samples 51, 51\n";
-  gp << "set style data lines\n";
-  gp << "set pm3d\n";
-  gp << "set title \"Obstacle collision field\"\n";
-  gp << "set xlabel \"X axis\"\n";
-  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set xrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set ylabel \"Y axis\"\n";
-  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
-  gp << "set yrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set zlabel \"Z axis\"\n";
-  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set zrange [ -1.00000 : 10.00000 ] noreverse nowriteback\n";
-  gp << "splot [0:15] [0:15] '-' \n";
-  gp.send2d(frame);
-  gp.flush();
+
+  printPlot(frame, "Obstacle_collision_fields.png", 60, 30);
 }
 
 TEST(LOSPotentialTest_obstacle, ShouldPass)
@@ -269,6 +202,7 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
   Robot r1(v2);
 
   std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
+
   for (int i = 0; i < 60; i++)
   {
     frame[i].resize(60);
@@ -281,26 +215,7 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
     }
   }
 
-  Gnuplot gp;
-  gp << "set term png\n";
-  gp << "set output \"LOS_fields.png\"\n";
-  gp << "set view 20, 60, 1, 1\n";
-  gp << "set samples 51, 51\n";
-  gp << "set style data lines\n";
-  gp << "set pm3d\n";
-  gp << "set title \"LOS field\"\n";
-  gp << "set xlabel \"X axis\"\n";
-  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set xrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set ylabel \"Y axis\"\n";
-  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
-  gp << "set yrange [ 0.00000 : 15.00000 ] noreverse nowriteback\n";
-  gp << "set zlabel \"Z axis\"\n";
-  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set zrange [ -1.00000 : 10.00000 ] noreverse nowriteback\n";
-  gp << "splot [0:15] [0:15] '-' \n";
-  gp.send2d(frame);
-  gp.flush();
+  printPlot(frame, "LOS_fields.png", 20, 60);
 }
 
 int main(int argc, char** argv)

@@ -54,7 +54,7 @@ std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const 
 {
   for (RigidObjectDesc id = 0; id < boost::num_vertices(graph); ++id)
   {
-    if (graph[id].getPosition() == ro.getPosition())
+    if (graph[id].getPosition() == ro.getPosition()) // TODO: change identifying principle
       return std::make_pair(id, true);
   }
   return std::make_pair(0, false);
@@ -90,7 +90,7 @@ bool isEdgePreserved(const Robot& i, const Robot& j, const RigidGraph& rg, const
 {
   for (RigidObjectDesc id = 0; id < boost::num_vertices(rg); ++id)
   {
-    if (rg[id].getPosition() != i.getPosition() && rg[id].getPosition() != j.getPosition())
+    if (rg[id].getPosition() != i.getPosition() && rg[id].getPosition() != j.getPosition()) // TODO: change identifying principle
     {
       if (isObjectInTSet(i, j, rg[id], rg, v) || isObjectInTSet(j, i, rg[id], rg, v) ||
           isObjectInDashedTSet(i, j, rg[id], rg, v) || isObjectInDashedTSet(j, i, rg[id], rg, v))
