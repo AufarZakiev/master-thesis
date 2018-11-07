@@ -18,7 +18,7 @@ TEST(partialInterrobotCollisionPotentialTest, ShouldPass)
   for (size_t i = 0; i < n; ++i)
   {
     x.at(i) = 0.3 + 0.7 * double(i) / (n - 1);
-    y.at(i) = partialInterrobotCollisionPotential(0.3 + 0.7 * double(i) / (n - 1), v);
+    y.at(i) = partialInterrobotCollisionPotential(0.3f + 0.7f * double(i) / (n - 1), v);
   }
 
   EXPECT_NEAR(y[0], 10, EQUALITY_CASE);
@@ -43,9 +43,9 @@ TEST(partialObstacleCollisionPotentialTest, ShouldPass)
   namespace plt = matplotlibcpp;
 
   Variables& v = Variables::getInstance();
-  v.setParam("obstacle_care_distance", 0.2f);
-  v.setParam("obstacles_avoidance_distance", 0.1f);
-  v.setParam("small_positive_constant", 0.1f);
+  v.setParam("obstacle_care_distance", 0.2);
+  v.setParam("obstacles_avoidance_distance", 0.1);
+  v.setParam("small_positive_constant", 0.2);
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
 
@@ -54,7 +54,7 @@ TEST(partialObstacleCollisionPotentialTest, ShouldPass)
   std::vector<double> x(n), y(n);
   for (size_t i = 0; i < n; ++i)
   {
-    x.at(i) = 0.1 + 0.4 * double(i) / (n - 1);
+    x.at(i) = 0.1 + 0.4 * double(i) / (n - 1);  // TODO: fix on values less than minimum
     y.at(i) = partialObstacleCollisionPotential(0.1 + 0.4 * double(i) / (n - 1), v);
   }
 
@@ -79,9 +79,9 @@ TEST(partialLOSPreservePotentialTest, ShouldPass)
   namespace plt = matplotlibcpp;
 
   Variables& v = Variables::getInstance();
-  v.setParam("los_clearance_care_distance", 0.2f);
-  v.setParam("los_clearance_distance", 0.1f);
-  v.setParam("small_positive_constant", 0.1f);
+  v.setParam("los_clearance_care_distance", 0.2);
+  v.setParam("los_clearance_distance", 0.1);
+  v.setParam("small_positive_constant", 0.2);
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
 

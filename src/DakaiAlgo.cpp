@@ -54,7 +54,7 @@ std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const 
 {
   for (RigidObjectDesc id = 0; id < boost::num_vertices(graph); ++id)
   {
-    if (graph[id].getPosition() == ro.getPosition()) // TODO: change identifying principle
+    if (graph[id].getPosition() == ro.getPosition())  // TODO: change identifying principle
       return std::make_pair(id, true);
   }
   return std::make_pair(0, false);
@@ -90,7 +90,8 @@ bool isEdgePreserved(const Robot& i, const Robot& j, const RigidGraph& rg, const
 {
   for (RigidObjectDesc id = 0; id < boost::num_vertices(rg); ++id)
   {
-    if (rg[id].getPosition() != i.getPosition() && rg[id].getPosition() != j.getPosition()) // TODO: change identifying principle
+    if (rg[id].getPosition() != i.getPosition() &&
+        rg[id].getPosition() != j.getPosition())  // TODO: change identifying principle
     {
       if (isObjectInTSet(i, j, rg[id], rg, v) || isObjectInTSet(j, i, rg[id], rg, v) ||
           isObjectInDashedTSet(i, j, rg[id], rg, v) || isObjectInDashedTSet(j, i, rg[id], rg, v))
@@ -235,8 +236,8 @@ double partialObstacleCollisionPotential(double z, const Variables& v)
   double potential = 0;
   if (z >= OBSTACLE_CARE_DISTANCE)
     return 0;
-  potential = (1.0 / ((z - OBSTACLE_AVOIDANCE_DISTANCE) / (OBSTACLE_CARE_DISTANCE - OBSTACLE_AVOIDANCE_DISTANCE)) +
-               SMALL_POSITIVE_CONSTANT) -
+  potential = (1.0 / ((z - OBSTACLE_AVOIDANCE_DISTANCE) / (OBSTACLE_CARE_DISTANCE - OBSTACLE_AVOIDANCE_DISTANCE) +
+                      SMALL_POSITIVE_CONSTANT)) -
               (1.0 / (1.0 + SMALL_POSITIVE_CONSTANT));
   potential = potential * potential / 2;
   return potential;
@@ -257,8 +258,8 @@ double partialLOSPreservePotential(double z, const Variables& v)
   double potential = 0;
   if (z >= LOS_CLEARANCE_CARE_DISTANCE)
     return 0;
-  potential = (1.0 / ((z - LOS_CLEARANCE_DISTANCE) / (LOS_CLEARANCE_CARE_DISTANCE - LOS_CLEARANCE_DISTANCE)) +
-               SMALL_POSITIVE_CONSTANT) -
+  potential = (1.0 / ((z - LOS_CLEARANCE_DISTANCE) / (LOS_CLEARANCE_CARE_DISTANCE - LOS_CLEARANCE_DISTANCE) +
+                      SMALL_POSITIVE_CONSTANT)) -
               (1.0 / (1.0 + SMALL_POSITIVE_CONSTANT));
   potential = potential * potential / 2;
   return potential;
@@ -268,8 +269,8 @@ double LOSPreservePotential(const RigidObject& position, const Obstacle& nearest
                             const Robot& j_star, const Variables& v)
 {
   return partialLOSPreservePotential(
-      getVectorLength(getProjectionPhi(getRelativePosition(position, nearest_obstacle_to_LOS_in_D_set_j_star),
-                                       getRelativePosition(position, j_star))),
+      getVectorLength(getProjectionPhi(getRelativePosition(nearest_obstacle_to_LOS_in_D_set_j_star, position),
+                                       getRelativePosition(j_star, position))),
       v);
 }
 
