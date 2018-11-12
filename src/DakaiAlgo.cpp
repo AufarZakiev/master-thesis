@@ -256,7 +256,7 @@ double partialLOSPreservePotential(double z, const Variables& v)
   v.getParam("los_clearance_care_distance", LOS_CLEARANCE_CARE_DISTANCE);
   v.getParam("small_positive_constant", SMALL_POSITIVE_CONSTANT);
   double potential = 0;
-  if (z >= LOS_CLEARANCE_CARE_DISTANCE)
+  if (z >= LOS_CLEARANCE_CARE_DISTANCE || z < LOS_CLEARANCE_DISTANCE)
     return 0;
   potential = (1.0 / ((z - LOS_CLEARANCE_DISTANCE) / (LOS_CLEARANCE_CARE_DISTANCE - LOS_CLEARANCE_DISTANCE) +
                       SMALL_POSITIVE_CONSTANT)) -
@@ -265,9 +265,35 @@ double partialLOSPreservePotential(double z, const Variables& v)
   return potential;
 }
 
-double LOSPreservePotential(const RigidObject& position, const Obstacle& nearest_obstacle_to_LOS_in_D_set_j_star,
-                            const Robot& j_star, const Variables& v)
+double closestObstacleToLOS(const Robot &i, const Robot &j, const ObstacleGraph &detected_obstacle_graph)
 {
+  Vector_t ji = getRelativePosition(i,j);
+  auto min = getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph[0]), ji));
+  for(auto id = 1; id < boost::num_vertices(detected_obstacle_graph); ++id){
+    if (getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph[id]), ji)) < min){
+      min = getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph[id]), ji));
+    }
+  }
+  return min;
+}
+
+Obstacle j_star_compute(const Robot &i, const RobotGraph &neighbourhood_robots,
+                        const ObstacleGraph &detected_obstacle_graph){
+  auto min = closestObstacleToLOS(i,neighbourhood_robots[0], detected_obstacle_graph);
+  int min_obstacle_id = 0;
+  for(auto id = 1; id < boost::num_vertices(detected_obstacle_graph); ++id){
+    if (closestObstacleToLOS(i,neighbourhood_robots[0], detected_obstacle_graph) < min){
+      min = closestObstacleToLOS(i,neighbourhood_robots[0], detected_obstacle_graph);
+      min_obstacle_id = id;
+    }
+  }
+  return detected_obstacle_graph[min_obstacle_id];
+}
+
+double LOSPreservePotential(const RigidObject &position, const Obstacle &nearest_obstacle_to_LOS_in_D_set_j_star,
+                            const Obstacle &j_star, const Variables &v)
+{
+  //if(isObjectInDSpace(nearest_obstacle_to_LOS_in_D_set_j_star,position,))
   return partialLOSPreservePotential(
       getVectorLength(getProjectionPhi(getRelativePosition(nearest_obstacle_to_LOS_in_D_set_j_star, position),
                                        getRelativePosition(j_star, position))),

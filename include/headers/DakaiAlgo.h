@@ -44,7 +44,8 @@ public:
 struct Edge
 {
 };
-
+typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, Robot, Edge> RobotGraph;
+typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, Obstacle, Edge> ObstacleGraph;
 typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, RigidObject, Edge> RigidGraph;  // to store
                                                                                                           // information
                                                                                                           // about
@@ -90,10 +91,15 @@ double partialObstacleCollisionPotential(double z, const Variables& v); // poten
 
 double obstacleCollisionPotential(const RigidObject& position, const Obstacle& nearest_obstacle, const Variables& v);
 
+double closestObstacleToLOS(const Robot &i, const Robot &j, const ObstacleGraph &detected_obstacle_graph)
+
+Obstacle j_star_compute(const Robot &i, const RobotGraph &neighbourhood_robots,
+                        const ObstacleGraph &detected_obstacle_graph);
+
 double partialLOSPreservePotential(double z, const Variables& v); // potential function depending on LOS preservation
 
-double LOSPreservePotential(const RigidObject& position, const Obstacle& nearest_obstacle_to_LOS_in_D_set_j_star,
-                            const Robot& j_star, const Variables& v);
+double LOSPreservePotential(const RigidObject &position, const Obstacle &nearest_obstacle_to_LOS_in_D_set_j_star,
+                            const Obstacle &j_star, const Variables &v);
 
 double partialCohesionPotential(double z, const Variables& v); // potential function of group cohesion
 

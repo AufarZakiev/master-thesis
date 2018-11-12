@@ -200,7 +200,7 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
 
   Vector_t v1, v2;
   v1 << 10.0, 10.0;
-  v2 << 3.0, 3.0;
+  v2 << 7.0, 7.0;
   Obstacle o1(v1);
   Robot r1(v2);
 
@@ -214,7 +214,7 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
       Vector_t temp;
       temp << i / 4.0, j / 4.0;
       RigidObject point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), LOSPreservePotential(point, o1, r1, v));
+      //frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), LOSPreservePotential(point, o1, r1, v));
     }
   }
 
