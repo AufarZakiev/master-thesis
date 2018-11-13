@@ -194,13 +194,13 @@ TEST(ObstaclePotentialTest_obstacle, ShouldPass)
 TEST(LOSPotentialTest_obstacle, ShouldPass)
 {
   Variables& v = Variables::getInstance();
-  v.setParam("los_clearance_care_distance", 0.2);
-  v.setParam("los_clearance_distance", 0.1);
+  v.setParam("los_clearance_care_distance", 0.4);
+  v.setParam("los_clearance_distance", 0.2);
   v.setParam("small_positive_constant", 0.2);
 
   Vector_t v1, v2;
-  v1 << 10.0, 10.0;
-  v2 << 7.0, 7.0;
+  v1 << 6.0, 6.0;
+  v2 << 5.0, 5.0;
   Obstacle o1(v1);
   Robot r1(v2);
   RobotGraph rg;
@@ -209,15 +209,15 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
+  std::vector<std::vector<std::tuple<double, double, double>>> frame(120);
 
-  for (int i = 0; i < 60; i++)
+  for (int i = 0; i < 120; i++)
   {
-    frame[i].resize(60);
-    for (int j = 0; j < 60; j++)
+    frame[i].resize(120);
+    for (int j = 0; j < 120; j++)
     {
       Vector_t temp;
-      temp << i / 4.0, j / 4.0;
+      temp << i / 8.0, j / 8.0;
       Robot point(temp);
       frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), LOSPreservePotential(point, rg, og, v));
     }
