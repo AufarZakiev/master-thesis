@@ -265,38 +265,64 @@ double partialLOSPreservePotential(double z, const Variables& v)
   return potential;
 }
 
-double closestObstacleToLOS(const Robot &i, const Robot &j, const ObstacleGraph &detected_obstacle_graph)
+std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
+                                                 const ObstacleGraph& detected_obstacle_graph_in_D_set)
 {
-  Vector_t ji = getRelativePosition(i,j);
-  auto min = getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph[0]), ji));
-  for(auto id = 1; id < boost::num_vertices(detected_obstacle_graph); ++id){
-    if (getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph[id]), ji)) < min){
-      min = getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph[id]), ji));
+  Vector_t ji = getRelativePosition(i, j);
+  auto min = std::numeric_limits<double>::max();
+  Obstacle min_obstacle = detected_obstacle_graph_in_D_set[0];
+  for (auto id = 0; id < boost::num_vertices(detected_obstacle_graph_in_D_set); ++id)
+  {
+    if (getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph_in_D_set[id]), ji)) < min)
+    {
+      min = getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph_in_D_set[id]), ji));
+      min_obstacle = detected_obstacle_graph_in_D_set[id];
     }
   }
-  return min;
+  return std::make_pair(min_obstacle, min);
 }
 
-Obstacle j_star_compute(const Robot &i, const RobotGraph &neighbourhood_robots,
-                        const ObstacleGraph &detected_obstacle_graph){
-  auto min = closestObstacleToLOS(i,neighbourhood_robots[0], detected_obstacle_graph);
-  int min_obstacle_id = 0;
-  for(auto id = 1; id < boost::num_vertices(detected_obstacle_graph); ++id){
-    if (closestObstacleToLOS(i,neighbourhood_robots[0], detected_obstacle_graph) < min){
-      min = closestObstacleToLOS(i,neighbourhood_robots[0], detected_obstacle_graph);
-      min_obstacle_id = id;
+Robot j_star_compute(const Robot& i, const RobotGraph& neighbourhood_robots,
+                     const ObstacleGraph& detected_obstacle_graph_in_D_set)
+{
+  auto min = closestObstacleToLOS(i, neighbourhood_robots[0], detected_obstacle_graph_in_D_set);
+  auto min_id = 0;
+  for (auto id = 0; id < boost::num_vertices(detected_obstacle_graph_in_D_set); ++id)
+  {
+    if (closestObstacleToLOS(i, neighbourhood_robots[id], detected_obstacle_graph_in_D_set).second < min.second)
+    {
+      min = closestObstacleToLOS(i, neighbourhood_robots[id], detected_obstacle_graph_in_D_set);
+      min_id = id;
     }
   }
-  return detected_obstacle_graph[min_obstacle_id];
+  return neighbourhood_robots[min_id];
 }
 
-double LOSPreservePotential(const RigidObject &position, const Obstacle &nearest_obstacle_to_LOS_in_D_set_j_star,
-                            const Obstacle &j_star, const Variables &v)
+double LOSPreservePotential(const Robot& position, const RobotGraph& neighbourhood_robots,
+                            const ObstacleGraph& detected_obstacle_graph, const Variables& v)
 {
-  //if(isObjectInDSpace(nearest_obstacle_to_LOS_in_D_set_j_star,position,))
+  ObstacleGraph detected_obstacle_graph_in_D_space;
+  for (auto id = 0; id < boost::num_vertices(detected_obstacle_graph); id++)
+  {
+    for (auto id_neighbour = 0; id_neighbour < boost::num_vertices(neighbourhood_robots); id_neighbour++)
+    {
+      if (!isObjectInDSpace(detected_obstacle_graph[id], position, neighbourhood_robots[id_neighbour]))
+      {
+        break;
+      }
+      boost::add_vertex(detected_obstacle_graph[id], detected_obstacle_graph_in_D_space);
+    }
+  }
+  if (boost::num_vertices(detected_obstacle_graph_in_D_space) == 0)
+  {
+    return 0; // TODO: Find the point to filter this case
+  }
+  Robot j_star = j_star_compute(position, neighbourhood_robots, detected_obstacle_graph_in_D_space);
   return partialLOSPreservePotential(
-      getVectorLength(getProjectionPhi(getRelativePosition(nearest_obstacle_to_LOS_in_D_set_j_star, position),
-                                       getRelativePosition(j_star, position))),
+      getVectorLength(getProjectionPhi(
+          getRelativePosition(closestObstacleToLOS(position, j_star, detected_obstacle_graph_in_D_space).first,
+                              position),
+          getRelativePosition(j_star, position))),
       v);
 }
 

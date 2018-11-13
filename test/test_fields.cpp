@@ -203,6 +203,11 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
   v2 << 7.0, 7.0;
   Obstacle o1(v1);
   Robot r1(v2);
+  RobotGraph rg;
+  boost::add_vertex(r1, rg);
+
+  ObstacleGraph og;
+  boost::add_vertex(o1, og);
 
   std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
 
@@ -213,8 +218,8 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
     {
       Vector_t temp;
       temp << i / 4.0, j / 4.0;
-      RigidObject point(temp);
-      //frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), LOSPreservePotential(point, o1, r1, v));
+      Robot point(temp);
+      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), LOSPreservePotential(point, rg, og, v));
     }
   }
 

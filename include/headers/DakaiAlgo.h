@@ -91,15 +91,16 @@ double partialObstacleCollisionPotential(double z, const Variables& v); // poten
 
 double obstacleCollisionPotential(const RigidObject& position, const Obstacle& nearest_obstacle, const Variables& v);
 
-double closestObstacleToLOS(const Robot &i, const Robot &j, const ObstacleGraph &detected_obstacle_graph)
+std::pair<Obstacle, double> closestObstacleToLOS(const Robot &i, const Robot &j,
+                                                 const ObstacleGraph &detected_obstacle_graph_in_D_set);
 
-Obstacle j_star_compute(const Robot &i, const RobotGraph &neighbourhood_robots,
-                        const ObstacleGraph &detected_obstacle_graph);
+Robot j_star_compute(const Robot &i, const RobotGraph &neighbourhood_robots,
+                        const ObstacleGraph &detected_obstacle_graph_in_D_set);
 
 double partialLOSPreservePotential(double z, const Variables& v); // potential function depending on LOS preservation
 
-double LOSPreservePotential(const RigidObject &position, const Obstacle &nearest_obstacle_to_LOS_in_D_set_j_star,
-                            const Obstacle &j_star, const Variables &v);
+double LOSPreservePotential(const Robot& position, const RobotGraph& neighbourhood_robots,
+                            const ObstacleGraph& detected_obstacle_graph_in_D_set, const Variables& v);
 
 double partialCohesionPotential(double z, const Variables& v); // potential function of group cohesion
 
