@@ -213,9 +213,9 @@ target_link_libraries(follow_leader_node
 
 ## Add gtest based cpp test target and link libraries
 
-catkin_add_gtest(multiple-turtlebots-test test/test_multiple_turtlebots.cpp src/DakaiAlgo.cpp src/Variables.cpp src/helper_functions.cpp src/fields.cpp src/partial_functions.cpp src/geometric_functions.cpp)
+catkin_add_gtest(multiple-turtlebots-test test/test_geometric_functions.cpp src/DakaiAlgo.cpp src/Variables.cpp src/helper_functions.cpp src/fields.cpp src/partial_functions.cpp src/geometric_functions.cpp)
 catkin_add_gtest(multiple-turtlebots-test-fields test/test_fields.cpp src/DakaiAlgo.cpp src/Variables.cpp src/helper_functions.cpp src/fields.cpp src/partial_functions.cpp src/geometric_functions.cpp)
-catkin_add_gtest(multiple-turtlebots-test-functions test/test_functions.cpp src/DakaiAlgo.cpp src/Variables.cpp src/helper_functions.cpp src/fields.cpp src/partial_functions.cpp src/geometric_functions.cpp)
+catkin_add_gtest(multiple-turtlebots-test-functions test/test_partial_functions.cpp src/DakaiAlgo.cpp src/Variables.cpp src/helper_functions.cpp src/fields.cpp src/partial_functions.cpp src/geometric_functions.cpp)
 catkin_add_gtest(multiple-turtlebots-test-helper-functions test/test_helper_functions.cpp src/DakaiAlgo.cpp src/Variables.cpp src/helper_functions.cpp src/fields.cpp src/partial_functions.cpp src/geometric_functions.cpp)
 if(TARGET multiple-turtlebots-test)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
