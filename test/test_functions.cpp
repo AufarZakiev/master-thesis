@@ -74,6 +74,42 @@ TEST(partialObstacleCollisionPotentialTest, ShouldPass)
   plt::save("./obstacle_potential.png");
 }
 
+TEST(partialObstacleCollisionPotentialTest, ShouldPass)
+{
+  namespace plt = matplotlibcpp;
+
+  Variables& v = Variables::getInstance();
+  v.setParam("obstacle_care_distance", 0.2);
+  v.setParam("obstacles_avoidance_distance", 0.1);
+  v.setParam("small_positive_constant", 0.2);
+  double EQUALITY_CASE;
+  v.getParam("equality_case", EQUALITY_CASE);
+
+  // Prepare data.
+  size_t n = 20000;
+  std::vector<double> x(n), y(n);
+  for (size_t i = 0; i < n; ++i)
+  {
+    x.at(i) = 0.1 + 0.4 * double(i) / (n - 1);  // TODO: fix on values less than minimum
+    y.at(i) = partialObstacleCollisionPotential(0.1 + 0.4 * double(i) / (n - 1), v);
+  }
+
+  EXPECT_GT(y[0], 8);
+  EXPECT_NEAR(y[n - 1], 0, EQUALITY_CASE);
+
+  // Set the size of output image = 1200x780 pixels
+  plt::figure_size(1200, 780);
+  // Plot line from given x and y data. Color is selected automatically.
+  plt::named_plot("Phi Obstacle", x, y);
+  // Set x-axis to interval [0,1000000]
+  plt::xlim(0.0, 0.5);
+  plt::ylim(0, 10);
+  // Enable legend.
+  plt::legend();
+  // Save the image (file format is determined by the extension)
+  plt::save("./obstacle_potential.png");
+}
+
 TEST(partialLOSPreservePotentialTest, ShouldPass)
 {
   namespace plt = matplotlibcpp;

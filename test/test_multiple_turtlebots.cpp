@@ -2,8 +2,6 @@
 #include "../include/headers/DakaiAlgo.h"
 #include "../include/headers/matplotlibcpp.h"  // uses this library https://github.com/lava/matplotlib-cpp to draw plots
 
-#include "../include/gnuplot-iostream/gnuplot-iostream.h"
-
 TEST(VectorDistanceTest, ShouldPass)
 {
   Eigen::Vector2d v1;

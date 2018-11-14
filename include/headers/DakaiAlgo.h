@@ -57,6 +57,9 @@ typedef boost::graph_traits<RigidGraph>::adjacency_iterator adjacency_it;
 typedef Eigen::Vector2d ControlInput_t;         // to store control input vectors
 typedef std::unordered_set<RigidObject> Set_t;  // to store info about math sets
 
+void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>>& frame, const std::string& filename,
+               const std::string& title, int rot_x_angle, int rot_z_angle); //printing helper function
+
 std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const RigidGraph& graph);
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, Variables& v);
 double getVectorDistance(const Vector_t& v1, const Vector_t& v2);  // get distance between two vectors

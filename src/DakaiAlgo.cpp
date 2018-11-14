@@ -3,6 +3,38 @@
 #include "../include/headers/Variables.h"
 #include <tuple>
 #include <utility>
+#include "../include/gnuplot-iostream/gnuplot-iostream.h"
+
+void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>>& frame, const std::string& filename,
+               const std::string& title, int rot_x_angle, int rot_z_angle)
+{
+  Gnuplot gp;
+  gp << "set term png\n";
+  gp << "set output \"";
+  gp << filename.c_str();
+  gp << "\"\n";
+  gp << "set view ";
+  gp << rot_x_angle;
+  gp << ", ";
+  gp << rot_z_angle;
+  gp << ", 1, 1\n";
+  gp << "set samples 120, 120\n";
+  gp << "set style data lines\n";
+  gp << "set pm3d\n";
+  gp << "set title \"";
+  gp << title.c_str();
+  gp << "\"\n";
+  gp << "set xlabel \"X axis\"\n";
+  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
+  gp << "set ylabel \"Y axis\"\n";
+  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
+  gp << "set zlabel \"Z axis\"\n";
+  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
+  // gp << "set zrange [ -1.00000 : 10.00000 ] noreverse nowriteback\n";
+  gp << "splot [0:15] [0:15] '-' \n";
+  gp.send2d(frame);
+  gp.flush();
+}
 
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, Variables& v)
 {
@@ -155,7 +187,6 @@ bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObjec
   // check if (i,j,m) forms T set
   Vector_t mi = getRelativePosition(i, m);
   Vector_t im = getRelativePosition(m, i);
-  Vector_t mj = getRelativePosition(j, m);
   Vector_t jm = getRelativePosition(m, j);
   Vector_t ji = getRelativePosition(i, j);
   double EDGE_DELETION_DISTANCE;
@@ -215,7 +246,6 @@ double partialInterrobotCollisionPotential(double z, const Variables& v)
   return part1 + part2;
 }
 
-
 double interrobotCollisionPotential(const RigidObject& position, const RigidGraph& robots_near_preserved,
                                     const Variables& v)
 {
@@ -229,8 +259,8 @@ double interrobotCollisionPotential(const RigidObject& position, const RigidGrap
 }
 
 std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, const ObstacleGraph& obstacles_detected,
-                                                const Variables& v)  // TODO: change all trivial loops and
-// std::algorithm
+                                                const Variables& v)
+                                                // TODO: change all trivial loops and std::algorithm
 {
   if (boost::num_vertices(obstacles_detected) == 0)
   {
@@ -240,9 +270,9 @@ std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, con
   Obstacle min_obstacle = obstacles_detected[0];
   for (auto id = 0; id < boost::num_vertices(obstacles_detected); id++)
   {
-    if (min < getVectorLength(getRelativePosition(obstacles_detected[0], position)))
+    if (getVectorLength(getRelativePosition(obstacles_detected[id], position)) < min)
     {
-      min = getVectorLength(getRelativePosition(obstacles_detected[0], position));
+      min = getVectorLength(getRelativePosition(obstacles_detected[id], position));
       min_obstacle = obstacles_detected[id];
     }
   }
@@ -265,11 +295,12 @@ double partialObstacleCollisionPotential(double z, const Variables& v)
   return potential;
 }
 
-double obstacleCollisionPotential(const RigidObject &position, const ObstacleGraph &detected_obstacles,
-                                  const Variables &v)
+double obstacleCollisionPotential(const RigidObject& position, const ObstacleGraph& detected_obstacles,
+                                  const Variables& v)
 {
-  auto closest_obstacle = closestDetectedObstacle(position,detected_obstacles,v);
-  if(closest_obstacle){
+  auto closest_obstacle = closestDetectedObstacle(position, detected_obstacles, v);
+  if (closest_obstacle)
+  {
     Vector_t io = getRelativePosition(position, closest_obstacle.value());
     return partialObstacleCollisionPotential(getVectorLength(io), v);
   }
