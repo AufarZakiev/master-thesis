@@ -2,7 +2,7 @@
 #define MULTIPLE_TURTLEBOTS_FIELD_H
 
 #include "DakaiAlgo.h"
-#include "helper_functions.h"
+#include "partial_functions.h"
 
 double obstacleCollisionPotential(const RigidObject &position, const ObstacleGraph &detected_obstcles,
                                   const Variables &v);
