@@ -3,6 +3,7 @@
 
 #include "DakaiAlgo.h"
 #include "partial_functions.h"
+#include "geometric_functions.h"
 
 double obstacleCollisionPotential(const RigidObject &position, const ObstacleGraph &detected_obstcles,
                                   const Variables &v);
