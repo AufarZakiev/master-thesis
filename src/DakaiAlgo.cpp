@@ -215,6 +215,27 @@ double partialInterrobotCollisionPotential(double z, const Variables& v)
   return part1 + part2;
 }
 
+std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, const ObstacleGraph& obstacles_detected,
+                                                const Variables& v)  // TODO: change all trivial loops and
+                                                                     // std::algorithm
+{
+  if (boost::num_vertices(obstacles_detected) == 0)
+  {
+    return std::nullopt;  // TODO: Find the point to filter this case
+  }
+  auto min = getVectorLength(getRelativePosition(obstacles_detected[0], position));
+  Obstacle min_obstacle = obstacles_detected[0];
+  for (auto id = 0; id < boost::num_vertices(obstacles_detected); id++)
+  {
+    if (min < getVectorLength(getRelativePosition(obstacles_detected[0], position)))
+    {
+      min = getVectorLength(getRelativePosition(obstacles_detected[0], position));
+      min_obstacle = obstacles_detected[id];
+    }
+  }
+  return min_obstacle;
+}
+
 double interrobotCollisionPotential(const RigidObject& position, const RigidGraph& robots_near_preserved,
                                     const Variables& v)
 {
@@ -249,22 +270,6 @@ double obstacleCollisionPotential(const RigidObject& position, const Obstacle& n
   partialObstacleCollisionPotential(getVectorLength(io), v);
 }
 
-double partialLOSPreservePotential(double z, const Variables& v)
-{
-  double LOS_CLEARANCE_DISTANCE, LOS_CLEARANCE_CARE_DISTANCE, SMALL_POSITIVE_CONSTANT;
-  v.getParam("los_clearance_distance", LOS_CLEARANCE_DISTANCE);
-  v.getParam("los_clearance_care_distance", LOS_CLEARANCE_CARE_DISTANCE);
-  v.getParam("small_positive_constant", SMALL_POSITIVE_CONSTANT);
-  double potential = 0;
-  if (z >= LOS_CLEARANCE_CARE_DISTANCE || z < LOS_CLEARANCE_DISTANCE)
-    return 0;
-  potential = (1.0 / ((z - LOS_CLEARANCE_DISTANCE) / (LOS_CLEARANCE_CARE_DISTANCE - LOS_CLEARANCE_DISTANCE) +
-                      SMALL_POSITIVE_CONSTANT)) -
-              (1.0 / (1.0 + SMALL_POSITIVE_CONSTANT));
-  potential = potential * potential / 2;
-  return potential;
-}
-
 std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
                                                  const ObstacleGraph& detected_obstacle_graph_in_D_set)
 {
@@ -282,20 +287,36 @@ std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
   return std::make_pair(min_obstacle, min);
 }
 
-Robot j_star_compute(const Robot& i, const RobotGraph& neighbourhood_robots,
+Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
                      const ObstacleGraph& detected_obstacle_graph_in_D_set)
 {
-  auto min = closestObstacleToLOS(i, neighbourhood_robots[0], detected_obstacle_graph_in_D_set);
+  auto min = closestObstacleToLOS(i, robots_near_preserved[0], detected_obstacle_graph_in_D_set);
   auto min_id = 0;
   for (auto id = 0; id < boost::num_vertices(detected_obstacle_graph_in_D_set); ++id)
   {
-    if (closestObstacleToLOS(i, neighbourhood_robots[id], detected_obstacle_graph_in_D_set).second < min.second)
+    if (closestObstacleToLOS(i, robots_near_preserved[id], detected_obstacle_graph_in_D_set).second < min.second)
     {
-      min = closestObstacleToLOS(i, neighbourhood_robots[id], detected_obstacle_graph_in_D_set);
+      min = closestObstacleToLOS(i, robots_near_preserved[id], detected_obstacle_graph_in_D_set);
       min_id = id;
     }
   }
-  return neighbourhood_robots[min_id];
+  return robots_near_preserved[min_id];
+}
+
+double partialLOSPreservePotential(double z, const Variables& v)
+{
+  double LOS_CLEARANCE_DISTANCE, LOS_CLEARANCE_CARE_DISTANCE, SMALL_POSITIVE_CONSTANT;
+  v.getParam("los_clearance_distance", LOS_CLEARANCE_DISTANCE);
+  v.getParam("los_clearance_care_distance", LOS_CLEARANCE_CARE_DISTANCE);
+  v.getParam("small_positive_constant", SMALL_POSITIVE_CONSTANT);
+  double potential = 0;
+  if (z >= LOS_CLEARANCE_CARE_DISTANCE || z < LOS_CLEARANCE_DISTANCE)
+    return 0;
+  potential = (1.0 / ((z - LOS_CLEARANCE_DISTANCE) / (LOS_CLEARANCE_CARE_DISTANCE - LOS_CLEARANCE_DISTANCE) +
+                      SMALL_POSITIVE_CONSTANT)) -
+              (1.0 / (1.0 + SMALL_POSITIVE_CONSTANT));
+  potential = potential * potential / 2;
+  return potential;
 }
 
 double LOSPreservePotential(const Robot& position, const RobotGraph& neighbourhood_robots,
@@ -315,7 +336,7 @@ double LOSPreservePotential(const Robot& position, const RobotGraph& neighbourho
   }
   if (boost::num_vertices(detected_obstacle_graph_in_D_space) == 0)
   {
-    return 0; // TODO: Find the point to filter this case
+    return 0;  // TODO: Find the point to filter this case
   }
   Robot j_star = j_star_compute(position, neighbourhood_robots, detected_obstacle_graph_in_D_space);
   return partialLOSPreservePotential(

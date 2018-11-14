@@ -1,8 +1,16 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(multiple_turtlebots)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+## Compile as C++17, mainly not supported in ROS Kinetic and newer, but who cares
+include(CheckCXXCompilerFlag)
+
+CHECK_CXX_COMPILER_FLAG("-std=c++1z" COMPILER_SUPPORTS_CXX17)
+
+if (COMPILER_SUPPORTS_CXX17)
+    set(CMAKE_CXX_FLAGS "-std=c++1z -Wall -g -Wextra")
+else ()
+    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++17 support. Please use a different C++ compiler.")
+endif ()
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)

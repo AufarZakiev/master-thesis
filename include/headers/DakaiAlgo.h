@@ -9,6 +9,7 @@
 #include <boost/graph/adjacency_list.hpp>  // graph implementation
 #include <unordered_set>                   // fast set implementation
 #include <algorithm>
+#include <optional>
 
 typedef Eigen::Vector2d Position_t;  // to store objects' (robots, obstacles) positions in respect to (0,0) point
 typedef Eigen::Vector2d Vector_t;    // to store vectors between points
@@ -82,6 +83,8 @@ bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObjec
 bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
                           const Variables& v);  // check if (i,j,m) forms T-dash set
 
+std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, const ObstacleGraph& obstacles_detected,
+                                 const Variables& v);
 
 double partialInterrobotCollisionPotential(double z, const Variables &v); // potential function depending on interrobot distance
 
@@ -92,10 +95,10 @@ double partialObstacleCollisionPotential(double z, const Variables& v); // poten
 double obstacleCollisionPotential(const RigidObject& position, const Obstacle& nearest_obstacle, const Variables& v);
 
 std::pair<Obstacle, double> closestObstacleToLOS(const Robot &i, const Robot &j,
-                                                 const ObstacleGraph &detected_obstacle_graph_in_D_set);
+                                                 const ObstacleGraph &detected_obstacle_graph_in_D_set); // returns copy of closest Obstacle object and distance to it
 
-Robot j_star_compute(const Robot &i, const RobotGraph &neighbourhood_robots,
-                        const ObstacleGraph &detected_obstacle_graph_in_D_set);
+Robot j_star_compute(const Robot &i, const RobotGraph &robots_near_preserved,
+                     const ObstacleGraph &detected_obstacle_graph_in_D_set);
 
 double partialLOSPreservePotential(double z, const Variables& v); // potential function depending on LOS preservation
 
