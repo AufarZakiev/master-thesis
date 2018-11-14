@@ -92,7 +92,8 @@ double interrobotCollisionPotential(const RigidObject& position, const RigidGrap
 
 double partialObstacleCollisionPotential(double z, const Variables& v); // potential function depending on distance to obstacles
 
-double obstacleCollisionPotential(const RigidObject& position, const Obstacle& nearest_obstacle, const Variables& v);
+double obstacleCollisionPotential(const RigidObject &position, const ObstacleGraph &detected_obstcles,
+                                  const Variables &v);
 
 std::pair<Obstacle, double> closestObstacleToLOS(const Robot &i, const Robot &j,
                                                  const ObstacleGraph &detected_obstacle_graph_in_D_set); // returns copy of closest Obstacle object and distance to it

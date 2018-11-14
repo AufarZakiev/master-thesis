@@ -174,6 +174,8 @@ TEST(ObstaclePotentialTest_obstacle, ShouldPass)
   Vector_t v1;
   v1 << 6.0, 6.0;
   Obstacle o1(v1);
+  ObstacleGraph og;
+  boost::add_vertex(o1, og);
 
   std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
   for (int i = 0; i < 60; i++)
@@ -184,7 +186,7 @@ TEST(ObstaclePotentialTest_obstacle, ShouldPass)
       Vector_t temp;
       temp << i / 4.0, j / 4.0;
       RigidObject point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), obstacleCollisionPotential(point, o1, v));
+      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), obstacleCollisionPotential(point, og, v));
     }
   }
 

@@ -215,9 +215,22 @@ double partialInterrobotCollisionPotential(double z, const Variables& v)
   return part1 + part2;
 }
 
+
+double interrobotCollisionPotential(const RigidObject& position, const RigidGraph& robots_near_preserved,
+                                    const Variables& v)
+{
+  double sum = 0;
+  for (RigidObjectDesc id = 0; id < boost::num_vertices(robots_near_preserved); ++id)
+  {
+    double arg = getVectorLength(getRelativePosition(position, robots_near_preserved[id]));
+    sum += partialInterrobotCollisionPotential(arg, v);
+  }
+  return sum;
+}
+
 std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, const ObstacleGraph& obstacles_detected,
                                                 const Variables& v)  // TODO: change all trivial loops and
-                                                                     // std::algorithm
+// std::algorithm
 {
   if (boost::num_vertices(obstacles_detected) == 0)
   {
@@ -236,18 +249,6 @@ std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, con
   return min_obstacle;
 }
 
-double interrobotCollisionPotential(const RigidObject& position, const RigidGraph& robots_near_preserved,
-                                    const Variables& v)
-{
-  double sum = 0;
-  for (RigidObjectDesc id = 0; id < boost::num_vertices(robots_near_preserved); ++id)
-  {
-    double arg = getVectorLength(getRelativePosition(position, robots_near_preserved[id]));
-    sum += partialInterrobotCollisionPotential(arg, v);
-  }
-  return sum;
-}
-
 double partialObstacleCollisionPotential(double z, const Variables& v)
 {
   double OBSTACLE_CARE_DISTANCE, OBSTACLE_AVOIDANCE_DISTANCE, SMALL_POSITIVE_CONSTANT;
@@ -264,10 +265,15 @@ double partialObstacleCollisionPotential(double z, const Variables& v)
   return potential;
 }
 
-double obstacleCollisionPotential(const RigidObject& position, const Obstacle& nearest_obstacle, const Variables& v)
+double obstacleCollisionPotential(const RigidObject &position, const ObstacleGraph &detected_obstacles,
+                                  const Variables &v)
 {
-  Vector_t io = getRelativePosition(position, nearest_obstacle);
-  partialObstacleCollisionPotential(getVectorLength(io), v);
+  auto closest_obstacle = closestDetectedObstacle(position,detected_obstacles,v);
+  if(closest_obstacle){
+    Vector_t io = getRelativePosition(position, closest_obstacle.value());
+    return partialObstacleCollisionPotential(getVectorLength(io), v);
+  }
+  return 0;
 }
 
 std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
