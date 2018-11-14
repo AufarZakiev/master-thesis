@@ -192,6 +192,39 @@ TEST(ObstaclePotentialTest_two_obstacle, ShouldPass)
   printPlot(frame, "Two_obstacle_collision_fields.png", "Two obstacle collision field", 60, 30);
 }
 
+TEST(ObstaclePotentialTest_two_obstacle_interfere, ShouldPass)
+{
+  Variables& v = Variables::getInstance();
+  v.setParam("obstacle_care_distance", 3.0);
+  v.setParam("obstacles_avoidance_distance", 1.5);
+  v.setParam("small_positive_constant", 0.2);
+
+  Vector_t v1, v2;
+  v1 << 6.0, 6.0;
+  v2 << 5.0, 5.0;
+  Obstacle o1(v1);
+  Obstacle o2(v2);
+  ObstacleGraph og;
+  boost::add_vertex(o1, og);
+  boost::add_vertex(o2, og);
+
+  std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
+  for (int i = 0; i < 60; i++)
+  {
+    frame[i].resize(60);
+    for (int j = 0; j < 60; j++)
+    {
+      Vector_t temp;
+      temp << i / 4.0, j / 4.0;
+      RigidObject point(temp);
+      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), obstacleCollisionPotential(point, og, v));
+    }
+  }
+
+  printPlot(frame, "Two_obstacle_collision_fields_interfere.png", "Two obstacle collision field interfere", 60, 30);
+  printPlot(frame, "Two_obstacle_collision_fields_interfere_0_90.png", "Two obstacle collision field interfere", 0, 90);
+}
+
 TEST(LOSPotentialTest_obstacle, ShouldPass)
 {
   Variables& v = Variables::getInstance();
