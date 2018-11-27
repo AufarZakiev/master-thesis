@@ -1,7 +1,7 @@
 #ifndef MULTIPLE_TURTLEBOTS_PARTIAL_FUNCTIONS_H
 #define MULTIPLE_TURTLEBOTS_PARTIAL_FUNCTIONS_H
 
-#include "DakaiAlgo.h"
+#include "classes.h"
 #include "helper_functions.h"
 
 double partialInterrobotCollisionPotential(double z, const Variables &v); // potential function depending on interrobot distance

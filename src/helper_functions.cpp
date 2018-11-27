@@ -1,5 +1,4 @@
 #include "../include/headers/helper_functions.h"
-#include "../include/headers/geometric_functions.h"
 
 std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
                                                  const ObstacleGraph& detected_obstacle_graph_in_D_set)

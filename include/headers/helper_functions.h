@@ -1,9 +1,12 @@
 #ifndef MULTIPLE_TURTLEBOTS_HELPER_FUNCTIONS_H
 #define MULTIPLE_TURTLEBOTS_HELPER_FUNCTIONS_H
 
-#include "DakaiAlgo.h"
+#include "classes.h"
 #include "../gnuplot-iostream/gnuplot-iostream.h"
 #include <optional>
+#include "geometric_functions.h"
+
+void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, Variables& v);
 
 std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
                                                  const ObstacleGraph& detected_obstacle_graph_in_D_set);

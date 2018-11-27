@@ -1,10 +1,9 @@
 #ifndef MULTIPLE_TURTLEBOTS_GEOMETRIC_FUNCTIONS_H
 #define MULTIPLE_TURTLEBOTS_GEOMETRIC_FUNCTIONS_H
 
-#include "DakaiAlgo.h"
+#include "classes.h"
 
 std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const RigidGraph& graph);
-void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, Variables& v);
 double getVectorDistance(const Vector_t& v1, const Vector_t& v2);  // get distance between two vectors
 double getVectorLength(const Vector_t& v);                         // get 2d vector length
 double getVectorLength(const Eigen::Vector3d& v);                  // get 3d vector length

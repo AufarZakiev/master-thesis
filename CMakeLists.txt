@@ -147,7 +147,7 @@ include_directories(
 #add_executable(${ PROJECT_NAME } _node src / multiple_turtlebots_node.cpp)
 
 add_executable(map_union_node src/map_union.cpp)
-add_executable(follow_leader_node src/follow_leader.cpp src/DakaiAlgo.cpp src/Variables.cpp)
+add_executable(follow_leader_node src/follow_leader.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/geometric_functions.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -171,6 +171,7 @@ target_link_libraries(map_union_node
 
 target_link_libraries(follow_leader_node
         ${catkin_LIBRARIES}
+        ${Boost_LIBRARIES}
         )
 #############
 ## Install ##
@@ -213,10 +214,10 @@ target_link_libraries(follow_leader_node
 
 ## Add gtest based cpp test target and link libraries
 
-catkin_add_gtest(multiple-turtlebots-test test/test_geometric_functions.cpp src/DakaiAlgo.cpp src/Variables.cpp src/helper_functions.cpp src/fields.cpp src/partial_functions.cpp src/geometric_functions.cpp)
-catkin_add_gtest(multiple-turtlebots-test-fields test/test_fields.cpp src/DakaiAlgo.cpp src/Variables.cpp src/helper_functions.cpp src/fields.cpp src/partial_functions.cpp src/geometric_functions.cpp)
-catkin_add_gtest(multiple-turtlebots-test-functions test/test_partial_functions.cpp src/DakaiAlgo.cpp src/Variables.cpp src/helper_functions.cpp src/fields.cpp src/partial_functions.cpp src/geometric_functions.cpp)
-catkin_add_gtest(multiple-turtlebots-test-helper-functions test/test_helper_functions.cpp src/DakaiAlgo.cpp src/Variables.cpp src/helper_functions.cpp src/fields.cpp src/partial_functions.cpp src/geometric_functions.cpp)
+catkin_add_gtest(multiple-turtlebots-test test/test_geometric_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp)
+catkin_add_gtest(multiple-turtlebots-test-fields test/test_field_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp)
+catkin_add_gtest(multiple-turtlebots-test-functions test/test_partial_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp)
+catkin_add_gtest(multiple-turtlebots-test-helper-functions test/test_helper_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp)
 if(TARGET multiple-turtlebots-test)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
    target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)

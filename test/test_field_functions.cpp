@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../include/headers/DakaiAlgo.h"
-#include "../include/headers/fields.h"
+#include "../include/headers/classes.h"
+#include "../include/headers/field_functions.h"
 
 TEST(CohesionPotentialTest_4_robots, ShouldPass)
 {
