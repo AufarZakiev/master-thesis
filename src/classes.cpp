@@ -26,6 +26,14 @@ void RigidObject::setPosition(Position_t position)
   current_position_ = std::move(position);
 }
 
+double Robot::getSpeed() const {
+  return current_speed_;
+}
+
+void Robot::setSpeed(double value) {
+  current_speed_ = value;
+}
+
 Obstacle::Obstacle(Position_t position)
 {
   current_position_ = std::move(position);

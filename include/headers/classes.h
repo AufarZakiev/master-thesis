@@ -29,10 +29,11 @@ class Robot : public RigidObject
 {
 public:
   explicit Robot(Position_t position);
-  double getUmax() const;
+  double getSpeed() const;
+  void setSpeed(double value);
 
 private:
-  double u_max_;  // maximum speed of movement
+  double current_speed_;  // maximum speed of movement
 };
 
 class Obstacle : public RigidObject
