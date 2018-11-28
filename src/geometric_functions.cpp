@@ -21,11 +21,6 @@ Robot::Robot(Position_t position) : RigidObject(std::move(position))
 {
 }
 
-double Robot::getUmax() const
-{
-  return u_max_;
-}
-
 Position_t getRelativePosition(const RigidObject& o1, const RigidObject& o2)
 {
   // get position of o2 in respect to o1
