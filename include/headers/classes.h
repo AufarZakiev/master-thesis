@@ -35,11 +35,15 @@ class Robot : public RigidObject
 {
 public:
   explicit Robot(Position_t position);
-  double getSpeed() const;
-  void setSpeed(double speed);
+  double getSpeedValue() const;
+  void setSpeedValue(double current_speed_value);
+
+  const Vector_t getSpeedDirection() const;
+  void setSpeedDirection(const Vector_t &current_speed_direction);
 
 private:
-  double current_speed_;  // maximum speed of movement
+  double current_speed_value_;  // current speed of movement
+  Vector_t current_speed_direction_; // current speed of direction
 };
 
 class Obstacle : public RigidObject
