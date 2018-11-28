@@ -34,6 +34,7 @@ protected:
 class Robot : public RigidObject
 {
 public:
+  Robot() = default;
   explicit Robot(Position_t position);
   double getSpeedValue() const;
   void setSpeedValue(double current_speed_value);
@@ -49,6 +50,7 @@ private:
 class Obstacle : public RigidObject
 {
 public:
+  Obstacle() = default;
   explicit Obstacle(Position_t position);
 };
 

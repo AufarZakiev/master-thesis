@@ -25,7 +25,7 @@ double Robot::getSpeedValue() const {
 }
 
 void Robot::setSpeedValue(double current_speed_value_) {
-  this.current_speed_value_ = current_speed_value_;
+  this->current_speed_value_ = current_speed_value_;
 }
 
 const Vector_t Robot::getSpeedDirection() const {
@@ -33,7 +33,7 @@ const Vector_t Robot::getSpeedDirection() const {
 }
 
 void Robot::setSpeedDirection(const Vector_t &current_speed_direction) {
-  this.current_speed_direction_ = current_speed_direction;
+  this->current_speed_direction_ = current_speed_direction;
 }
 
 Obstacle::Obstacle(Position_t position)
