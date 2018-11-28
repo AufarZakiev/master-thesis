@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
-#include "../include/headers/classes.h"
 #include "../include/headers/matplotlibcpp.h"  // uses this library https://github.com/lava/matplotlib-cpp to draw plots
+
+#include "../include/headers/classes.h"
+#include "../include/headers/helper_functions.h"
 
 TEST(closestDetectedObstacleTest, ShouldPass)
 {

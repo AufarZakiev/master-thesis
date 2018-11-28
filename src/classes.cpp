@@ -1,10 +1,4 @@
-#include <ros/init.h>
 #include "../include/headers/classes.h"
-#include "../include/headers/Variables.h"
-#include "../include/headers/helper_functions.h"
-#include <tuple>
-#include <utility>
-#include "../include/gnuplot-iostream/gnuplot-iostream.h"
 
 RigidObject::RigidObject()
 {
@@ -30,8 +24,8 @@ double Robot::getSpeed() const {
   return current_speed_;
 }
 
-void Robot::setSpeed(double value) {
-  current_speed_ = value;
+void Robot::setSpeed(double speed) {
+  current_speed_ = speed;
 }
 
 Obstacle::Obstacle(Position_t position)

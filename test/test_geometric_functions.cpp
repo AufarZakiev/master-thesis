@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
-#include "../include/headers/classes.h"
 #include "../include/headers/matplotlibcpp.h"  // uses this library https://github.com/lava/matplotlib-cpp to draw plots
+
+#include "../include/headers/classes.h"
+#include "../include/headers/geometric_functions.h"
 
 TEST(VectorDistanceTest, ShouldPass)
 {
@@ -374,11 +376,11 @@ TEST(partialDerivativeTest, ShouldPass)
   double x = M_PI / 2;
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
-  EXPECT_NEAR(partialDerivative(x, sin, v), 0, EQUALITY_CASE);
-  EXPECT_NEAR(partialDerivative(x, cos, v), -1, EQUALITY_CASE);
+  EXPECT_NEAR(partialDerivative(x, [](double x) { return sin(x); }, v), 0, EQUALITY_CASE);
+  EXPECT_NEAR(partialDerivative(x, [](double x) { return cos(x); }, v), -1, EQUALITY_CASE);
   x = M_PI;
-  EXPECT_NEAR(partialDerivative(x, sin, v), -1, EQUALITY_CASE);
-  EXPECT_NEAR(partialDerivative(x, cos, v), 0, EQUALITY_CASE);
+  EXPECT_NEAR(partialDerivative(x, [](double x) { return sin(x); }, v), -1, EQUALITY_CASE);
+  EXPECT_NEAR(partialDerivative(x, [](double x) { return cos(x); }, v), 0, EQUALITY_CASE);
   x = 2;
   EXPECT_NEAR(partialDerivative(x, [](double x) { return x * x * x; }, v), 12, EQUALITY_CASE);
 }

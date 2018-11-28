@@ -2,13 +2,19 @@
 #define PROJECT_DAKAI_ALGO_H
 
 #include <ros/ros.h>
-#include "../Eigen/Dense"
+#include <ros/init.h>
+
 #include "Variables.h"
+#include "../Eigen/Dense"
 #include "../templates/DakaiAlgo.tcc"
+#include "../gnuplot-iostream/gnuplot-iostream.h"
+
 #include <cmath>
+#include <algorithm>
+#include <tuple>
+#include <utility>
 #include <boost/graph/adjacency_list.hpp>  // graph implementation
 #include <unordered_set>                   // fast set implementation
-#include <algorithm>
 
 typedef Eigen::Vector2d Position_t;  // to store objects' (robots, obstacles) positions in respect to (0,0) point
 typedef Eigen::Vector2d Vector_t;    // to store vectors between points
@@ -30,7 +36,7 @@ class Robot : public RigidObject
 public:
   explicit Robot(Position_t position);
   double getSpeed() const;
-  void setSpeed(double value);
+  void setSpeed(double speed);
 
 private:
   double current_speed_;  // maximum speed of movement
