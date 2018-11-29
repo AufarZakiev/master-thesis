@@ -34,17 +34,17 @@ protected:
 class Robot : public RigidObject
 {
 public:
-  Robot() = default;
-  explicit Robot(Position_t position);
+  Robot() = default;  // TODO: why does make_pair complain about it??
+  explicit Robot(Position_t position, Vector_t current_speed_direction = Vector_t(0, 0), double current_speed_value = 0);
   double getSpeedValue() const;
   void setSpeedValue(double current_speed_value);
 
   const Vector_t getSpeedDirection() const;
-  void setSpeedDirection(const Vector_t &current_speed_direction);
+  void setSpeedDirection(const Vector_t& current_speed_direction);
 
 private:
-  double current_speed_value_;  // current speed of movement
-  Vector_t current_speed_direction_; // current speed of direction
+  double current_speed_value_;        // current speed of movement
+  Vector_t current_speed_direction_;  // current speed of direction
 };
 
 class Obstacle : public RigidObject

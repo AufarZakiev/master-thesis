@@ -7,20 +7,6 @@ double getVectorDistance(const Vector_t& v1, const Vector_t& v2)
   return sqrt(x_coord * x_coord + y_coord * y_coord);
 }
 
-std::pair<RigidObjectDesc, bool> findVertexInGraph(const RigidObject& ro, const RigidGraph& graph)
-{
-  for (RigidObjectDesc id = 0; id < boost::num_vertices(graph); ++id)
-  {
-    if (graph[id].getPosition() == ro.getPosition())  // TODO: change identifying principle
-      return std::make_pair(id, true);
-  }
-  return std::make_pair(0, false);
-};
-
-Robot::Robot(Position_t position) : RigidObject(std::move(position))
-{
-}
-
 Position_t getRelativePosition(const RigidObject& o1, const RigidObject& o2)
 {
   // get position of o2 in respect to o1

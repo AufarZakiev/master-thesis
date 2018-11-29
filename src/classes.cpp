@@ -20,19 +20,30 @@ void RigidObject::setPosition(Position_t position)
   current_position_ = std::move(position);
 }
 
-double Robot::getSpeedValue() const {
+Robot::Robot(Position_t position, Vector_t current_speed_direction, double current_speed_value)
+  : RigidObject(std::move(position))
+{
+  this->current_speed_direction_ = std::move(current_speed_direction);
+  this->current_speed_value_ = current_speed_value;
+}
+
+double Robot::getSpeedValue() const
+{
   return current_speed_value_;
 }
 
-void Robot::setSpeedValue(double current_speed_value_) {
+void Robot::setSpeedValue(double current_speed_value_)
+{
   this->current_speed_value_ = current_speed_value_;
 }
 
-const Vector_t Robot::getSpeedDirection() const {
+const Vector_t Robot::getSpeedDirection() const
+{
   return current_speed_direction_;
 }
 
-void Robot::setSpeedDirection(const Vector_t &current_speed_direction) {
+void Robot::setSpeedDirection(const Vector_t& current_speed_direction)
+{
   this->current_speed_direction_ = current_speed_direction;
 }
 

@@ -17,23 +17,6 @@ std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
   return std::make_pair(min_obstacle, min);
 }
 
-std::pair<Obstacle, double> closestObstacleToLOSatFront(const Robot& i, const Robot& j,
-                                                        const ObstacleGraph& closing_obstacles_in_D_space)
-{
-  Vector_t ji = getRelativePosition(i, j);
-  auto min = std::numeric_limits<double>::max();
-  Obstacle min_obstacle = closing_obstacles_in_D_space[0];
-  for (auto id = 0; id < boost::num_vertices(closing_obstacles_in_D_space); ++id)
-  {
-    if (getVectorLength(getProjectionPhi(getRelativePosition(i, closing_obstacles_in_D_space[id]), ji)) < min)
-    {
-      min = getVectorLength(getProjectionPhi(getRelativePosition(i, closing_obstacles_in_D_space[id]), ji));
-      min_obstacle = closing_obstacles_in_D_space[id];
-    }
-  }
-  return std::make_pair(min_obstacle, min);
-}
-
 Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
                      const ObstacleGraph& detected_obstacle_graph_in_D_set)
 {
@@ -77,7 +60,8 @@ separateNeighbourRobotsBehindAndFront(const Robot& robot, const RobotGraph& neig
   RobotGraph behind, front;
   for (auto id = 0; id < boost::num_vertices(neighbourhood_preserved_robots); id++)
   {
-    if (neighbourhood_preserved_robots[id].getSpeedDirection().dot(robot.getSpeedDirection()) <= 0)
+    Vector_t ji = getRelativePosition(robot, neighbourhood_preserved_robots[id]);
+    if (robot.getSpeedDirection().dot(ji) <= 0)
     {
       boost::add_vertex(neighbourhood_preserved_robots[id], behind);
     }
@@ -95,7 +79,8 @@ std::pair<RobotGraph, RobotGraph> separateDetectedRobotsBehindAndFront(const Rob
   RobotGraph detected_behind, detected_front;
   for (auto id = 0; id < boost::num_vertices(detected_robots); id++)
   {
-    if (detected_robots[id].getSpeedDirection().dot(robot.getSpeedDirection()) <= 0)
+    Vector_t ji = getRelativePosition(robot, detected_robots[id]);
+    if (robot.getSpeedDirection().dot(ji) <= 0)
     {
       boost::add_vertex(detected_robots[id], detected_behind);
     }
@@ -107,22 +92,51 @@ std::pair<RobotGraph, RobotGraph> separateDetectedRobotsBehindAndFront(const Rob
   return std::make_pair(detected_behind, detected_front);
 }
 
-ObstacleGraph closingObstaclesInDSpace(const Robot& robot_i, const Robot& robot_j, const ObstacleGraph& obstacles)
+ObstacleGraph closingObstaclesInDSpace(const Robot& robot_i, const Robot& robot_j, const ObstacleGraph& detected_obstacles)
 {
   ObstacleGraph result;
-  for (auto id = 0; id < boost::num_vertices(obstacles); id++)
+  for (auto id = 0; id < boost::num_vertices(detected_obstacles); id++)
   {
-    if (isObjectInDSpace(obstacles[id], robot_i, robot_j))
+    if (isObjectInDSpace(detected_obstacles[id], robot_i, robot_j))
     {
-      Vector_t oi = getRelativePosition(robot_i, obstacles[id]);
+      Vector_t oi = getRelativePosition(robot_i, detected_obstacles[id]);
       Vector_t ji = getRelativePosition(robot_i, robot_j);
       if (robot_i.getSpeedDirection().dot(getProjectionPhi(oi, ji)) > 0)
       {
-        boost::add_vertex(obstacles[id], result);
+        boost::add_vertex(detected_obstacles[id], result);
       }
     }
   }
   return result;
+}
+
+std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, const Robot& j,
+                                                            const ObstacleGraph& detected_obstacles)
+{
+  ObstacleGraph detected_in_DSpace;
+  for (auto id = 0; id < boost::num_vertices(detected_obstacles); ++id)
+  {
+    if (isObjectInDSpace(detected_obstacles[id], i, j))
+    {
+      boost::add_vertex(detected_obstacles[id], detected_in_DSpace);
+    }
+  }
+  if (boost::num_vertices(detected_in_DSpace) == 0)
+  {
+    return std::nullopt;  // TODO: Find the point to filter this case
+  }
+  Vector_t ji = getRelativePosition(i, j);
+  auto min = std::numeric_limits<double>::max();
+  Obstacle min_obstacle = detected_in_DSpace[0];
+  for (auto id = 0; id < boost::num_vertices(detected_in_DSpace); ++id)
+  {
+    if (getVectorLength(getProjectionPhi(getRelativePosition(i, detected_in_DSpace[id]), ji)) < min)
+    {
+      min = getVectorLength(getProjectionPhi(getRelativePosition(i, detected_in_DSpace[id]), ji));
+      min_obstacle = detected_in_DSpace[id];
+    }
+  }
+  return min_obstacle;
 }
 
 void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>>& frame, const std::string& filename,
