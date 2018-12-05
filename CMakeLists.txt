@@ -214,10 +214,10 @@ target_link_libraries(follow_leader_node
 
 ## Add gtest based cpp test target and link libraries
 
-catkin_add_gtest(multiple-turtlebots-test test/test_geometric_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp)
-catkin_add_gtest(multiple-turtlebots-test-fields test/test_field_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp)
-catkin_add_gtest(multiple-turtlebots-test-functions test/test_partial_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp)
-catkin_add_gtest(multiple-turtlebots-test-helper-functions test/test_helper_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp)
+catkin_add_gtest(multiple-turtlebots-test test/test_geometric_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
+catkin_add_gtest(multiple-turtlebots-test-fields test/test_field_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
+catkin_add_gtest(multiple-turtlebots-test-functions test/test_partial_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
+catkin_add_gtest(multiple-turtlebots-test-helper-functions test/test_helper_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
 if(TARGET multiple-turtlebots-test)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
    target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)

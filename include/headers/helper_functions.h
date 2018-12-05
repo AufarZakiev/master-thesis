@@ -28,6 +28,10 @@ ObstacleGraph closingObstaclesInDSpace(const Robot& robot_i, const Robot& robot_
 std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot &i, const Robot &j,
                                                             const ObstacleGraph &detected_obstacles);
 
+std::optional<double> closestRobotDistance(const Robot& position, const RobotGraph& robots);
+
+std::optional<double> minimumHZ(const Robot& position, const RobotGraph& robots);
+
 void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>>& frame, const std::string& filename,
                const std::string& title, int rot_x_angle,
                int rot_z_angle);  // printing helper function

@@ -37,11 +37,13 @@ void Robot::setSpeedValue(double current_speed_value_)
   this->current_speed_value_ = current_speed_value_;
 }
 
-double Robot::getMaxSpeedValue() const {
+double Robot::getMaxSpeedValue() const
+{
   return this->max_speed_value_;
 };
 
-void Robot::setMaxSpeedValue(double max_speed_value){
+void Robot::setMaxSpeedValue(double max_speed_value)
+{
   this->max_speed_value_ = max_speed_value;
 };
 
@@ -58,4 +60,14 @@ void Robot::setSpeedDirection(const Vector_t& current_speed_direction)
 Obstacle::Obstacle(Position_t position)
 {
   current_position_ = std::move(position);
+}
+
+double Obstacle::getRadius() const
+{
+  return radius_;
+}
+
+void Obstacle::setRadius(double radius)
+{
+  this->radius_ = radius;
 }

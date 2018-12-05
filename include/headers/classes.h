@@ -57,6 +57,11 @@ class Obstacle : public RigidObject
 public:
   Obstacle() = default;
   explicit Obstacle(Position_t position);
+
+  double getRadius() const;
+  void setRadius(double radius);
+private:
+  double radius_;
 };
 
 struct Edge

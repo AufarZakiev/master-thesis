@@ -139,6 +139,40 @@ std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, cons
   return min_obstacle;
 }
 
+std::optional<double> closestRobotDistance(const Robot& position, const RobotGraph& robots)
+{
+  if (boost::num_vertices(robots) == 0)
+  {
+    return std::nullopt;
+  }
+  auto max = getVectorLength(getRelativePosition(position, robots[0]));
+  for (auto id = 0; id < boost::num_vertices(robots); id++)
+  {
+    if (getVectorLength(getRelativePosition(robots[id], position)) > max)
+    {
+      max = getVectorLength(getRelativePosition(robots[id], position));
+    }
+  }
+  return max;
+}
+
+std::optional<double> minimumHZ(const Robot& position, const RobotGraph& robots)  // TODO: wtf does this function do?
+{
+  if (boost::num_vertices(robots) == 0)
+  {
+    return std::nullopt;
+  }
+  auto min = getVectorLength(getRelativePosition(position, robots[0]));
+  for (auto id = 0; id < boost::num_vertices(robots); id++)
+  {
+    if (getVectorLength(getRelativePosition(robots[id], position)) < min)
+    {
+      min = robots[id].getSpeedDirection().dot(getRelativePosition(robots[id], position));
+    }
+  }
+  return min;
+}
+
 void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>>& frame, const std::string& filename,
                const std::string& title, int rot_x_angle, int rot_z_angle)
 {
