@@ -93,12 +93,16 @@ double LOSPreservationConstraint(const Robot& robot, const RobotGraph& robots, c
   double LOS_CLEARANCE_DISTANCE;
   v.getParam("los_clearance_distance", LOS_CLEARANCE_DISTANCE);
 
-  auto closest_obstacle = closestObstacleToLOSinDSpaceAtFront(robot, robots[id], detected_obstacles);
-  double angle = angleBetweenVectorsInRadeians(robot.getSpeedDirection(),
-                                               getRelativePosition(robot.getPosition(), robots[id].getPosition()));
-  angle = angle > M_PI ? (angle - M_PI) : angle;
-  double speed = (getVectorLength(getProjectionPhi(getRelativePosition(robot, closest_obstacle),
-                                                   getRelativePosition(robot, robots[id]))) -
-                  LOS_CLEARANCE_DISTANCE) /
-                 sin(angle);
+  double min_speed = std::numeric_limits<double>::max();
+  for (auto id = 0; id < boost::num_vertices(detected_obstacles); id++)
+  {
+    auto closest_obstacle = closestObstacleToLOSinDSpaceAtFront(robot, robots[id], detected_obstacles);
+    double angle = angleBetweenVectorsInRadians(robot.getSpeedDirection(),
+                                                getRelativePosition(robot, robots[id]));
+    angle = angle > M_PI ? (angle - M_PI) : angle;
+    double speed = (getVectorLength(getProjectionPhi(getRelativePosition(robot, closest_obstacle),
+                                                     getRelativePosition(robot, robots[id]))) -
+                    LOS_CLEARANCE_DISTANCE) /
+                   sin(angle);
+  }
 }

@@ -119,6 +119,14 @@ TEST(closestObstacleToLOSinDSpaceAtFront, ShouldPass)
   EXPECT_EQ(closest.value().getPosition(), o2.getPosition());
 }
 
+TEST(minimumHZ, ShouldPass)
+{
+}
+
+TEST(closestRobotDistance, ShouldPass)
+{
+}
+
 int main(int argc, char** argv)
 {
   testing::InitGoogleTest(&argc, argv);
