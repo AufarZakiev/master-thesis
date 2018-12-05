@@ -218,6 +218,7 @@ catkin_add_gtest(multiple-turtlebots-test test/test_geometric_functions.cpp src/
 catkin_add_gtest(multiple-turtlebots-test-fields test/test_field_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
 catkin_add_gtest(multiple-turtlebots-test-functions test/test_partial_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
 catkin_add_gtest(multiple-turtlebots-test-helper-functions test/test_helper_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
+catkin_add_gtest(multiple-turtlebots-test-speed-constraints test/test_speed_constraints.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
 if(TARGET multiple-turtlebots-test)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
    target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
@@ -236,6 +237,11 @@ endif()
 if(TARGET multiple-turtlebots-test-helper-functions)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
     target_link_libraries(multiple-turtlebots-test-helper-functions ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
+endif()
+
+if(TARGET multiple-turtlebots-test-speed-constraints)
+    include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+    target_link_libraries(multiple-turtlebots-test-speed-constraints ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
 endif()
 
 ## Add folders to be run by python nosetests
