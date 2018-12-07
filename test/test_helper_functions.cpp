@@ -119,7 +119,7 @@ TEST(closestObstacleToLOSinDSpaceAtFront, ShouldPass)
   EXPECT_EQ(closest.value().getPosition(), o2.getPosition());
 }
 
-TEST(minimumHZ, ShouldPass)
+TEST(minimumAngleNeighbour, ShouldPass)
 {
 }
 

@@ -145,29 +145,29 @@ std::optional<double> closestRobotDistance(const Robot& position, const RobotGra
   {
     return std::nullopt;
   }
-  auto max = getVectorLength(getRelativePosition(position, robots[0]));
-  for (auto id = 0; id < boost::num_vertices(robots); id++)
-  {
-    if (getVectorLength(getRelativePosition(robots[id], position)) > max)
-    {
-      max = getVectorLength(getRelativePosition(robots[id], position));
-    }
-  }
-  return max;
-}
-
-std::optional<double> minimumHZ(const Robot& position, const RobotGraph& robots)  // TODO: wtf does this function do?
-{
-  if (boost::num_vertices(robots) == 0)
-  {
-    return std::nullopt;
-  }
   auto min = getVectorLength(getRelativePosition(position, robots[0]));
   for (auto id = 0; id < boost::num_vertices(robots); id++)
   {
-    if (getVectorLength(getRelativePosition(robots[id], position)) < min)
+    if (getVectorLength(getRelativePosition(position, robots[id])) < min)
     {
-      min = robots[id].getSpeedDirection().dot(getRelativePosition(robots[id], position));
+      min =getVectorLength(getRelativePosition(position, robots[id]));
+    }
+  }
+  return min;
+}
+
+std::optional<double> minimumAngleNeighbour(const Robot &position, const RobotGraph &near_front_robots)  // TODO: wtf does this function do?
+{
+  if (boost::num_vertices(near_front_robots) == 0)
+  {
+    return std::nullopt;
+  }
+  auto min = position.getSpeedDirection().dot(getRelativePosition(position, near_front_robots[0]));
+  for (auto id = 0; id < boost::num_vertices(near_front_robots); id++)
+  {
+    if (position.getSpeedDirection().dot(getRelativePosition(position, near_front_robots[id])) < min)
+    {
+      min = position.getSpeedDirection().dot(getRelativePosition(position, near_front_robots[id]));
     }
   }
   return min;

@@ -30,7 +30,7 @@ std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot &i, cons
 
 std::optional<double> closestRobotDistance(const Robot& position, const RobotGraph& robots);
 
-std::optional<double> minimumHZ(const Robot& position, const RobotGraph& robots);
+std::optional<double> minimumAngleNeighbour(const Robot &position, const RobotGraph &near_front_robots);
 
 void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>>& frame, const std::string& filename,
                const std::string& title, int rot_x_angle,

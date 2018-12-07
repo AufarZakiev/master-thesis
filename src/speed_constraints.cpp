@@ -21,18 +21,17 @@ double maximumDistanceConstraint(const Robot& robot, const RobotGraph& neighbour
   }
 };
 
-double maximumDistanceConstraint2(const Robot& robot, const RobotGraph& neighbourhood_preserved_robots,
-                                  const Variables& v)
+double maximumDistanceConstraint2(const Robot& robot, const RobotGraph& neighbourhood_preserved_robots)
 {
   RobotGraph neighbours_behind, neighbours_front;
 
   std::pair p = separateNeighbourRobotsBehindAndFront(robot, neighbourhood_preserved_robots);
   neighbours_behind = p.first;
   neighbours_front = p.second;
-  auto HZ = minimumHZ(robot, neighbours_behind);
-  if (HZ)
+  auto neighbour = minimumAngleNeighbour(robot, neighbours_front);
+  if (neighbour)
   {
-    return HZ.value();  // TODO: insert fucking direction
+    return neighbour.value() / getVectorLength(robot.getSpeedDirection());
   }
   else
   {
@@ -42,18 +41,18 @@ double maximumDistanceConstraint2(const Robot& robot, const RobotGraph& neighbou
 
 double interrobotAvoidanceConstraint(const Robot& robot, const RobotGraph& detected_robots, const Variables& v)
 {
-  double OBS_AVOIDANCE_DISTANCE;
-  v.getParam("obstacles_avoidance_distance", OBS_AVOIDANCE_DISTANCE);
+  double ROBOTS_AVOIDANCE_DISTANCE;
+  v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
 
   RobotGraph detected_behind, detected_front;
 
   std::pair p = separateDetectedRobotsBehindAndFront(robot, detected_robots);
   detected_behind = p.first;
   detected_front = p.second;
-  auto closestRobotDist = closestRobotDistance(robot, detected_behind);
+  auto closestRobotDist = closestRobotDistance(robot, detected_front);
   if (closestRobotDist)
   {
-    return 0.5 * (closestRobotDist.value() - OBS_AVOIDANCE_DISTANCE);
+    return 0.5 * (closestRobotDist.value() - ROBOTS_AVOIDANCE_DISTANCE);
   }
   else
   {
@@ -72,7 +71,8 @@ double obstacleAvoidanceConstraint(const Robot& i, const ObstacleGraph& detected
   {
     double l_c =
         getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacles[id]), i.getSpeedDirection()));
-    double l_v = sqrt(getRelativePosition(i, detected_obstacles[id]) * getRelativePosition(i, detected_obstacles[id]) -
+    double l_v = sqrt(getVectorLength(getRelativePosition(i, detected_obstacles[id])) *
+                          getVectorLength(getRelativePosition(i, detected_obstacles[id])) -
                       l_c * l_c);
 
     double speed = l_v - sqrt((OBS_AVOIDANCE_DISTANCE + detected_obstacles[id].getRadius()) *
@@ -97,8 +97,8 @@ double LOSPreservationConstraint(const Robot& robot, const RobotGraph& robots, c
   for (auto id = 0; id < boost::num_vertices(detected_obstacles); id++)
   {
     auto closest_obstacle = closestObstacleToLOSinDSpaceAtFront(robot, robots[id], detected_obstacles);
-    double angle = angleBetweenVectorsInRadians(robot.getSpeedDirection(), getRelativePosition(robot, robots[id]));
-    angle = angle > M_PI ? (angle - M_PI) : angle;
+    double angle = angleBetweenVectorsInRadians(robot.getSpeedDirection(), getRelativePosition(robots[id], robot));
+    angle = angle > M_PI ? (M_PI * 2 - angle) : angle;
     double speed = (getVectorLength(getProjectionPhi(getRelativePosition(robot, closest_obstacle.value()),
                                                      getRelativePosition(robot, robots[id]))) -
                     LOS_CLEARANCE_DISTANCE) /
