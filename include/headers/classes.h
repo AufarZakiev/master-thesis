@@ -6,7 +6,6 @@
 
 #include "Variables.h"
 #include "../Eigen/Dense"
-#include "../templates/DakaiAlgo.tcc"
 #include "../gnuplot-iostream/gnuplot-iostream.h"
 
 #include <cmath>

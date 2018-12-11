@@ -2,6 +2,7 @@
 #define MULTIPLE_TURTLEBOTS_GEOMETRIC_FUNCTIONS_H
 
 #include "classes.h"
+#include "../templates/derivatives.tcc"
 
 template <typename  T>
 std::pair<RigidObjectDesc, bool> findVertexInGraph(const T& ro, const boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, T, Edge>& graph)

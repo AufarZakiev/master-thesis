@@ -105,7 +105,7 @@ TEST(LOSPreservationConstraint, ShouldPass)
   EXPECT_EQ(LOSPreservationConstraint(r2, rg, og, v), 2.9);
 
   r2.setSpeedDirection(Vector_t(1, -1));
-  EXPECT_EQ(LOSPreservationConstraint(r2, rg, og, v), 2.9);
+  EXPECT_EQ(LOSPreservationConstraint(r2, rg, og, v), 2.9); // TODO: recheck this shit
 }
 
 int main(int argc, char** argv)

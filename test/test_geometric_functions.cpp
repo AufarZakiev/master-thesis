@@ -397,6 +397,30 @@ TEST(fullDerivativeTest, ShouldPass)
   EXPECT_NEAR(fullDerivative(p, [](double x, double y) { return x * x * y * y; }, v), 32, EQUALITY_CASE);
 }
 
+TEST(gradientTest, ShouldPass)
+{
+  Variables& v = Variables::getInstance();
+  double EQUALITY_CASE;
+  v.getParam("equality_case", EQUALITY_CASE);
+  Position_t p;
+  p << 1, 1;
+  auto func = [](double x, double y) { return x * x * y * y; };
+  auto val = gradient(p, func, v);
+  EXPECT_NEAR(angleBetweenVectorsInRadians(val, Vector_t(1, 1)), 0, EQUALITY_CASE);
+  p << 2, 2;
+  val = gradient(p, func, v);
+  EXPECT_NEAR(angleBetweenVectorsInRadians(val, Vector_t(1, 1)), 0, EQUALITY_CASE);
+  auto func2 = [](double x, double y) { return sin(sqrt(x * x + y * y)); };
+  p << 2, 0;
+  val = gradient(p, func2, v);
+  EXPECT_NEAR(angleBetweenVectorsInRadians(val, Vector_t(-1, 0)), 0, EQUALITY_CASE);
+
+  auto func3 = [](double x, double y) { return sin(sqrt(x * x + y * y)); };
+  p << -2, 0;
+  val = gradient(p, func3, v);
+  EXPECT_NEAR(angleBetweenVectorsInRadians(val, Vector_t(1, 0)), 0, EQUALITY_CASE);
+}
+
 int main(int argc, char** argv)
 {
   testing::InitGoogleTest(&argc, argv);
