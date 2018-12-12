@@ -82,8 +82,11 @@ TEST(LOSPreservationConstraint, ShouldPass)
 {
   Variables& v = Variables::getInstance();
   v.setParam("los_clearance_distance", 0.5);
+  double EQUALITY_CASE;
+  v.getParam("equality_case", EQUALITY_CASE);
+
   Robot r1, r2, r3;
-  r1.setPosition(Position_t(2, 1));
+  r1.setPosition(Position_t(2, 2));
   r2.setPosition(Position_t(4, 4));
   r2.setSpeedDirection(Vector_t(-1, 1));
   r3.setPosition(Position_t(7, 4));
@@ -102,10 +105,10 @@ TEST(LOSPreservationConstraint, ShouldPass)
   boost::add_vertex(o1, og);
   boost::add_vertex(o2, og);
 
-  EXPECT_EQ(LOSPreservationConstraint(r2, rg, og, v), 2.9);
+  EXPECT_NEAR(LOSPreservationConstraint(r2, rg, og, v), sqrt(2.0)/2 - 1.0/2, EQUALITY_CASE);
 
   r2.setSpeedDirection(Vector_t(1, -1));
-  EXPECT_EQ(LOSPreservationConstraint(r2, rg, og, v), 2.9); // TODO: recheck this shit
+  EXPECT_NEAR(LOSPreservationConstraint(r2, rg, og, v), sqrt(2.0)/2 - 1.0/2, EQUALITY_CASE); // TODO: is this designed so?
 }
 
 int main(int argc, char** argv)

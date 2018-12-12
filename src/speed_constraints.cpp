@@ -98,6 +98,7 @@ double LOSPreservationConstraint(const Robot& robot, const RobotGraph& robots, c
   {
     auto closest_obstacle = closestObstacleToLOSinDSpaceAtFront(robot, robots[id], detected_obstacles);
     double angle = angleBetweenVectorsInRadians(robot.getSpeedDirection(), getRelativePosition(robots[id], robot));
+    angle = angle < 0 ? (M_PI * 2 + angle) : angle;
     angle = angle > M_PI ? (M_PI * 2 - angle) : angle;
     double speed = (getVectorLength(getProjectionPhi(getRelativePosition(robot, closest_obstacle.value()),
                                                      getRelativePosition(robot, robots[id]))) -
