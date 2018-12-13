@@ -14,9 +14,11 @@ double interrobotAvoidanceConstraint(const Robot& robot, const RobotGraph& detec
 double obstacleAvoidanceConstraint(const Robot& i, const ObstacleGraph& detected_obstacles, const Variables& v,
                                    double discretization);
 
-double LOSUnitPreservationConstraint(const Robot &i, const Robot &j,
-                                     const ObstacleGraph &detected_obstacles_in_front_in_D_space, const Variables &v,
-                                     const RobotGraph &neighbourhood_preserved_robots);
+double LOSUnitPreservationConstraint(const Robot &i, const ObstacleGraph &closing_obstacles_in_front_in_D_space,
+                                     const Variables &v, const RobotGraph &neighbourhood_preserved_robots);
+
+double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_obstacles, const Variables& v,
+                                 const RobotGraph& neighbourhood_preserved_robots);
 
 double minSpeedConstraint(const Robot& robot, const RobotGraph& robots, const ObstacleGraph& detected_obstacles,
                           const Variables& v);

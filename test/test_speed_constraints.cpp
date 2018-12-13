@@ -78,7 +78,7 @@ TEST(obstacleAvoidanceConstraint, ShouldPass)
   EXPECT_GT(obstacleAvoidanceConstraint(r0, og, v, 0), 2.8);
 }
 
-TEST(LOSUnitPreservationConstraint, ShouldPass)
+TEST(LOSPreservationConstraint, ShouldPass)
 {
   Variables& v = Variables::getInstance();
   v.setParam("los_clearance_distance", 0.5);
@@ -102,14 +102,12 @@ TEST(LOSUnitPreservationConstraint, ShouldPass)
   o2.setRadius(0);
 
   ObstacleGraph og;
-  auto o1_desc = boost::add_vertex(o1, og);
-
-  EXPECT_NEAR(LOSUnitPreservationConstraint(r2, r1, og, v, rg), sqrt(2.0) / 2 - 1.0 / 2, EQUALITY_CASE);
-
-  boost::remove_vertex(o1_desc, og);
+  boost::add_vertex(o1, og);
   boost::add_vertex(o2, og);
 
-  //EXPECT_NEAR(LOSUnitPreservationConstraint(r2, r3, og, v, rg), sqrt(2.0) / 2 - 1.0 / 2, EQUALITY_CASE); TODO: wtf with shit
+  EXPECT_NEAR(LOSPreservationConstraint(r2, og, v, rg), sqrt(2.0) / 2 - 1.0 / 2, EQUALITY_CASE);
+  r2.setSpeedDirection(Vector_t(1, -1));
+  EXPECT_NEAR(LOSPreservationConstraint(r2, og, v, rg), std::numeric_limits<double>::max(), EQUALITY_CASE);
 }
 
 int main(int argc, char** argv)
