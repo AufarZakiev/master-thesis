@@ -72,7 +72,7 @@ typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, RigidO
                                                                                                           // information
                                                                                                           // about
                                                                                                           // connections
-typedef boost::graph_traits<RigidGraph>::vertex_descriptor RigidObjectDesc;
+typedef boost::graph_traits<RobotGraph>::vertex_descriptor RobotDesc;
 typedef boost::graph_traits<RigidGraph>::edge_descriptor EdgeDesc;
 typedef boost::graph_traits<RigidGraph>::adjacency_iterator adjacency_it;
 typedef Eigen::Vector2d ControlInput_t;         // to store control input vectors

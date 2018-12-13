@@ -24,9 +24,9 @@ double getSquaredVectorLength(const Vector_t& v)
 {
   return v(0, 0) * v(0, 0) + v(1, 0) * v(1, 0);
 };
-bool isEdgePreserved(const Robot& i, const Robot& j, const RigidGraph& rg, const Variables& v)
+bool isEdgePreserved(const Robot& i, const Robot& j, const RobotGraph& rg, const Variables& v)
 {
-  for (RigidObjectDesc id = 0; id < boost::num_vertices(rg); ++id)
+  for (RobotDesc id = 0; id < boost::num_vertices(rg); ++id)
   {
     if (rg[id].getPosition() != i.getPosition() &&
         rg[id].getPosition() != j.getPosition())  // TODO: change identifying principle
@@ -70,9 +70,9 @@ Vector_t getProjectionPhi(const Vector_t& p, const Vector_t& q)
   return f;
 };
 
-bool isVectorInGraph(const RigidObject& i, const RigidObject& j, const RigidGraph& rg)
+bool isEdgeInGraph(const Robot &i, const Robot &j, const RobotGraph &rg)
 {
-  RigidObjectDesc i_d, j_d;
+  RobotDesc i_d, j_d;
   bool i_found, j_found;
   std::tie(i_d, i_found) = findVertexInGraph(i, rg);
   std::tie(j_d, j_found) = findVertexInGraph(j, rg);
@@ -87,8 +87,8 @@ double angleBetweenVectorsInRadians(const Vector_t& v1, const Vector_t& v2)
   return alpha;
 }
 
-bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
-                    const Variables& v)  // three objects to check and graph with edges chosen to be saved
+bool isObjectInTSet(const Robot &i, const Robot &j, const Robot &m, const RobotGraph &rg,
+                    const Variables &v)  // three objects to check and graph with edges chosen to be saved
 {
   // check if (i,j,m) forms T set
   Vector_t mi = getRelativePosition(i, m);
@@ -99,14 +99,14 @@ bool isObjectInTSet(const RigidObject& i, const RigidObject& j, const RigidObjec
   v.getParam("edge_deletion_distance", EDGE_DELETION_DISTANCE);
   bool isPhiLessThanDeletionDistance = (getVectorLength(getProjectionPhi(mi, ji)) <= EDGE_DELETION_DISTANCE);
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
-  bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
+  bool areAllVectorsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   return isAngleBetweenVectorsGreaterThanZero && isPhiLessThanDeletionDistance && isMPointInDSpace &&
          areAllVectorsInGraph;
 }
 
-bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const RigidObject& m, const RigidGraph& rg,
-                          const Variables& v)
+bool isObjectInDashedTSet(const Robot &i, const Robot &j, const Robot &m, const RobotGraph &rg,
+                          const Variables &v)
 {
   Vector_t mi = getRelativePosition(i, m);
   Vector_t im = getRelativePosition(m, i);
@@ -120,7 +120,7 @@ bool isObjectInDashedTSet(const RigidObject& i, const RigidObject& j, const Rigi
   bool areDistancesEqual = (getVectorLength(ji) - NEIGHBOURHOOD_DISTANCE) < SMALL_POSITIVE_CONSTANT &&
                            (getVectorLength(mj) - NEIGHBOURHOOD_DISTANCE) < SMALL_POSITIVE_CONSTANT &&
                            (getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE) < SMALL_POSITIVE_CONSTANT;
-  bool areAllVectorsInGraph = isVectorInGraph(i, j, rg) && isVectorInGraph(j, m, rg) && isVectorInGraph(m, i, rg);
+  bool areAllVectorsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;
 }

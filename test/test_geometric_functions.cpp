@@ -220,9 +220,9 @@ TEST(isVectorInGraphTest, ShouldPass)
 
   RigidObjectDesc r1_d = boost::add_vertex(r1, rg);
   RigidObjectDesc r2_d = boost::add_vertex(r2, rg);
-  EXPECT_EQ(false, isVectorInGraph(r1, r2, rg));
+  EXPECT_EQ(false, isEdgeInGraph(r1, r2, rg));
   boost::add_edge(r1_d, r2_d, rg);
-  EXPECT_EQ(true, isVectorInGraph(r1, r2, rg));
+  EXPECT_EQ(true, isEdgeInGraph(r1, r2, rg));
   boost::remove_edge(r1_d, r2_d, rg);
 }
 

@@ -3,7 +3,7 @@
 double cohesionPotential(const RigidObject& position, const RigidGraph& all_robots, const Variables& v)
 {
   double sum = 0;
-  for (RigidObjectDesc id = 0; id < boost::num_vertices(all_robots); ++id)
+  for (RobotDesc id = 0; id < boost::num_vertices(all_robots); ++id)
   {
     double arg = getVectorLength(getRelativePosition(position, all_robots[id]));
     sum += partialCohesionPotential(arg, v);
@@ -55,7 +55,7 @@ double interrobotCollisionPotential(const RigidObject& position, const RigidGrap
                                     const Variables& v)
 {
   double sum = 0;
-  for (RigidObjectDesc id = 0; id < boost::num_vertices(robots_near_preserved); ++id)
+  for (RobotDesc id = 0; id < boost::num_vertices(robots_near_preserved); ++id)
   {
     double arg = getVectorLength(getRelativePosition(position, robots_near_preserved[id]));
     sum += partialInterrobotCollisionPotential(arg, v);

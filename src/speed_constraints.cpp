@@ -87,21 +87,24 @@ double obstacleAvoidanceConstraint(const Robot& i, const ObstacleGraph& detected
   return min_speed;
 };
 
-double LOSPreservationConstraint(const Robot& robot, const RobotGraph& robots, const ObstacleGraph& detected_obstacles,
-                                 const Variables& v)
+double LOSUnitPreservationConstraint(const Robot &i, const Robot &j,
+                                     const ObstacleGraph &detected_obstacles_in_front_in_D_space, const Variables &v,
+                                     const RobotGraph &neighbourhood_preserved_robots)
 {
   double LOS_CLEARANCE_DISTANCE;
   v.getParam("los_clearance_distance", LOS_CLEARANCE_DISTANCE);
 
   double min_speed = std::numeric_limits<double>::max();
-  for (auto id = 0; id < boost::num_vertices(detected_obstacles); id++)
+  for (auto id = 0; id < boost::num_vertices(detected_obstacles_in_front_in_D_space); id++)
   {
-    auto closest_obstacle = closestObstacleToLOSinDSpaceAtFront(robot, robots[id], detected_obstacles);
-    double angle = angleBetweenVectorsInRadians(robot.getSpeedDirection(), getRelativePosition(robots[id], robot));
+    auto closest_obstacle = closestObstacleToLOSinDSpaceAtFront(i, neighbourhood_preserved_robots[id],
+                                                                detected_obstacles_in_front_in_D_space);
+    double angle = angleBetweenVectorsInRadians(i.getSpeedDirection(),
+                                                getRelativePosition(neighbourhood_preserved_robots[id], i));
     angle = angle < 0 ? (M_PI * 2 + angle) : angle;
     angle = angle > M_PI ? (M_PI * 2 - angle) : angle;
-    double speed = (getVectorLength(getProjectionPhi(getRelativePosition(robot, closest_obstacle.value()),
-                                                     getRelativePosition(robot, robots[id]))) -
+    double speed = (getVectorLength(getProjectionPhi(getRelativePosition(i, closest_obstacle.value()),
+                                                     getRelativePosition(i, neighbourhood_preserved_robots[id]))) -
                     LOS_CLEARANCE_DISTANCE) /
                    sin(angle);
     if (speed < min_speed)
@@ -111,3 +114,30 @@ double LOSPreservationConstraint(const Robot& robot, const RobotGraph& robots, c
   }
   return min_speed;
 }
+
+//double minSpeedConstraint(const Robot& robot, const RobotGraph& detected_robots,
+//                          const ObstacleGraph& detected_obstacles, const Variables& v)
+//{
+//  RobotGraph neighbourhood_preserved_robots;
+//  for (auto i = 0; i < boost::num_vertices(detected_robots); i++)
+//  {
+//    for (auto j = 0; j < boost::num_vertices(detected_robots); j++)
+//    {
+//      if (isEdgePreserved(detected_robots[i], detected_robots[j], detected_robots, v))
+//      {
+//        auto desc_i = boost::add_vertex(detected_robots[i], neighbourhood_preserved_robots);
+//        auto desc_j = boost::add_vertex(detected_robots[j], neighbourhood_preserved_robots);
+//        boost::add_edge(desc_i, desc_j, neighbourhood_preserved_robots);
+//      }
+//    }
+//  }
+//
+//  ObstacleGraph closing_obsatcles_in_D_space = closingObstaclesInDSpace(robot, );
+//
+//  return std::min(maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
+//                  maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),
+//                  interrobotAvoidanceConstraint(robot, detected_robots, v),
+//                  obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
+//                  LOSUnitPreservationConstraint(robot,
+//                                                <#initializer#>, v, <#initializer#>, neighbourhood_preserved_robots));
+//}
