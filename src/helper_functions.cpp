@@ -173,6 +173,24 @@ std::optional<double> minimumAngleNeighbour(const Robot &position, const RobotGr
   return min;
 }
 
+RobotGraph getNeighbourPreservedRobots(const RobotGraph& detected_robots, const Variables& v)
+{
+  RobotGraph neighbourhood_preserved_robots;
+  for (auto i = 0; i < num_vertices(detected_robots); i++)
+  {
+    for (auto j = 0; j < num_vertices(detected_robots); j++)
+    {
+      if (isEdgePreserved(detected_robots[i], detected_robots[j], detected_robots, v))
+      {
+        auto desc_i = boost::add_vertex(detected_robots[i], neighbourhood_preserved_robots);
+        auto desc_j = boost::add_vertex(detected_robots[j], neighbourhood_preserved_robots);
+        boost::add_edge(desc_i, desc_j, neighbourhood_preserved_robots);
+      }
+    }
+  }
+  return neighbourhood_preserved_robots;
+}
+
 void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>>& frame, const std::string& filename,
                const std::string& title, int rot_x_angle, int rot_z_angle)
 {

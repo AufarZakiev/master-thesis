@@ -32,6 +32,8 @@ std::optional<double> closestRobotDistance(const Robot& position, const RobotGra
 
 std::optional<double> minimumAngleNeighbour(const Robot &position, const RobotGraph &near_front_robots);
 
+RobotGraph getNeighbourPreservedRobots(const RobotGraph& detected_robots, const Variables& v);
+
 void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>>& frame, const std::string& filename,
                const std::string& title, int rot_x_angle,
                int rot_z_angle);  // printing helper function

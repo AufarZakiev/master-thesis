@@ -135,25 +135,22 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
   return min;
 }
 
-double minSpeedConstraint(const Robot& robot, const RobotGraph& detected_robots,
-                          const ObstacleGraph& detected_obstacles, const Variables& v)
+Vector_t minSpeedConstraint(const Robot& robot, const RobotGraph& detected_robots,
+                            const ObstacleGraph& detected_obstacles, const Variables& v)
 {
-  RobotGraph neighbourhood_preserved_robots;
-  for (auto i = 0; i < boost::num_vertices(detected_robots); i++)
+  RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(detected_robots, v);
+  double calc_min =
+      std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
+                 maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),
+                 interrobotAvoidanceConstraint(robot, detected_robots, v),
+                 obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
+                 LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots) });
+
+  if (getVectorLength(robot.getSpeedDirection()) > calc_min)
   {
-    for (auto j = 0; j < boost::num_vertices(detected_robots); j++)
-    {
-      if (isEdgePreserved(detected_robots[i], detected_robots[j], detected_robots, v))
-      {
-        auto desc_i = boost::add_vertex(detected_robots[i], neighbourhood_preserved_robots);
-        auto desc_j = boost::add_vertex(detected_robots[j], neighbourhood_preserved_robots);
-        boost::add_edge(desc_i, desc_j, neighbourhood_preserved_robots);
-      }
-    }
+    return robot.getSpeedDirection()*calc_min/getVectorLength(robot.getSpeedDirection());
   }
-  return std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
-                    maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),
-                    interrobotAvoidanceConstraint(robot, detected_robots, v),
-                    obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
-                    LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots) });
+  else{
+    return robot.getSpeedDirection();
+  }
 }

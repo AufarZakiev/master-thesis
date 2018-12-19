@@ -210,16 +210,16 @@ TEST(getProjectionPhiTest, ShouldPass)
 
 TEST(isVectorInGraphTest, ShouldPass)
 {
-  RigidGraph rg;
+  RobotGraph rg;
   Position_t v1;
   Position_t v2;
   v1 << 0, 0;
   v2 << 1, 1;
-  RigidObject r1(v1);
-  RigidObject r2(v2);
+  Robot r1(v1);
+  Robot r2(v2);
 
-  RigidObjectDesc r1_d = boost::add_vertex(r1, rg);
-  RigidObjectDesc r2_d = boost::add_vertex(r2, rg);
+  RobotDesc r1_d = boost::add_vertex(r1, rg);
+  RobotDesc r2_d = boost::add_vertex(r2, rg);
   EXPECT_EQ(false, isEdgeInGraph(r1, r2, rg));
   boost::add_edge(r1_d, r2_d, rg);
   EXPECT_EQ(true, isEdgeInGraph(r1, r2, rg));
@@ -249,20 +249,20 @@ TEST(isObjectInTSetTest, ShouldPass)
   Variables& v = Variables::getInstance();
   v.setParam("edge_deletion_distance", 10.0f);
 
-  RigidGraph rg;
+  RobotGraph rg;
   Position_t v1;
   Position_t v2;
   Position_t v3;
   v1 << 0, 0;
   v2 << 1, 0;
   v3 << 0.5, 0.5;
-  RigidObject i(v1);
-  RigidObject j(v2);
-  RigidObject m(v3);
+  Robot i(v1);
+  Robot j(v2);
+  Robot m(v3);
 
-  RigidObjectDesc i_d = boost::add_vertex(i, rg);
-  RigidObjectDesc j_d = boost::add_vertex(j, rg);
-  RigidObjectDesc m_d = boost::add_vertex(m, rg);
+  RobotDesc i_d = boost::add_vertex(i, rg);
+  RobotDesc j_d = boost::add_vertex(j, rg);
+  RobotDesc m_d = boost::add_vertex(m, rg);
 
   boost::add_edge(i_d, j_d, rg);
   boost::add_edge(j_d, m_d, rg);
@@ -287,20 +287,20 @@ TEST(isObjectInDashedTSetTest, ShouldPass)
   v.setParam("neighbourhood_distance", 13.0f);
   v.setParam("robots_avoidance_distance", 10.0f);
 
-  RigidGraph rg;
+  RobotGraph rg;
   Position_t v1;
   Position_t v2;
   Position_t v3;
   v1 << 0, 0;
   v2 << 10, 0;
   v3 << 5, 12;
-  RigidObject m(v1);
-  RigidObject i(v2);
-  RigidObject j(v3);
+  Robot m(v1);
+  Robot i(v2);
+  Robot j(v3);
 
-  RigidObjectDesc i_d = boost::add_vertex(i, rg);
-  RigidObjectDesc j_d = boost::add_vertex(j, rg);
-  RigidObjectDesc m_d = boost::add_vertex(m, rg);
+  RobotDesc i_d = boost::add_vertex(i, rg);
+  RobotDesc j_d = boost::add_vertex(j, rg);
+  RobotDesc m_d = boost::add_vertex(m, rg);
 
   boost::add_edge(i_d, j_d, rg);
   boost::add_edge(j_d, m_d, rg);
@@ -330,7 +330,7 @@ TEST(isEdgePreservedTest, ShouldPass)
   v.setParam("robots_avoidance_distance", 1.0f);
   v.setParam("edge_deletion_distance", 5.0f);
 
-  RigidGraph rg;
+  RobotGraph rg;
   Position_t v1, v2, v3, v4, v5, v6;
   v1 << 0, 0;
   v2 << 1, 0;
@@ -345,9 +345,9 @@ TEST(isEdgePreservedTest, ShouldPass)
   Robot r5(v5);
   Robot r6(v6);
 
-  RigidObjectDesc r1_d = boost::add_vertex(r1, rg);
-  RigidObjectDesc r2_d = boost::add_vertex(r2, rg);
-  RigidObjectDesc r3_d = boost::add_vertex(r3, rg);
+  RobotDesc r1_d = boost::add_vertex(r1, rg);
+  RobotDesc r2_d = boost::add_vertex(r2, rg);
+  RobotDesc r3_d = boost::add_vertex(r3, rg);
 
   boost::add_edge(r1_d, r2_d, rg);
   boost::add_edge(r2_d, r3_d, rg);
