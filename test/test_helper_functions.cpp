@@ -119,6 +119,30 @@ TEST(closestObstacleToLOSinDSpaceAtFrontTest, ShouldPass)
   EXPECT_EQ(closest.value().getPosition(), o2.getPosition());
 }
 
+TEST(printPlotWithArrowsTest, ShouldPass)
+{
+  Robot r1(Vector_t(1, 1), Vector_t(10, 10));
+  Robot r2(Vector_t(4, 4), Vector_t(4, -4));
+  Robot r3(Vector_t(10, 6), Vector_t(-2, 2));
+  Robot r4(Vector_t(8, 5), Vector_t(-1, -5));
+
+  std::vector<std::vector<std::tuple<double, double, double>>> frame(120);
+
+  for (int i = 0; i < 120; i++)
+  {
+    frame[i].resize(120);
+    for (int j = 0; j < 120; j++)
+    {
+      Vector_t temp;
+      temp << i / 8.0, j / 8.0;
+      Robot point(temp);
+      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), -temp(0, 0) + 16);
+    }
+  }
+
+  printPlotWithArrows(frame, "Arrows test.png", "Arrows?", 45, 65, { r1, r2, r3, r4 });
+}
+
 int main(int argc, char** argv)
 {
   testing::InitGoogleTest(&argc, argv);

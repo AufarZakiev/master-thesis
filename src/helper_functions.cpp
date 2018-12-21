@@ -92,7 +92,8 @@ std::pair<RobotGraph, RobotGraph> separateDetectedRobotsBehindAndFront(const Rob
   return std::make_pair(detected_behind, detected_front);
 }
 
-ObstacleGraph closingObstaclesInDSpace(const Robot& robot_i, const Robot& robot_j, const ObstacleGraph& detected_obstacles)
+ObstacleGraph closingObstaclesInDSpace(const Robot& robot_i, const Robot& robot_j,
+                                       const ObstacleGraph& detected_obstacles)
 {
   ObstacleGraph result;
   for (auto id = 0; id < boost::num_vertices(detected_obstacles); id++)
@@ -150,13 +151,14 @@ std::optional<double> closestRobotDistance(const Robot& position, const RobotGra
   {
     if (getVectorLength(getRelativePosition(position, robots[id])) < min)
     {
-      min =getVectorLength(getRelativePosition(position, robots[id]));
+      min = getVectorLength(getRelativePosition(position, robots[id]));
     }
   }
   return min;
 }
 
-std::optional<double> minimumAngleNeighbour(const Robot &position, const RobotGraph &near_front_robots)  // TODO: wtf does this function do?
+std::optional<double> minimumAngleNeighbour(const Robot& position,
+                                            const RobotGraph& near_front_robots)  // TODO: wtf does this function do?
 {
   if (boost::num_vertices(near_front_robots) == 0)
   {
@@ -217,6 +219,52 @@ void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>
   gp << "set zlabel \"Z axis\"\n";
   gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
   // gp << "set zrange [ -1.00000 : 10.00000 ] noreverse nowriteback\n";
+  gp << "splot [0:15] [0:15] '-' \n";
+  gp.send2d(frame);
+  gp.flush();
+}
+
+void printPlotWithArrows(const std::vector<std::vector<std::tuple<double, double, double>>>& frame,
+                         const std::string& filename, const std::string& title, int rot_x_angle, int rot_z_angle,
+                         std::vector<Robot> robots)
+{
+  Gnuplot gp;
+  gp << "set term png\n";
+  gp << "set output \"";
+  gp << filename.c_str();
+  gp << "\"\n";
+  gp << "set view " << rot_x_angle << ", " << rot_z_angle << ", 1, 1\n";
+  gp << "set samples 120, 120\n";
+  gp << "set style data lines\n";
+  gp << "set pm3d\n";
+  gp << "set title \"";
+  gp << title.c_str();
+  gp << "\"\n";
+  gp << "set xlabel \"X axis\"\n";
+  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
+  gp << "set ylabel \"Y axis\"\n";
+  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
+  gp << "set zlabel \"Z axis\"\n";
+  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
+  for (auto& robot : robots)
+  {
+    gp << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
+       << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
+       << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) << ","
+       << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) << ","
+       << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)) * 8]
+                           [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)) * 8]) +
+              0.01
+       << " filled front \n";
+    std::cout << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
+              << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
+              << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) << ","
+              << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) << ","
+              << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)) * 8]
+                                  [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)) * 8]) +
+                     0.01
+              << " filled front \n";
+  }
   gp << "splot [0:15] [0:15] '-' \n";
   gp.send2d(frame);
   gp.flush();

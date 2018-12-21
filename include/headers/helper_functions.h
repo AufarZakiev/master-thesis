@@ -38,4 +38,8 @@ void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>
                const std::string& title, int rot_x_angle,
                int rot_z_angle);  // printing helper function
 
+void printPlotWithArrows(const std::vector<std::vector<std::tuple<double, double, double>>>& frame,
+                         const std::string& filename, const std::string& title, int rot_x_angle, int rot_z_angle,
+                         std::vector<Robot> robots);
+
 #endif  // MULTIPLE_TURTLEBOTS_HELPER_FUNCTIONS_H
