@@ -1,6 +1,6 @@
 #include "../include/headers/field_functions.h"
 
-double cohesionPotential(const RigidObject& position, const RigidGraph& all_robots, const Variables& v)
+double cohesionPotential(const RigidObject& position, const RobotGraph& all_robots, const Variables& v)
 {
   double sum = 0;
   for (RobotDesc id = 0; id < boost::num_vertices(all_robots); ++id)
@@ -51,7 +51,7 @@ double obstacleCollisionPotential(const RigidObject& position, const ObstacleGra
   return 0;
 }
 
-double interrobotCollisionPotential(const RigidObject& position, const RigidGraph& robots_near_preserved,
+double interrobotCollisionPotential(const RigidObject& position, const RobotGraph& robots_near_preserved,
                                     const Variables& v)
 {
   double sum = 0;

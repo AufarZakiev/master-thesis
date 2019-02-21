@@ -9,12 +9,12 @@ TEST(maximumDistanceConstraint, ShouldPass)
   r0.setPosition(Position_t(5, 5));
   r1.setPosition(Position_t(3, 3));
   r2.setPosition(Position_t(3, 4));
-  r1.setSpeedDirection(Vector_t(1, 1));
+  r0.setSpeedDirection(Vector_t(1, 1));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
   auto value = maximumDistanceConstraint(r0, rg, v);
-  EXPECT_LT(value, 0.086);
+  EXPECT_LT(value, 0.09);
   EXPECT_GT(value, 0.085);
 }
 

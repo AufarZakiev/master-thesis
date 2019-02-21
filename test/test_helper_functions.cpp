@@ -120,29 +120,41 @@ TEST(closestObstacleToLOSinDSpaceAtFrontTest, ShouldPass)
   EXPECT_EQ(closest.value().getPosition(), o2.getPosition());
 }
 
-TEST(printPlotWithArrowsTest, ShouldPass)
-{
-  Variables& v = Variables::getInstance();
+TEST(printPlotWithArrowsTest, ShouldPass) {
+  Variables &v = Variables::getInstance();
   v.setParam("robots_avoidance_distance", 1.0);
   v.setParam("desired_distance", 3.0);
   v.setParam("neighbourhood_distance", 4.0);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
+
+  v.setParam("los_clearance_care_distance", 0.4);
+  v.setParam("los_clearance_distance", 0.2);
+  v.setParam("small_positive_constant", 0.2);
   Robot r1(Vector_t(1, 1), Vector_t(10, 10));
   Robot r2(Vector_t(4, 4), Vector_t(4, -4));
   Robot r3(Vector_t(10, 6), Vector_t(-2, 2));
   Robot r4(Vector_t(8, 5), Vector_t(-1, -5));
 
-  RigidGraph rg;
+  RobotGraph rg;
   boost::add_vertex(r1, rg);
+
+  Obstacle o1(Vector_t(3, 3));
+
+  ObstacleGraph og;
+  boost::add_vertex(o1, og);
+
+  printPlotWithArrows("LOS arrows test.png", "LOS", 30, 30, {r1, r2, r3, r4},
+                      std::function(&LOSPreservePotential), rg, og, v);
+
   boost::add_vertex(r2, rg);
   boost::add_vertex(r3, rg);
   boost::add_vertex(r4, rg);
 
-  printPlotWithArrows("Arrows test.png", "Arrows?", 0, 90, { r1, r2, r3, r4 },
+  printPlotWithArrows("Interrobot arrows test.png", "Interrobot", 30, 30, {r1, r2, r3, r4},
                       std::function(&interrobotCollisionPotential), rg, v);
-  printPlotWithArrows("Arrows test.png", "Arrows?", 45, 65, { r1, r2, r3, r4 },
-                      std::function(&interrobotCollisionPotential), rg, v);
+  printPlotWithArrows("Arrows test_cohesion_0_90.png", "Cohesion", 0, 90, {r1, r2, r3, r4},
+                      std::function(&cohesionPotential), rg, v);
 }
 
 int main(int argc, char** argv)

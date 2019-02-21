@@ -140,6 +140,23 @@ std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, cons
   return min_obstacle;
 }
 
+std::optional<double> farthestRobotDistance(const Robot& position, const RobotGraph& robots)
+{
+  if (boost::num_vertices(robots) == 0)
+  {
+    return std::nullopt;
+  }
+  auto max = getVectorLength(getRelativePosition(position, robots[0]));
+  for (auto id = 0; id < boost::num_vertices(robots); id++)
+  {
+    if (getVectorLength(getRelativePosition(position, robots[id])) > max)
+    {
+      max = getVectorLength(getRelativePosition(position, robots[id]));
+    }
+  }
+  return max;
+}
+
 std::optional<double> closestRobotDistance(const Robot& position, const RobotGraph& robots)
 {
   if (boost::num_vertices(robots) == 0)

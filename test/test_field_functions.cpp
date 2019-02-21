@@ -16,7 +16,7 @@ TEST(CohesionPotentialTest_4_robots, ShouldPass)
   Robot r2(v2);
   Robot r3(v3);
   Robot r4(v4);
-  RigidGraph rg;
+  RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
   boost::add_vertex(r3, rg);
@@ -48,7 +48,7 @@ TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
   v2 << 10, 10;
   Robot r1(v1);
   Robot r2(v2);
-  RigidGraph rg;
+  RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
 
@@ -78,7 +78,7 @@ TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
   v2 << 10, 10;
   Robot r1(v1);
   Robot r2(v2);
-  RigidGraph rg;
+  RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
 
@@ -112,7 +112,7 @@ TEST(InterrobotPotentialTest_2_robots, ShouldPass)
   v2 << 9.5, 9.5;
   Robot r1(v1);
   Robot r2(v2);
-  RigidGraph rg;
+  RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
 

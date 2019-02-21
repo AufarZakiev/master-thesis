@@ -29,6 +29,8 @@ ObstacleGraph closingObstaclesInDSpace(const Robot& robot_i, const Robot& robot_
 std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, const Robot& j,
                                                             const ObstacleGraph& detected_obstacles);
 
+std::optional<double> farthestRobotDistance(const Robot& position, const RobotGraph& robots);
+
 std::optional<double> closestRobotDistance(const Robot& position, const RobotGraph& robots);
 
 std::optional<double> minimumAngleNeighbour(const Robot& position, const RobotGraph& near_front_robots);
@@ -55,7 +57,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
       Robot point(temp);
 
       frame[i][j] =
-          std::make_tuple(temp(0, 0), temp(1, 0), func(RigidObject(Position_t(temp(0, 0), temp(1, 0))), args...));
+          std::make_tuple(temp(0, 0), temp(1, 0), func(Robot(Position_t(temp(0, 0), temp(1, 0))), args...));
     }
   }
 

@@ -10,10 +10,10 @@ double maximumDistanceConstraint(const Robot& robot, const RobotGraph& neighbour
   std::pair p = separateNeighbourRobotsBehindAndFront(robot, neighbourhood_preserved_robots);
   neighbours_behind = p.first;
   neighbours_front = p.second;
-  auto closestRobotDist = closestRobotDistance(robot, neighbours_behind);
-  if (closestRobotDist)
+  auto farthestRobotDist = farthestRobotDistance(robot, neighbours_behind);
+  if (farthestRobotDist)
   {
-    return 0.5 * (NEIGHBOURHOOD_DISTANCE - closestRobotDist.value());
+    return 0.5 * (NEIGHBOURHOOD_DISTANCE - farthestRobotDist.value());
   }
   else
   {
