@@ -4,6 +4,7 @@
 #include "../include/headers/classes.h"
 #include "../include/headers/helper_functions.h"
 #include "../include/headers/geometric_functions.h"
+#include "../include/headers/field_functions.h"
 
 TEST(closestDetectedObstacleTest, ShouldPass)
 {
@@ -121,26 +122,27 @@ TEST(closestObstacleToLOSinDSpaceAtFrontTest, ShouldPass)
 
 TEST(printPlotWithArrowsTest, ShouldPass)
 {
+  Variables& v = Variables::getInstance();
+  v.setParam("robots_avoidance_distance", 1.0);
+  v.setParam("desired_distance", 3.0);
+  v.setParam("neighbourhood_distance", 4.0);
+  v.setParam("k1", 10);
+  v.setParam("k2", 10);
   Robot r1(Vector_t(1, 1), Vector_t(10, 10));
   Robot r2(Vector_t(4, 4), Vector_t(4, -4));
   Robot r3(Vector_t(10, 6), Vector_t(-2, 2));
   Robot r4(Vector_t(8, 5), Vector_t(-1, -5));
 
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(120);
+  RigidGraph rg;
+  boost::add_vertex(r1, rg);
+  boost::add_vertex(r2, rg);
+  boost::add_vertex(r3, rg);
+  boost::add_vertex(r4, rg);
 
-  for (int i = 0; i < 120; i++)
-  {
-    frame[i].resize(120);
-    for (int j = 0; j < 120; j++)
-    {
-      Vector_t temp;
-      temp << i / 8.0, j / 8.0;
-      Robot point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), -temp(0, 0) + 16);
-    }
-  }
-
-  printPlotWithArrows(frame, "Arrows test.png", "Arrows?", 45, 65, { r1, r2, r3, r4 });
+  printPlotWithArrows("Arrows test.png", "Arrows?", 0, 90, { r1, r2, r3, r4 },
+                      std::function(&interrobotCollisionPotential), rg, v);
+  printPlotWithArrows("Arrows test.png", "Arrows?", 45, 65, { r1, r2, r3, r4 },
+                      std::function(&interrobotCollisionPotential), rg, v);
 }
 
 int main(int argc, char** argv)

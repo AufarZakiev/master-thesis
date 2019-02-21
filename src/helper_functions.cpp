@@ -224,52 +224,6 @@ void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>
   gp.flush();
 }
 
-void printPlotWithArrows(const std::vector<std::vector<std::tuple<double, double, double>>>& frame,
-                         const std::string& filename, const std::string& title, int rot_x_angle, int rot_z_angle,
-                         std::vector<Robot> robots)
-{
-  Gnuplot gp;
-  gp << "set term png\n";
-  gp << "set output \"";
-  gp << filename.c_str();
-  gp << "\"\n";
-  gp << "set view " << rot_x_angle << ", " << rot_z_angle << ", 1, 1\n";
-  gp << "set samples 120, 120\n";
-  gp << "set style data lines\n";
-  gp << "set pm3d\n";
-  gp << "set title \"";
-  gp << title.c_str();
-  gp << "\"\n";
-  gp << "set xlabel \"X axis\"\n";
-  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
-  gp << "set ylabel \"Y axis\"\n";
-  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
-  gp << "set zlabel \"Z axis\"\n";
-  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
-  for (auto& robot : robots)
-  {
-    gp << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
-       << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
-       << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) << ","
-       << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) << ","
-       << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)) * 8]
-                           [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)) * 8]) +
-              0.01
-       << " filled front \n";
-    std::cout << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
-              << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
-              << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) << ","
-              << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) << ","
-              << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)) * 8]
-                                  [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)) * 8]) +
-                     0.01
-              << " filled front \n";
-  }
-  gp << "splot [0:15] [0:15] '-' \n";
-  gp.send2d(frame);
-  gp.flush();
-}
-
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, Variables& v)
 {
   double param_variable;
