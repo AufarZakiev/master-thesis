@@ -35,13 +35,55 @@ std::optional<double> closestRobotDistance(const Robot& position, const RobotGra
 
 std::optional<double> minimumAngleNeighbour(const Robot& position, const RobotGraph& near_front_robots);
 
-RobotGraph getNeighbourRobots(const Robot &robot, const RobotGraph &detected_robots, const Variables &v);
+RobotGraph getNeighbourRobots(const Robot& robot, const RobotGraph& detected_robots, const Variables& v);
 
-RobotGraph getNeighbourPreservedRobots(const Robot &robot, const RobotGraph &neighbour_robots, const Variables &v);
+RobotGraph getNeighbourPreservedRobots(const Robot& robot, const RobotGraph& neighbour_robots, const Variables& v);
 
-void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>>& frame, const std::string& filename,
-               const std::string& title, int rot_x_angle,
-               int rot_z_angle);  // printing helper function
+template <typename... Args, typename... Args2>
+void printPlot(const std::string& filename, const std::string& title, int rot_x_angle, int rot_z_angle,
+               std::function<double(Args...)> func, Args2&&... args)
+{
+  std::vector<std::vector<std::tuple<double, double, double>>> frame(120);
+
+  for (int i = 0; i < 120; i++)
+  {
+    frame[i].resize(120);
+    for (int j = 0; j < 120; j++)
+    {
+      Vector_t temp;
+      temp << i / 8.0, j / 8.0;
+      Robot point(temp);
+      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), func(point, args...));
+    }
+  }
+
+  Gnuplot gp;
+  gp << "set term png\n";
+  gp << "set output \"";
+  gp << filename.c_str();
+  gp << "\"\n";
+  gp << "set view ";
+  gp << rot_x_angle;
+  gp << ", ";
+  gp << rot_z_angle;
+  gp << ", 1, 1\n";
+  gp << "set samples 120, 120\n";
+  gp << "set style data lines\n";
+  gp << "set pm3d\n";
+  gp << "set title \"";
+  gp << title.c_str();
+  gp << "\"\n";
+  gp << "set xlabel \"X axis\"\n";
+  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
+  gp << "set ylabel \"Y axis\"\n";
+  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
+  gp << "set zlabel \"Z axis\"\n";
+  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
+  // gp << "set zrange [ -1.00000 : 10.00000 ] noreverse nowriteback\n";
+  gp << "splot [0:15] [0:15] '-' \n";
+  gp.send2d(frame);
+  gp.flush();
+}
 
 template <typename... Args, typename... Args2>
 void printPlotWithArrows(const std::string& filename, const std::string& title, int rot_x_angle, int rot_z_angle,
@@ -58,8 +100,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
       temp << i / 8.0, j / 8.0;
       Robot point(temp);
 
-      frame[i][j] =
-          std::make_tuple(temp(0, 0), temp(1, 0), func(Robot(Position_t(temp(0, 0), temp(1, 0))), args...));
+      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), func(Robot(Position_t(temp(0, 0), temp(1, 0))), args...));
     }
   }
 

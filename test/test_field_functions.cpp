@@ -22,20 +22,7 @@ TEST(CohesionPotentialTest_4_robots, ShouldPass)
   boost::add_vertex(r3, rg);
   boost::add_vertex(r4, rg);
 
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
-  for (int i = 0; i < 60; i++)
-  {
-    frame[i].resize(60);
-    for (int j = 0; j < 60; j++)
-    {
-      Vector_t temp;
-      temp << i / 4.0, j / 4.0;
-      Robot point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), cohesionPotential(point, rg, v));
-    }
-  }
-
-  printPlot(frame, "Cohesion_field_4_robots_uniform.png", "Cohesion field 4 robots", 0, 90);
+  printPlot("Cohesion_field_4_robots_uniform.png", "Cohesion field 4 robots", 0, 90, std::function(&cohesionPotential), rg, v);
 }
 
 TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
@@ -52,20 +39,7 @@ TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
 
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
-  for (int i = 0; i < 60; i++)
-  {
-    frame[i].resize(60);
-    for (int j = 0; j < 60; j++)
-    {
-      Vector_t temp;
-      temp << i / 4.0, j / 4.0;
-      Robot point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), cohesionPotential(point, rg, v));
-    }
-  }
-
-  printPlot(frame, "Cohesion_field_2_robots_cohesive_offset.png", "Cohesion field 2 robots", 0, 90);
+  printPlot("Cohesion_field_2_robots_cohesive_offset.png", "Cohesion field 2 robots", 0, 90, std::function(&cohesionPotential), rg, v);
 }
 
 TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
@@ -82,20 +56,8 @@ TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
 
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
-  for (int i = 0; i < 60; i++)
-  {
-    frame[i].resize(60);
-    for (int j = 0; j < 60; j++)
-    {
-      Vector_t temp;
-      temp << i / 4.0, j / 4.0;
-      Robot point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), cohesionPotential(point, rg, v));
-    }
-  }
-
-  printPlot(frame, "Cohesion_field_2_robots_cohesiv_neighbourhood_max.png", "Cohesion field 2 robots cohesive", 60, 30);
+  printPlot("Cohesion_field_2_robots_cohesiv_neighbourhood_max.png", "Cohesion field 2 robots cohesive", 60, 30,
+            std::function(&cohesionPotential), rg, v);
 }
 
 TEST(InterrobotPotentialTest_2_robots, ShouldPass)
@@ -116,20 +78,8 @@ TEST(InterrobotPotentialTest_2_robots, ShouldPass)
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
 
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
-  for (int i = 0; i < 60; i++)
-  {
-    frame[i].resize(60);
-    for (int j = 0; j < 60; j++)
-    {
-      Vector_t temp;
-      temp << i / 4.0, j / 4.0;
-      Robot point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), interrobotCollisionPotential(point, rg, v));
-    }
-  }
-
-  printPlot(frame, "Interrobot_field_2_robots.png", "Interrobot field 2 robots", 60, 30);
+  printPlot("Interrobot_field_2_robots.png", "Interrobot field 2 robots", 60, 30,
+            std::function(&interrobotCollisionPotential), rg, v);
 }
 
 TEST(ObstaclePotentialTest_one_obstacle, ShouldPass)
@@ -145,20 +95,8 @@ TEST(ObstaclePotentialTest_one_obstacle, ShouldPass)
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
-  for (int i = 0; i < 60; i++)
-  {
-    frame[i].resize(60);
-    for (int j = 0; j < 60; j++)
-    {
-      Vector_t temp;
-      temp << i / 4.0, j / 4.0;
-      Robot point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), obstacleCollisionPotential(point, og, v));
-    }
-  }
-
-  printPlot(frame, "Obstacle_collision_fields.png", "Obstacle collision field", 60, 30);
+  printPlot("Obstacle_collision_fields.png", "Obstacle collision field", 60, 30,
+            std::function(&obstacleCollisionPotential), og, v);
 }
 
 TEST(ObstaclePotentialTest_two_obstacle, ShouldPass)
@@ -177,20 +115,8 @@ TEST(ObstaclePotentialTest_two_obstacle, ShouldPass)
   boost::add_vertex(o1, og);
   boost::add_vertex(o2, og);
 
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
-  for (int i = 0; i < 60; i++)
-  {
-    frame[i].resize(60);
-    for (int j = 0; j < 60; j++)
-    {
-      Vector_t temp;
-      temp << i / 4.0, j / 4.0;
-      Robot point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), obstacleCollisionPotential(point, og, v));
-    }
-  }
-
-  printPlot(frame, "Two_obstacle_collision_fields.png", "Two obstacle collision field", 60, 30);
+  printPlot("Two_obstacle_collision_fields.png", "Two obstacle collision field", 60, 30,
+            std::function(&obstacleCollisionPotential), og, v);
 }
 
 TEST(ObstaclePotentialTest_two_obstacle_interfere, ShouldPass)
@@ -209,21 +135,10 @@ TEST(ObstaclePotentialTest_two_obstacle_interfere, ShouldPass)
   boost::add_vertex(o1, og);
   boost::add_vertex(o2, og);
 
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(60);
-  for (int i = 0; i < 60; i++)
-  {
-    frame[i].resize(60);
-    for (int j = 0; j < 60; j++)
-    {
-      Vector_t temp;
-      temp << i / 4.0, j / 4.0;
-      Robot point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), obstacleCollisionPotential(point, og, v));
-    }
-  }
-
-  printPlot(frame, "Two_obstacle_collision_fields_interfere.png", "Two obstacle collision field interfere", 60, 30);
-  printPlot(frame, "Two_obstacle_collision_fields_interfere_0_90.png", "Two obstacle collision field interfere", 0, 90);
+  printPlot("Two_obstacle_collision_fields_interfere.png", "Two obstacle collision field interfere", 60, 30,
+            std::function(&obstacleCollisionPotential), og, v);
+  printPlot("Two_obstacle_collision_fields_interfere_0_90.png", "Two obstacle collision field interfere", 0, 90,
+            std::function(&obstacleCollisionPotential), og, v);
 }
 
 TEST(LOSPotentialTest_obstacle, ShouldPass)
@@ -245,22 +160,12 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
   RobotGraph rg;
   boost::add_vertex(r1, rg);
 
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(120);
+  printPlot("LOS fields.png", "LOS preservation field", 45, 25, std::function(&LOSPreservePotential), rg, og, v);
+  printPlot("LOS fields_0_90.png", "LOS preservation field", 0, 90, std::function(&LOSPreservePotential), rg, og, v);
+}
 
-  for (int i = 0; i < 120; i++)
-  {
-    frame[i].resize(120);
-    for (int j = 0; j < 120; j++)
-    {
-      Vector_t temp;
-      temp << i / 8.0, j / 8.0;
-      Robot point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), LOSPreservePotential(point, rg, og, v));
-    }
-  }
-
-  printPlot(frame, "LOS fields.png", "LOS preservation field", 45, 25);
-  printPlot(frame, "LOS fields_0_90.png", "LOS preservation field", 0, 90);
+TEST(overallPotentialTest, ShouldPass)
+{
 }
 
 int main(int argc, char** argv)
