@@ -127,6 +127,8 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
   v.setParam("los_clearance_care_distance", 0.4);
   v.setParam("los_clearance_distance", 0.2);
   v.setParam("small_positive_constant", 0.2);
+  v.setParam("obstacle_care_distance", 3.0);
+  v.setParam("obstacles_avoidance_distance", 1.5);
 
   Obstacle o1(Vector_t(6.0,6.0));
   ObstacleGraph og;
@@ -142,12 +144,44 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
 
 TEST(overallPotentialTest, ShouldPass)
 {
-  Robot r1(Vector_t(5.0, 5.0));
-  Robot r2(Vector_t(5.0, 5.0));
+  Variables& v = Variables::getInstance();
+  v.setParam("los_clearance_care_distance", 0.4);
+  v.setParam("los_clearance_distance", 0.2);
+  v.setParam("small_positive_constant", 0.2);
+  v.setParam("robots_avoidance_distance", 2.0);
+  v.setParam("desired_distance", 3.5);
+  v.setParam("neighbourhood_distance", 5.0);
+  v.setParam("obstacle_care_distance", 3.0);
+  v.setParam("obstacles_avoidance_distance", 1.5);
+  v.setParam("k1", 10);
+  v.setParam("k2", 10);
+  v.setParam("c1", 0.1);
+  v.setParam("c2", 0.0);
+  v.setParam("c3", 0.0);
+  v.setParam("c4", 0.0);
+
+  Robot r1(Vector_t(10.0, 5.0));
+  Robot r2(Vector_t(5.0, 10.0));
   Robot r3(Vector_t(5.0, 5.0));
-  Robot r4(Vector_t(5.0, 5.0));
+  Robot r4(Vector_t(10.0, 10.0));
+  RobotGraph rg;
+  boost::add_vertex(r1,rg);
+  boost::add_vertex(r2,rg);
+  boost::add_vertex(r3,rg);
+  boost::add_vertex(r4,rg);
 
+  Obstacle o1(Vector_t(7.5,10.0));
+  Obstacle o2(Vector_t(10.0,7.5));
+  Obstacle o3(Vector_t(15.0,5.0));
+  Obstacle o4(Vector_t(5.0,15.0));
+  ObstacleGraph og;
+  boost::add_vertex(o1,og);
+  boost::add_vertex(o2,og);
+  //boost::add_vertex(o3,og);
+  //boost::add_vertex(o4,og);
 
+  printPlotWithArrows("Overall potentials.png","Overall potentials",30,60, {r1,r2,r3,r4}, std::function(&overallPotential), rg, og,v);
+  printPlotWithArrows("Overall potentials_0_90.png","Overall potentials",0,90, {r1,r2,r3,r4}, std::function(&overallPotential), rg, og,v);
 }
 
 int main(int argc, char** argv)
