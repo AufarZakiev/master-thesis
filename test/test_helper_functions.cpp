@@ -159,7 +159,37 @@ TEST(printPlotWithArrowsTest, ShouldPass) {
                       std::function(&cohesionPotential), rg, v);
 }
 
+TEST(getNeighboursTest, ShouldPass){
+  Variables &v = Variables::getInstance();
+  v.setParam("neighbourhood_distance", 2.0);
 
+  Robot r1(Vector_t(5.0,5.0));
+  Robot r2(Vector_t(4.0,4.0));
+  Robot r3(Vector_t(1.0,3.0));
+
+  RobotGraph rg;
+  boost::add_vertex(r2, rg);
+  boost::add_vertex(r3, rg);
+  auto neighbours = getNeighbourRobots(r1, rg, v);
+  EXPECT_EQ(findVertexInGraph(r2, neighbours).second, true);
+  EXPECT_EQ(findVertexInGraph(r3, neighbours).second, false);
+}
+
+TEST(getNeighboursPreservedTest, ShouldPass){
+  Variables &v = Variables::getInstance();
+  v.setParam("neighbourhood_distance", 2.0);
+
+  Robot r1(Vector_t(3.0,5.0));
+  Robot r2(Vector_t(2.0,4.0));
+  Robot r3(Vector_t(4.0,4.0));
+
+  RobotGraph rg;
+  boost::add_vertex(r2, rg);
+  boost::add_vertex(r3, rg);
+  auto neighbours_preserved = getNeighbourPreservedRobots(r1, rg, v);
+  EXPECT_EQ(findVertexInGraph(r2, neighbours_preserved).second, true);
+  EXPECT_EQ(findVertexInGraph(r3, neighbours_preserved).second, true);
+}
 
 int main(int argc, char** argv)
 {
