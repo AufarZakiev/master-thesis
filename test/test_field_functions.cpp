@@ -30,7 +30,7 @@ TEST(CohesionPotentialTest_4_robots, ShouldPass)
     {
       Vector_t temp;
       temp << i / 4.0, j / 4.0;
-      RigidObject point(temp);
+      Robot point(temp);
       frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), cohesionPotential(point, rg, v));
     }
   }
@@ -60,7 +60,7 @@ TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
     {
       Vector_t temp;
       temp << i / 4.0, j / 4.0;
-      RigidObject point(temp);
+      Robot point(temp);
       frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), cohesionPotential(point, rg, v));
     }
   }
@@ -90,7 +90,7 @@ TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
     {
       Vector_t temp;
       temp << i / 4.0, j / 4.0;
-      RigidObject point(temp);
+      Robot point(temp);
       frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), cohesionPotential(point, rg, v));
     }
   }
@@ -124,7 +124,7 @@ TEST(InterrobotPotentialTest_2_robots, ShouldPass)
     {
       Vector_t temp;
       temp << i / 4.0, j / 4.0;
-      RigidObject point(temp);
+      Robot point(temp);
       frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), interrobotCollisionPotential(point, rg, v));
     }
   }
@@ -153,7 +153,7 @@ TEST(ObstaclePotentialTest_one_obstacle, ShouldPass)
     {
       Vector_t temp;
       temp << i / 4.0, j / 4.0;
-      RigidObject point(temp);
+      Robot point(temp);
       frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), obstacleCollisionPotential(point, og, v));
     }
   }
@@ -185,7 +185,7 @@ TEST(ObstaclePotentialTest_two_obstacle, ShouldPass)
     {
       Vector_t temp;
       temp << i / 4.0, j / 4.0;
-      RigidObject point(temp);
+      Robot point(temp);
       frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), obstacleCollisionPotential(point, og, v));
     }
   }
@@ -217,7 +217,7 @@ TEST(ObstaclePotentialTest_two_obstacle_interfere, ShouldPass)
     {
       Vector_t temp;
       temp << i / 4.0, j / 4.0;
-      RigidObject point(temp);
+      Robot point(temp);
       frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), obstacleCollisionPotential(point, og, v));
     }
   }

@@ -67,7 +67,7 @@ double obstacleAvoidanceConstraint(const Robot& i, const ObstacleGraph& detected
   v.getParam("obstacles_avoidance_distance", OBS_AVOIDANCE_DISTANCE);
 
   double min_speed = std::numeric_limits<double>::max();
-  for (auto id = 0; id < boost::num_vertices(detected_obstacles); id++)
+  for (size_t id = 0; id < boost::num_vertices(detected_obstacles); id++)
   {
     double l_c =
         getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacles[id]), i.getSpeedDirection()));
@@ -94,7 +94,7 @@ double LOSUnitPreservationConstraint(const Robot& i, const ObstacleGraph& closin
   v.getParam("los_clearance_distance", LOS_CLEARANCE_DISTANCE);
 
   double min_speed = std::numeric_limits<double>::max();
-  for (auto id = 0; id < boost::num_vertices(closing_obstacles_in_front_in_D_space); id++)
+  for (size_t id = 0; id < boost::num_vertices(closing_obstacles_in_front_in_D_space); id++)
   {
     auto closest_obstacle = closestObstacleToLOSinDSpaceAtFront(i, neighbourhood_preserved_robots[id],
                                                                 closing_obstacles_in_front_in_D_space);
@@ -121,7 +121,7 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
                                  const RobotGraph& neighbourhood_preserved_robots)
 {
   double min = std::numeric_limits<double>::max();
-  for (auto id = 0; id < boost::num_vertices(detected_obstacles); id++)
+  for (size_t id = 0; id < boost::num_vertices(detected_obstacles); id++)
   {
     ObstacleGraph closing_obstacles_in_D_space =
         closingObstaclesInDSpace(i, neighbourhood_preserved_robots[id], detected_obstacles);
@@ -138,7 +138,7 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
 Vector_t minSpeedConstraint(const Robot& robot, const RobotGraph& detected_robots,
                             const ObstacleGraph& detected_obstacles, const Variables& v)
 {
-  RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(detected_robots, v);
+  RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, detected_robots, v);
   double calc_min =
       std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
                  maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),

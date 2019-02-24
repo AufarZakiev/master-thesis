@@ -35,7 +35,9 @@ std::optional<double> closestRobotDistance(const Robot& position, const RobotGra
 
 std::optional<double> minimumAngleNeighbour(const Robot& position, const RobotGraph& near_front_robots);
 
-RobotGraph getNeighbourPreservedRobots(const RobotGraph& detected_robots, const Variables& v);
+RobotGraph getNeighbourRobots(const Robot &robot, const RobotGraph &detected_robots, const Variables &v);
+
+RobotGraph getNeighbourPreservedRobots(const Robot &robot, const RobotGraph &neighbour_robots, const Variables &v);
 
 void printPlot(const std::vector<std::vector<std::tuple<double, double, double>>>& frame, const std::string& filename,
                const std::string& title, int rot_x_angle,
@@ -88,7 +90,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
        << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)) * 8]
                            [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)) * 8]) +
               0.01
-       << " filled front \n";
+       << " filled front lw 2\n";
     std::cout << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
               << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
               << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) << ","
@@ -96,7 +98,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
               << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)) * 8]
                                   [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)) * 8]) +
                      0.01
-              << " filled front \n";
+              << " filled front lw 2\n";
   }
   gp << "splot [0:15] [0:15] '-' \n";
   gp.send2d(frame);

@@ -6,7 +6,7 @@ std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
   Vector_t ji = getRelativePosition(i, j);
   auto min = std::numeric_limits<double>::max();
   Obstacle min_obstacle = detected_obstacle_graph_in_D_set[0];
-  for (auto id = 0; id < boost::num_vertices(detected_obstacle_graph_in_D_set); ++id)
+  for (size_t id = 0; id < boost::num_vertices(detected_obstacle_graph_in_D_set); ++id)
   {
     if (getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph_in_D_set[id]), ji)) < min)
     {
@@ -21,8 +21,8 @@ Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
                      const ObstacleGraph& detected_obstacle_graph_in_D_set)
 {
   auto min = closestObstacleToLOS(i, robots_near_preserved[0], detected_obstacle_graph_in_D_set);
-  auto min_id = 0;
-  for (auto id = 0; id < boost::num_vertices(detected_obstacle_graph_in_D_set); ++id)
+  size_t min_id = 0;
+  for (size_t id = 0; id < boost::num_vertices(detected_obstacle_graph_in_D_set); ++id)
   {
     if (closestObstacleToLOS(i, robots_near_preserved[id], detected_obstacle_graph_in_D_set).second < min.second)
     {
@@ -43,7 +43,7 @@ std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, con
   }
   auto min = getVectorLength(getRelativePosition(obstacles_detected[0], position));
   Obstacle min_obstacle = obstacles_detected[0];
-  for (auto id = 0; id < boost::num_vertices(obstacles_detected); id++)
+  for (size_t id = 0; id < boost::num_vertices(obstacles_detected); id++)
   {
     if (getVectorLength(getRelativePosition(obstacles_detected[id], position)) < min)
     {
@@ -58,7 +58,7 @@ std::pair<RobotGraph, RobotGraph>
 separateNeighbourRobotsBehindAndFront(const Robot& robot, const RobotGraph& neighbourhood_preserved_robots)
 {
   RobotGraph behind, front;
-  for (auto id = 0; id < boost::num_vertices(neighbourhood_preserved_robots); id++)
+  for (size_t id = 0; id < boost::num_vertices(neighbourhood_preserved_robots); id++)
   {
     Vector_t ji = getRelativePosition(robot, neighbourhood_preserved_robots[id]);
     if (robot.getSpeedDirection().dot(ji) <= 0)
@@ -77,7 +77,7 @@ std::pair<RobotGraph, RobotGraph> separateDetectedRobotsBehindAndFront(const Rob
                                                                        const RobotGraph& detected_robots)
 {
   RobotGraph detected_behind, detected_front;
-  for (auto id = 0; id < boost::num_vertices(detected_robots); id++)
+  for (size_t id = 0; id < boost::num_vertices(detected_robots); id++)
   {
     Vector_t ji = getRelativePosition(robot, detected_robots[id]);
     if (robot.getSpeedDirection().dot(ji) <= 0)
@@ -96,7 +96,7 @@ ObstacleGraph closingObstaclesInDSpace(const Robot& robot_i, const Robot& robot_
                                        const ObstacleGraph& detected_obstacles)
 {
   ObstacleGraph result;
-  for (auto id = 0; id < boost::num_vertices(detected_obstacles); id++)
+  for (size_t id = 0; id < boost::num_vertices(detected_obstacles); id++)
   {
     if (isObjectInDSpace(detected_obstacles[id], robot_i, robot_j))
     {
@@ -115,7 +115,7 @@ std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, cons
                                                             const ObstacleGraph& detected_obstacles)
 {
   ObstacleGraph detected_in_DSpace;
-  for (auto id = 0; id < boost::num_vertices(detected_obstacles); ++id)
+  for (size_t id = 0; id < boost::num_vertices(detected_obstacles); ++id)
   {
     if (isObjectInDSpace(detected_obstacles[id], i, j))
     {
@@ -129,7 +129,7 @@ std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, cons
   Vector_t ji = getRelativePosition(i, j);
   auto min = std::numeric_limits<double>::max();
   Obstacle min_obstacle = detected_in_DSpace[0];
-  for (auto id = 0; id < boost::num_vertices(detected_in_DSpace); ++id)
+  for (size_t id = 0; id < boost::num_vertices(detected_in_DSpace); ++id)
   {
     if (getVectorLength(getProjectionPhi(getRelativePosition(i, detected_in_DSpace[id]), ji)) < min)
     {
@@ -147,7 +147,7 @@ std::optional<double> farthestRobotDistance(const Robot& position, const RobotGr
     return std::nullopt;
   }
   auto max = getVectorLength(getRelativePosition(position, robots[0]));
-  for (auto id = 0; id < boost::num_vertices(robots); id++)
+  for (size_t id = 0; id < boost::num_vertices(robots); id++)
   {
     if (getVectorLength(getRelativePosition(position, robots[id])) > max)
     {
@@ -164,7 +164,7 @@ std::optional<double> closestRobotDistance(const Robot& position, const RobotGra
     return std::nullopt;
   }
   auto min = getVectorLength(getRelativePosition(position, robots[0]));
-  for (auto id = 0; id < boost::num_vertices(robots); id++)
+  for (size_t id = 0; id < boost::num_vertices(robots); id++)
   {
     if (getVectorLength(getRelativePosition(position, robots[id])) < min)
     {
@@ -182,7 +182,7 @@ std::optional<double> minimumAngleNeighbour(const Robot& position,
     return std::nullopt;
   }
   auto min = position.getSpeedDirection().dot(getRelativePosition(position, near_front_robots[0]));
-  for (auto id = 0; id < boost::num_vertices(near_front_robots); id++)
+  for (size_t id = 0; id < boost::num_vertices(near_front_robots); id++)
   {
     if (position.getSpeedDirection().dot(getRelativePosition(position, near_front_robots[id])) < min)
     {
@@ -192,19 +192,33 @@ std::optional<double> minimumAngleNeighbour(const Robot& position,
   return min;
 }
 
-RobotGraph getNeighbourPreservedRobots(const RobotGraph& detected_robots, const Variables& v)
+RobotGraph getNeighbourRobots(const Robot& robot, const RobotGraph& detected_robots, const Variables& v)
+{
+  double NEIGHBOORHOOD_DISTANCE;
+  v.getParam("neighbourhood_distance", NEIGHBOORHOOD_DISTANCE);
+  RobotGraph neighbourhood_robots;
+  auto desc_robot = boost::add_vertex(robot, neighbourhood_robots);
+  for (size_t i = 0; i < num_vertices(detected_robots); i++)
+  {
+    if (getVectorLength(getRelativePosition(robot, detected_robots[i])) < NEIGHBOORHOOD_DISTANCE)
+    {
+      auto desc_j = boost::add_vertex(detected_robots[i], neighbourhood_robots);
+      boost::add_edge(desc_robot, desc_j, neighbourhood_robots);
+    }
+  }
+  return neighbourhood_robots;
+}
+
+RobotGraph getNeighbourPreservedRobots(const Robot& robot, const RobotGraph& neighbour_robots, const Variables& v)
 {
   RobotGraph neighbourhood_preserved_robots;
-  for (auto i = 0; i < num_vertices(detected_robots); i++)
+  auto desc_robot = boost::add_vertex(robot, neighbourhood_preserved_robots);
+  for (size_t i = 0; i < num_vertices(neighbour_robots); i++)
   {
-    for (auto j = 0; j < num_vertices(detected_robots); j++)
+    if (isEdgePreserved(robot, neighbour_robots[i], neighbour_robots, v))
     {
-      if (isEdgePreserved(detected_robots[i], detected_robots[j], detected_robots, v))
-      {
-        auto desc_i = boost::add_vertex(detected_robots[i], neighbourhood_preserved_robots);
-        auto desc_j = boost::add_vertex(detected_robots[j], neighbourhood_preserved_robots);
-        boost::add_edge(desc_i, desc_j, neighbourhood_preserved_robots);
-      }
+      auto desc_i = boost::add_vertex(neighbour_robots[i], neighbourhood_preserved_robots);
+      boost::add_edge(desc_robot, desc_i, neighbourhood_preserved_robots);
     }
   }
   return neighbourhood_preserved_robots;

@@ -153,9 +153,13 @@ TEST(printPlotWithArrowsTest, ShouldPass) {
 
   printPlotWithArrows("Interrobot arrows test.png", "Interrobot", 30, 30, {r1, r2, r3, r4},
                       std::function(&interrobotCollisionPotential), rg, v);
+  printPlotWithArrows("Interrobot arrows test_0_90.png", "Interrobot", 0, 90, {r1, r2, r3, r4},
+                      std::function(&interrobotCollisionPotential), rg, v);
   printPlotWithArrows("Arrows test_cohesion_0_90.png", "Cohesion", 0, 90, {r1, r2, r3, r4},
                       std::function(&cohesionPotential), rg, v);
 }
+
+
 
 int main(int argc, char** argv)
 {
