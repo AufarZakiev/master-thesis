@@ -7,22 +7,18 @@ TEST(CohesionPotentialTest_4_robots, ShouldPass)
   Variables& v = Variables::getInstance();
   v.setParam("neighbourhood_distance", 1.0f);
 
-  Vector_t v1, v2, v3, v4;
-  v1 << 5, 5;
-  v2 << 10, 10;
-  v3 << 10, 5;
-  v4 << 5, 10;
-  Robot r1(v1);
-  Robot r2(v2);
-  Robot r3(v3);
-  Robot r4(v4);
+  Robot r1(Vector_t(5,5));
+  Robot r2(Vector_t(10,10));
+  Robot r3(Vector_t(10,5));
+  Robot r4(Vector_t(5,10));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
   boost::add_vertex(r3, rg);
   boost::add_vertex(r4, rg);
 
-  printPlot("Cohesion_field_4_robots_uniform.png", "Cohesion field 4 robots", 0, 90, std::function(&cohesionPotential), rg, v);
+  printPlot("Cohesion_field_4_robots_uniform.png", "Cohesion field 4 robots", 0, 90, std::function(&cohesionPotential),
+            rg, v);
 }
 
 TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
@@ -30,16 +26,14 @@ TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
   Variables& v = Variables::getInstance();
   v.setParam("neighbourhood_distance", 1.0f);
 
-  Vector_t v1, v2;
-  v1 << 0, 0;
-  v2 << 10, 10;
-  Robot r1(v1);
-  Robot r2(v2);
+  Robot r1(Vector_t(0,0));
+  Robot r2(Vector_t(10,10));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
 
-  printPlot("Cohesion_field_2_robots_cohesive_offset.png", "Cohesion field 2 robots", 0, 90, std::function(&cohesionPotential), rg, v);
+  printPlot("Cohesion_field_2_robots_cohesive_offset.png", "Cohesion field 2 robots", 0, 90,
+            std::function(&cohesionPotential), rg, v);
 }
 
 TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
@@ -47,11 +41,8 @@ TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
   Variables& v = Variables::getInstance();
   v.setParam("neighbourhood_distance", 20.0f);
 
-  Vector_t v1, v2;
-  v1 << 0, 0;
-  v2 << 10, 10;
-  Robot r1(v1);
-  Robot r2(v2);
+  Robot r1(Vector_t(0,0));
+  Robot r2(Vector_t(10,10));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -69,11 +60,8 @@ TEST(InterrobotPotentialTest_2_robots, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
 
-  Vector_t v1, v2;
-  v1 << 5.5, 5.5;
-  v2 << 9.5, 9.5;
-  Robot r1(v1);
-  Robot r2(v2);
+  Robot r1(Vector_t(5.5, 5.5));
+  Robot r2(Vector_t(9.5, 9.5));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -89,9 +77,7 @@ TEST(ObstaclePotentialTest_one_obstacle, ShouldPass)
   v.setParam("obstacles_avoidance_distance", 1.5);
   v.setParam("small_positive_constant", 0.2);
 
-  Vector_t v1;
-  v1 << 6.0, 6.0;
-  Obstacle o1(v1);
+  Obstacle o1(Vector_t(6.0, 6.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 
@@ -106,11 +92,8 @@ TEST(ObstaclePotentialTest_two_obstacle, ShouldPass)
   v.setParam("obstacles_avoidance_distance", 1.5);
   v.setParam("small_positive_constant", 0.2);
 
-  Vector_t v1, v2;
-  v1 << 10.0, 10.0;
-  v2 << 5.0, 5.0;
-  Obstacle o1(v1);
-  Obstacle o2(v2);
+  Obstacle o1(Vector_t(10.0, 10.0));
+  Obstacle o2(Vector_t(5.0, 5.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
   boost::add_vertex(o2, og);
@@ -126,11 +109,8 @@ TEST(ObstaclePotentialTest_two_obstacle_interfere, ShouldPass)
   v.setParam("obstacles_avoidance_distance", 1.5);
   v.setParam("small_positive_constant", 0.2);
 
-  Vector_t v1, v2;
-  v1 << 6.0, 6.0;
-  v2 << 5.0, 5.0;
-  Obstacle o1(v1);
-  Obstacle o2(v2);
+  Obstacle o1(Vector_t(6.0, 6.0));
+  Obstacle o2(Vector_t(5.0, 5.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
   boost::add_vertex(o2, og);
@@ -148,15 +128,11 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
   v.setParam("los_clearance_distance", 0.2);
   v.setParam("small_positive_constant", 0.2);
 
-  Vector_t v1, v2;
-  v1 << 6.0, 6.0;
-  v2 << 5.0, 5.0;
-
-  Obstacle o1(v1);
+  Obstacle o1(Vector_t(6.0,6.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 
-  Robot r1(v2);
+  Robot r1(Vector_t(5.0,5.0));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
 
@@ -166,6 +142,12 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
 
 TEST(overallPotentialTest, ShouldPass)
 {
+  Robot r1(Vector_t(5.0, 5.0));
+  Robot r2(Vector_t(5.0, 5.0));
+  Robot r3(Vector_t(5.0, 5.0));
+  Robot r4(Vector_t(5.0, 5.0));
+
+
 }
 
 int main(int argc, char** argv)

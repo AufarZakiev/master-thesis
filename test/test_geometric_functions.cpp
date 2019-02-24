@@ -6,8 +6,8 @@
 
 TEST(VectorDistanceTest, ShouldPass)
 {
-  Eigen::Vector2d v1;
-  Eigen::Vector2d v2;
+  Vector_t v1;
+  Vector_t v2;
   v1 << 1.0, 1.0;
   v2 << 1, 1;
   EXPECT_EQ(0, getVectorDistance(v1, v2));
@@ -18,7 +18,7 @@ TEST(VectorDistanceTest, ShouldPass)
 
 TEST(VectorLengthTest, ShouldPass)
 {
-  Eigen::Vector2d v;
+  Vector_t v;
   v << 3, 3;
   EXPECT_EQ(sqrt(18), getVectorLength(v));
   v << 3, 4;
@@ -29,9 +29,9 @@ TEST(VectorLengthTest, ShouldPass)
 
 TEST(isObjectOnLineSegmentTest, ShouldPass)
 {
-  Eigen::Vector2d v1;
-  Eigen::Vector2d v2;
-  Eigen::Vector2d o;
+  Vector_t v1;
+  Vector_t v2;
+  Vector_t o;
   v1 << 3, 3;
   v2 << 2, 2;
   o << 2.5, 2.5;
@@ -85,9 +85,9 @@ TEST(isObjectOnLineSegmentTest, ShouldPass)
 
 TEST(isObjectInDSpaceTest, NonBorderCases)
 {
-  Eigen::Vector2d v1;
-  Eigen::Vector2d v2;
-  Eigen::Vector2d o;
+  Vector_t v1;
+  Vector_t v2;
+  Vector_t o;
   v1 << 3, 3;
   v2 << 2, 2;
   o << 2.5, 2.5;
@@ -173,24 +173,15 @@ TEST(isObjectInDSpaceTest, NonBorderCases)
 
 TEST(isObjectInDSpaceTest, BorderCases)
 {
-  Eigen::Vector2d v1;
-  Eigen::Vector2d v2;
-  Eigen::Vector2d o;
-  v1 << 1, 1;
-  v2 << 3, 3;
-  o << 5, 1;
-
-  RigidObject r1(v1);
-  RigidObject r2(v2);
-  RigidObject ro(o);
+  RigidObject r1(Vector_t(1, 1));
+  RigidObject r2(Vector_t(3, 3));
+  RigidObject ro(Vector_t(5, 1));
 
   EXPECT_EQ(false, isObjectInDSpace(ro, r1, r2));
-  v1 << 1, 1;
-  v2 << 3, 3;
-  o << 2, 0;
-  r1.setPosition(v1);
-  r2.setPosition(v2);
-  ro.setPosition(o);
+
+  r1.setPosition(Vector_t(1, 1));
+  r2.setPosition(Vector_t(3, 3));
+  ro.setPosition(Vector_t(2, 0));
   EXPECT_EQ(false, isObjectInDSpace(ro, r1, r2));
 }
 
@@ -211,12 +202,8 @@ TEST(getProjectionPhiTest, ShouldPass)
 TEST(isVectorInGraphTest, ShouldPass)
 {
   RobotGraph rg;
-  Position_t v1;
-  Position_t v2;
-  v1 << 0, 0;
-  v2 << 1, 1;
-  Robot r1(v1);
-  Robot r2(v2);
+  Robot r1(Position_t(0,0));
+  Robot r2(Position_t(1,1));
 
   RobotDesc r1_d = boost::add_vertex(r1, rg);
   RobotDesc r2_d = boost::add_vertex(r2, rg);
@@ -250,15 +237,9 @@ TEST(isObjectInTSetTest, ShouldPass)
   v.setParam("edge_deletion_distance", 10.0f);
 
   RobotGraph rg;
-  Position_t v1;
-  Position_t v2;
-  Position_t v3;
-  v1 << 0, 0;
-  v2 << 1, 0;
-  v3 << 0.5, 0.5;
-  Robot i(v1);
-  Robot j(v2);
-  Robot m(v3);
+  Robot i(Position_t(0,0));
+  Robot j(Position_t(1,0));
+  Robot m(Position_t(0.5,0.5));
 
   RobotDesc i_d = boost::add_vertex(i, rg);
   RobotDesc j_d = boost::add_vertex(j, rg);
@@ -276,8 +257,7 @@ TEST(isObjectInTSetTest, ShouldPass)
   boost::add_edge(i_d, j_d, rg);
   EXPECT_EQ(true, isObjectInTSet(i, j, m, rg, v));
 
-  v3 << 0.5, -0.5;
-  m.setPosition(v3);
+  m.setPosition(Vector_t(0.5, -0.5));
   EXPECT_EQ(false, isObjectInTSet(i, j, m, rg, v));
 }
 
@@ -288,15 +268,9 @@ TEST(isObjectInDashedTSetTest, ShouldPass)
   v.setParam("robots_avoidance_distance", 10.0f);
 
   RobotGraph rg;
-  Position_t v1;
-  Position_t v2;
-  Position_t v3;
-  v1 << 0, 0;
-  v2 << 10, 0;
-  v3 << 5, 12;
-  Robot m(v1);
-  Robot i(v2);
-  Robot j(v3);
+  Robot m(Position_t(0, 0));
+  Robot i(Position_t(10, 0));
+  Robot j(Position_t(5, 12));
 
   RobotDesc i_d = boost::add_vertex(i, rg);
   RobotDesc j_d = boost::add_vertex(j, rg);
@@ -314,12 +288,10 @@ TEST(isObjectInDashedTSetTest, ShouldPass)
   boost::add_edge(i_d, j_d, rg);
   EXPECT_EQ(true, isObjectInDashedTSet(i, j, m, rg, v));
 
-  v3 << 5, -12;
-  m.setPosition(v3);
+  m.setPosition(Vector_t(5, -12));
   EXPECT_EQ(false, isObjectInDashedTSet(i, j, m, rg, v));
 
-  v3 << 5, -10;
-  m.setPosition(v3);
+  m.setPosition(Vector_t(5, 10));
   EXPECT_EQ(false, isObjectInDashedTSet(i, j, m, rg, v));
 }
 
@@ -331,19 +303,12 @@ TEST(isEdgePreservedTest, ShouldPass)
   v.setParam("edge_deletion_distance", 5.0f);
 
   RobotGraph rg;
-  Position_t v1, v2, v3, v4, v5, v6;
-  v1 << 0, 0;
-  v2 << 1, 0;
-  v3 << 0.5, 0.5;
-  v4 << 0.5, -0.5;
-  v5 << -1, 0;
-  v6 << -0.5, 0.5;
-  Robot r1(v1);
-  Robot r2(v2);
-  Robot r3(v3);
-  Robot r4(v4);
-  Robot r5(v5);
-  Robot r6(v6);
+  Robot r1(Position_t(0, 0));
+  Robot r2(Position_t(1, 0));
+  Robot r3(Position_t(0.5, 0.5));
+  Robot r4(Position_t(0.5, -0.5));
+  Robot r5(Position_t(-1, 0));
+  Robot r6(Position_t(-0.5, 0.5));
 
   RobotDesc r1_d = boost::add_vertex(r1, rg);
   RobotDesc r2_d = boost::add_vertex(r2, rg);
@@ -363,8 +328,7 @@ TEST(isEdgePreservedTest, ShouldPass)
   EXPECT_EQ(true, isEdgePreserved(r1, r2, rg, v));
 
   boost::remove_vertex(r3_d, rg);
-  v3 << 6, 0;
-  r3.setPosition(v3);
+  r3.setPosition(Vector_t(6, 0));
   r3_d = boost::add_vertex(r3, rg);
   boost::add_edge(r3_d, r1_d, rg);
   EXPECT_EQ(true, isEdgePreserved(r1, r2, rg, v));
