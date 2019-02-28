@@ -7,10 +7,10 @@ TEST(CohesionPotentialTest_4_robots, ShouldPass)
   Variables& v = Variables::getInstance();
   v.setParam("neighbourhood_distance", 1.0f);
 
-  Robot r1(Vector_t(5,5));
-  Robot r2(Vector_t(10,10));
-  Robot r3(Vector_t(10,5));
-  Robot r4(Vector_t(5,10));
+  Robot r1(Vector_t(5, 5));
+  Robot r2(Vector_t(10, 10));
+  Robot r3(Vector_t(10, 5));
+  Robot r4(Vector_t(5, 10));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -26,8 +26,8 @@ TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
   Variables& v = Variables::getInstance();
   v.setParam("neighbourhood_distance", 1.0f);
 
-  Robot r1(Vector_t(0,0));
-  Robot r2(Vector_t(10,10));
+  Robot r1(Vector_t(0, 0));
+  Robot r2(Vector_t(10, 10));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -41,8 +41,8 @@ TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
   Variables& v = Variables::getInstance();
   v.setParam("neighbourhood_distance", 20.0f);
 
-  Robot r1(Vector_t(0,0));
-  Robot r2(Vector_t(10,10));
+  Robot r1(Vector_t(0, 0));
+  Robot r2(Vector_t(10, 10));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -130,16 +130,21 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
   v.setParam("obstacle_care_distance", 3.0);
   v.setParam("obstacles_avoidance_distance", 1.5);
 
-  Obstacle o1(Vector_t(6.0,6.0));
+  Obstacle o1(Vector_t(6.0, 6.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 
-  Robot r1(Vector_t(5.0,5.0));
+  Robot r1(Vector_t(5.0, 5.0));
+  Robot r2(Vector_t(10.0, 10.0));
   RobotGraph rg;
-  boost::add_vertex(r1, rg);
+  auto r1_desc = boost::add_vertex(r1, rg);
 
   printPlot("LOS fields.png", "LOS preservation field", 45, 25, std::function(&LOSPreservePotential), rg, og, v);
   printPlot("LOS fields_0_90.png", "LOS preservation field", 0, 90, std::function(&LOSPreservePotential), rg, og, v);
+  boost::remove_vertex(r1_desc, rg);
+  boost::add_vertex(r2, rg);
+  printPlot("LOS fields 2 robots.png", "LOS preservation field", 45, 25, std::function(&LOSPreservePotential), rg, og,
+            v);
 }
 
 TEST(overallPotentialTest, ShouldPass)
@@ -150,38 +155,38 @@ TEST(overallPotentialTest, ShouldPass)
   v.setParam("small_positive_constant", 0.2);
   v.setParam("robots_avoidance_distance", 2.0);
   v.setParam("desired_distance", 3.5);
-  v.setParam("neighbourhood_distance", 5.0);
+  v.setParam("neighbourhood_distance", 15.0);
   v.setParam("obstacle_care_distance", 3.0);
   v.setParam("obstacles_avoidance_distance", 1.5);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 0.1);
-  v.setParam("c2", 0.0);
-  v.setParam("c3", 0.0);
-  v.setParam("c4", 0.0);
+  v.setParam("c1", 1.0);
+  v.setParam("c2", 1.0);
+  v.setParam("c3", 1.0);
+  v.setParam("c4", 1.0);
 
-  Robot r1(Vector_t(10.0, 5.0));
-  Robot r2(Vector_t(5.0, 10.0));
-  Robot r3(Vector_t(5.0, 5.0));
-  Robot r4(Vector_t(10.0, 10.0));
+  Robot r1(Vector_t(5.0, 5.0));
+  Robot r2(Vector_t(10.0, 5.0));
+  Robot r3(Vector_t(7.5, 7.5));
   RobotGraph rg;
-  boost::add_vertex(r1,rg);
-  boost::add_vertex(r2,rg);
-  boost::add_vertex(r3,rg);
-  boost::add_vertex(r4,rg);
+  boost::add_vertex(r1, rg);
+  boost::add_vertex(r2, rg);
+  boost::add_vertex(r3, rg);
 
-  Obstacle o1(Vector_t(7.5,10.0));
-  Obstacle o2(Vector_t(10.0,7.5));
-  Obstacle o3(Vector_t(15.0,5.0));
-  Obstacle o4(Vector_t(5.0,15.0));
+  Obstacle o1(Vector_t(7.5, 6.0));
+  Obstacle o2(Vector_t(7.5, 9.5));
+  Obstacle o3(Vector_t(15.0, 5.0));
+  Obstacle o4(Vector_t(6.0, 6.0));
   ObstacleGraph og;
-  boost::add_vertex(o1,og);
-  boost::add_vertex(o2,og);
-  //boost::add_vertex(o3,og);
-  //boost::add_vertex(o4,og);
+  boost::add_vertex(o1, og);
+//  boost::add_vertex(o2, og);
+//  boost::add_vertex(o3,og);
+//  boost::add_vertex(o4, og);
 
-  printPlotWithArrows("Overall potentials.png","Overall potentials",30,60, {r1,r2,r3,r4}, std::function(&overallPotential), rg, og,v);
-  printPlotWithArrows("Overall potentials_0_90.png","Overall potentials",0,90, {r1,r2,r3,r4}, std::function(&overallPotential), rg, og,v);
+  printPlotWithArrows("Overall potentials.png", "Overall potentials", 30, 60, { r1,r2,r3 }, std::function(&overallPotential),
+                      rg, og, v);
+  printPlotWithArrows("Overall potentials_0_90.png", "Overall potentials", 0, 90, { r1,r2,r3 },
+                      std::function(&overallPotential), rg, og, v);
 }
 
 int main(int argc, char** argv)

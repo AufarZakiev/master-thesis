@@ -34,7 +34,7 @@ double partialObstacleCollisionPotential(double z, const Variables& v)
   v.getParam("obstacles_avoidance_distance", OBSTACLE_AVOIDANCE_DISTANCE);
   v.getParam("small_positive_constant", SMALL_POSITIVE_CONSTANT);
   double potential = 0;
-  if (z >= OBSTACLE_CARE_DISTANCE)
+  if (z >= OBSTACLE_CARE_DISTANCE || z < OBSTACLE_AVOIDANCE_DISTANCE)
     return 0;
   potential = (1.0 / ((z - OBSTACLE_AVOIDANCE_DISTANCE) / (OBSTACLE_CARE_DISTANCE - OBSTACLE_AVOIDANCE_DISTANCE) +
                       SMALL_POSITIVE_CONSTANT)) -

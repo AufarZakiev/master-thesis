@@ -197,13 +197,13 @@ RobotGraph getNeighbourRobots(const Robot& robot, const RobotGraph& detected_rob
   double NEIGHBOORHOOD_DISTANCE;
   v.getParam("neighbourhood_distance", NEIGHBOORHOOD_DISTANCE);
   RobotGraph neighbourhood_robots;
-  auto desc_robot = boost::add_vertex(robot, neighbourhood_robots);
+  //auto desc_robot = boost::add_vertex(robot, neighbourhood_robots);
   for (size_t i = 0; i < num_vertices(detected_robots); i++)
   {
     if (getVectorLength(getRelativePosition(robot, detected_robots[i])) < NEIGHBOORHOOD_DISTANCE)
     {
       auto desc_j = boost::add_vertex(detected_robots[i], neighbourhood_robots);
-      boost::add_edge(desc_robot, desc_j, neighbourhood_robots);
+      //boost::add_edge(desc_robot, desc_j, neighbourhood_robots);
     }
   }
   return neighbourhood_robots;

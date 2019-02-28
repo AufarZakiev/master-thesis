@@ -99,8 +99,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
       Vector_t temp;
       temp << i / 8.0, j / 8.0;
       Robot point(temp);
-
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), func(Robot(Position_t(temp(0, 0), temp(1, 0))), args...));
+      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), func(point, args...));
     }
   }
 
@@ -109,7 +108,11 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
   gp << "set output \"";
   gp << filename.c_str();
   gp << "\"\n";
-  gp << "set view " << rot_x_angle << ", " << rot_z_angle << ", 1, 1\n";
+  gp << "set view ";
+  gp << rot_x_angle;
+  gp << ", ";
+  gp << rot_z_angle;
+  gp << ", 1, 1\n";
   gp << "set samples 120, 120\n";
   gp << "set style data lines\n";
   gp << "set pm3d\n";
