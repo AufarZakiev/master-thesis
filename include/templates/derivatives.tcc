@@ -1,8 +1,7 @@
 #include "../headers/classes.h"
 
-template <typename function_type>
-double partialDerivative(const double& point, function_type objective_func, const Variables& v)
-{
+template<typename function_type>
+double partialDerivative(const double &point, function_type objective_func, const Variables &v) {
   double dx1;
   v.getParam("derivative_epsilon", dx1);
   const double dx2 = dx1 * 2;
@@ -19,9 +18,9 @@ double partialDerivative(const double& point, function_type objective_func, cons
   return ((fifteen_m1 - six_m2) + m3) / ten_dx1;
 };
 
-template <typename function_type>
-double fullDerivative(const Eigen::Vector2d& point, function_type objective_func,
-                      const Variables& v)  // function to compute full derivative of the 2-variable function
+template<typename function_type>
+double fullDerivative(const Eigen::Vector2d &point, function_type objective_func,
+                      const Variables &v)  // function to compute full derivative of the 2-variable function
 {
   double dx1;
   v.getParam("derivative_epsilon", dx1);
@@ -51,9 +50,8 @@ double fullDerivative(const Eigen::Vector2d& point, function_type objective_func
   return answer;
 }
 
-template <typename function_type>
-Vector_t gradient(const Position_t& point, function_type objective_func, const Variables& v)
-{
+template<typename function_type>
+Vector_t gradient(const Position_t &point, function_type objective_func, const Variables &v) {
   Vector_t answer;
   {
     double dx1;
@@ -62,11 +60,14 @@ Vector_t gradient(const Position_t& point, function_type objective_func, const V
     const double dx3 = dx1 * 3;
 
     const double m1 =
-        (objective_func(point(0, 0) + dx1, point(1, 0)) - objective_func(point(0, 0) - dx1, point(1, 0))) / 2;
+            (objective_func(point(0, 0) + dx1, point(1, 0)) -
+             objective_func(point(0, 0) - dx1, point(1, 0))) / 2;
     const double m2 =
-        (objective_func(point(0, 0) + dx2, point(1, 0)) - objective_func(point(0, 0) - dx2, point(1, 0))) / 4;
+            (objective_func(point(0, 0) + dx2, point(1, 0)) -
+             objective_func(point(0, 0) - dx2, point(1, 0))) / 4;
     const double m3 =
-        (objective_func(point(0, 0) + dx3, point(1, 0)) - objective_func(point(0, 0) - dx3, point(1, 0))) / 6;
+            (objective_func(point(0, 0) + dx3, point(1, 0)) -
+             objective_func(point(0, 0) - dx3, point(1, 0))) / 6;
 
     const double fifteen_m1 = 15 * m1;
     const double six_m2 = 6 * m2;
@@ -80,11 +81,14 @@ Vector_t gradient(const Position_t& point, function_type objective_func, const V
     const double dx3 = dx1 * 3;
 
     const double m1 =
-        (objective_func(point(0, 0), point(1, 0) + dx1) - objective_func(point(0, 0), point(1, 0) - dx1)) / 2;
+            (objective_func(point(0, 0), point(1, 0) + dx1) -
+             objective_func(point(0, 0), point(1, 0) - dx1)) / 2;
     const double m2 =
-        (objective_func(point(0, 0), point(1, 0) + dx2) - objective_func(point(0, 0), point(1, 0) - dx2)) / 4;
+            (objective_func(point(0, 0), point(1, 0) + dx2) -
+             objective_func(point(0, 0), point(1, 0) - dx2)) / 4;
     const double m3 =
-        (objective_func(point(0, 0), point(1, 0) + dx3) - objective_func(point(0, 0), point(1, 0) - dx3)) / 6;
+            (objective_func(point(0, 0), point(1, 0) + dx3) -
+             objective_func(point(0, 0), point(1, 0) - dx3)) / 6;
 
     const double fifteen_m1 = 15 * m1;
     const double six_m2 = 6 * m2;
@@ -92,4 +96,52 @@ Vector_t gradient(const Position_t& point, function_type objective_func, const V
     answer(1, 0) = ((fifteen_m1 - six_m2) + m3) / ten_dx1;
   }
   return answer;
+};
+
+template<typename function_type, typename... Args>
+Vector_t gradientPotential(const Position_t &point, function_type objective_func, const Variables &v, Args... args) {
+  Vector_t answer;
+  {
+    double dx1;
+    v.getParam("derivative_epsilon", dx1);
+    const double dx2 = dx1 * 2;
+    const double dx3 = dx1 * 3;
+
+    const double m1 =
+            (objective_func(Robot(Position_t(point(0, 0) + dx1, point(1, 0))), args..., v) -
+             objective_func(Robot(Position_t(point(0, 0) - dx1, point(1, 0))), args..., v)) / 2;
+    const double m2 =
+            (objective_func(Robot(Position_t(point(0, 0) + dx2, point(1, 0))), args..., v) -
+             objective_func(Robot(Position_t(point(0, 0) - dx2, point(1, 0))), args..., v)) / 4;
+    const double m3 =
+            (objective_func(Robot(Position_t(point(0, 0) + dx3, point(1, 0))), args..., v) -
+             objective_func(Robot(Position_t(point(0, 0) - dx3, point(1, 0))), args..., v)) / 6;
+
+    const double fifteen_m1 = 15 * m1;
+    const double six_m2 = 6 * m2;
+    const double ten_dx1 = 10 * dx1;
+    answer(0, 0) = ((fifteen_m1 - six_m2) + m3) / ten_dx1;
+  }
+  {
+    double dx1;
+    v.getParam("derivative_epsilon", dx1);
+    const double dx2 = dx1 * 2;
+    const double dx3 = dx1 * 3;
+
+    const double m1 =
+            (objective_func(Robot(Position_t(point(0, 0), point(1, 0) + dx1)), args..., v) -
+             objective_func(Robot(Position_t(point(0, 0), point(1, 0) - dx1)), args..., v)) / 2;
+    const double m2 =
+            (objective_func(Robot(Position_t(point(0, 0), point(1, 0) + dx2)), args..., v) -
+             objective_func(Robot(Position_t(point(0, 0), point(1, 0) - dx2)), args..., v)) / 4;
+    const double m3 =
+            (objective_func(Robot(Position_t(point(0, 0), point(1, 0) + dx3)), args..., v) -
+             objective_func(Robot(Position_t(point(0, 0), point(1, 0) - dx3)), args..., v)) / 6;
+
+    const double fifteen_m1 = 15 * m1;
+    const double six_m2 = 6 * m2;
+    const double ten_dx1 = 10 * dx1;
+    answer(1, 0) = ((fifteen_m1 - six_m2) + m3) / ten_dx1;
+  }
+  return -answer;
 };
