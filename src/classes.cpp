@@ -1,4 +1,5 @@
 #include "../include/headers/classes.h"
+#include "../include/headers/geometric_functions.h"
 
 RigidObject::RigidObject()
 {
@@ -54,7 +55,11 @@ const Vector_t Robot::getSpeedDirection() const
 
 void Robot::setSpeedDirection(const Vector_t& current_speed_direction)
 {
-  this->current_speed_direction_ = current_speed_direction;
+  if(getVectorLength(current_speed_direction)>0.001f) {
+    this->current_speed_direction_ = 3 * current_speed_direction / getVectorLength(current_speed_direction);
+  }else{
+    this->current_speed_direction_ = current_speed_direction_;
+  }
 }
 
 Obstacle::Obstacle(Position_t position)
