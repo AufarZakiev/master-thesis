@@ -17,7 +17,7 @@ double maximumDistanceConstraint(const Robot& robot, const RobotGraph& neighbour
   }
   else
   {
-    return std::numeric_limits<double>::max();  // TODO: good point to avoid exceptions?
+    return std::numeric_limits<double>::max();
   }
 };
 
@@ -35,7 +35,7 @@ double maximumDistanceConstraint2(const Robot& robot, const RobotGraph& neighbou
   }
   else
   {
-    return std::numeric_limits<double>::max();  // TODO: good point to avoid exceptions?
+    return std::numeric_limits<double>::max();
   }
 };
 
@@ -56,7 +56,7 @@ double interrobotAvoidanceConstraint(const Robot& robot, const RobotGraph& detec
   }
   else
   {
-    return std::numeric_limits<double>::max();  // TODO: good point to avoid exceptions?
+    return std::numeric_limits<double>::max();
   }
 };
 

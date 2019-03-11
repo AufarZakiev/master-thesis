@@ -14,8 +14,7 @@ std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
 Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
                      const ObstacleGraph& detected_obstacle_graph_in_D_set);
 
-std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, const ObstacleGraph& obstacles_detected,
-                                                const Variables& v);
+std::optional<Obstacle> closestDetectedObstacle(const RigidObject &position, const ObstacleGraph &obstacles_detected);
 
 std::pair<RobotGraph, RobotGraph>
 separateNeighbourRobotsBehindAndFront(const Robot& robot, const RobotGraph& neighbourhood_preserved_robots);

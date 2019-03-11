@@ -1,5 +1,25 @@
 #include "../include/headers/geometric_functions.h"
 
+std::optional<RobotDesc> findRobotInGraph(const Robot ro, const RobotGraph graph)
+{
+  for (RobotDesc desc = 0; desc < boost::num_vertices(graph); ++desc)
+  {
+    if (graph[desc].getRobotID() == ro.getRobotID())
+      return desc;
+  }
+  return std::nullopt;
+};
+
+std::optional<ObstacleDesc> findObstacleInGraph(const Obstacle ro, const ObstacleGraph graph)
+{
+  for (ObstacleDesc desc = 0; desc < boost::num_vertices(graph); ++desc)
+  {
+    if (graph[desc].getObstacleID() == ro.getObstacleID())
+      return desc;
+  }
+  return std::nullopt;
+};
+
 double getVectorDistance(const Vector_t& v1, const Vector_t& v2)
 {
   double x_coord = v1(0, 0) - v2(0, 0);
@@ -28,8 +48,8 @@ bool isEdgePreserved(const Robot& i, const Robot& j, const RobotGraph& rg, const
 {
   for (RobotDesc id = 0; id < boost::num_vertices(rg); ++id)
   {
-    if (rg[id].getID() != i.getID() &&
-        rg[id].getID() != j.getID())
+    if (rg[id].getRobotID() != i.getRobotID() &&
+            rg[id].getRobotID() != j.getRobotID())
     {
       if (isObjectInTSet(i, j, rg[id], rg, v) || isObjectInTSet(j, i, rg[id], rg, v) ||
           isObjectInDashedTSet(i, j, rg[id], rg, v) || isObjectInDashedTSet(j, i, rg[id], rg, v))
@@ -72,13 +92,11 @@ Vector_t getProjectionPhi(const Vector_t& p, const Vector_t& q)
 
 bool isEdgeInGraph(const Robot &i, const Robot &j, const RobotGraph &rg)
 {
-  RobotDesc i_d, j_d;
-  bool i_found, j_found;
-  std::tie(i_d, i_found) = findVertexInGraph(i, rg);
-  std::tie(j_d, j_found) = findVertexInGraph(j, rg);
-  if (!(i_found && j_found))
+  auto i_desc  = findRobotInGraph(i, rg);
+  auto j_desc = findRobotInGraph(j, rg);
+  if (!(i_desc && j_desc))
     return false;                           // check if the vertices exist
-  return boost::edge(i_d, j_d, rg).second;  // check if the edge between vertices exist
+  return boost::edge(i_desc.value(), j_desc.value(), rg).second;  // check if the edge between vertices exist
 }
 
 double angleBetweenVectorsInRadians(const Vector_t& v1, const Vector_t& v2)
@@ -113,13 +131,13 @@ bool isObjectInDashedTSet(const Robot &i, const Robot &j, const Robot &m, const 
   Vector_t mj = getRelativePosition(j, m);
   Vector_t jm = getRelativePosition(m, j);
   Vector_t ji = getRelativePosition(i, j);
-  double NEIGHBOURHOOD_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE, SMALL_POSITIVE_CONSTANT;
+  double NEIGHBOURHOOD_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE, EQUALITY_CASE;
   v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
   v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
-  v.getParam("small_positive_constant", SMALL_POSITIVE_CONSTANT);
-  bool areDistancesEqual = (getVectorLength(ji) - NEIGHBOURHOOD_DISTANCE) < SMALL_POSITIVE_CONSTANT &&
-                           (getVectorLength(mj) - NEIGHBOURHOOD_DISTANCE) < SMALL_POSITIVE_CONSTANT &&
-                           (getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE) < SMALL_POSITIVE_CONSTANT;
+  v.getParam("equality_case", EQUALITY_CASE);
+  bool areDistancesEqual = (getVectorLength(ji) - NEIGHBOURHOOD_DISTANCE) < EQUALITY_CASE &&
+                           (getVectorLength(mj) - NEIGHBOURHOOD_DISTANCE) < EQUALITY_CASE &&
+                           (getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE) < EQUALITY_CASE;
   bool areAllVectorsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;

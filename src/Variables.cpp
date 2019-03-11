@@ -3,17 +3,18 @@
 
 Variables::Variables()
 {
-  storage.insert(std::pair("robots_avoidance_distance", std::nullopt));
-  storage.insert(std::pair("obstacles_avoidance_distance", std::nullopt));
   storage.insert(std::pair("los_clearance_distance", std::nullopt));
   storage.insert(std::pair("los_clearance_care_distance", std::nullopt));
+  storage.insert(std::pair("small_positive_constant", 0.2f));
+  storage.insert(std::pair("robots_avoidance_distance", std::nullopt));
+  storage.insert(std::pair("desired_distance", std::nullopt));  // desired distance between robots
   storage.insert(std::pair("neighbourhood_distance", std::nullopt));
+  storage.insert(std::pair("obstacle_care_distance", std::nullopt));
+  storage.insert(std::pair("obstacles_avoidance_distance", std::nullopt));
   storage.insert(std::pair("edge_deletion_distance", std::nullopt));
-  storage.insert(std::pair("obstacle_care_distance", std::nullopt));  // distance on that potential
+    // distance on that potential
   // function of obstacle avoidance
   // starts to increase
-  storage.insert(std::pair("desired_distance", std::nullopt));  // desired distance between robots
-  storage.insert(std::pair("small_positive_constant", 0.2f));  // for checking distances for equality
   storage.insert(std::pair("derivative_epsilon", 0.01f));
   storage.insert(std::pair("equality_case", 0.00001f));  // for checking numbers for equality
   storage.insert(std::pair("k1", std::nullopt));  // design parameters in collision potential function

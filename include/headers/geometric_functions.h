@@ -4,16 +4,8 @@
 #include "classes.h"
 #include "../templates/derivatives.tcc"
 
-template <typename  T>
-std::pair<RobotDesc, bool> findVertexInGraph(const T& ro, const boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, T, Edge>& graph)
-{
-  for (RobotDesc id = 0; id < boost::num_vertices(graph); ++id)
-  {
-    if (graph[id].getPosition() == ro.getPosition())  // TODO: change identifying principle
-      return std::make_pair(id, true);
-  }
-  return std::make_pair(0, false);
-};
+std::optional<RobotDesc> findRobotInGraph(const Robot ro, const RobotGraph graph);
+std::optional<ObstacleDesc> findObstacleInGraph(const Obstacle ro, const ObstacleGraph graph);
 
 double getVectorDistance(const Vector_t& v1, const Vector_t& v2);  // get distance between two vectors
 double getVectorLength(const Vector_t& v);                         // get 2d vector length

@@ -99,7 +99,7 @@ Vector_t gradient(const Position_t &point, function_type objective_func, const V
 };
 
 template<typename function_type, typename... Args>
-Vector_t gradientPotential(const Position_t &point, function_type objective_func, const Variables &v, Args... args) {
+Vector_t gradientPotential(const Position_t &point, function_type objective_func, const Variables &v, Args&&... args) {
   Vector_t answer;
   {
     double dx1;

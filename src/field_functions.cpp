@@ -28,7 +28,7 @@ double LOSPreservePotential(const Robot& position, const RobotGraph& neighbourho
   }
   if (boost::num_vertices(detected_obstacle_graph_in_D_space) == 0)
   {
-    return 0;  // TODO: Find the point to filter this case
+    return 0;
   }
   Robot j_star = j_star_compute(position, neighbourhood_robots, detected_obstacle_graph_in_D_space);
   return partialLOSPreservePotential(
@@ -41,7 +41,7 @@ double LOSPreservePotential(const Robot& position, const RobotGraph& neighbourho
 
 double obstacleCollisionPotential(const Robot& position, const ObstacleGraph& detected_obstacles, const Variables& v)
 {
-  auto closest_obstacle = closestDetectedObstacle(position, detected_obstacles, v);
+  auto closest_obstacle = closestDetectedObstacle(position, detected_obstacles);
   if (closest_obstacle)
   {
     Vector_t io = getRelativePosition(position, closest_obstacle.value());

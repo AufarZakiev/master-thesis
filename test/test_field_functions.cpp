@@ -158,6 +158,7 @@ TEST(overallPotentialTest, ShouldPass)
   v.setParam("neighbourhood_distance", 15.0);
   v.setParam("obstacle_care_distance", 3.0);
   v.setParam("obstacles_avoidance_distance", 1.5);
+  v.setParam("edge_deletion_distance", 1.3);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 1.0);

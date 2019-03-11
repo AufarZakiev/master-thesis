@@ -2,6 +2,7 @@
 #include "../include/headers/geometric_functions.h"
 
 int Robot::robots_count = 0;
+int Obstacle::obstacles_count = 0;
 
 RigidObject::RigidObject()
 {
@@ -59,20 +60,19 @@ const Vector_t Robot::getSpeedDirection() const
 
 void Robot::setSpeedDirection(const Vector_t& current_speed_direction)
 {
-  if(getVectorLength(current_speed_direction)>0.001f) {
-    this->current_speed_direction_ = 3 * current_speed_direction / getVectorLength(current_speed_direction);
-  }else{
-    this->current_speed_direction_ = current_speed_direction_;
-  }
+  this->current_speed_direction_ = current_speed_direction;
 }
 
-int Robot::getID() const {
+int Robot::getRobotID() const
+{
   return ID;
 }
 
 Obstacle::Obstacle(Position_t position)
 {
   current_position_ = std::move(position);
+  this->ID = obstacles_count;
+  obstacles_count++;
 }
 
 double Obstacle::getRadius() const
@@ -83,4 +83,9 @@ double Obstacle::getRadius() const
 void Obstacle::setRadius(double radius)
 {
   this->radius_ = radius;
+}
+
+int Obstacle::getObstacleID() const
+{
+  return ID;
 }

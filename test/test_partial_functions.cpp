@@ -12,6 +12,8 @@ TEST(partialInterrobotCollisionPotentialTest, ShouldPass)
   v.setParam("neighbourhood_distance", 1.0f);
   v.setParam("robots_avoidance_distance", 0.3f);
   v.setParam("desired_distance", 0.65f);
+  v.setParam("k1", 10);
+  v.setParam("k2", 10);
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
   // Prepare data.

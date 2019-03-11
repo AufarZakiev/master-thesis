@@ -33,13 +33,12 @@ Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
   return robots_near_preserved[min_id];
 }
 
-std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, const ObstacleGraph& obstacles_detected,
-                                                const Variables& v)
+std::optional<Obstacle> closestDetectedObstacle(const RigidObject &position, const ObstacleGraph &obstacles_detected)
 {
   // TODO: change all trivial loops and std::algorithm
   if (boost::num_vertices(obstacles_detected) == 0)
   {
-    return std::nullopt;  // TODO: Find the point to filter this case
+    return std::nullopt;
   }
   auto min = getVectorLength(getRelativePosition(obstacles_detected[0], position));
   Obstacle min_obstacle = obstacles_detected[0];

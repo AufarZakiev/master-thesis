@@ -44,8 +44,8 @@ public:
 
   double getMaxSpeedValue() const;
   void setMaxSpeedValue(double max_speed_value);
-  
-  int getID() const;
+
+  int getRobotID() const;
 
 private:
   static int robots_count;
@@ -63,8 +63,13 @@ public:
 
   double getRadius() const;
   void setRadius(double radius);
+
+  int getObstacleID() const;
+
 private:
   double radius_;
+  static int obstacles_count;
+  int ID;
 };
 
 struct Edge
@@ -77,6 +82,7 @@ typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, RigidO
                                                                                                           // about
                                                                                                           // connections
 typedef boost::graph_traits<RobotGraph>::vertex_descriptor RobotDesc;
+typedef boost::graph_traits<ObstacleGraph>::vertex_descriptor ObstacleDesc;
 typedef Eigen::Vector2d ControlInput_t;         // to store control input vectors
 typedef std::unordered_set<RigidObject> Set_t;  // to store info about math sets
 
