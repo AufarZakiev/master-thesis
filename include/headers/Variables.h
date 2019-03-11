@@ -18,7 +18,7 @@ public:
 protected:
   Variables();
   static Variables instance;
-  std::map<std::string, double> storage;
+  std::map<std::string, std::optional<double>> storage;
 };
 
 #endif  // PROJECT_VARIABLES_H
