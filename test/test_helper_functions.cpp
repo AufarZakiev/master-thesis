@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include "gmock/gmock.h"
 #include "../include/headers/matplotlibcpp.h"  // uses this library https://github.com/lava/matplotlib-cpp to draw plots
 
 #include "../include/headers/classes.h"
@@ -197,97 +196,7 @@ TEST(getNeighboursPreservedTest, ShouldPass)
   EXPECT_EQ((bool)findRobotInGraph(r3, neighbours_preserved), true);
 }
 
-TEST(potentialGradient, ShouldPass)
-{
-  Variables& v = Variables::getInstance();
-  v.setParam("robots_avoidance_distance", 2.0);
-  v.setParam("obstacles_avoidance_distance", 1.0);
-  v.setParam("los_clearance_distance", 0.2);
-  v.setParam("los_clearance_care_distance", 0.4);
-  v.setParam("neighbourhood_distance", 5.0);
-  v.setParam("edge_deletion_distance", -1.0);
-  v.setParam("obstacle_care_distance", 3.0);
-  v.setParam("desired_distance", 3.5);
-  v.setParam("k1", 10);
-  v.setParam("k2", 10);
-  v.setParam("c1", 0.0);
-  v.setParam("c2", 0.0);
-  v.setParam("c3", 0.0);
-  v.setParam("c4", 1000.0);
 
-  Robot r1(Vector_t(5.0, 5.0));
-  Robot r2(Vector_t(10.0, 5.0));
-  Robot r3(Vector_t(7.5, 7.5));
-  RobotGraph rg;
-  boost::add_vertex(r1, rg);
-  boost::add_vertex(r2, rg);
-  boost::add_vertex(r3, rg);
-
-  Obstacle o1(Vector_t(7.5, 6.0));
-  Obstacle o2(Vector_t(7.5, 9.5));
-  Obstacle o3(Vector_t(15.0, 5.0));
-  Obstacle o4(Vector_t(6.0, 6.0));
-  ObstacleGraph og;
-  boost::add_vertex(o1, og);
-  //  boost::add_vertex(o2, og);
-  //  boost::add_vertex(o3,og);
-  //  boost::add_vertex(o4, og);
-
-  r1.setSpeedDirection(gradientPotential(r1.getPosition(), overallPotential, v, rg, og));
-  r2.setSpeedDirection(gradientPotential(r2.getPosition(), overallPotential, v, rg, og));
-  r3.setSpeedDirection(gradientPotential(r3.getPosition(), overallPotential, v, rg, og));
-
-  printPlotWithArrows("Overall potential gradient.png", "Overall potentials and gradient", 30, 60, { r1, r2, r3 },
-                      std::function(&overallPotential), rg, og, v);
-  printPlotWithArrows("Overall potential gradient_0_90.png", "Overall potentials and gradient", 0, 90, { r1, r2, r3 },
-                      std::function(&overallPotential), rg, og, v);
-}
-
-TEST(potentialGradient2, ShouldPass)
-{
-  Variables& v = Variables::getInstance();
-  v.setParam("robots_avoidance_distance", 2.0);
-  v.setParam("obstacles_avoidance_distance", 1.0);
-  v.setParam("los_clearance_distance", 0.2);
-  v.setParam("los_clearance_care_distance", 0.4);
-  v.setParam("neighbourhood_distance", 15.0);
-  v.setParam("edge_deletion_distance", -1.0);
-  v.setParam("obstacle_care_distance", 3.0);
-  v.setParam("desired_distance", 3.5);
-  v.setParam("k1", 10);
-  v.setParam("k2", 10);
-  v.setParam("c1", 1.0);
-  v.setParam("c2", 1.0);
-  v.setParam("c3", 1.0);
-  v.setParam("c4", 1.0);
-
-  Robot r1(Vector_t(5.0, 5.0));
-  Robot r2(Vector_t(10.0, 5.0));
-  Robot r3(Vector_t(7.5, 7.5));
-  RobotGraph rg;
-  boost::add_vertex(r1, rg);
-  boost::add_vertex(r2, rg);
-  boost::add_vertex(r3, rg);
-
-  Obstacle o1(Vector_t(7.5, 6.0));
-  Obstacle o2(Vector_t(7.5, 9.5));
-  Obstacle o3(Vector_t(15.0, 5.0));
-  Obstacle o4(Vector_t(6.0, 6.0));
-  ObstacleGraph og;
-  boost::add_vertex(o1, og);
-  //  boost::add_vertex(o2, og);
-  //  boost::add_vertex(o3,og);
-  //  boost::add_vertex(o4, og);
-
-  r1.setSpeedDirection(gradientPotential(r1.getPosition(), overallPotential, v, rg, og));
-  r2.setSpeedDirection(gradientPotential(r2.getPosition(), overallPotential, v, rg, og));
-  r3.setSpeedDirection(gradientPotential(r3.getPosition(), overallPotential, v, rg, og));
-
-  printPlotWithArrows("Overall potential gradient2.png", "Overall potentials and gradient", 30, 60, { r1, r2, r3 },
-                      std::function(&overallPotential), rg, og, v);
-  printPlotWithArrows("Overall potential gradient2_0_90.png", "Overall potentials and gradient", 0, 90, { r1, r2, r3 },
-                      std::function(&overallPotential), rg, og, v);
-}
 
 int main(int argc, char** argv)
 {

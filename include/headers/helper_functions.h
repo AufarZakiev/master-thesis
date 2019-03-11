@@ -85,7 +85,7 @@ void printPlot(const std::string& filename, const std::string& title, int rot_x_
 }
 
 template <typename... Args, typename... Args2>
-void printPlotWithArrows(const std::string& filename, const std::string& title, int rot_x_angle, int rot_z_angle,
+void printPlotWithArrows(const std::string& filename, const std::string& title, int rot_x_angle, int rot_z_angle, double amplifier,
                          std::vector<Robot> robots, std::function<double(Args...)> func, Args2&&... args)
 {
   std::vector<std::vector<std::tuple<double, double, double>>> frame(120);
@@ -128,16 +128,16 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
   {
     gp << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
        << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
-       << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) << ","
-       << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) << ","
+       << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)*amplifier << ","
+       << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)*amplifier << ","
        << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)) * 8]
                            [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)) * 8]) +
               0.01
        << " filled front lw 2\n";
     std::cout << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
               << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
-              << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) << ","
-              << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) << ","
+              << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)*amplifier << ","
+              << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)*amplifier << ","
               << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)) * 8]
                                   [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)) * 8]) +
                      0.01
