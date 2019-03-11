@@ -29,7 +29,7 @@ bool isEdgePreserved(const Robot& i, const Robot& j, const RobotGraph& rg, const
   for (RobotDesc id = 0; id < boost::num_vertices(rg); ++id)
   {
     if (rg[id].getID() != i.getID() &&
-        rg[id].getID() != j.getID())  // TODO: change identifying principle
+        rg[id].getID() != j.getID())
     {
       if (isObjectInTSet(i, j, rg[id], rg, v) || isObjectInTSet(j, i, rg[id], rg, v) ||
           isObjectInDashedTSet(i, j, rg[id], rg, v) || isObjectInDashedTSet(j, i, rg[id], rg, v))
