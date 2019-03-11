@@ -1,5 +1,7 @@
 #include "../include/headers/classes.h"
 
+int Robot::robots_count = 0;
+
 RigidObject::RigidObject()
 {
   current_position_ << 0, 0;
@@ -25,6 +27,8 @@ Robot::Robot(Position_t position, Vector_t current_speed_direction, double curre
 {
   this->current_speed_direction_ = std::move(current_speed_direction);
   this->current_speed_value_ = current_speed_value;
+  this->ID = robots_count;
+  robots_count++;
 }
 
 double Robot::getSpeedValue() const
@@ -55,6 +59,10 @@ const Vector_t Robot::getSpeedDirection() const
 void Robot::setSpeedDirection(const Vector_t& current_speed_direction)
 {
   this->current_speed_direction_ = current_speed_direction;
+}
+
+int Robot::getID() const {
+  return ID;
 }
 
 Obstacle::Obstacle(Position_t position)

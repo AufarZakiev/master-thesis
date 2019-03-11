@@ -44,8 +44,12 @@ public:
 
   double getMaxSpeedValue() const;
   void setMaxSpeedValue(double max_speed_value);
+  
+  int getID() const;
 
 private:
+  static int robots_count;
+  int ID;
   double current_speed_value_;        // current speed of movement
   Vector_t current_speed_direction_;  // current speed of direction
   double max_speed_value_;
