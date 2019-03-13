@@ -68,6 +68,10 @@ int Robot::getRobotID() const
   return ID;
 }
 
+Robot::~Robot(){
+  robots_count--;
+}
+
 Obstacle::Obstacle(Position_t position)
 {
   current_position_ = std::move(position);
@@ -88,4 +92,8 @@ void Obstacle::setRadius(double radius)
 int Obstacle::getObstacleID() const
 {
   return ID;
+}
+
+Obstacle::~Obstacle() {
+  obstacles_count--;
 }

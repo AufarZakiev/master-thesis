@@ -47,6 +47,8 @@ public:
 
   int getRobotID() const;
 
+  ~Robot();
+
 private:
   static int robots_count;
   int ID;
@@ -65,6 +67,8 @@ public:
   void setRadius(double radius);
 
   int getObstacleID() const;
+
+  ~Obstacle();
 
 private:
   double radius_;
