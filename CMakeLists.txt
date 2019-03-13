@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(multiple_turtlebots)
 
 ## Compile as C++17, mainly not supported in ROS Kinetic and newer, but who cares
@@ -16,6 +16,10 @@ endif ()
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 set(Boost_USE_MULTITHREADED ON)
+set(Boost_NO_SYSTEM_PATHS ON)
+set(BOOST_ROOT include/boost)
+set(BOOST_INCLUDEDIR include/boost/include)
+set(BOOST_LIBRARYDIR include/boost/lib)
 find_package(catkin REQUIRED COMPONENTS
         geometry_msgs
         roscpp
