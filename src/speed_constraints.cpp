@@ -1,4 +1,5 @@
 #include "../include/headers/speed_constraints.h"
+#include "../include/headers/field_functions.h"
 
 double maximumDistanceConstraint(const Robot& robot, const RobotGraph& neighbourhood_preserved_robots,
                                  const Variables& v)
@@ -135,8 +136,8 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
   return min;
 }
 
-Vector_t minSpeedConstraint(const Robot& robot, const RobotGraph& detected_robots,
-                            const ObstacleGraph& detected_obstacles, const Variables& v)
+Vector_t getConstrainedSpeed(const Robot &robot, const RobotGraph &detected_robots,
+                             const ObstacleGraph &detected_obstacles, const Variables &v)
 {
   RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, detected_robots, v);
   double calc_min =
@@ -146,9 +147,11 @@ Vector_t minSpeedConstraint(const Robot& robot, const RobotGraph& detected_robot
                  obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
                  LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots) });
 
-  if (getVectorLength(robot.getSpeedDirection()) > calc_min)
+  Vector_t gradientSpeed = gradientPotential(robot.getPosition(), overallPotential, v, detected_robots, detected_obstacles);
+
+  if (getVectorLength(gradientSpeed) > calc_min)
   {
-    return robot.getSpeedDirection()*calc_min/getVectorLength(robot.getSpeedDirection());
+    return robot.getSpeedDirection()*calc_min/getVectorLength(gradientSpeed);
   }
   else{
     return robot.getSpeedDirection();
