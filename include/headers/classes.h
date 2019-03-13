@@ -34,16 +34,16 @@ class Robot : public RigidObject
 {
 public:
   Robot() = default;  // TODO: why does make_pair complain about it??
-  explicit Robot(Position_t position, Vector_t current_speed_direction = Vector_t(0, 0), double current_speed_value = 0,
+  explicit Robot(Position_t position, Vector_t current_speed_direction = Vector_t(0, 0),
                  double max_speed_value = std::numeric_limits<double>::max());
-  double getSpeedValue() const;
-  void setSpeedValue(double current_speed_value);
 
   const Vector_t getSpeedDirection() const;
   void setSpeedDirection(const Vector_t& current_speed_direction);
 
   double getMaxSpeedValue() const;
   void setMaxSpeedValue(double max_speed_value);
+
+  double getSpeedValue() const;
 
   int getRobotID() const;
 
@@ -52,8 +52,7 @@ public:
 private:
   static int robots_count;
   int ID;
-  double current_speed_value_;        // current speed of movement
-  Vector_t current_speed_direction_;  // current speed of direction
+  Vector_t current_speed_direction_;
   double max_speed_value_;
 };
 

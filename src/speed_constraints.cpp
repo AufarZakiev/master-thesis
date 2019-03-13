@@ -136,24 +136,26 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
   return min;
 }
 
-Vector_t getConstrainedSpeed(const Robot &robot, const RobotGraph &detected_robots,
-                             const ObstacleGraph &detected_obstacles, const Variables &v)
+Vector_t getConstrainedSpeed(const Robot& robot, const RobotGraph& detected_robots,
+                             const ObstacleGraph& detected_obstacles, const Variables& v)
 {
   RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, detected_robots, v);
-  double calc_min =
-      std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
-                 maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),
-                 interrobotAvoidanceConstraint(robot, detected_robots, v),
-                 obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
-                 LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots) });
+  double calc_min = std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
+                               maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),
+                               interrobotAvoidanceConstraint(robot, detected_robots, v),
+                               obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
+                               LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots),
+                               robot.getMaxSpeedValue() });
 
-  Vector_t gradientSpeed = gradientPotential(robot.getPosition(), overallPotential, v, detected_robots, detected_obstacles);
+  Vector_t gradientSpeed =
+      gradientPotential(robot.getPosition(), overallPotential, v, detected_robots, detected_obstacles);
 
   if (getVectorLength(gradientSpeed) > calc_min)
   {
-    return robot.getSpeedDirection()*calc_min/getVectorLength(gradientSpeed);
+    return robot.getSpeedDirection() * calc_min / getVectorLength(gradientSpeed);
   }
-  else{
+  else
+  {
     return robot.getSpeedDirection();
   }
 }

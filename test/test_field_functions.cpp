@@ -311,8 +311,8 @@ TEST(potentialGradient3, ShouldPass)
 
   r3.setSpeedDirection(gradientPotential(r3.getPosition(), overallPotential, v, rg, og));
 
-  printPlotWithArrows("Overall potential gradient3.png", "Overall potentials and gradient 3", 30, 60, 0.1, { r1, r2, r3 },
-                      std::function(&overallPotential), rg, og, v);
+  printPlotWithArrows("Overall potential gradient3.png", "Overall potentials and gradient 3", 30, 60, 0.1,
+                      { r1, r2, r3 }, std::function(&overallPotential), rg, og, v);
   printPlotWithArrows("Overall potential gradient3_0_90.png", "Overall potentials and gradient 3", 0, 90, 0.1,
                       { r1, r2, r3 }, std::function(&overallPotential), rg, og, v);
 }

@@ -25,7 +25,7 @@ find_package(catkin REQUIRED COMPONENTS
         roscpp
         tf2
         tf
-)
+        )
 find_package(PythonLibs 2.7 REQUIRED)
 
 ## System dependencies are found with CMake's conventions
@@ -119,9 +119,9 @@ find_package(Boost REQUIRED COMPONENTS iostreams)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
         INCLUDE_DIRS include
-#LIBRARIES multiple_turtlebots
-#CATKIN_DEPENDS roscpp
-#DEPENDS system_lib
+        #LIBRARIES multiple_turtlebots
+        #CATKIN_DEPENDS roscpp
+        #DEPENDS system_lib
 )
 
 ###########
@@ -169,8 +169,8 @@ add_executable(follow_leader_node src/follow_leader.cpp src/classes.cpp src/Vari
 #)
 
 target_link_libraries(map_union_node
-   ${catkin_LIBRARIES}
-)
+        ${catkin_LIBRARIES}
+        )
 
 
 target_link_libraries(follow_leader_node
@@ -223,30 +223,30 @@ catkin_add_gtest(multiple-turtlebots-test-fields test/test_field_functions.cpp s
 catkin_add_gtest(multiple-turtlebots-test-functions test/test_partial_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
 catkin_add_gtest(multiple-turtlebots-test-helper-functions test/test_helper_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
 catkin_add_gtest(multiple-turtlebots-test-speed-constraints test/test_speed_constraints.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
-if(TARGET multiple-turtlebots-test)
+if (TARGET multiple-turtlebots-test)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
-   target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
-endif()
+    target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
+endif ()
 
-if(TARGET multiple-turtlebots-test-fields)
+if (TARGET multiple-turtlebots-test-fields)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
     target_link_libraries(multiple-turtlebots-test-fields ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
-endif()
+endif ()
 
-if(TARGET multiple-turtlebots-test-functions)
+if (TARGET multiple-turtlebots-test-functions)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
     target_link_libraries(multiple-turtlebots-test-functions ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
-endif()
+endif ()
 
-if(TARGET multiple-turtlebots-test-helper-functions)
+if (TARGET multiple-turtlebots-test-helper-functions)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
     target_link_libraries(multiple-turtlebots-test-helper-functions ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
-endif()
+endif ()
 
-if(TARGET multiple-turtlebots-test-speed-constraints)
+if (TARGET multiple-turtlebots-test-speed-constraints)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
     target_link_libraries(multiple-turtlebots-test-speed-constraints ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
-endif()
+endif ()
 
 ## Add folders to be run by python nosetests
 #catkin_add_nosetests(test)

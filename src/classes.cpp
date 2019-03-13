@@ -24,23 +24,18 @@ void RigidObject::setPosition(Position_t position)
   current_position_ = std::move(position);
 }
 
-Robot::Robot(Position_t position, Vector_t current_speed_direction, double current_speed_value, double max_speed_value)
+Robot::Robot(Position_t position, Vector_t current_speed_direction, double max_speed_value)
   : RigidObject(std::move(position))
 {
   this->current_speed_direction_ = std::move(current_speed_direction);
-  this->current_speed_value_ = current_speed_value;
+  this->max_speed_value_ = max_speed_value;
   this->ID = robots_count;
   robots_count++;
 }
 
 double Robot::getSpeedValue() const
 {
-  return current_speed_value_;
-}
-
-void Robot::setSpeedValue(double current_speed_value_)
-{
-  this->current_speed_value_ = current_speed_value_;
+  return getVectorLength(current_speed_direction_);
 }
 
 double Robot::getMaxSpeedValue() const
@@ -68,7 +63,8 @@ int Robot::getRobotID() const
   return ID;
 }
 
-Robot::~Robot(){
+Robot::~Robot()
+{
   robots_count--;
 }
 
@@ -94,6 +90,7 @@ int Obstacle::getObstacleID() const
   return ID;
 }
 
-Obstacle::~Obstacle() {
+Obstacle::~Obstacle()
+{
   obstacles_count--;
 }
