@@ -15,7 +15,7 @@ Variables::Variables()
     // distance on that potential
   // function of obstacle avoidance
   // starts to increase
-  storage.insert(std::pair("derivative_epsilon", 0.01f));
+  storage.insert(std::pair("derivative_epsilon", 0.001f));
   storage.insert(std::pair("equality_case", 0.00001f));  // for checking numbers for equality
   storage.insert(std::pair("k1", std::nullopt));  // design parameters in collision potential function
   storage.insert(std::pair("k2", std::nullopt));  // design parameters in collision potential function
