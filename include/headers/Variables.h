@@ -8,9 +8,9 @@ class Variables
 public:
   static Variables& getInstance();
 
-  bool getParam(std::string param_name, double& value_ref) const;
+  bool setParam(const std::string& param_name, double value);
 
-  bool setParam(std::string, double value);
+  bool getParam(const std::string& param_name, double& value_ref) const;
 
   Variables(const Variables&) = delete;
   Variables& operator=(Variables&) = delete;

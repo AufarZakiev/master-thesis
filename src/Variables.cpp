@@ -31,7 +31,7 @@ Variables& Variables::getInstance()
   return instance;
 }
 
-bool Variables::setParam(std::string param_name, double value)
+bool Variables::setParam(const std::string& param_name, double value)
 {
   if (storage.count(param_name) != 1)
     return false;
@@ -39,7 +39,7 @@ bool Variables::setParam(std::string param_name, double value)
   return true;
 }
 
-bool Variables::getParam(std::string param_name, double& value_ref) const
+bool Variables::getParam(const std::string& param_name, double& value_ref) const
 {
   if (storage.count(param_name) != 1)
     return false;
