@@ -66,6 +66,6 @@ double partialCohesionPotential(double z, const Variables& v)
   double potential = 0;
   if (z <= NEIGHBOURHOOD_DISTANCE)
     return 0;
-  potential = (z - NEIGHBOURHOOD_DISTANCE) * (z - NEIGHBOURHOOD_DISTANCE) / 2;  // TODO: must be no obstacles around
+  potential = (z - NEIGHBOURHOOD_DISTANCE) * (z - NEIGHBOURHOOD_DISTANCE) / 2;
   return potential;
 }

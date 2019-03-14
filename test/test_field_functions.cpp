@@ -17,8 +17,10 @@ TEST(CohesionPotentialTest_4_robots, ShouldPass)
   boost::add_vertex(r3, rg);
   boost::add_vertex(r4, rg);
 
+  ObstacleGraph og;
+
   printPlot("Cohesion_field_4_robots_uniform.png", "Cohesion field 4 robots", 0, 90, std::function(&cohesionPotential),
-            rg, v);
+            rg, og, v);
 }
 
 TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
@@ -32,8 +34,10 @@ TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
 
+  ObstacleGraph og;
+
   printPlot("Cohesion_field_2_robots_cohesive_offset.png", "Cohesion field 2 robots", 0, 90,
-            std::function(&cohesionPotential), rg, v);
+            std::function(&cohesionPotential), rg, og, v);
 }
 
 TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
@@ -47,8 +51,10 @@ TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
 
+  ObstacleGraph og;
+
   printPlot("Cohesion_field_2_robots_cohesiv_neighbourhood_max.png", "Cohesion field 2 robots cohesive", 60, 30,
-            std::function(&cohesionPotential), rg, v);
+            std::function(&cohesionPotential), rg, og, v);
 }
 
 TEST(InterrobotPotentialTest_2_robots, ShouldPass)
@@ -137,12 +143,11 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
   Robot r1(Vector_t(5.0, 5.0));
   Robot r2(Vector_t(10.0, 10.0));
   RobotGraph rg;
-  auto r1_desc = boost::add_vertex(r1, rg);
+  boost::add_vertex(r1, rg);
+  boost::add_vertex(r2, rg);
 
   printPlot("LOS fields.png", "LOS preservation field", 45, 25, std::function(&LOSPreservePotential), rg, og, v);
   printPlot("LOS fields_0_90.png", "LOS preservation field", 0, 90, std::function(&LOSPreservePotential), rg, og, v);
-  boost::remove_vertex(r1_desc, rg);
-  boost::add_vertex(r2, rg);
   printPlot("LOS fields 2 robots.png", "LOS preservation field", 45, 25, std::function(&LOSPreservePotential), rg, og,
             v);
 }

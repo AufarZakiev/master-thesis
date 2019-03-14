@@ -123,7 +123,7 @@ std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, cons
   }
   if (boost::num_vertices(detected_in_DSpace) == 0)
   {
-    return std::nullopt;  // TODO: Find the point to filter this case
+    return std::nullopt; 
   }
   Vector_t ji = getRelativePosition(i, j);
   auto min = std::numeric_limits<double>::max();

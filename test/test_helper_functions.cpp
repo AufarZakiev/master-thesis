@@ -8,8 +8,6 @@
 
 TEST(closestDetectedObstacleTest, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
-
   Vector_t v1, v2, v3;
   v1 << 10.0, 10.0;
   v2 << 5.0, 5.0;
@@ -145,19 +143,19 @@ TEST(printPlotWithArrowsTest, ShouldPass)
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 
-  printPlotWithArrows("LOS arrows test.png", "LOS", 30, 30,1, { r1, r2, r3, r4 }, std::function(&LOSPreservePotential),
+  printPlotWithArrows("LOS arrows test.png", "LOS", 30, 30, 1, { r1, r2, r3, r4 }, std::function(&LOSPreservePotential),
                       rg, og, v);
 
   boost::add_vertex(r2, rg);
   boost::add_vertex(r3, rg);
   boost::add_vertex(r4, rg);
 
-  printPlotWithArrows("Interrobot arrows test.png", "Interrobot", 30, 30,1, { r1, r2, r3, r4 },
+  printPlotWithArrows("Interrobot arrows test.png", "Interrobot", 30, 30, 1, { r1, r2, r3, r4 },
                       std::function(&interrobotCollisionPotential), rg, v);
-  printPlotWithArrows("Interrobot arrows test_0_90.png", "Interrobot", 0, 90, 1,{ r1, r2, r3, r4 },
+  printPlotWithArrows("Interrobot arrows test_0_90.png", "Interrobot", 0, 90, 1, { r1, r2, r3, r4 },
                       std::function(&interrobotCollisionPotential), rg, v);
-  printPlotWithArrows("Arrows test_cohesion_0_90.png", "Cohesion", 0, 90,1, { r1, r2, r3, r4 },
-                      std::function(&cohesionPotential), rg, v);
+  printPlotWithArrows("Arrows test_cohesion_0_90.png", "Cohesion", 0, 90, 1, { r1, r2, r3, r4 },
+                      std::function(&cohesionPotential), rg, og, v);
 }
 
 TEST(getNeighboursTest, ShouldPass)
@@ -182,7 +180,7 @@ TEST(getNeighboursPreservedTest, ShouldPass)
   Variables& v = Variables::getInstance();
   v.setParam("neighbourhood_distance", 4.0);
   v.setParam("robots_avoidance_distance", 1.0);
-  v.setParam("edge_deletion_distance", 3.0*sin(M_PI/3));
+  v.setParam("edge_deletion_distance", 3.0 * sin(M_PI / 3));
 
   Robot r1(Vector_t(3.0, 5.0));
   Robot r2(Vector_t(2.0, 4.0));
@@ -195,8 +193,6 @@ TEST(getNeighboursPreservedTest, ShouldPass)
   EXPECT_EQ((bool)findRobotInGraph(r2, neighbours_preserved), true);
   EXPECT_EQ((bool)findRobotInGraph(r3, neighbours_preserved), true);
 }
-
-
 
 int main(int argc, char** argv)
 {

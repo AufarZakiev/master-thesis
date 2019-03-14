@@ -1,8 +1,13 @@
 #include "../include/headers/field_functions.h"
 
-double cohesionPotential(const Robot& position, const RobotGraph& detected_robots, const Variables& v)
+double cohesionPotential(const Robot& position, const RobotGraph& detected_robots,
+                         const ObstacleGraph& detected_obstacles, const Variables& v)
 {
   double sum = 0;
+  if (boost::num_vertices(detected_obstacles) != 0) // in case of obstacles presence, no cohesion exists
+  {
+    return 0;
+  }
   for (RobotDesc id = 0; id < boost::num_vertices(detected_robots); ++id)
   {
     double arg = getVectorLength(getRelativePosition(position, detected_robots[id]));
@@ -68,7 +73,7 @@ double overallPotential(const Robot& position, const RobotGraph& detected_robots
   auto neighbour_robots_preserved = getNeighbourPreservedRobots(position, neighbour_robots, v);
   double interrobot_potential = interrobotCollisionPotential(position, neighbour_robots_preserved, v);
   double obstacle_potential = obstacleCollisionPotential(position, detected_obstacles, v);
-  double cohesion_potential = cohesionPotential(position, detected_robots, v);
+  double cohesion_potential = cohesionPotential(position, detected_robots, detected_obstacles, v);
   double LOS_potential = LOSPreservePotential(position, neighbour_robots, detected_obstacles, v);
   double c1, c2, c3, c4;
   v.getParam("c1", c1);

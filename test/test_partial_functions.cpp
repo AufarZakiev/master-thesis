@@ -58,7 +58,7 @@ TEST(partialObstacleCollisionPotentialTest, ShouldPass)
   std::vector<double> x(n), y(n);
   for (size_t i = 0; i < n; ++i)
   {
-    x.at(i) = 0.1 + 0.4 * double(i) / (n - 1);  // TODO: fix on values less than minimum
+    x.at(i) = 0.1 + 0.4 * double(i) / (n - 1); 
     y.at(i) = partialObstacleCollisionPotential(0.1 + 0.4 * double(i) / (n - 1), v);
   }
 
