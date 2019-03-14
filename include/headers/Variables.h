@@ -2,6 +2,7 @@
 #define PROJECT_VARIABLES_H
 
 #include <map>
+#include <algorithm>
 
 class Variables
 {
