@@ -15,10 +15,24 @@ public:
   Variables(const Variables&) = delete;
   Variables& operator=(Variables&) = delete;
 
-protected:
+private:
   Variables();
+  ~Variables() = default;
   static Variables instance;
   std::map<std::string, std::optional<double>> storage;
+};
+
+class ValidatedVariables
+{
+public:
+  ValidatedVariables(Variables v);
+
+  bool getParam(const std::string& param_name, double& value_ref) const;
+
+  ~ValidatedVariables() = default;
+private:
+  static ValidatedVariables validatedInstance;
+  std::map<std::string, double> storage;
 };
 
 #endif  // PROJECT_VARIABLES_H
