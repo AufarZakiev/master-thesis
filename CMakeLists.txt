@@ -15,10 +15,9 @@ endif ()
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-set(Boost_USE_MULTITHREADED ON)
 set(Boost_NO_SYSTEM_PATHS ON)
 set(BOOST_ROOT include/boost)
-set(BOOST_INCLUDEDIR include/boost/include)
+set(BOOST_INCLUDEDIR include/boost/include/boost)
 set(BOOST_LIBRARYDIR include/boost/lib)
 find_package(catkin REQUIRED COMPONENTS
         geometry_msgs
