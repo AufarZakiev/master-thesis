@@ -233,7 +233,7 @@ TEST(angleBetweenVectorsInRadiansTest, ShouldPass)
 
 TEST(isObjectInTSetTest, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("edge_deletion_distance", 10.0f);
 
   RobotGraph rg;
@@ -263,7 +263,7 @@ TEST(isObjectInTSetTest, ShouldPass)
 
 TEST(isObjectInDashedTSetTest, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("neighbourhood_distance", 13.0f);
   v.setParam("robots_avoidance_distance", 10.0f);
 
@@ -297,7 +297,7 @@ TEST(isObjectInDashedTSetTest, ShouldPass)
 
 TEST(isEdgePreservedTest, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("neighbourhood_distance", 13.0f);
   v.setParam("robots_avoidance_distance", 1.0f);
   v.setParam("edge_deletion_distance", 5.0f);
@@ -336,7 +336,7 @@ TEST(isEdgePreservedTest, ShouldPass)
 
 TEST(partialDerivativeTest, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   double x = M_PI / 2;
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
@@ -351,7 +351,7 @@ TEST(partialDerivativeTest, ShouldPass)
 
 TEST(fullDerivativeTest, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
   Position_t p;
@@ -363,7 +363,7 @@ TEST(fullDerivativeTest, ShouldPass)
 
 TEST(gradientTest, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
   Position_t p;

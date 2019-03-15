@@ -4,7 +4,7 @@
 
 TEST(CohesionPotentialTest_4_robots, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("neighbourhood_distance", 1.0f);
 
   Robot r1(Vector_t(5, 5));
@@ -25,7 +25,7 @@ TEST(CohesionPotentialTest_4_robots, ShouldPass)
 
 TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("neighbourhood_distance", 1.0f);
 
   Robot r1(Vector_t(0, 0));
@@ -42,7 +42,7 @@ TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
 
 TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("neighbourhood_distance", 20.0f);
 
   Robot r1(Vector_t(0, 0));
@@ -59,7 +59,7 @@ TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
 
 TEST(InterrobotPotentialTest_2_robots, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("robots_avoidance_distance", 1.0);
   v.setParam("desired_distance", 3.0);
   v.setParam("neighbourhood_distance", 4.0);
@@ -78,7 +78,7 @@ TEST(InterrobotPotentialTest_2_robots, ShouldPass)
 
 TEST(ObstaclePotentialTest_one_obstacle, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("obstacle_care_distance", 3.0);
   v.setParam("obstacles_avoidance_distance", 1.5);
   v.setParam("small_positive_constant", 0.2);
@@ -93,7 +93,7 @@ TEST(ObstaclePotentialTest_one_obstacle, ShouldPass)
 
 TEST(ObstaclePotentialTest_two_obstacle, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("obstacle_care_distance", 3.0);
   v.setParam("obstacles_avoidance_distance", 1.5);
   v.setParam("small_positive_constant", 0.2);
@@ -110,7 +110,7 @@ TEST(ObstaclePotentialTest_two_obstacle, ShouldPass)
 
 TEST(ObstaclePotentialTest_two_obstacle_interfere, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("obstacle_care_distance", 3.0);
   v.setParam("obstacles_avoidance_distance", 1.5);
   v.setParam("small_positive_constant", 0.2);
@@ -129,7 +129,7 @@ TEST(ObstaclePotentialTest_two_obstacle_interfere, ShouldPass)
 
 TEST(LOSPotentialTest_obstacle, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("los_clearance_care_distance", 0.4);
   v.setParam("los_clearance_distance", 0.2);
   v.setParam("small_positive_constant", 0.2);
@@ -154,7 +154,7 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
 
 TEST(overallPotentialTest, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("los_clearance_care_distance", 0.4);
   v.setParam("los_clearance_distance", 0.2);
   v.setParam("small_positive_constant", 0.2);
@@ -196,7 +196,7 @@ TEST(overallPotentialTest, ShouldPass)
 
 TEST(potentialGradient, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("robots_avoidance_distance", 2.0);
   v.setParam("obstacles_avoidance_distance", 1.0);
   v.setParam("los_clearance_distance", 0.2);
@@ -236,7 +236,7 @@ TEST(potentialGradient, ShouldPass)
 
 TEST(potentialGradient2, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("robots_avoidance_distance", 2.0);
   v.setParam("obstacles_avoidance_distance", 1.0);
   v.setParam("los_clearance_distance", 0.2);
@@ -284,7 +284,7 @@ TEST(potentialGradient2, ShouldPass)
 
 TEST(potentialGradient3, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("robots_avoidance_distance", 2.0);
   v.setParam("obstacles_avoidance_distance", 1.0);
   v.setParam("los_clearance_distance", 0.2);

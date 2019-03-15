@@ -28,12 +28,6 @@ Variables::Variables()
   storage.insert(std::pair("c4", std::nullopt));  // design weights of potential functions - cohesion
 }
 
-Variables& Variables::getInstance()
-{
-  static Variables instance;
-  return instance;
-}
-
 bool Variables::setParam(const std::string& param_name, double value)
 {
   if (storage.count(param_name) != 1)
@@ -50,7 +44,7 @@ bool Variables::getParam(const std::string& param_name, double& value_ref) const
   return true;
 };
 
-ValidatedVariables::ValidatedVariables(Variables v)
+ValidatedVariables::ValidatedVariables(const Variables& v)
 {
   double ROBOTS_AVOIDANCE_DISTANCE, NEIGHBOURHOOD_DISTANCE, SENSING_DISTANCE, OBSTACLES_AVOIDANCE_DISTANCE,
       EDGE_DELETION_DISTANCE, DESIRED_DISTANCE, OBSTACLE_CARE_DISTANCE, ROBOT_MAX_SPEED, LOS_CLEARANCE_DISTANCE;
@@ -89,12 +83,16 @@ ValidatedVariables::ValidatedVariables(Variables v)
         "\nobstacleAvoidanceDistances: " + std::to_string(obstacleAvoidanceDistances) + "\nmaxSpeedConstraint1: " +
         std::to_string(maxSpeedConstraint1) + "\nmaxSpeedConstraint2: " + std::to_string(maxSpeedConstraint2));
   }
+
+  validatedStorage = v;
 }
 
 bool ValidatedVariables::getParam(const std::string& param_name, double& value_ref) const
 {
-  if (storage.count(param_name) != 1)
-    return false;
-  value_ref = storage.find(param_name)->second;
-  return true;
+  return validatedStorage.getParam(param_name,value_ref);
+}
+
+ValidatedVariables::operator Variables() const
+{
+  return Variables();
 }

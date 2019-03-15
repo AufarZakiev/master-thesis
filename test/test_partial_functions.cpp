@@ -8,7 +8,7 @@ TEST(partialInterrobotCollisionPotentialTest, ShouldPass)
 {
   namespace plt = matplotlibcpp;
 
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("neighbourhood_distance", 1.0f);
   v.setParam("robots_avoidance_distance", 0.3f);
   v.setParam("desired_distance", 0.65f);
@@ -46,7 +46,7 @@ TEST(partialObstacleCollisionPotentialTest, ShouldPass)
 {
   namespace plt = matplotlibcpp;
 
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("obstacle_care_distance", 0.2);
   v.setParam("obstacles_avoidance_distance", 0.1);
   v.setParam("small_positive_constant", 0.2);
@@ -82,7 +82,7 @@ TEST(partialLOSPreservePotentialTest, ShouldPass)
 {
   namespace plt = matplotlibcpp;
 
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("los_clearance_care_distance", 0.2);
   v.setParam("los_clearance_distance", 0.1);
   v.setParam("small_positive_constant", 0.2);
@@ -118,7 +118,7 @@ TEST(partialCohesionPotentialTest, ShouldPass)
 {
   namespace plt = matplotlibcpp;
 
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("neighbourhood_distance", 1.0f);
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);

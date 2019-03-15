@@ -4,7 +4,7 @@
 
 TEST(maximumDistanceConstraint, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("neighbourhood_distance", 3);
   Robot r0, r1, r2;
   r0.setPosition(Position_t(5, 5));
@@ -21,7 +21,7 @@ TEST(maximumDistanceConstraint, ShouldPass)
 
 TEST(maximumDistanceConstraint2, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
   Robot r0, r1, r2, r3, r4;
@@ -42,7 +42,7 @@ TEST(maximumDistanceConstraint2, ShouldPass)
 
 TEST(interrobotAvoidanceConstraint, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
   v.setParam("robots_avoidance_distance", 3);
@@ -59,7 +59,7 @@ TEST(interrobotAvoidanceConstraint, ShouldPass)
 
 TEST(obstacleAvoidanceConstraint, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("obstacles_avoidance_distance", 1);
   Robot r0;
   r0.setPosition(Position_t(5, 5));
@@ -81,7 +81,7 @@ TEST(obstacleAvoidanceConstraint, ShouldPass)
 
 TEST(LOSPreservationConstraint, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("los_clearance_distance", 0.5);
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
@@ -112,7 +112,7 @@ TEST(LOSPreservationConstraint, ShouldPass)
 }
 
 TEST(getConstrainedSpeedTest, ShouldPass){
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("robots_avoidance_distance", 2.0);
   v.setParam("obstacles_avoidance_distance", 1.0);
   v.setParam("los_clearance_distance", 0.2);

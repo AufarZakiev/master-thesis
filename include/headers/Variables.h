@@ -7,33 +7,29 @@
 class Variables
 {
 public:
-  static Variables& getInstance();
+  Variables();
 
   bool setParam(const std::string& param_name, double value);
 
   bool getParam(const std::string& param_name, double& value_ref) const;
 
-  Variables(const Variables&) = delete;
-  Variables& operator=(Variables&) = delete;
-
+    ~Variables() = default;
 private:
-  Variables();
-  ~Variables() = default;
-  static Variables instance;
   std::map<std::string, std::optional<double>> storage;
 };
 
 class ValidatedVariables
 {
 public:
-  ValidatedVariables(Variables v);
+  explicit ValidatedVariables(const Variables& v);
 
   bool getParam(const std::string& param_name, double& value_ref) const;
 
   ~ValidatedVariables() = default;
+
+  explicit operator Variables() const;
 private:
-  static ValidatedVariables validatedInstance;
-  std::map<std::string, double> storage;
+  Variables validatedStorage;
 };
 
 #endif  // PROJECT_VARIABLES_H

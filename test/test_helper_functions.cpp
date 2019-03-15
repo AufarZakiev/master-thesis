@@ -120,7 +120,7 @@ TEST(closestObstacleToLOSinDSpaceAtFrontTest, ShouldPass)
 
 TEST(printPlotWithArrowsTest, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("robots_avoidance_distance", 1.0);
   v.setParam("desired_distance", 3.0);
   v.setParam("neighbourhood_distance", 4.0);
@@ -160,7 +160,7 @@ TEST(printPlotWithArrowsTest, ShouldPass)
 
 TEST(getNeighboursTest, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("neighbourhood_distance", 2.0);
 
   Robot r1(Vector_t(5.0, 5.0));
@@ -177,7 +177,7 @@ TEST(getNeighboursTest, ShouldPass)
 
 TEST(getNeighboursPreservedTest, ShouldPass)
 {
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
   v.setParam("neighbourhood_distance", 4.0);
   v.setParam("robots_avoidance_distance", 1.0);
   v.setParam("edge_deletion_distance", 3.0 * sin(M_PI / 3));

@@ -7,7 +7,7 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "follow_leader_node");
   ros::NodeHandle n_("~");
 
-  Variables& v = Variables::getInstance();
+  Variables v = Variables();
 
   getNotifiedParam(n_, "robots_count", v);
   getNotifiedParam(n_, "robots_distance", v);
