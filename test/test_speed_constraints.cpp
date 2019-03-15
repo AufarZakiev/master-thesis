@@ -128,6 +128,8 @@ TEST(getConstrainedSpeedTest, ShouldPass){
   v.setParam("c3", 0.0);
   v.setParam("c4", 10.0);
 
+  ValidatedVariables vv(v);
+
   Robot r1(Vector_t(5.0, 3.0));
   Robot r2(Vector_t(10.0, 3.0));
   Robot r3(Vector_t(7.5, 14.0));
@@ -138,11 +140,11 @@ TEST(getConstrainedSpeedTest, ShouldPass){
 
   ObstacleGraph og;
 
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, rg, og, v));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, rg, og, vv));
 
-  r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, rg, og, v));
+  r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, rg, og, vv));
 
-  r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, rg, og, v));
+  r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, rg, og, vv));
 
   printPlotWithArrows("ConstrainedSpeedTest.png", "ConstrainedSpeedTest", 30, 60, 1,
                       { r1, r2, r3 }, std::function(&overallPotential), rg, og, v);
