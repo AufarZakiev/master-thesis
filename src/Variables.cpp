@@ -61,13 +61,13 @@ ValidatedVariables::ValidatedVariables(const Variables& v)
   bool assumptionOfDistances =
       ROBOTS_AVOIDANCE_DISTANCE < NEIGHBOURHOOD_DISTANCE && NEIGHBOURHOOD_DISTANCE < SENSING_DISTANCE;
   bool preservationGuarantee = sqrt(OBSTACLES_AVOIDANCE_DISTANCE * OBSTACLES_AVOIDANCE_DISTANCE +
-                                    NEIGHBOURHOOD_DISTANCE * NEIGHBOURHOOD_DISTANCE) <= SENSING_DISTANCE;
+                                    NEIGHBOURHOOD_DISTANCE * NEIGHBOURHOOD_DISTANCE) <= SENSING_DISTANCE; // (50)
   bool deactivationCase = EDGE_DELETION_DISTANCE < ROBOTS_AVOIDANCE_DISTANCE * sin(M_PI / 3.0);
   bool robotAvoidanceDistances =
       ROBOTS_AVOIDANCE_DISTANCE < DESIRED_DISTANCE && DESIRED_DISTANCE < NEIGHBOURHOOD_DISTANCE;
   bool obstacleAvoidanceDistances = OBSTACLES_AVOIDANCE_DISTANCE < OBSTACLE_CARE_DISTANCE;
-  bool maxSpeedConstraint1 = ROBOT_MAX_SPEED <= (OBSTACLES_AVOIDANCE_DISTANCE - LOS_CLEARANCE_DISTANCE);
-  bool maxSpeedConstraint2 =
+  bool maxSpeedConstraint1 = ROBOT_MAX_SPEED <= (OBSTACLES_AVOIDANCE_DISTANCE - LOS_CLEARANCE_DISTANCE); // (50)
+  bool maxSpeedConstraint2 = // (52)
       ROBOT_MAX_SPEED <=
       std::min({ SENSING_DISTANCE / 2.0, sqrt(OBSTACLES_AVOIDANCE_DISTANCE * OBSTACLES_AVOIDANCE_DISTANCE -
                                               LOS_CLEARANCE_DISTANCE * LOS_CLEARANCE_DISTANCE) }) -
@@ -94,5 +94,5 @@ bool ValidatedVariables::getParam(const std::string& param_name, double& value_r
 
 ValidatedVariables::operator Variables() const
 {
-  return Variables();
+  return validatedStorage;
 }

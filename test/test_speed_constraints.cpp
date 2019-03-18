@@ -113,16 +113,16 @@ TEST(LOSPreservationConstraint, ShouldPass)
 
 TEST(getConstrainedSpeedTest, ShouldPass){
   Variables v = Variables();
-  v.setParam("robots_avoidance_distance", 2.0);
+  v.setParam("robots_avoidance_distance", 1.5);
   v.setParam("obstacles_avoidance_distance", 1.0);
   v.setParam("los_clearance_distance", 0.2);
   v.setParam("los_clearance_care_distance", 0.4);
   v.setParam("neighbourhood_distance", 5.0);
-  v.setParam("edge_deletion_distance", -1.0);
+  v.setParam("edge_deletion_distance", 0.1);
   v.setParam("obstacle_care_distance", 3.0);
   v.setParam("desired_distance", 3.5);
   v.setParam("sensing_distance", 10.0);
-  v.setParam("robot_max_speed", 10.0);
+  v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.0);
