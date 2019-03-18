@@ -139,7 +139,7 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
 Vector_t getConstrainedDirectedSpeed(const Robot& robot, const RobotGraph& detected_robots,
                                      const ObstacleGraph& detected_obstacles, const ValidatedVariables& vv)
 {
-  Variables v = (Variables)vv;
+  Variables v = Variables(vv);
   RobotGraph neighbour_robots = getNeighbourRobots(robot,detected_robots,v);
   RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, neighbour_robots, v);
   double calc_min = std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
