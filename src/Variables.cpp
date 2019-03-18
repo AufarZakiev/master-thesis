@@ -47,7 +47,8 @@ bool Variables::getParam(const std::string& param_name, double& value_ref) const
 ValidatedVariables::ValidatedVariables(const Variables& v)
 {
   double ROBOTS_AVOIDANCE_DISTANCE, NEIGHBOURHOOD_DISTANCE, SENSING_DISTANCE, OBSTACLES_AVOIDANCE_DISTANCE,
-      EDGE_DELETION_DISTANCE, DESIRED_DISTANCE, OBSTACLE_CARE_DISTANCE, ROBOT_MAX_SPEED, LOS_CLEARANCE_DISTANCE;
+      EDGE_DELETION_DISTANCE, DESIRED_DISTANCE, OBSTACLE_CARE_DISTANCE, ROBOT_MAX_SPEED, LOS_CLEARANCE_DISTANCE,
+      EQUALITY_CASE;
   v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
   v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
   v.getParam("sensing_distance", SENSING_DISTANCE);
@@ -57,31 +58,37 @@ ValidatedVariables::ValidatedVariables(const Variables& v)
   v.getParam("desired_distance", DESIRED_DISTANCE);
   v.getParam("robot_max_speed", ROBOT_MAX_SPEED);
   v.getParam("los_clearance_distance", LOS_CLEARANCE_DISTANCE);
+  v.getParam("equality_case", EQUALITY_CASE);
 
   bool assumptionOfDistances =
       ROBOTS_AVOIDANCE_DISTANCE < NEIGHBOURHOOD_DISTANCE && NEIGHBOURHOOD_DISTANCE < SENSING_DISTANCE;
   bool preservationGuarantee = sqrt(OBSTACLES_AVOIDANCE_DISTANCE * OBSTACLES_AVOIDANCE_DISTANCE +
-                                    NEIGHBOURHOOD_DISTANCE * NEIGHBOURHOOD_DISTANCE) <= SENSING_DISTANCE; // (50)
+                                    NEIGHBOURHOOD_DISTANCE * NEIGHBOURHOOD_DISTANCE) <= SENSING_DISTANCE;  // (50)
   bool deactivationCase = EDGE_DELETION_DISTANCE < ROBOTS_AVOIDANCE_DISTANCE * sin(M_PI / 3.0);
   bool robotAvoidanceDistances =
       ROBOTS_AVOIDANCE_DISTANCE < DESIRED_DISTANCE && DESIRED_DISTANCE < NEIGHBOURHOOD_DISTANCE;
   bool obstacleAvoidanceDistances = OBSTACLES_AVOIDANCE_DISTANCE < OBSTACLE_CARE_DISTANCE;
-  bool maxSpeedConstraint1 = ROBOT_MAX_SPEED <= (OBSTACLES_AVOIDANCE_DISTANCE - LOS_CLEARANCE_DISTANCE); // (50)
-  bool maxSpeedConstraint2 = // (52)
+  bool maxSpeedConstraint1 = ROBOT_MAX_SPEED <= (OBSTACLES_AVOIDANCE_DISTANCE - LOS_CLEARANCE_DISTANCE);  // (50)
+  bool maxSpeedConstraint2 =                                                                              // (52)
       ROBOT_MAX_SPEED <=
       std::min({ SENSING_DISTANCE / 2.0, sqrt(OBSTACLES_AVOIDANCE_DISTANCE * OBSTACLES_AVOIDANCE_DISTANCE -
                                               LOS_CLEARANCE_DISTANCE * LOS_CLEARANCE_DISTANCE) }) -
           ROBOTS_AVOIDANCE_DISTANCE / 2.0;
 
+  bool piConstraint = fabs((M_PI / asin(ROBOTS_AVOIDANCE_DISTANCE / (2.0 * NEIGHBOURHOOD_DISTANCE)) -
+                            (int)(M_PI / asin(ROBOTS_AVOIDANCE_DISTANCE / (2.0 * NEIGHBOURHOOD_DISTANCE))))) >
+                      EQUALITY_CASE;  // (Theorem 1)
+
   if (!(assumptionOfDistances && preservationGuarantee && deactivationCase && robotAvoidanceDistances &&
-        obstacleAvoidanceDistances && maxSpeedConstraint1 && maxSpeedConstraint2))
+        obstacleAvoidanceDistances && maxSpeedConstraint1 && maxSpeedConstraint2 && piConstraint))
   {
     throw std::invalid_argument(
         "Invalid Variables object. assumptionOfDistances: " + std::to_string(assumptionOfDistances) +
         "\npreservationGuarantee: " + std::to_string(preservationGuarantee) + "\ndeactivationCase: " +
         std::to_string(deactivationCase) + "\nrobotAvoidanceDistances: " + std::to_string(robotAvoidanceDistances) +
         "\nobstacleAvoidanceDistances: " + std::to_string(obstacleAvoidanceDistances) + "\nmaxSpeedConstraint1: " +
-        std::to_string(maxSpeedConstraint1) + "\nmaxSpeedConstraint2: " + std::to_string(maxSpeedConstraint2));
+        std::to_string(maxSpeedConstraint1) + "\nmaxSpeedConstraint2: " + std::to_string(maxSpeedConstraint2) +
+        "\npiConstraint: " + std::to_string(piConstraint));
   }
 
   validatedStorage = v;
@@ -89,7 +96,7 @@ ValidatedVariables::ValidatedVariables(const Variables& v)
 
 bool ValidatedVariables::getParam(const std::string& param_name, double& value_ref) const
 {
-  return validatedStorage.getParam(param_name,value_ref);
+  return validatedStorage.getParam(param_name, value_ref);
 }
 
 ValidatedVariables::operator Variables() const
