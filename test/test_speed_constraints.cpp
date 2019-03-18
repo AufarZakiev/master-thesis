@@ -121,6 +121,8 @@ TEST(getConstrainedSpeedTest, ShouldPass){
   v.setParam("edge_deletion_distance", -1.0);
   v.setParam("obstacle_care_distance", 3.0);
   v.setParam("desired_distance", 3.5);
+  v.setParam("sensing_distance", 10.0);
+  v.setParam("robot_max_speed", 10.0);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.0);
