@@ -13,7 +13,7 @@
 #include <tuple>
 #include <utility>
 #include <boost/graph/adjacency_list.hpp>  // graph implementation
-#include <unordered_set>                   // fast set implementation
+#include <boost/graph/connected_components.hpp>
 
 typedef Eigen::Vector2d Position_t;  // to store objects' (robots, obstacles) positions in respect to (0,0) point
 typedef Eigen::Vector2d Vector_t;    // to store vectors between points
@@ -33,7 +33,6 @@ protected:
 class Robot : public RigidObject
 {
 public:
-  Robot() = default;
   explicit Robot(Position_t position, Vector_t current_speed_direction = Vector_t(0, 0),
                  double max_speed_value = std::numeric_limits<double>::max());
 
@@ -50,6 +49,7 @@ public:
   ~Robot();
 
 private:
+  Robot() = default;
   static int robots_count;
   int ID;
   Vector_t current_speed_direction_;
@@ -59,7 +59,6 @@ private:
 class Obstacle : public RigidObject
 {
 public:
-  Obstacle() = default;
   explicit Obstacle(Position_t position, double radius = 0);
 
   double getRadius() const;
@@ -70,6 +69,7 @@ public:
   ~Obstacle();
 
 private:
+  Obstacle() = default;
   double radius_;
   static int obstacles_count;
   int ID;
@@ -80,5 +80,18 @@ typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, Obst
 
 typedef boost::graph_traits<RobotGraph>::vertex_descriptor RobotDesc;
 typedef boost::graph_traits<ObstacleGraph>::vertex_descriptor ObstacleDesc;
+
+class ValidatedGraphs
+{
+public:
+  ValidatedGraphs::ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, const Variables& v);
+  const RobotGraph& getRobotGraph() const;
+  const ObstacleGraph& getObstacleGraph() const;
+
+private:
+  ValidatedGraphs() = default;
+  RobotGraph validatedRobotGraph;
+  ObstacleGraph validatedObstacleGraph;
+};
 
 #endif  // PROJECT_DAKAI_ALGO_H
