@@ -96,7 +96,7 @@ Obstacle::~Obstacle()
   obstacles_count--;
 }
 
-ValidatedGraphs:: ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, const Variables& v)
+ValidatedGraphs::ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, const Variables& v)
 {
   double OBSTACLES_AVOIDANCE_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE;
   v.getParam("obstacles_avoidance_distance", OBSTACLES_AVOIDANCE_DISTANCE);
@@ -122,17 +122,21 @@ ValidatedGraphs:: ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og,
       if (robot_id != robot_id2 &&
           getVectorLength(getRelativePosition(rg[robot_id], rg[robot_id2])) < ROBOTS_AVOIDANCE_DISTANCE)
       {
-        throw std::invalid_argument("Robot ID " + std::to_string(rg[robot_id].getRobotID()) + " is too close to Robot ID" +
-                                    std::to_string(rg[robot_id2].getRobotID()));
+        throw std::invalid_argument("Robot ID " + std::to_string(rg[robot_id].getRobotID()) +
+                                    " is too close to Robot ID" + std::to_string(rg[robot_id2].getRobotID()));
       }
     }
   }
 
-  std::vector<int> components(boost::num_vertices(rg));
-  int num = boost::connected_components(rg, &components[0]);
-  if (num != 1)
+  std::vector<int> component(num_vertices(rg));
+  if (connected_components(rg, &component[0]) != 1)
   {
     throw std::invalid_argument("Robot graph is not connected.");
+  }
+
+  if (boost::num_edges(rg) != boost::num_vertices(rg) * (boost::num_vertices(rg) - 1) / 2)
+  {
+    throw std::invalid_argument("Robot graph is not complete.");
   }
 
   validatedObstacleGraph = og;
