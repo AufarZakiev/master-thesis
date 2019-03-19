@@ -1,6 +1,6 @@
 #include "../include/headers/geometric_functions.h"
 
-std::optional<RobotDesc> findRobotInGraph(const Robot ro, const RobotGraph graph)
+std::optional<RobotDesc> findRobotInGraph(const Robot& ro, const RobotGraph& graph)
 {
   for (RobotDesc desc = 0; desc < boost::num_vertices(graph); ++desc)
   {
@@ -10,7 +10,7 @@ std::optional<RobotDesc> findRobotInGraph(const Robot ro, const RobotGraph graph
   return std::nullopt;
 };
 
-std::optional<ObstacleDesc> findObstacleInGraph(const Obstacle ro, const ObstacleGraph graph)
+std::optional<ObstacleDesc> findObstacleInGraph(const Obstacle& ro, const ObstacleGraph& graph)
 {
   for (ObstacleDesc desc = 0; desc < boost::num_vertices(graph); ++desc)
   {

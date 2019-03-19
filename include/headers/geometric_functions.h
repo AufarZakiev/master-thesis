@@ -4,8 +4,8 @@
 #include "classes.h"
 #include "../templates/derivatives.tcc"
 
-std::optional<RobotDesc> findRobotInGraph(const Robot ro, const RobotGraph graph);
-std::optional<ObstacleDesc> findObstacleInGraph(const Obstacle ro, const ObstacleGraph graph);
+std::optional<RobotDesc> findRobotInGraph(const Robot &ro, const RobotGraph &graph);
+std::optional<ObstacleDesc> findObstacleInGraph(const Obstacle &ro, const ObstacleGraph &graph);
 
 double getVectorDistance(const Vector_t& v1, const Vector_t& v2);  // get distance between two vectors
 double getVectorLength(const Vector_t& v);                         // get 2d vector length
