@@ -33,20 +33,23 @@ Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
   return robots_near_preserved[min_id];
 }
 
-std::optional<Obstacle> closestDetectedObstacle(const RigidObject &position, const ObstacleGraph &obstacles_detected)
+std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, const ObstacleGraph& obstacles_detected)
 {
   // TODO: change all trivial loops and std::algorithm
   if (boost::num_vertices(obstacles_detected) == 0)
   {
     return std::nullopt;
   }
-  auto min = getVectorLength(getRelativePosition(obstacles_detected[0], position));
+  auto minWithRadius =
+      getVectorLength(getRelativePosition(obstacles_detected[0], position)) - obstacles_detected[0].getRadius();
   Obstacle min_obstacle = obstacles_detected[0];
   for (size_t id = 0; id < boost::num_vertices(obstacles_detected); id++)
   {
-    if (getVectorLength(getRelativePosition(obstacles_detected[id], position)) < min)
+    auto distanceWithRadius =
+        getVectorLength(getRelativePosition(obstacles_detected[id], position)) - obstacles_detected[id].getRadius();
+    if (distanceWithRadius < minWithRadius)
     {
-      min = getVectorLength(getRelativePosition(obstacles_detected[id], position));
+      minWithRadius = distanceWithRadius;
       min_obstacle = obstacles_detected[id];
     }
   }
@@ -123,7 +126,7 @@ std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, cons
   }
   if (boost::num_vertices(detected_in_DSpace) == 0)
   {
-    return std::nullopt; 
+    return std::nullopt;
   }
   Vector_t ji = getRelativePosition(i, j);
   auto min = std::numeric_limits<double>::max();

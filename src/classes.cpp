@@ -68,9 +68,10 @@ Robot::~Robot()
   robots_count--;
 }
 
-Obstacle::Obstacle(Position_t position)
+Obstacle::Obstacle(Position_t position, double radius)
 {
-  current_position_ = std::move(position);
+  this->radius_ = radius;
+  this->current_position_ = std::move(position);
   this->ID = obstacles_count;
   obstacles_count++;
 }

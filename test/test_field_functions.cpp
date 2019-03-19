@@ -83,7 +83,7 @@ TEST(ObstaclePotentialTest_one_obstacle, ShouldPass)
   v.setParam("obstacles_avoidance_distance", 1.5);
   v.setParam("small_positive_constant", 0.2);
 
-  Obstacle o1(Vector_t(6.0, 6.0));
+  Obstacle o1(Position_t(6.0, 6.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 

@@ -34,7 +34,7 @@ class Robot : public RigidObject
 {
 public:
   Robot() = default;
-  explicit Robot(Position_t position, Vector_t current_speed_direction = Vector_t(0,0),
+  explicit Robot(Position_t position, Vector_t current_speed_direction = Vector_t(0, 0),
                  double max_speed_value = std::numeric_limits<double>::max());
 
   const Vector_t getSpeedDirection() const;
@@ -60,7 +60,7 @@ class Obstacle : public RigidObject
 {
 public:
   Obstacle() = default;
-  explicit Obstacle(Position_t position);
+  explicit Obstacle(Position_t position, double radius = 0);
 
   double getRadius() const;
   void setRadius(double radius);

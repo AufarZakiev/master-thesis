@@ -4,7 +4,7 @@ double cohesionPotential(const Robot& position, const RobotGraph& detected_robot
                          const ObstacleGraph& detected_obstacles, const Variables& v)
 {
   double sum = 0;
-  if (boost::num_vertices(detected_obstacles) != 0) // in case of obstacles presence, no cohesion exists
+  if (boost::num_vertices(detected_obstacles) != 0)  // in case of obstacles presence, no cohesion exists
   {
     return 0;
   }
@@ -50,7 +50,8 @@ double obstacleCollisionPotential(const Robot& position, const ObstacleGraph& de
   if (closest_obstacle)
   {
     Vector_t io = getRelativePosition(position, closest_obstacle.value());
-    return partialObstacleCollisionPotential(getVectorLength(io), v);
+    double ioLenWithRadius = getVectorLength(io) - closest_obstacle.value().getRadius();
+    return partialObstacleCollisionPotential(ioLenWithRadius, v);
   }
   return 0;
 }

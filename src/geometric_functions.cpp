@@ -32,6 +32,7 @@ Position_t getRelativePosition(const RigidObject& o1, const RigidObject& o2)
   // get position of o2 in respect to o1
   return o2.getPosition() - o1.getPosition();
 };
+
 double getVectorLength(const Vector_t& v)
 {
   return sqrt(v(0, 0) * v(0, 0) + v(1, 0) * v(1, 0));
