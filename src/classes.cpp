@@ -134,11 +134,6 @@ ValidatedGraphs::ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, 
     throw std::invalid_argument("Robot graph is not connected.");
   }
 
-  if (boost::num_edges(rg) != boost::num_vertices(rg) * (boost::num_vertices(rg) - 1) / 2)
-  {
-    throw std::invalid_argument("Robot graph is not complete.");
-  }
-
   validatedObstacleGraph = og;
   validatedRobotGraph = rg;
 }

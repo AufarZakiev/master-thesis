@@ -124,7 +124,6 @@ TEST(getConstrainedSpeedTest, ShouldPass)
   auto r3_desc = boost::add_vertex(r3, rg);
   boost::add_edge(r1_desc, r2_desc, rg);
   boost::add_edge(r2_desc, r3_desc, rg);
-  boost::add_edge(r1_desc, r3_desc, rg);
 
   ObstacleGraph og;
 
