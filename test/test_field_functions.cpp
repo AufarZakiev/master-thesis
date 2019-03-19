@@ -7,10 +7,10 @@ TEST(CohesionPotentialTest_4_robots, ShouldPass)
   Variables v = Variables();
   v.setParam("neighbourhood_distance", 1.0f);
 
-  Robot r1(Vector_t(5, 5));
-  Robot r2(Vector_t(10, 10));
-  Robot r3(Vector_t(10, 5));
-  Robot r4(Vector_t(5, 10));
+  Robot r1(Position_t(5, 5));
+  Robot r2(Position_t(10, 10));
+  Robot r3(Position_t(10, 5));
+  Robot r4(Position_t(5, 10));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -28,8 +28,8 @@ TEST(CohesionPotentialTest_2_robots_offset, ShouldPass)
   Variables v = Variables();
   v.setParam("neighbourhood_distance", 1.0f);
 
-  Robot r1(Vector_t(0, 0));
-  Robot r2(Vector_t(10, 10));
+  Robot r1(Position_t(0, 0));
+  Robot r2(Position_t(10, 10));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -45,8 +45,8 @@ TEST(CohesionPotentialTest_2_robots_cohesive, ShouldPass)
   Variables v = Variables();
   v.setParam("neighbourhood_distance", 20.0f);
 
-  Robot r1(Vector_t(0, 0));
-  Robot r2(Vector_t(10, 10));
+  Robot r1(Position_t(0, 0));
+  Robot r2(Position_t(10, 10));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -66,8 +66,8 @@ TEST(InterrobotPotentialTest_2_robots, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
 
-  Robot r1(Vector_t(5.5, 5.5));
-  Robot r2(Vector_t(9.5, 9.5));
+  Robot r1(Position_t(5.5, 5.5));
+  Robot r2(Position_t(9.5, 9.5));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -98,8 +98,8 @@ TEST(ObstaclePotentialTest_two_obstacle, ShouldPass)
   v.setParam("obstacles_avoidance_distance", 1.5);
   v.setParam("small_positive_constant", 0.2);
 
-  Obstacle o1(Vector_t(10.0, 10.0));
-  Obstacle o2(Vector_t(5.0, 5.0));
+  Obstacle o1(Position_t(10.0, 10.0));
+  Obstacle o2(Position_t(5.0, 5.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
   boost::add_vertex(o2, og);
@@ -115,7 +115,7 @@ TEST(ObstaclePotentialTest_with_radius, ShouldPass)
   v.setParam("obstacles_avoidance_distance", 1.5);
   v.setParam("small_positive_constant", 0.2);
 
-  Obstacle o1(Vector_t(10.0, 10.0), 2.0);
+  Obstacle o1(Position_t(10.0, 10.0), 2.0);
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 
@@ -132,8 +132,8 @@ TEST(ObstaclePotentialTest_two_obstacle_interfere, ShouldPass)
   v.setParam("obstacles_avoidance_distance", 1.5);
   v.setParam("small_positive_constant", 0.2);
 
-  Obstacle o1(Vector_t(6.0, 6.0));
-  Obstacle o2(Vector_t(5.0, 5.0));
+  Obstacle o1(Position_t(6.0, 6.0));
+  Obstacle o2(Position_t(5.0, 5.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
   boost::add_vertex(o2, og);
@@ -153,12 +153,12 @@ TEST(LOSPotentialTest_obstacle, ShouldPass)
   v.setParam("obstacle_care_distance", 3.0);
   v.setParam("obstacles_avoidance_distance", 1.5);
 
-  Obstacle o1(Vector_t(6.0, 6.0));
+  Obstacle o1(Position_t(6.0, 6.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 
-  Robot r1(Vector_t(5.0, 5.0));
-  Robot r2(Vector_t(10.0, 10.0));
+  Robot r1(Position_t(5.0, 5.0));
+  Robot r2(Position_t(10.0, 10.0));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -188,17 +188,17 @@ TEST(overallPotentialTest, ShouldPass)
   v.setParam("c3", 1.0);
   v.setParam("c4", 1.0);
 
-  Robot r1(Vector_t(5.0, 5.0));
-  Robot r2(Vector_t(10.0, 5.0));
-  Robot r3(Vector_t(7.5, 7.5));
+  Robot r1(Position_t(5.0, 5.0));
+  Robot r2(Position_t(10.0, 5.0));
+  Robot r3(Position_t(7.5, 7.5));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r3, rg);
 
-  Obstacle o1(Vector_t(7.5, 6.0));
-  Obstacle o2(Vector_t(7.5, 9.5));
-  Obstacle o3(Vector_t(15.0, 5.0));
-  Obstacle o4(Vector_t(6.0, 6.0));
+  Obstacle o1(Position_t(7.5, 6.0));
+  Obstacle o2(Position_t(7.5, 9.5));
+  Obstacle o3(Position_t(15.0, 5.0));
+  Obstacle o4(Position_t(6.0, 6.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
   //  boost::add_vertex(o2, og);
@@ -229,9 +229,9 @@ TEST(potentialGradient, ShouldPass)
   v.setParam("c3", 0.0);
   v.setParam("c4", 10.0);
 
-  Robot r1(Vector_t(5.0, 4.0));
-  Robot r2(Vector_t(10.0, 4.0));
-  Robot r3(Vector_t(7.5, 10.0));
+  Robot r1(Position_t(5.0, 4.0));
+  Robot r2(Position_t(10.0, 4.0));
+  Robot r3(Position_t(7.5, 10.0));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -269,18 +269,18 @@ TEST(potentialGradient2, ShouldPass)
   v.setParam("c3", 1.0);
   v.setParam("c4", 1.0);
 
-  Robot r1(Vector_t(5.0, 5.0));
-  Robot r2(Vector_t(10.0, 5.0));
-  Robot r3(Vector_t(7.5, 9.5));
+  Robot r1(Position_t(5.0, 5.0));
+  Robot r2(Position_t(10.0, 5.0));
+  Robot r3(Position_t(7.5, 9.5));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
   boost::add_vertex(r3, rg);
 
-  Obstacle o1(Vector_t(7.5, 6.0));
-  Obstacle o2(Vector_t(7.5, 9.5));
-  Obstacle o3(Vector_t(15.0, 5.0));
-  Obstacle o4(Vector_t(6.0, 6.0));
+  Obstacle o1(Position_t(7.5, 6.0));
+  Obstacle o2(Position_t(7.5, 9.5));
+  Obstacle o3(Position_t(15.0, 5.0));
+  Obstacle o4(Position_t(6.0, 6.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
   //  boost::add_vertex(o2, og);
@@ -317,9 +317,9 @@ TEST(potentialGradient3, ShouldPass)
   v.setParam("c3", 0.0);
   v.setParam("c4", 10.0);
 
-  Robot r1(Vector_t(5.0, 3.0));
-  Robot r2(Vector_t(10.0, 3.0));
-  Robot r3(Vector_t(7.5, 14.0));
+  Robot r1(Position_t(5.0, 3.0));
+  Robot r2(Position_t(10.0, 3.0));
+  Robot r3(Position_t(7.5, 14.0));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);

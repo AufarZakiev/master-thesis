@@ -35,8 +35,8 @@ TEST(closestDetectedObstacleTest, ShouldPass)
 
 TEST(separateNeighbourRobotsBehindAndFrontTest, ShouldPass)
 {
-  Robot r1(Vector_t(5, 5), Vector_t(1, 1)), r2(Vector_t(6, 6)), r3(Vector_t(10, 5)), r4(Vector_t(3, 3)),
-      r5(Vector_t(0, 2));
+  Robot r1(Position_t(5, 5), Vector_t(1, 1)), r2(Position_t(6, 6)), r3(Position_t(10, 5)), r4(Position_t(3, 3)),
+      r5(Position_t(0, 2));
   RobotGraph rg, behind, front;
 
   boost::add_vertex(r2, rg);
@@ -130,15 +130,15 @@ TEST(printPlotWithArrowsTest, ShouldPass)
   v.setParam("los_clearance_care_distance", 0.4);
   v.setParam("los_clearance_distance", 0.2);
   v.setParam("small_positive_constant", 0.2);
-  Robot r1(Vector_t(1, 1), Vector_t(10, 10));
-  Robot r2(Vector_t(4, 4), Vector_t(4, -4));
-  Robot r3(Vector_t(10, 6), Vector_t(-2, 2));
-  Robot r4(Vector_t(8, 5), Vector_t(-1, -5));
+  Robot r1(Position_t(1, 1), Vector_t(10, 10));
+  Robot r2(Position_t(4, 4), Vector_t(4, -4));
+  Robot r3(Position_t(10, 6), Vector_t(-2, 2));
+  Robot r4(Position_t(8, 5), Vector_t(-1, -5));
 
   RobotGraph rg;
   boost::add_vertex(r1, rg);
 
-  Obstacle o1(Vector_t(3, 3));
+  Obstacle o1(Position_t(3, 3));
 
   ObstacleGraph og;
   boost::add_vertex(o1, og);
@@ -163,9 +163,9 @@ TEST(getNeighboursTest, ShouldPass)
   Variables v = Variables();
   v.setParam("neighbourhood_distance", 2.0);
 
-  Robot r1(Vector_t(5.0, 5.0));
-  Robot r2(Vector_t(4.0, 4.0));
-  Robot r3(Vector_t(1.0, 3.0));
+  Robot r1(Position_t(5.0, 5.0));
+  Robot r2(Position_t(4.0, 4.0));
+  Robot r3(Position_t(1.0, 3.0));
 
   RobotGraph rg;
   boost::add_vertex(r2, rg);
@@ -182,9 +182,9 @@ TEST(getNeighboursPreservedTest, ShouldPass)
   v.setParam("robots_avoidance_distance", 1.0);
   v.setParam("edge_deletion_distance", 3.0 * sin(M_PI / 3));
 
-  Robot r1(Vector_t(3.0, 5.0));
-  Robot r2(Vector_t(2.0, 4.0));
-  Robot r3(Vector_t(4.0, 4.0));
+  Robot r1(Position_t(3.0, 5.0));
+  Robot r2(Position_t(2.0, 4.0));
+  Robot r3(Position_t(4.0, 4.0));
 
   RobotGraph rg;
   boost::add_vertex(r2, rg);

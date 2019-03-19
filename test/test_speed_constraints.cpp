@@ -6,10 +6,7 @@ TEST(maximumDistanceConstraint, ShouldPass)
 {
   Variables v = Variables();
   v.setParam("neighbourhood_distance", 3);
-  Robot r0, r1, r2;
-  r0.setPosition(Position_t(5, 5));
-  r1.setPosition(Position_t(3, 3));
-  r2.setPosition(Position_t(3, 4));
+  Robot r0(Position_t(5, 5)), r1(Position_t(3, 3)), r2(Position_t(3, 4));
   r0.setSpeedDirection(Vector_t(1, 1));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
@@ -24,13 +21,9 @@ TEST(maximumDistanceConstraint2, ShouldPass)
   Variables v = Variables();
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
-  Robot r0, r1, r2, r3, r4;
-  r0.setPosition(Vector_t(5, 5));
+  Robot r0(Position_t(5, 5)), r1(Position_t(7.5, 0.5)), r2(Position_t(3, 4)), r3(Position_t(8, 6)),
+      r4(Position_t(7, 4));
   r0.setSpeedDirection(Vector_t(1, 1));
-  r1.setPosition(Position_t(7.5, 0.5));
-  r2.setPosition(Position_t(3, 4));
-  r3.setPosition(Position_t(8, 6));
-  r4.setPosition(Position_t(7, 4));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -46,11 +39,8 @@ TEST(interrobotAvoidanceConstraint, ShouldPass)
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
   v.setParam("robots_avoidance_distance", 3);
-  Robot r0, r1, r2;
-  r0.setPosition(Position_t(5, 5));
+  Robot r0(Position_t(5, 5)), r1(Position_t(10, 5)), r2(Position_t(8, 7));
   r0.setSpeedDirection(Vector_t(1, 1));
-  r1.setPosition(Position_t(10, 5));
-  r2.setPosition(Position_t(8, 7));
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r2, rg);
@@ -61,13 +51,10 @@ TEST(obstacleAvoidanceConstraint, ShouldPass)
 {
   Variables v = Variables();
   v.setParam("obstacles_avoidance_distance", 1);
-  Robot r0;
-  r0.setPosition(Position_t(5, 5));
+  Robot r0(Position_t(5, 5));
   r0.setSpeedDirection(Vector_t(1, 1));
 
-  Obstacle o1, o2;
-  o1.setPosition(Position_t(6, 10));
-  o2.setPosition(Position_t(10, 7));
+  Obstacle o1(Position_t(6, 10)), o2(Position_t(10, 7));
   o1.setRadius(2);
   o2.setRadius(2);
 
@@ -86,19 +73,14 @@ TEST(LOSPreservationConstraint, ShouldPass)
   double EQUALITY_CASE;
   v.getParam("equality_case", EQUALITY_CASE);
 
-  Robot r1, r2, r3;
-  r1.setPosition(Position_t(2, 2));
-  r2.setPosition(Position_t(4, 4));
+  Robot r1(Position_t(2, 2)), r2(Position_t(4, 4)), r3(Position_t(7, 4));
   r2.setSpeedDirection(Vector_t(-1, 1));
-  r3.setPosition(Position_t(7, 4));
 
   RobotGraph rg;
   boost::add_vertex(r1, rg);
   boost::add_vertex(r3, rg);
 
-  Obstacle o1, o2;
-  o1.setPosition(Position_t(2, 3));
-  o2.setPosition(Position_t(6, 5));
+  Obstacle o1(Position_t(2, 3)), o2(Position_t(6, 5));
   o1.setRadius(0);
   o2.setRadius(0);
 
@@ -111,7 +93,8 @@ TEST(LOSPreservationConstraint, ShouldPass)
   EXPECT_NEAR(LOSPreservationConstraint(r2, og, v, rg), std::numeric_limits<double>::max(), EQUALITY_CASE);
 }
 
-TEST(getConstrainedSpeedTest, ShouldPass){
+TEST(getConstrainedSpeedTest, ShouldPass)
+{
   Variables v = Variables();
   v.setParam("robots_avoidance_distance", 1.5);
   v.setParam("obstacles_avoidance_distance", 1.0);
@@ -142,16 +125,18 @@ TEST(getConstrainedSpeedTest, ShouldPass){
 
   ObstacleGraph og;
 
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, rg, og, vv));
+  ValidatedGraphs vg(rg, og, v);
 
-  r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, rg, og, vv));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
 
-  r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, rg, og, vv));
+  r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
 
-  printPlotWithArrows("ConstrainedSpeedTest.png", "ConstrainedSpeedTest", 30, 60, 1,
-                      { r1, r2, r3 }, std::function(&overallPotential), rg, og, v);
-  printPlotWithArrows("ConstrainedSpeedTest_0_90.png", "ConstrainedSpeedTest", 0, 90, 1,
-                      { r1, r2, r3 }, std::function(&overallPotential), rg, og, v);
+  r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
+
+  printPlotWithArrows("ConstrainedSpeedTest.png", "ConstrainedSpeedTest", 30, 60, 1, { r1, r2, r3 },
+                      std::function(&overallPotential), rg, og, v);
+  printPlotWithArrows("ConstrainedSpeedTest_0_90.png", "ConstrainedSpeedTest", 0, 90, 1, { r1, r2, r3 },
+                      std::function(&overallPotential), rg, og, v);
 }
 
 int main(int argc, char** argv)

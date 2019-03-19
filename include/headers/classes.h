@@ -33,6 +33,7 @@ protected:
 class Robot : public RigidObject
 {
 public:
+  Robot() = default;
   explicit Robot(Position_t position, Vector_t current_speed_direction = Vector_t(0, 0),
                  double max_speed_value = std::numeric_limits<double>::max());
 
@@ -49,7 +50,6 @@ public:
   ~Robot();
 
 private:
-  Robot() = default;
   static int robots_count;
   int ID;
   Vector_t current_speed_direction_;
@@ -59,6 +59,7 @@ private:
 class Obstacle : public RigidObject
 {
 public:
+  Obstacle() = default;
   explicit Obstacle(Position_t position, double radius = 0);
 
   double getRadius() const;
@@ -69,7 +70,6 @@ public:
   ~Obstacle();
 
 private:
-  Obstacle() = default;
   double radius_;
   static int obstacles_count;
   int ID;
@@ -84,7 +84,7 @@ typedef boost::graph_traits<ObstacleGraph>::vertex_descriptor ObstacleDesc;
 class ValidatedGraphs
 {
 public:
-  ValidatedGraphs::ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, const Variables& v);
+  ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, const Variables& v);
   const RobotGraph& getRobotGraph() const;
   const ObstacleGraph& getObstacleGraph() const;
 
