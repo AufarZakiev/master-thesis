@@ -108,6 +108,23 @@ TEST(ObstaclePotentialTest_two_obstacle, ShouldPass)
             std::function(&obstacleCollisionPotential), og, v);
 }
 
+TEST(ObstaclePotentialTest_with_radius, ShouldPass)
+{
+  Variables v = Variables();
+  v.setParam("obstacle_care_distance", 3.0);
+  v.setParam("obstacles_avoidance_distance", 1.5);
+  v.setParam("small_positive_constant", 0.2);
+
+  Obstacle o1(Vector_t(10.0, 10.0), 2.0);
+  ObstacleGraph og;
+  boost::add_vertex(o1, og);
+
+  printPlot("Obstacle_with_radius.png", "Obstacle with radius", 60, 30,
+            std::function(&obstacleCollisionPotential), og, v);
+  printPlot("Obstacle_with_radius_0_90.png", "Obstacle with radius", 0, 90,
+            std::function(&obstacleCollisionPotential), og, v);
+}
+
 TEST(ObstaclePotentialTest_two_obstacle_interfere, ShouldPass)
 {
   Variables v = Variables();
