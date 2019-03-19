@@ -75,18 +75,10 @@ private:
   int ID;
 };
 
-struct Edge
-{
-};
-typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, Robot, Edge> RobotGraph;
-typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, Obstacle, Edge> ObstacleGraph;
-typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, RigidObject, Edge> RigidGraph;  // to store
-                                                                                                          // information
-                                                                                                          // about
-                                                                                                          // connections
+typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, Robot> RobotGraph;
+typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, Obstacle> ObstacleGraph;
+
 typedef boost::graph_traits<RobotGraph>::vertex_descriptor RobotDesc;
 typedef boost::graph_traits<ObstacleGraph>::vertex_descriptor ObstacleDesc;
-typedef Eigen::Vector2d ControlInput_t;         // to store control input vectors
-typedef std::unordered_set<RigidObject> Set_t;  // to store info about math sets
 
 #endif  // PROJECT_DAKAI_ALGO_H
