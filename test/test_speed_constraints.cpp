@@ -119,9 +119,11 @@ TEST(getConstrainedSpeedTest, ShouldPass)
   Robot r2(Vector_t(10.0, 3.0));
   Robot r3(Vector_t(7.5, 14.0));
   RobotGraph rg;
-  boost::add_vertex(r1, rg);
-  boost::add_vertex(r2, rg);
-  boost::add_vertex(r3, rg);
+  auto r1_desc = boost::add_vertex(r1, rg);
+  auto r2_desc = boost::add_vertex(r2, rg);
+  auto r3_desc = boost::add_vertex(r3, rg);
+  boost::add_edge(r1_desc, r2_desc, rg);
+  boost::add_edge(r2_desc, r3_desc, rg);
 
   ObstacleGraph og;
 
