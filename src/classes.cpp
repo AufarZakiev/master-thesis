@@ -96,7 +96,7 @@ Obstacle::~Obstacle()
   obstacles_count--;
 }
 
-ValidatedGraphs::ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, const Variables& v)
+ValidatedGraphs:: ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, const Variables& v)
 {
   double OBSTACLES_AVOIDANCE_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE;
   v.getParam("obstacles_avoidance_distance", OBSTACLES_AVOIDANCE_DISTANCE);
@@ -109,8 +109,8 @@ ValidatedGraphs::ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, 
       if (getVectorLength(getRelativePosition(rg[robot_id], og[obstacle_id])) <
           OBSTACLES_AVOIDANCE_DISTANCE + og[obstacle_id].getRadius())
       {
-        throw std::invalid_argument("Robot ID" + std::to_string(rg[robot_id].getRobotID()) +
-                                    " is too close to Obstacle ID" + std::to_string(og[obstacle_id].getObstacleID()));
+        throw std::invalid_argument("Robot ID " + std::to_string(rg[robot_id].getRobotID()) +
+                                    " is too close to Obstacle ID " + std::to_string(og[obstacle_id].getObstacleID()));
       }
     }
   }
@@ -122,7 +122,7 @@ ValidatedGraphs::ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, 
       if (robot_id != robot_id2 &&
           getVectorLength(getRelativePosition(rg[robot_id], rg[robot_id2])) < ROBOTS_AVOIDANCE_DISTANCE)
       {
-        throw std::invalid_argument("Robot ID" + std::to_string(rg[robot_id].getRobotID()) + " is too close to Robot ID" +
+        throw std::invalid_argument("Robot ID " + std::to_string(rg[robot_id].getRobotID()) + " is too close to Robot ID" +
                                     std::to_string(rg[robot_id2].getRobotID()));
       }
     }
