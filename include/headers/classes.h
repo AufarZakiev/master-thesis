@@ -37,6 +37,8 @@ public:
   explicit Robot(Position_t position, Vector_t current_speed_direction = Vector_t(0, 0),
                  double max_speed_value = std::numeric_limits<double>::max());
 
+  void updatePosition();
+
   const Vector_t getSpeedDirection() const;
   void setSpeedDirection(const Vector_t& current_speed_direction);
 

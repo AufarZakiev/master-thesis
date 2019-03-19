@@ -63,6 +63,11 @@ int Robot::getRobotID() const
   return ID;
 }
 
+void Robot::updatePosition()
+{
+  this->current_position_ += this->current_speed_direction_;
+}
+
 Robot::~Robot()
 {
   robots_count--;
