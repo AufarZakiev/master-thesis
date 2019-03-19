@@ -128,8 +128,8 @@ ValidatedGraphs::ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, 
     }
   }
 
-  std::vector<int> component(num_vertices(rg));
-  if (connected_components(rg, &component[0]) != 1)
+  std::vector<int> component(boost::num_vertices(rg));
+  if (boost::connected_components(rg, &component[0]) != 1)
   {
     throw std::invalid_argument("Robot graph is not connected.");
   }
