@@ -20,6 +20,6 @@ double LOSUnitPreservationConstraint(const Robot& i, const ObstacleGraph& closin
 double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_obstacles, const Variables& v,
                                  const RobotGraph& neighbourhood_preserved_robots);
 
-Vector_t getConstrainedDirectedSpeed(const Robot& robot, const ValidatedGraphs& vg, const ValidatedVariables& vv);
+Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs &vg, const ValidatedVariables& vv);
 
 #endif  // PROJECT_SPEED_CONSTRAINTS_H

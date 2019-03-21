@@ -87,8 +87,8 @@ class ValidatedGraphs
 {
 public:
   ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, const Variables& v);
-  const RobotGraph& getRobotGraph() const;
-  const ObstacleGraph& getObstacleGraph() const;
+  RobotGraph& getRobotGraph();
+  ObstacleGraph& getObstacleGraph();
 
 private:
   ValidatedGraphs() = default;

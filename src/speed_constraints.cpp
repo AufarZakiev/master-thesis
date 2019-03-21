@@ -136,7 +136,7 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
   return min;
 }
 
-Vector_t getConstrainedDirectedSpeed(const Robot& robot, const ValidatedGraphs& vg, const ValidatedVariables& vv)
+Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, const ValidatedVariables& vv)
 {
   Variables v = Variables(vv);
   RobotGraph detected_robots = vg.getRobotGraph();

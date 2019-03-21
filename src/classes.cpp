@@ -143,12 +143,12 @@ ValidatedGraphs::ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, 
   validatedRobotGraph = rg;
 }
 
-const RobotGraph& ValidatedGraphs::getRobotGraph() const
+RobotGraph& ValidatedGraphs::getRobotGraph()
 {
   return validatedRobotGraph;
 }
 
-const ObstacleGraph& ValidatedGraphs::getObstacleGraph() const
+ObstacleGraph& ValidatedGraphs::getObstacleGraph()
 {
   return validatedObstacleGraph;
 }
