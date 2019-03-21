@@ -143,18 +143,18 @@ TEST(printPlotWithArrowsTest, ShouldPass)
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 
-  printPlotWithArrows("LOS arrows test.png", "LOS", 30, 30, 1, { r1, r2, r3, r4 }, std::function(&LOSPreservePotential),
+  printPlotWithArrows("LOS arrows test.png", "LOS", 30, 30, 1, rg, std::function(&LOSPreservePotential),
                       rg, og, v);
 
   boost::add_vertex(r2, rg);
   boost::add_vertex(r3, rg);
   boost::add_vertex(r4, rg);
 
-  printPlotWithArrows("Interrobot arrows test.png", "Interrobot", 30, 30, 1, { r1, r2, r3, r4 },
+  printPlotWithArrows("Interrobot arrows test.png", "Interrobot", 30, 30, 1, rg,
                       std::function(&interrobotCollisionPotential), rg, v);
-  printPlotWithArrows("Interrobot arrows test_0_90.png", "Interrobot", 0, 90, 1, { r1, r2, r3, r4 },
+  printPlotWithArrows("Interrobot arrows test_0_90.png", "Interrobot", 0, 90, 1, rg,
                       std::function(&interrobotCollisionPotential), rg, v);
-  printPlotWithArrows("Arrows test_cohesion_0_90.png", "Cohesion", 0, 90, 1, { r1, r2, r3, r4 },
+  printPlotWithArrows("Arrows test_cohesion_0_90.png", "Cohesion", 0, 90, 1, rg,
                       std::function(&cohesionPotential), rg, og, v);
 }
 

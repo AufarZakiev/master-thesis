@@ -43,7 +43,7 @@ TEST(animatedCohesionTest, ShouldPass)
   vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
   vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
   r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
   rg[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
@@ -63,7 +63,7 @@ TEST(animatedCohesionTest, ShouldPass)
   r1.updatePosition();
   r2.updatePosition();
   r3.updatePosition();
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
   r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
   rg[r1_desc].updatePosition();
@@ -85,7 +85,7 @@ TEST(animatedCohesionTest, ShouldPass)
   r1.updatePosition();
   r2.updatePosition();
   r3.updatePosition();
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
   r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
   rg[r1_desc].updatePosition();
@@ -107,7 +107,7 @@ TEST(animatedCohesionTest, ShouldPass)
   r1.updatePosition();
   r2.updatePosition();
   r3.updatePosition();
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
   r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
   rg[r1_desc].updatePosition();
@@ -129,7 +129,7 @@ TEST(animatedCohesionTest, ShouldPass)
   r1.updatePosition();
   r2.updatePosition();
   r3.updatePosition();
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
   r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
   rg[r1_desc].updatePosition();

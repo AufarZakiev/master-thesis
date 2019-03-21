@@ -119,10 +119,10 @@ TEST(ObstaclePotentialTest_with_radius, ShouldPass)
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 
-  printPlot("Obstacle_with_radius.png", "Obstacle with radius", 60, 30,
-            std::function(&obstacleCollisionPotential), og, v);
-  printPlot("Obstacle_with_radius_0_90.png", "Obstacle with radius", 0, 90,
-            std::function(&obstacleCollisionPotential), og, v);
+  printPlot("Obstacle_with_radius.png", "Obstacle with radius", 60, 30, std::function(&obstacleCollisionPotential), og,
+            v);
+  printPlot("Obstacle_with_radius_0_90.png", "Obstacle with radius", 0, 90, std::function(&obstacleCollisionPotential),
+            og, v);
 }
 
 TEST(ObstaclePotentialTest_two_obstacle_interfere, ShouldPass)
@@ -192,8 +192,8 @@ TEST(overallPotentialTest, ShouldPass)
   Robot r2(Position_t(10.0, 5.0));
   Robot r3(Position_t(7.5, 7.5));
   RobotGraph rg;
-  boost::add_vertex(r1, rg);
-  boost::add_vertex(r3, rg);
+  auto r1_desc = boost::add_vertex(r1, rg);
+  auto r2_desc = boost::add_vertex(r2, rg);
 
   Obstacle o1(Position_t(7.5, 6.0));
   Obstacle o2(Position_t(7.5, 9.5));
@@ -201,13 +201,16 @@ TEST(overallPotentialTest, ShouldPass)
   Obstacle o4(Position_t(6.0, 6.0));
   ObstacleGraph og;
   boost::add_vertex(o1, og);
+
+  rg[r1_desc].setSpeedDirection(gradientPotential(r1.getPosition(), overallPotential, v, rg, og));
+  rg[r2_desc].setSpeedDirection(gradientPotential(r2.getPosition(), overallPotential, v, rg, og));
   //  boost::add_vertex(o2, og);
   //  boost::add_vertex(o3,og);
   //  boost::add_vertex(o4, og);
 
-  printPlotWithArrows("Overall potentials.png", "Overall potentials", 30, 60, 1, { r1, r2, r3 },
+  printPlotWithArrows("Overall potentials.png", "Overall potentials", 30, 60, 1, rg,
                       std::function(&overallPotential), rg, og, v);
-  printPlotWithArrows("Overall potentials_0_90.png", "Overall potentials", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("Overall potentials_0_90.png", "Overall potentials", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 }
 
@@ -233,9 +236,9 @@ TEST(potentialGradient, ShouldPass)
   Robot r2(Position_t(10.0, 4.0));
   Robot r3(Position_t(7.5, 10.0));
   RobotGraph rg;
-  boost::add_vertex(r1, rg);
-  boost::add_vertex(r2, rg);
-  boost::add_vertex(r3, rg);
+  auto r1_desc = boost::add_vertex(r1, rg);
+  auto r2_desc = boost::add_vertex(r2, rg);
+  auto r3_desc = boost::add_vertex(r3, rg);
 
   ObstacleGraph og;
 
@@ -244,11 +247,14 @@ TEST(potentialGradient, ShouldPass)
   r2.setSpeedDirection(gradientPotential(r2.getPosition(), overallPotential, v, rg, og));
 
   r3.setSpeedDirection(gradientPotential(r3.getPosition(), overallPotential, v, rg, og));
+  rg[r1_desc].setSpeedDirection(gradientPotential(r1.getPosition(), overallPotential, v, rg, og));
+  rg[r2_desc].setSpeedDirection(gradientPotential(r2.getPosition(), overallPotential, v, rg, og));
+  rg[r3_desc].setSpeedDirection(gradientPotential(r3.getPosition(), overallPotential, v, rg, og));
 
-  printPlotWithArrows("Overall potential gradient.png", "Overall potentials and gradient", 30, 60, 0.1, { r1, r2, r3 },
+  printPlotWithArrows("Overall potential gradient.png", "Overall potentials and gradient", 30, 60, 0.1, rg,
                       std::function(&overallPotential), rg, og, v);
   printPlotWithArrows("Overall potential gradient_0_90.png", "Overall potentials and gradient", 0, 90, 0.1,
-                      { r1, r2, r3 }, std::function(&overallPotential), rg, og, v);
+                      rg, std::function(&overallPotential), rg, og, v);
 }
 
 TEST(potentialGradient2, ShouldPass)
@@ -273,9 +279,9 @@ TEST(potentialGradient2, ShouldPass)
   Robot r2(Position_t(10.0, 5.0));
   Robot r3(Position_t(7.5, 9.5));
   RobotGraph rg;
-  boost::add_vertex(r1, rg);
-  boost::add_vertex(r2, rg);
-  boost::add_vertex(r3, rg);
+  auto r1_desc = boost::add_vertex(r1, rg);
+  auto r2_desc = boost::add_vertex(r2, rg);
+  auto r3_desc = boost::add_vertex(r3, rg);
 
   Obstacle o1(Position_t(7.5, 6.0));
   Obstacle o2(Position_t(7.5, 9.5));
@@ -292,11 +298,14 @@ TEST(potentialGradient2, ShouldPass)
   r2.setSpeedDirection(gradientPotential(r2.getPosition(), overallPotential, v, rg, og));
 
   r3.setSpeedDirection(gradientPotential(r3.getPosition(), overallPotential, v, rg, og));
+  rg[r1_desc].setSpeedDirection(gradientPotential(r1.getPosition(), overallPotential, v, rg, og));
+  rg[r2_desc].setSpeedDirection(gradientPotential(r2.getPosition(), overallPotential, v, rg, og));
+  rg[r3_desc].setSpeedDirection(gradientPotential(r3.getPosition(), overallPotential, v, rg, og));
 
-  printPlotWithArrows("Overall potential gradient2.png", "Overall potentials and gradient", 30, 60, 15, { r1, r2, r3 },
+  printPlotWithArrows("Overall potential gradient2.png", "Overall potentials and gradient", 30, 60, 15, rg,
                       std::function(&overallPotential), rg, og, v);
   printPlotWithArrows("Overall potential gradient2_0_90.png", "Overall potentials and gradient", 0, 90, 15,
-                      { r1, r2, r3 }, std::function(&overallPotential), rg, og, v);
+                      rg, std::function(&overallPotential), rg, og, v);
 }
 
 TEST(potentialGradient3, ShouldPass)
@@ -321,22 +330,23 @@ TEST(potentialGradient3, ShouldPass)
   Robot r2(Position_t(10.0, 3.0));
   Robot r3(Position_t(7.5, 14.0));
   RobotGraph rg;
-  boost::add_vertex(r1, rg);
-  boost::add_vertex(r2, rg);
-  boost::add_vertex(r3, rg);
+  auto r1_desc = boost::add_vertex(r1, rg);
+  auto r2_desc = boost::add_vertex(r2, rg);
+  auto r3_desc = boost::add_vertex(r3, rg);
 
   ObstacleGraph og;
 
   r1.setSpeedDirection(gradientPotential(r1.getPosition(), overallPotential, v, rg, og));
-
   r2.setSpeedDirection(gradientPotential(r2.getPosition(), overallPotential, v, rg, og));
-
   r3.setSpeedDirection(gradientPotential(r3.getPosition(), overallPotential, v, rg, og));
+  rg[r1_desc].setSpeedDirection(gradientPotential(r1.getPosition(), overallPotential, v, rg, og));
+  rg[r2_desc].setSpeedDirection(gradientPotential(r2.getPosition(), overallPotential, v, rg, og));
+  rg[r3_desc].setSpeedDirection(gradientPotential(r3.getPosition(), overallPotential, v, rg, og));
 
-  printPlotWithArrows("Overall potential gradient3.png", "Overall potentials and gradient 3", 30, 60, 0.1,
-                      { r1, r2, r3 }, std::function(&overallPotential), rg, og, v);
-  printPlotWithArrows("Overall potential gradient3_0_90.png", "Overall potentials and gradient 3", 0, 90, 0.1,
-                      { r1, r2, r3 }, std::function(&overallPotential), rg, og, v);
+  printPlotWithArrows("Overall potential gradient3.png", "Overall potentials and gradient 3", 30, 60, 0.1, rg,
+                      std::function(&overallPotential), rg, og, v);
+  printPlotWithArrows("Overall potential gradient3_0_90.png", "Overall potentials and gradient 3", 0, 90, 0.1, rg,
+                      std::function(&overallPotential), rg, og, v);
 }
 
 int main(int argc, char** argv)
