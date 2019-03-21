@@ -101,54 +101,55 @@ Obstacle::~Obstacle()
   obstacles_count--;
 }
 
-ValidatedGraphs::ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, const Variables& v)
+ValidatedGraphs::ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr<ObstacleGraph> og, const Variables& v)
 {
   double OBSTACLES_AVOIDANCE_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE;
   v.getParam("obstacles_avoidance_distance", OBSTACLES_AVOIDANCE_DISTANCE);
   v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
 
-  for (size_t robot_id = 0; robot_id < boost::num_vertices(rg); robot_id++)
+  for (size_t robot_id = 0; robot_id < boost::num_vertices(*rg); robot_id++)
   {
-    for (size_t obstacle_id = 0; obstacle_id < boost::num_vertices(og); obstacle_id++)
+    for (size_t obstacle_id = 0; obstacle_id < boost::num_vertices(*og); obstacle_id++)
     {
-      if (getVectorLength(getRelativePosition(rg[robot_id], og[obstacle_id])) <
-          OBSTACLES_AVOIDANCE_DISTANCE + og[obstacle_id].getRadius())
+      if (getVectorLength(getRelativePosition((*rg)[robot_id], (*og)[obstacle_id])) <
+          OBSTACLES_AVOIDANCE_DISTANCE + (*og)[obstacle_id].getRadius())
       {
-        throw std::invalid_argument("Robot ID " + std::to_string(rg[robot_id].getRobotID()) +
-                                    " is too close to Obstacle ID " + std::to_string(og[obstacle_id].getObstacleID()));
+        throw std::invalid_argument("Robot ID " + std::to_string((*rg)[robot_id].getRobotID()) +
+                                    " is too close to Obstacle ID " +
+                                    std::to_string((*og)[obstacle_id].getObstacleID()));
       }
     }
   }
 
-  for (size_t robot_id = 0; robot_id < boost::num_vertices(rg); robot_id++)
+  for (size_t robot_id = 0; robot_id < boost::num_vertices(*rg); robot_id++)
   {
-    for (size_t robot_id2 = 0; robot_id2 < boost::num_vertices(rg); robot_id2++)
+    for (size_t robot_id2 = 0; robot_id2 < boost::num_vertices(*rg); robot_id2++)
     {
       if (robot_id != robot_id2 &&
-          getVectorLength(getRelativePosition(rg[robot_id], rg[robot_id2])) < ROBOTS_AVOIDANCE_DISTANCE)
+          getVectorLength(getRelativePosition((*rg)[robot_id], (*rg)[robot_id2])) < ROBOTS_AVOIDANCE_DISTANCE)
       {
-        throw std::invalid_argument("Robot ID " + std::to_string(rg[robot_id].getRobotID()) +
-                                    " is too close to Robot ID" + std::to_string(rg[robot_id2].getRobotID()));
+        throw std::invalid_argument("Robot ID " + std::to_string((*rg)[robot_id].getRobotID()) +
+                                    " is too close to Robot ID" + std::to_string((*rg)[robot_id2].getRobotID()));
       }
     }
   }
 
-  std::vector<int> component(boost::num_vertices(rg));
-  if (boost::connected_components(rg, &component[0]) != 1)
+  std::vector<int> component(boost::num_vertices(*rg));
+  if (boost::connected_components(*rg, &component[0]) != 1)
   {
     throw std::invalid_argument("Robot graph is not connected.");
   }
 
-  validatedObstacleGraph = og;
-  validatedRobotGraph = rg;
+  validatedObstacleGraph = std::move(og);
+  validatedRobotGraph = std::move(rg);
 }
 
 RobotGraph& ValidatedGraphs::getRobotGraph()
 {
-  return validatedRobotGraph;
+  return *validatedRobotGraph;
 }
 
 ObstacleGraph& ValidatedGraphs::getObstacleGraph()
 {
-  return validatedObstacleGraph;
+  return *validatedObstacleGraph;
 }

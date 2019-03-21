@@ -86,14 +86,14 @@ typedef boost::graph_traits<ObstacleGraph>::vertex_descriptor ObstacleDesc;
 class ValidatedGraphs
 {
 public:
-  ValidatedGraphs(const RobotGraph& rg, const ObstacleGraph& og, const Variables& v);
+  ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr<ObstacleGraph> og, const Variables& v);
   RobotGraph& getRobotGraph();
   ObstacleGraph& getObstacleGraph();
 
 private:
   ValidatedGraphs() = default;
-  RobotGraph validatedRobotGraph;
-  ObstacleGraph validatedObstacleGraph;
+  std::unique_ptr<RobotGraph> validatedRobotGraph;
+  std::unique_ptr<ObstacleGraph> validatedObstacleGraph;
 };
 
 #endif  // PROJECT_DAKAI_ALGO_H
