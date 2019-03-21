@@ -39,52 +39,107 @@ TEST(animatedCohesionTest, ShouldPass)
 
   ValidatedGraphs vg(rg, og, v);
 
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
+
+  vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
+  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
+  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
+  rg[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
+  rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
+  rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
   boost::filesystem::create_directories("cohesionAnimation");
-  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_1.png", "cohesionAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_1.png", "cohesionAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
+  vg.getRobotGraph()[r1_desc].updatePosition();
+  vg.getRobotGraph()[r2_desc].updatePosition();
+  vg.getRobotGraph()[r3_desc].updatePosition();
+  vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
+  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
+  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
   r1.updatePosition();
   r2.updatePosition();
   r3.updatePosition();
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
+  rg[r1_desc].updatePosition();
+  rg[r2_desc].updatePosition();
+  rg[r3_desc].updatePosition();
+  rg[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
+  rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
+  rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_2.png", "cohesionAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_2.png", "cohesionAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
+  vg.getRobotGraph()[r1_desc].updatePosition();
+  vg.getRobotGraph()[r2_desc].updatePosition();
+  vg.getRobotGraph()[r3_desc].updatePosition();
+  vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
+  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
+  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
   r1.updatePosition();
   r2.updatePosition();
   r3.updatePosition();
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
+  rg[r1_desc].updatePosition();
+  rg[r2_desc].updatePosition();
+  rg[r3_desc].updatePosition();
+  rg[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
+  rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
+  rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_3.png", "cohesionAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_3.png", "cohesionAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
+  vg.getRobotGraph()[r1_desc].updatePosition();
+  vg.getRobotGraph()[r2_desc].updatePosition();
+  vg.getRobotGraph()[r3_desc].updatePosition();
+  vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
+  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
+  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
   r1.updatePosition();
   r2.updatePosition();
   r3.updatePosition();
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
+  rg[r1_desc].updatePosition();
+  rg[r2_desc].updatePosition();
+  rg[r3_desc].updatePosition();
+  rg[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
+  rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
+  rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_4.png", "cohesionAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_4.png", "cohesionAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
+  vg.getRobotGraph()[r1_desc].updatePosition();
+  vg.getRobotGraph()[r2_desc].updatePosition();
+  vg.getRobotGraph()[r3_desc].updatePosition();
+  vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
+  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
+  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
   r1.updatePosition();
   r2.updatePosition();
   r3.updatePosition();
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
+  r1.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
   r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
+  rg[r1_desc].updatePosition();
+  rg[r2_desc].updatePosition();
+  rg[r3_desc].updatePosition();
+  rg[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
+  rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
+  rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_5.png", "cohesionAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_5.png", "cohesionAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 }
 
