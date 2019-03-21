@@ -115,35 +115,25 @@ TEST(getConstrainedSpeedTest, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Vector_t(5.0, 3.0));
-  Robot r2(Vector_t(10.0, 3.0));
-  Robot r3(Vector_t(7.5, 14.0));
-  RobotGraph rg;
-  auto r1_desc = boost::add_vertex(r1, rg);
-  auto r2_desc = boost::add_vertex(r2, rg);
-  auto r3_desc = boost::add_vertex(r3, rg);
-  boost::add_edge(r1_desc, r2_desc, rg);
-  boost::add_edge(r2_desc, r3_desc, rg);
+  auto rg = std::make_unique<RobotGraph>();
+  auto r1_desc = boost::add_vertex(Robot(Vector_t(5.0, 3.0)), *rg);
+  auto r2_desc = boost::add_vertex(Robot(Vector_t(10.0, 3.0)), *rg);
+  auto r3_desc = boost::add_vertex(Robot(Vector_t(7.5, 14.0)), *rg);
+  boost::add_edge(r1_desc, r2_desc, *rg);
+  boost::add_edge(r2_desc, r3_desc, *rg);
 
-  ObstacleGraph og;
+  auto og = std::make_unique<ObstacleGraph>();
 
-  ValidatedGraphs vg(rg, og, v);
+  ValidatedGraphs vg(std::move(rg), std::move(og), v);
 
-  vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
-  r1.setSpeedDirection(getConstrainedDirectedSpeed(r1, vg, vv));
-  r2.setSpeedDirection(getConstrainedDirectedSpeed(r2, vg, vv));
-  r3.setSpeedDirection(getConstrainedDirectedSpeed(r3, vg, vv));
-  rg[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r1_desc], vg, vv));
-  rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
-  rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
+  vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
+  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
+  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
 
-
-  printPlotWithArrows("ConstrainedSpeedTest.png", "ConstrainedSpeedTest", 30, 60, 1, rg,
-                      std::function(&overallPotential), rg, og, v);
-  printPlotWithArrows("ConstrainedSpeedTest_0_90.png", "ConstrainedSpeedTest", 0, 90, 1, rg,
-                      std::function(&overallPotential), rg, og, v);
+  printPlotWithArrows("ConstrainedSpeedTest.png", "ConstrainedSpeedTest", 30, 60, 1, vg.getRobotGraph(),
+                      std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(), v);
+  printPlotWithArrows("ConstrainedSpeedTest_0_90.png", "ConstrainedSpeedTest", 0, 90, 1, vg.getRobotGraph(),
+                      std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(), v);
 }
 
 int main(int argc, char** argv)
