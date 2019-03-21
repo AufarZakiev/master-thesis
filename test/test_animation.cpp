@@ -137,7 +137,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
   boost::filesystem::create_directories("leaderAnimation");
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_1.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_1.png", "leaderAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
   vg.getRobotGraph()[r1_desc].updatePosition();
@@ -156,7 +156,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_2.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_2.png", "leaderAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
   vg.getRobotGraph()[r1_desc].updatePosition();
@@ -175,7 +175,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_3.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_3.png", "leaderAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
   vg.getRobotGraph()[r1_desc].updatePosition();
@@ -194,7 +194,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_4.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_4.png", "leaderAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
   vg.getRobotGraph()[r1_desc].updatePosition();
@@ -213,7 +213,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_5.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_5.png", "leaderAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
   vg.getRobotGraph()[r1_desc].updatePosition();
@@ -232,7 +232,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_6.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_6.png", "leaderAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
   vg.getRobotGraph()[r1_desc].updatePosition();
@@ -251,7 +251,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_7.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_7.png", "leaderAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
   vg.getRobotGraph()[r1_desc].updatePosition();
@@ -270,7 +270,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_8.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_8.png", "leaderAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
   vg.getRobotGraph()[r1_desc].updatePosition();
@@ -289,7 +289,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_9.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_9.png", "leaderAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
   vg.getRobotGraph()[r1_desc].updatePosition();
@@ -308,7 +308,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_10.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_10.png", "leaderAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
   vg.getRobotGraph()[r1_desc].updatePosition();
@@ -327,7 +327,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_11.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_11.png", "leaderAnimationTest", 0, 90, 1, rg,
                       std::function(&overallPotential), rg, og, v);
 
   vg.getRobotGraph()[r1_desc].updatePosition();
@@ -346,7 +346,7 @@ TEST(animatedLeaderTest, ShouldPass)
   rg[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r2_desc], vg, vv));
   rg[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(rg[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_12.png", "leaderAnimationTest", 0, 90, 1, { r1, r2, r3 },
+  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_12.png", "leaderAnimationTest", 0, 90, 1,rg,
                       std::function(&overallPotential), rg, og, v);
 }
 

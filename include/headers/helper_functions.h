@@ -14,7 +14,7 @@ std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
 Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
                      const ObstacleGraph& detected_obstacle_graph_in_D_set);
 
-std::optional<Obstacle> closestDetectedObstacle(const RigidObject &position, const ObstacleGraph &obstacles_detected);
+std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, const ObstacleGraph& obstacles_detected);
 
 std::pair<RobotGraph, RobotGraph>
 separateNeighbourRobotsBehindAndFront(const Robot& robot, const RobotGraph& neighbourhood_preserved_robots);
@@ -85,8 +85,9 @@ void printPlot(const std::string& filename, const std::string& title, int rot_x_
 }
 
 template <typename... Args, typename... Args2>
-void printPlotWithArrows(const std::string& filename, const std::string& title, int rot_x_angle, int rot_z_angle, double amplifier,
-                         std::vector<Robot> robots, std::function<double(Args...)> func, Args2&&... args)
+void printPlotWithArrows(const std::string& filename, const std::string& title, int rot_x_angle, int rot_z_angle,
+                         double amplifier, std::vector<Robot> robots, std::function<double(Args...)> func,
+                         Args2&&... args)
 {
   std::vector<std::vector<std::tuple<double, double, double>>> frame(120);
 
@@ -128,15 +129,84 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
   {
     gp << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
        << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
-       << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)*amplifier << ","
-       << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)*amplifier << ","
-       << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)*amplifier) * 8][(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)*amplifier) * 8]) + 0.01
+       << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier << ","
+       << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier << ","
+       << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier) * 8]
+                           [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 8]) +
+              0.01
        << " filled front lw 2\n";
     std::cout << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
               << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
-              << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)*amplifier << ","
-              << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)*amplifier << ","
-            << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0)*amplifier) * 8][(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0)*amplifier) * 8]) + 0.01
+              << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier << ","
+              << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier << ","
+              << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier) * 8]
+                                  [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 8]) +
+                     0.01
+              << " filled front lw 2\n";
+  }
+  gp << "splot [0:15] [0:15] '-' \n";
+  gp.send2d(frame);
+  gp.flush();
+}
+
+template <typename... Args, typename... Args2>
+void printPlotWithArrows(const std::string& filename, const std::string& title, int rot_x_angle, int rot_z_angle,
+                         double amplifier, RobotGraph robots, std::function<double(Args...)> func, Args2&&... args)
+{
+  std::vector<std::vector<std::tuple<double, double, double>>> frame(120);
+
+  for (int i = 0; i < 120; i++)
+  {
+    frame[i].resize(120);
+    for (int j = 0; j < 120; j++)
+    {
+      Vector_t temp;
+      temp << i / 8.0, j / 8.0;
+      Robot point(temp);
+      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), func(point, args...));
+    }
+  }
+
+  Gnuplot gp;
+  gp << "set term png\n";
+  gp << "set output \"";
+  gp << filename.c_str();
+  gp << "\"\n";
+  gp << "set view ";
+  gp << rot_x_angle;
+  gp << ", ";
+  gp << rot_z_angle;
+  gp << ", 1, 1\n";
+  gp << "set samples 120, 120\n";
+  gp << "set style data lines\n";
+  gp << "set pm3d\n";
+  gp << "set title \"";
+  gp << title.c_str();
+  gp << "\"\n";
+  gp << "set xlabel \"X axis\"\n";
+  gp << "set xlabel  offset character -3, -2, 0 font \"\" textcolor lt -1 norotate\n";
+  gp << "set ylabel \"Y axis\"\n";
+  gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
+  gp << "set zlabel \"Z axis\"\n";
+  gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
+  for (size_t i = 0; i < boost::num_vertices(robots); i++)
+  {
+    auto robot = robots[i];
+    gp << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
+       << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
+       << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier << ","
+       << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier << ","
+       << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier) * 8]
+                           [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 8]) +
+              0.01
+       << " filled front lw 2\n";
+    std::cout << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
+              << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
+              << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier << ","
+              << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier << ","
+              << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier) * 8]
+                                  [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 8]) +
+                     0.01
               << " filled front lw 2\n";
   }
   gp << "splot [0:15] [0:15] '-' \n";
