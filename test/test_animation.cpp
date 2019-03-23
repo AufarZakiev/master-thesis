@@ -49,49 +49,19 @@ TEST(animatedCohesionTest, ShouldPass)
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
+  for (int i = 2; i < 6; i++)
+  {
+    vg.getRobotGraph()[r1_desc].updatePosition();
+    vg.getRobotGraph()[r2_desc].updatePosition();
+    vg.getRobotGraph()[r3_desc].updatePosition();
+    vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
+    vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
+    vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
 
-  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_2.png", "cohesionAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_3.png", "cohesionAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_4.png", "cohesionAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_5.png", "cohesionAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
+    printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_" + std::to_string(i) + ".png",
+                        "cohesionAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                        vg.getRobotGraph(), vg.getObstacleGraph(), v);
+  }
 }
 
 TEST(animatedLeaderTest, ShouldPass)
@@ -140,122 +110,25 @@ TEST(animatedLeaderTest, ShouldPass)
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
+  for (int i = 2; i < 12; i++)
+  {
+    vg.getRobotGraph()[r1_desc].updatePosition();
+    vg.getRobotGraph()[r2_desc].updatePosition();
+    vg.getRobotGraph()[r3_desc].updatePosition();
+    vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
+    vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_2.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_3.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_4.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_5.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_6.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_7.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_8.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_9.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_10.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_11.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_12.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
+    printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_" + std::to_string(i) + ".png", "leaderAnimationTest",
+                        0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(),
+                        vg.getObstacleGraph(), v);
+  }
 }
 
 TEST(animatedLeaderTest2, ShouldPass)
 {
   Variables v = Variables();
   v.setParam("robots_avoidance_distance", 1.0);
-  v.setParam("obstacles_avoidance_distance", 1.0);
+  v.setParam("obstacles_avoidance_distance", 2.0);
   v.setParam("los_clearance_distance", 0.2);
   v.setParam("los_clearance_care_distance", 0.4);
   v.setParam("neighbourhood_distance", 2.0);
@@ -263,7 +136,8 @@ TEST(animatedLeaderTest2, ShouldPass)
   v.setParam("obstacle_care_distance", 3.0);
   v.setParam("desired_distance", 1.5);
   v.setParam("sensing_distance", 10.0);
-  v.setParam("robot_max_speed", 0.1);
+  auto leaderV = Vector_t(1, 1);
+  v.setParam("robot_max_speed", getVectorLength(leaderV));
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
@@ -293,8 +167,8 @@ TEST(animatedLeaderTest2, ShouldPass)
 
   ValidatedGraphs vg(std::move(rg), std::move(og), v);
 
-  auto leaderV = Vector_t(0.5, 0.5);
-  vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV);
+  vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
+                                                getConstrainedSpeedMagnitude(vg.getRobotGraph()[r1_desc], vg, vv));
   vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
   vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
   vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
@@ -305,243 +179,24 @@ TEST(animatedLeaderTest2, ShouldPass)
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
+  for (int i = 2; i < 20; i++)
+  {
+    vg.getRobotGraph()[r1_desc].updatePosition();
+    vg.getRobotGraph()[r2_desc].updatePosition();
+    vg.getRobotGraph()[r3_desc].updatePosition();
+    vg.getRobotGraph()[r4_desc].updatePosition();
+    vg.getRobotGraph()[r5_desc].updatePosition();
+    vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
+                                                  getConstrainedSpeedMagnitude(vg.getRobotGraph()[r1_desc], vg, vv));
+    vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
+    vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
+    vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
+    vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
 
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_2.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_3.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_4.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_5.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_6.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_7.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_8.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_9.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_10.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_11.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_12.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_13.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_14.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_15.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_16.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_17.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
-
-  vg.getRobotGraph()[r1_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].updatePosition();
-  vg.getRobotGraph()[r3_desc].updatePosition();
-  vg.getRobotGraph()[r4_desc].updatePosition();
-  vg.getRobotGraph()[r5_desc].updatePosition();
-  vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-  vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-  vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-
-  printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_18.png", "leaderAnimationTest", 0, 90, 1,
-                      vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
-                      v);
+    printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_" + std::to_string(i) + ".png",
+                        "leaderAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                        vg.getRobotGraph(), vg.getObstacleGraph(), v);
+  }
 }
 
 int main(int argc, char** argv)
