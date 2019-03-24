@@ -69,11 +69,11 @@ ValidatedVariables::ValidatedVariables(const Variables& v)
       ROBOTS_AVOIDANCE_DISTANCE < DESIRED_DISTANCE && DESIRED_DISTANCE < NEIGHBOURHOOD_DISTANCE;
   bool obstacleAvoidanceDistances = OBSTACLES_AVOIDANCE_DISTANCE < OBSTACLE_CARE_DISTANCE;
   bool maxSpeedConstraint1 = ROBOT_MAX_SPEED <= (OBSTACLES_AVOIDANCE_DISTANCE - LOS_CLEARANCE_DISTANCE);  // (50)
-  bool maxSpeedConstraint2 =                                                                              // (52)
-      ROBOT_MAX_SPEED <=
-      std::min({ SENSING_DISTANCE / 2.0, sqrt(OBSTACLES_AVOIDANCE_DISTANCE * OBSTACLES_AVOIDANCE_DISTANCE -
-                                              LOS_CLEARANCE_DISTANCE * LOS_CLEARANCE_DISTANCE) }) -
-          ROBOTS_AVOIDANCE_DISTANCE / 2.0;
+  double s2 = std::min({ SENSING_DISTANCE / 2.0, sqrt(OBSTACLES_AVOIDANCE_DISTANCE * OBSTACLES_AVOIDANCE_DISTANCE -
+                                                      LOS_CLEARANCE_DISTANCE * LOS_CLEARANCE_DISTANCE) }) -
+              ROBOTS_AVOIDANCE_DISTANCE / 2.0;
+  bool maxSpeedConstraint2 =  // (52)
+      ROBOT_MAX_SPEED <= s2;
 
   bool piConstraint = fabs((M_PI / asin(ROBOTS_AVOIDANCE_DISTANCE / (2.0 * NEIGHBOURHOOD_DISTANCE)) -
                             (int)(M_PI / asin(ROBOTS_AVOIDANCE_DISTANCE / (2.0 * NEIGHBOURHOOD_DISTANCE))))) >

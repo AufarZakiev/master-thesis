@@ -153,3 +153,30 @@ ObstacleGraph& ValidatedGraphs::getObstacleGraph()
 {
   return *validatedObstacleGraph;
 }
+
+void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
+{
+  double NEIGHBOURHOOD_DISTANCE;
+  vv.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
+  auto& robots = *validatedRobotGraph;
+  for (size_t it = 0; it != boost::num_vertices(robots); it++)
+  {
+    for (size_t it2 = 0; it2 != boost::num_vertices(robots); it2++)
+    {
+      if (it != it2)
+      {
+        auto robot = robots[it];
+        auto robotTarget = robots[it2];
+        if (getVectorLength(getRelativePosition(robot, robotTarget)) < NEIGHBOURHOOD_DISTANCE &&
+            isEdgePreserved(robot, robotTarget, robots, Variables(vv)))
+        {
+          boost::add_edge(it, it2, robots);
+        }
+        else
+        {
+          boost::remove_edge(it, it2, robots);
+        }
+      }
+    }
+  }
+}

@@ -136,15 +136,6 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
                            [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 8]) +
               0.01
        << " filled front lw 2\n";
-    //    std::cout << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
-    //              << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
-    //              << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier << ","
-    //              << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier << ","
-    //              << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier) * 8]
-    //                                  [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 8])
-    //                                  +
-    //                     0.01
-    //              << " filled front lw 2\n";
   }
 
   auto edges = boost::edges(robots);
