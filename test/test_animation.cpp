@@ -144,7 +144,7 @@ TEST(animatedLeaderTest2, ShouldPass)
   v.setParam("c1", 0.5);
   v.setParam("c2", 0.01);
   v.setParam("c3", 0.01);
-  v.setParam("c4", 10.0);
+  v.setParam("c4", 50.0);
 
   ValidatedVariables vv(v);
 
@@ -168,7 +168,7 @@ TEST(animatedLeaderTest2, ShouldPass)
 
   ValidatedGraphs vg(std::move(rg), std::move(og), v);
 
-  auto leaderV = Vector_t(sqrt(2), sqrt(2)) * (2.0 / 3.0);
+  auto leaderV = Vector_t(sqrt(2), sqrt(2));
   vg.leavePreservedEdges(vv);
   vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
                                                 getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
@@ -182,7 +182,7 @@ TEST(animatedLeaderTest2, ShouldPass)
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  for (int i = 2; i < 3; i++)
+  for (int i = 2; i < 80; i++)
   {
     auto start = std::chrono::system_clock::now();
     vg.getRobotGraph()[r1_desc].updatePosition();
@@ -201,7 +201,7 @@ TEST(animatedLeaderTest2, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << elapsed_seconds << std::endl;
 
-    if (i % 500 == 0)
+    if (i % 5 == 0)
     {
       printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_" + std::to_string(i) + ".png",
                           "leaderAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
@@ -292,7 +292,7 @@ TEST(animatedLeaderTest3, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i % 10 == 0)
+    if (i % 5 == 0)
     {
       printPlotWithArrows("leaderAnimation3/leaderAnimationTest3_0_90_" + std::to_string(i) + ".png",
                           "leaderAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),

@@ -178,6 +178,6 @@ double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const 
   RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, neighbour_robots, v);
   double calc_min =
       std::min({ interrobotAvoidanceConstraint(robot, detected_robots, v),
-                 obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0), MAX_SPEED * (2.0 / 3.0) });
+                 obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0), MAX_SPEED * (1.0 / 3.0) });
   return calc_min;
 }
