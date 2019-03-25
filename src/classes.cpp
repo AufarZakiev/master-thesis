@@ -28,7 +28,6 @@ Robot::Robot(Position_t position, Vector_t current_speed_direction, double max_s
   : RigidObject(std::move(position))
 {
   this->current_speed_direction_ = std::move(current_speed_direction);
-  this->max_speed_value_ = max_speed_value;
   this->ID = robots_count;
   robots_count++;
 }
@@ -37,16 +36,6 @@ double Robot::getSpeedValue() const
 {
   return getVectorLength(current_speed_direction_);
 }
-
-double Robot::getMaxSpeedValue() const
-{
-  return this->max_speed_value_;
-};
-
-void Robot::setMaxSpeedValue(double max_speed_value)
-{
-  this->max_speed_value_ = max_speed_value;
-};
 
 const Vector_t Robot::getSpeedDirection() const
 {

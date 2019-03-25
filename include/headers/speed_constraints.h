@@ -22,6 +22,6 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
 
 Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs &vg, const ValidatedVariables& vv);
 
-double getConstrainedSpeedMagnitude(const Robot& robot, ValidatedGraphs& vg, const ValidatedVariables& vv);
+double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const ValidatedVariables& vv);
 
 #endif  // PROJECT_SPEED_CONSTRAINTS_H

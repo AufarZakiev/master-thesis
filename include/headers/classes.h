@@ -42,9 +42,6 @@ public:
   const Vector_t getSpeedDirection() const;
   void setSpeedDirection(const Vector_t& current_speed_direction);
 
-  double getMaxSpeedValue() const;
-  void setMaxSpeedValue(double max_speed_value);
-
   double getSpeedValue() const;
 
   int getRobotID() const;
@@ -55,7 +52,6 @@ private:
   static int robots_count;
   int ID;
   Vector_t current_speed_direction_;
-  double max_speed_value_;
 };
 
 class Obstacle : public RigidObject

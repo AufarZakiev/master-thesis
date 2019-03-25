@@ -171,7 +171,7 @@ TEST(animatedLeaderTest2, ShouldPass)
   auto leaderV = Vector_t(sqrt(2), sqrt(2)) * (2.0 / 3.0);
   vg.leavePreservedEdges(vv);
   vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
-                                                getConstrainedSpeedMagnitude(vg.getRobotGraph()[r1_desc], vg, vv));
+                                                getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
   vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
   vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
   vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
@@ -191,7 +191,7 @@ TEST(animatedLeaderTest2, ShouldPass)
     vg.getRobotGraph()[r4_desc].updatePosition();
     vg.getRobotGraph()[r5_desc].updatePosition();
     vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
-                                                  getConstrainedSpeedMagnitude(vg.getRobotGraph()[r1_desc], vg, vv));
+                                                  getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
     vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
     vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
@@ -232,12 +232,13 @@ TEST(animatedLeaderTest3, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Vector_t(8.0, 8.0));
-  Robot r2(Vector_t(0.0, 0.0));
-  Robot r3(Vector_t(3.0, 5.0));
-  Robot r4(Vector_t(7.0, 4.0));
-  Robot r5(Vector_t(1.0, 8.0));
-  Robot r6(Vector_t(8.0, 0.0));
+  Robot r1(Position_t(8.0, 8.0));
+  Robot r2(Position_t(0.0, 0.0));
+  Robot r3(Position_t(3.0, 5.0));
+  Robot r4(Position_t(7.0, 4.0));
+  Robot r5(Position_t(1.0, 8.0));
+  Robot r6(Position_t(8.0, 0.0));
+
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
   auto r2_desc = boost::add_vertex(r2, *rg);
@@ -255,10 +256,10 @@ TEST(animatedLeaderTest3, ShouldPass)
 
   ValidatedGraphs vg(std::move(rg), std::move(og), v);
 
-  auto leaderV = Vector_t(sqrt(2), sqrt(2)) * (2.0 / 3.0);
+  auto leaderV = Vector_t(sqrt(2), sqrt(2));
   vg.leavePreservedEdges(vv);
   vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
-                                                getConstrainedSpeedMagnitude(vg.getRobotGraph()[r1_desc], vg, vv));
+                                                getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
   vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
   vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
   vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
@@ -270,7 +271,7 @@ TEST(animatedLeaderTest3, ShouldPass)
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  for (int i = 2; i < 2001; i++)
+  for (int i = 2; i < 80; i++)
   {
     auto start = std::chrono::system_clock::now();
     vg.getRobotGraph()[r1_desc].updatePosition();
@@ -280,7 +281,7 @@ TEST(animatedLeaderTest3, ShouldPass)
     vg.getRobotGraph()[r5_desc].updatePosition();
     vg.getRobotGraph()[r6_desc].updatePosition();
     vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
-                                                  getConstrainedSpeedMagnitude(vg.getRobotGraph()[r1_desc], vg, vv));
+                                                  getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
     vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
     vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
@@ -289,9 +290,9 @@ TEST(animatedLeaderTest3, ShouldPass)
     vg.leavePreservedEdges(vv);
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    std::cout << elapsed_seconds << std::endl;
+    std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i % 500 == 0)
+    if (i % 10 == 0)
     {
       printPlotWithArrows("leaderAnimation3/leaderAnimationTest3_0_90_" + std::to_string(i) + ".png",
                           "leaderAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),

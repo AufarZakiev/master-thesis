@@ -138,18 +138,20 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
 
 Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, const ValidatedVariables& vv)
 {
+  double MAX_SPEED;
+  vv.getParam("robot_max_speed", MAX_SPEED);
   Variables v = Variables(vv);
   RobotGraph detected_robots = vg.getRobotGraph();
   ObstacleGraph detected_obstacles = vg.getObstacleGraph();
 
   RobotGraph neighbour_robots = getNeighbourRobots(robot, detected_robots, v);
   RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, neighbour_robots, v);
-  double calc_min = std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
-                               maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),
-                               interrobotAvoidanceConstraint(robot, detected_robots, v),
-                               obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
-                               LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots),
-                               robot.getMaxSpeedValue() });
+  double calc_min =
+      std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
+                 maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),
+                 interrobotAvoidanceConstraint(robot, detected_robots, v),
+                 obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
+                 LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots), MAX_SPEED });
 
   Vector_t gradientSpeed =
       gradientPotential(robot.getPosition(), overallPotential, v, detected_robots, detected_obstacles);
@@ -164,19 +166,18 @@ Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, co
   }
 }
 
-double getConstrainedSpeedMagnitude(const Robot& robot, ValidatedGraphs& vg, const ValidatedVariables& vv)
+double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const ValidatedVariables& vv)
 {
+  double MAX_SPEED;
+  vv.getParam("robot_max_speed", MAX_SPEED);
   Variables v = Variables(vv);
   RobotGraph detected_robots = vg.getRobotGraph();
   ObstacleGraph detected_obstacles = vg.getObstacleGraph();
 
   RobotGraph neighbour_robots = getNeighbourRobots(robot, detected_robots, v);
   RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, neighbour_robots, v);
-  double calc_min = std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
-                               maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),
-                               interrobotAvoidanceConstraint(robot, detected_robots, v),
-                               obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
-                               LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots),
-                               robot.getMaxSpeedValue() });
+  double calc_min =
+      std::min({ interrobotAvoidanceConstraint(robot, detected_robots, v),
+                 obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0), MAX_SPEED * (2.0 / 3.0) });
   return calc_min;
 }
