@@ -144,7 +144,7 @@ TEST(animatedLeaderTest2, ShouldPass)
   v.setParam("c1", 0.5);
   v.setParam("c2", 0.01);
   v.setParam("c3", 0.01);
-  v.setParam("c4", 50.0);
+  v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
 
@@ -199,7 +199,7 @@ TEST(animatedLeaderTest2, ShouldPass)
     vg.leavePreservedEdges(vv);
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    std::cout << elapsed_seconds << std::endl;
+    std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
     if (i % 5 == 0)
     {
