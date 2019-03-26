@@ -8,15 +8,15 @@
 TEST(animatedCohesionTest, ShouldPass)
 {
   Variables v = Variables();
-  v.setParam("robots_avoidance_distance", 1.5);
-  v.setParam("obstacles_avoidance_distance", 1.0);
-  v.setParam("los_clearance_distance", 0.2);
-  v.setParam("los_clearance_care_distance", 0.4);
-  v.setParam("neighbourhood_distance", 3.0);
-  v.setParam("edge_deletion_distance", 0.1);
-  v.setParam("obstacle_care_distance", 3.0);
-  v.setParam("desired_distance", 2.0);
-  v.setParam("sensing_distance", 10.0);
+  v.setParam("robots_avoidance_distance", 3.0);
+  v.setParam("obstacles_avoidance_distance", 1.7);
+  v.setParam("los_clearance_distance", 0.5);
+  v.setParam("los_clearance_care_distance", 1.0);
+  v.setParam("neighbourhood_distance", 15.0);
+  v.setParam("edge_deletion_distance", 2.5);
+  v.setParam("obstacle_care_distance", 2.0);
+  v.setParam("desired_distance", 7.0);
+  v.setParam("sensing_distance", 20.0);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
@@ -40,7 +40,7 @@ TEST(animatedCohesionTest, ShouldPass)
 
   auto og = std::make_unique<ObstacleGraph>();
 
-  ValidatedGraphs vg(std::move(rg), std::move(og), v);
+  ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
   vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
   vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
@@ -69,22 +69,22 @@ TEST(animatedCohesionTest, ShouldPass)
 TEST(animatedLeaderTest, ShouldPass)
 {
   Variables v = Variables();
-  v.setParam("robots_avoidance_distance", 1.0);
-  v.setParam("obstacles_avoidance_distance", 1.0);
-  v.setParam("los_clearance_distance", 0.2);
-  v.setParam("los_clearance_care_distance", 0.4);
-  v.setParam("neighbourhood_distance", 2.0);
-  v.setParam("edge_deletion_distance", 0.1);
-  v.setParam("obstacle_care_distance", 3.0);
-  v.setParam("desired_distance", 1.5);
-  v.setParam("sensing_distance", 10.0);
+  v.setParam("robots_avoidance_distance", 3.0);
+  v.setParam("obstacles_avoidance_distance", 1.7);
+  v.setParam("los_clearance_distance", 0.5);
+  v.setParam("los_clearance_care_distance", 1.0);
+  v.setParam("neighbourhood_distance", 10.0);
+  v.setParam("edge_deletion_distance", 2.5);
+  v.setParam("obstacle_care_distance", 2.0);
+  v.setParam("desired_distance", 7.0);
+  v.setParam("sensing_distance", 20.0);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.0);
   v.setParam("c2", 0.0);
   v.setParam("c3", 0.0);
-  v.setParam("c4", 30.0);
+  v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
 
@@ -95,12 +95,10 @@ TEST(animatedLeaderTest, ShouldPass)
   auto r1_desc = boost::add_vertex(r1, *rg);
   auto r2_desc = boost::add_vertex(r2, *rg);
   auto r3_desc = boost::add_vertex(r3, *rg);
-  boost::add_edge(r1_desc, r2_desc, *rg);
-  boost::add_edge(r2_desc, r3_desc, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
 
-  ValidatedGraphs vg(std::move(rg), std::move(og), v);
+  ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
   auto leaderV = Vector_t(0.5, 0.5);
   vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV);
@@ -159,14 +157,10 @@ TEST(animatedLeaderTest2, ShouldPass)
   auto r3_desc = boost::add_vertex(r3, *rg);
   auto r4_desc = boost::add_vertex(r4, *rg);
   auto r5_desc = boost::add_vertex(r5, *rg);
-  boost::add_edge(r1_desc, r2_desc, *rg);
-  boost::add_edge(r2_desc, r3_desc, *rg);
-  boost::add_edge(r3_desc, r4_desc, *rg);
-  boost::add_edge(r4_desc, r5_desc, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
 
-  ValidatedGraphs vg(std::move(rg), std::move(og), v);
+  ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
   auto leaderV = Vector_t(sqrt(2), sqrt(2));
   vg.leavePreservedEdges(vv);
@@ -246,18 +240,12 @@ TEST(animatedLeaderTest3, ShouldPass)
   auto r4_desc = boost::add_vertex(r4, *rg);
   auto r5_desc = boost::add_vertex(r5, *rg);
   auto r6_desc = boost::add_vertex(r6, *rg);
-  boost::add_edge(r1_desc, r2_desc, *rg);
-  boost::add_edge(r2_desc, r3_desc, *rg);
-  boost::add_edge(r3_desc, r4_desc, *rg);
-  boost::add_edge(r4_desc, r5_desc, *rg);
-  boost::add_edge(r5_desc, r6_desc, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
 
-  ValidatedGraphs vg(std::move(rg), std::move(og), v);
+  ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
   auto leaderV = Vector_t(sqrt(2), sqrt(2));
-  vg.leavePreservedEdges(vv);
   vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
                                                 getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
   vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));

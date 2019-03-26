@@ -82,7 +82,7 @@ typedef boost::graph_traits<ObstacleGraph>::vertex_descriptor ObstacleDesc;
 class ValidatedGraphs
 {
 public:
-  ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr<ObstacleGraph> og, const Variables& v);
+  ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr<ObstacleGraph> og, const ValidatedVariables& vv);
   RobotGraph& getRobotGraph();
   ObstacleGraph& getObstacleGraph();
   void leavePreservedEdges(const ValidatedVariables& vv);

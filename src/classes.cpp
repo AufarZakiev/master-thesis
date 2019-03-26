@@ -90,11 +90,11 @@ Obstacle::~Obstacle()
   obstacles_count--;
 }
 
-ValidatedGraphs::ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr<ObstacleGraph> og, const Variables& v)
+ValidatedGraphs::ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr<ObstacleGraph> og, const ValidatedVariables& vv)
 {
   double OBSTACLES_AVOIDANCE_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE;
-  v.getParam("obstacles_avoidance_distance", OBSTACLES_AVOIDANCE_DISTANCE);
-  v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
+  vv.getParam("obstacles_avoidance_distance", OBSTACLES_AVOIDANCE_DISTANCE);
+  vv.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
 
   for (size_t robot_id = 0; robot_id < boost::num_vertices(*rg); robot_id++)
   {
@@ -123,14 +123,17 @@ ValidatedGraphs::ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr
     }
   }
 
-  std::vector<int> component(boost::num_vertices(*rg));
-  if (boost::connected_components(*rg, &component[0]) != 1)
-  {
-    throw std::invalid_argument("Robot graph is not connected.");
-  }
 
   validatedObstacleGraph = std::move(og);
   validatedRobotGraph = std::move(rg);
+
+  this->leavePreservedEdges(vv);
+
+  std::vector<int> component(boost::num_vertices(*validatedRobotGraph));
+  if (boost::connected_components(*validatedRobotGraph, &component[0]) != 1)
+  {
+    throw std::invalid_argument("Robot graph is not connected.");
+  }
 }
 
 RobotGraph& ValidatedGraphs::getRobotGraph()
