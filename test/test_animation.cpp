@@ -331,6 +331,12 @@ TEST(animatedObstacleTest1, ShouldPass)
   boost::add_vertex(Obstacle(Position_t(4, 10), 1), *og);
   boost::add_vertex(Obstacle(Position_t(12, 6), 2), *og);
   boost::add_vertex(Obstacle(Position_t(6, 12), 2), *og);
+  boost::add_vertex(Obstacle(Position_t(14, 8), 2), *og);
+  boost::add_vertex(Obstacle(Position_t(8, 14), 2), *og);
+  boost::add_vertex(Obstacle(Position_t(16, 10), 2), *og);
+  boost::add_vertex(Obstacle(Position_t(10, 16), 2), *og);
+  boost::add_vertex(Obstacle(Position_t(18, 12), 2), *og);
+  boost::add_vertex(Obstacle(Position_t(12, 18), 2), *og);
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
@@ -348,7 +354,7 @@ TEST(animatedObstacleTest1, ShouldPass)
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  for (int i = 2; i < 100; i++)
+  for (int i = 2; i < 170; i++)
   {
     auto start = std::chrono::system_clock::now();
     vg.getRobotGraph()[r1_desc].updatePosition();
@@ -371,9 +377,12 @@ TEST(animatedObstacleTest1, ShouldPass)
 
     if (i % 5 == 0)
     {
-      printPlotWithArrows("obstacleAnimation1/obstacleAnimation1_0_90_" + std::to_string(i) + ".png",
-                          "obstacleAnimationtTest1", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
-                          vg.getRobotGraph(), vg.getObstacleGraph(), v);
+      std::thread draw([&]() {
+        printPlotWithArrows("obstacleAnimation1/obstacleAnimation1_0_90_" + std::to_string(i) + ".png",
+                            "obstacleAnimationTest1", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                            vg.getRobotGraph(), vg.getObstacleGraph(), v);
+      });
+      draw.detach();
     }
   }
 }

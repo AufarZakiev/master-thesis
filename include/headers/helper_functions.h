@@ -89,15 +89,15 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
                          double amplifier, const RobotGraph robots, std::function<double(Args...)> func,
                          Args2&&... args)
 {
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(120);
+  std::vector<std::vector<std::tuple<double, double, double>>> frame(100);
 
-  for (int i = 0; i < 120; i++)
+  for (int i = 0; i < 100; i++)
   {
-    frame[i].resize(120);
-    for (int j = 0; j < 120; j++)
+    frame[i].resize(100);
+    for (int j = 0; j < 100; j++)
     {
       Vector_t temp;
-      temp << i / 8.0, j / 8.0;
+      temp << i / 5.0, j / 5.0;
       Robot point(temp);
       frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), func(point, args...));
     }
@@ -113,7 +113,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
   gp << ", ";
   gp << rot_z_angle;
   gp << ", 1, 1\n";
-  gp << "set samples 120, 120\n";
+  gp << "set samples 100, 100\n";
   gp << "set style data lines\n";
   gp << "set pm3d\n";
   gp << "set title \"";
@@ -129,11 +129,11 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
   {
     auto robot = robots[i];
     gp << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
-       << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
+       << std::get<2>(frame[robot.getPosition()(0, 0) * 5][robot.getPosition()(1, 0) * 5]) + 0.01 << " to "
        << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier << ","
        << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier << ","
-       << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier) * 8]
-                           [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 8]) +
+       << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier) * 5]
+                           [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 5]) +
               0.01
        << " filled front lw 2\n";
   }
@@ -143,9 +143,9 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
   {
     auto obstacle = og[i];
     gp << "set arrow from " << obstacle.getPosition()(0, 0) << "," << obstacle.getPosition()(1, 0) << ","
-       << std::get<2>(frame[obstacle.getPosition()(0, 0) * 8][obstacle.getPosition()(1, 0) * 8]) + 0.01 << " to "
+       << std::get<2>(frame[obstacle.getPosition()(0, 0) * 5][obstacle.getPosition()(1, 0) * 5]) + 0.01 << " to "
        << obstacle.getPosition()(0, 0) << "," << obstacle.getPosition()(1, 0) << ","
-       << std::get<2>(frame[(obstacle.getPosition()(0, 0)) * 8][(obstacle.getPosition()(1, 0)) * 8]) + 0.01
+       << std::get<2>(frame[(obstacle.getPosition()(0, 0)) * 5][(obstacle.getPosition()(1, 0)) * 5]) + 0.01
        << " filled front lw 4\n";
   }
 
@@ -155,12 +155,12 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
     auto robot = robots[boost::source(*it, robots)];
     auto robotTagret = robots[boost::target(*it, robots)];
     gp << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
-       << std::get<2>(frame[robot.getPosition()(0, 0) * 8][robot.getPosition()(1, 0) * 8]) + 0.01 << " to "
+       << std::get<2>(frame[robot.getPosition()(0, 0) * 5][robot.getPosition()(1, 0) * 5]) + 0.01 << " to "
        << robotTagret.getPosition()(0, 0) << "," << robotTagret.getPosition()(1, 0) << ","
-       << std::get<2>(frame[robotTagret.getPosition()(0, 0) * 8][robotTagret.getPosition()(1, 0) * 8]) + 0.01
+       << std::get<2>(frame[robotTagret.getPosition()(0, 0) * 5][robotTagret.getPosition()(1, 0) * 5]) + 0.01
        << "front lw 2 dt 0\n";
   }
-  gp << "splot [0:15] [0:15] '-' \n";
+  gp << "splot [0:20] [0:20] '-' \n";
   gp.send2d(frame);
   gp.flush();
 }
