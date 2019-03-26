@@ -138,6 +138,17 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
        << " filled front lw 2\n";
   }
 
+  auto og = std::get<1>(std::forward_as_tuple(args...));
+  for (size_t i = 0; i < boost::num_vertices(og); i++)
+  {
+    auto obstacle = og[i];
+    gp << "set arrow from " << obstacle.getPosition()(0, 0) << "," << obstacle.getPosition()(1, 0) << ","
+       << std::get<2>(frame[obstacle.getPosition()(0, 0) * 8][obstacle.getPosition()(1, 0) * 8]) + 0.01 << " to "
+       << obstacle.getPosition()(0, 0) << "," << obstacle.getPosition()(1, 0) << ","
+       << std::get<2>(frame[(obstacle.getPosition()(0, 0)) * 8][(obstacle.getPosition()(1, 0)) * 8]) + 0.01
+       << " filled front lw 4\n";
+  }
+
   auto edges = boost::edges(robots);
   for (auto it = edges.first; it != edges.second; it++)
   {

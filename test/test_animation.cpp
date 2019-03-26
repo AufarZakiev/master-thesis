@@ -305,7 +305,7 @@ TEST(animatedObstacleTest1, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.1);
+  v.setParam("c2", 0.5);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -327,6 +327,8 @@ TEST(animatedObstacleTest1, ShouldPass)
   auto r6_desc = boost::add_vertex(r6, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
+  boost::add_vertex(Obstacle(Position_t(10, 4), 1), *og);
+  boost::add_vertex(Obstacle(Position_t(4, 10), 1), *og);
   boost::add_vertex(Obstacle(Position_t(12, 6), 2), *og);
   boost::add_vertex(Obstacle(Position_t(6, 12), 2), *og);
 
