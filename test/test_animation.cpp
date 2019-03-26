@@ -59,12 +59,10 @@ TEST(animatedCohesionTest, ShouldPass)
     vg.getRobotGraph()[r1_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
     vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-    std::thread draw([&]() {
-      printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_" + std::to_string(i) + ".png",
-                          "cohesionAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
-                          vg.getRobotGraph(), vg.getObstacleGraph(), v);
-    });
-    draw.detach();
+
+    printPlotWithArrows("cohesionAnimation/cohesionAnimationTest_0_90_" + std::to_string(i) + ".png",
+                        "cohesionAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                        vg.getRobotGraph(), vg.getObstacleGraph(), v);
   }
 }
 
@@ -119,12 +117,10 @@ TEST(animatedLeaderTest, ShouldPass)
     vg.getRobotGraph()[r3_desc].updatePosition();
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
     vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
-    std::thread draw([&]() {
-      printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_" + std::to_string(i) + ".png",
-                          "leaderAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
-                          vg.getRobotGraph(), vg.getObstacleGraph(), v);
-    });
-    draw.detach();
+
+    printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_" + std::to_string(i) + ".png", "leaderAnimationTest",
+                        0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(),
+                        vg.getObstacleGraph(), v);
   }
 }
 
@@ -201,12 +197,9 @@ TEST(animatedLeaderTest2, ShouldPass)
 
     if (i % 5 == 0)
     {
-      std::thread draw([&]() {
-        printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_" + std::to_string(i) + ".png",
-                            "leaderAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
-                            vg.getRobotGraph(), vg.getObstacleGraph(), v);
-      });
-      draw.detach();
+      printPlotWithArrows("leaderAnimation2/leaderAnimationTest2_0_90_" + std::to_string(i) + ".png",
+                          "leaderAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                          vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }
   }
 }
@@ -289,12 +282,9 @@ TEST(animatedLeaderTest3, ShouldPass)
 
     if (i % 5 == 0)
     {
-      std::thread draw([&]() {
-        printPlotWithArrows("leaderAnimation3/leaderAnimationTest3_0_90_" + std::to_string(i) + ".png",
-                            "leaderAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
-                            vg.getRobotGraph(), vg.getObstacleGraph(), v);
-      });
-      draw.detach();
+      printPlotWithArrows("leaderAnimation3/leaderAnimationTest3_0_90_" + std::to_string(i) + ".png",
+                          "leaderAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                          vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }
   }
 }
@@ -364,7 +354,7 @@ TEST(animatedObstacleTest1, ShouldPass)
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  for (int i = 2; i < 169; i++)
+  for (int i = 2; i < 170; i++)
   {
     auto start = std::chrono::system_clock::now();
     vg.getRobotGraph()[r1_desc].updatePosition();
