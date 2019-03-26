@@ -483,7 +483,7 @@ TEST(animatedObstacleTest2, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i % 50 == 0)
+    if (i % 25 == 0)
     {
       // std::thread draw([&]() {
       printPlotWithArrows("obstacleAnimation2/obstacleAnimation2_0_90_" + std::to_string(i) + ".png",

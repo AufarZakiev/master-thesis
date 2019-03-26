@@ -49,8 +49,7 @@ bool isEdgePreserved(const Robot& i, const Robot& j, const RobotGraph& rg, const
 {
   for (RobotDesc id = 0; id < boost::num_vertices(rg); ++id)
   {
-    if (rg[id].getRobotID() != i.getRobotID() &&
-            rg[id].getRobotID() != j.getRobotID())
+    if (rg[id].getRobotID() != i.getRobotID() && rg[id].getRobotID() != j.getRobotID())
     {
       if (isObjectInTSet(i, j, rg[id], rg, v) || isObjectInTSet(j, i, rg[id], rg, v) ||
           isObjectInDashedTSet(i, j, rg[id], rg, v) || isObjectInDashedTSet(j, i, rg[id], rg, v))
@@ -91,12 +90,12 @@ Vector_t getProjectionPhi(const Vector_t& p, const Vector_t& q)
   return f;
 };
 
-bool isEdgeInGraph(const Robot &i, const Robot &j, const RobotGraph &rg)
+bool isEdgeInGraph(const Robot& i, const Robot& j, const RobotGraph& rg)
 {
-  auto i_desc  = findRobotInGraph(i, rg);
+  auto i_desc = findRobotInGraph(i, rg);
   auto j_desc = findRobotInGraph(j, rg);
   if (!(i_desc && j_desc))
-    return false;                           // check if the vertices exist
+    return false;                                                 // check if the vertices exist
   return boost::edge(i_desc.value(), j_desc.value(), rg).second;  // check if the edge between vertices exist
 }
 
@@ -106,8 +105,8 @@ double angleBetweenVectorsInRadians(const Vector_t& v1, const Vector_t& v2)
   return alpha;
 }
 
-bool isObjectInTSet(const Robot &i, const Robot &j, const Robot &m, const RobotGraph &rg,
-                    const Variables &v)  // three objects to check and graph with edges chosen to be saved
+bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m, const RobotGraph& rg,
+                    const Variables& v)  // three objects to check and graph with edges chosen to be saved
 {
   // check if (i,j,m) forms T set
   Vector_t mi = getRelativePosition(i, m);
@@ -124,8 +123,7 @@ bool isObjectInTSet(const Robot &i, const Robot &j, const Robot &m, const RobotG
          areAllVectorsInGraph;
 }
 
-bool isObjectInDashedTSet(const Robot &i, const Robot &j, const Robot &m, const RobotGraph &rg,
-                          const Variables &v)
+bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const RobotGraph& rg, const Variables& v)
 {
   Vector_t mi = getRelativePosition(i, m);
   Vector_t im = getRelativePosition(m, i);
@@ -135,10 +133,10 @@ bool isObjectInDashedTSet(const Robot &i, const Robot &j, const Robot &m, const 
   double NEIGHBOURHOOD_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE, EQUALITY_CASE;
   v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
   v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
-  v.getParam("equality_case", EQUALITY_CASE);
-  bool areDistancesEqual = (getVectorLength(ji) - NEIGHBOURHOOD_DISTANCE) < EQUALITY_CASE &&
-                           (getVectorLength(mj) - NEIGHBOURHOOD_DISTANCE) < EQUALITY_CASE &&
-                           (getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE) < EQUALITY_CASE;
+  EQUALITY_CASE = NEIGHBOURHOOD_DISTANCE * 0.1;
+  bool areDistancesEqual = abs((getVectorLength(ji) - NEIGHBOURHOOD_DISTANCE)) < EQUALITY_CASE &&
+                           abs((getVectorLength(mj) - NEIGHBOURHOOD_DISTANCE)) < EQUALITY_CASE &&
+                           abs((getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE)) < EQUALITY_CASE;
   bool areAllVectorsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;
