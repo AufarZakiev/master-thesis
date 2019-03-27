@@ -20,10 +20,10 @@ TEST(animatedObstacleTest3, ShouldPass)
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 0.0);
-  v.setParam("c2", 1.0);
-  v.setParam("c3", 0.0);
-  v.setParam("c4", 0.0);
+  v.setParam("c1", 0.5);
+  v.setParam("c2", 0.01);
+  v.setParam("c3", 0.01);
+  v.setParam("c4", 30.0);
 
   ValidatedVariables vv(v);
 
@@ -67,8 +67,8 @@ TEST(animatedObstacleTest3, ShouldPass)
   vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
   vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
   vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-  // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
+  //vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
+  //vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
 
   boost::filesystem::create_directories("obstacleAnimation3");
   printPlotWithArrows("obstacleAnimation3/obstacleAnimation3_0_90_1.png", "obstacleAnimationtTest3", 0, 90, 1,
@@ -82,15 +82,15 @@ TEST(animatedObstacleTest3, ShouldPass)
     vg.getRobotGraph()[r2_desc].updatePosition();
     vg.getRobotGraph()[r3_desc].updatePosition();
     vg.getRobotGraph()[r4_desc].updatePosition();
-    // vg.getRobotGraph()[r5_desc].updatePosition();
-    // vg.getRobotGraph()[r6_desc].updatePosition();
+    //vg.getRobotGraph()[r5_desc].updatePosition();
+    //vg.getRobotGraph()[r6_desc].updatePosition();
     vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
                                                   getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
     vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
     vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-    // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-    // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
+    //vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
+    //vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
     vg.leavePreservedEdges(vv);
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();

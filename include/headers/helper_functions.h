@@ -104,7 +104,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
   }
 
   Gnuplot gp;
-  gp << "set term png\n";
+  gp << "set term png size 1280, 960\n";
   gp << "set output \"";
   gp << filename.c_str();
   gp << "\"\n";
@@ -135,7 +135,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
        << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier) * 2.5]
                            [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 2.5]) +
               0.01
-       << " filled front lw 2\n";
+       << " filled front lw 4\n";
   }
 
   auto og = std::get<1>(std::forward_as_tuple(args...));
@@ -146,7 +146,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
        << std::get<2>(frame[obstacle.getPosition()(0, 0) * 2.5][obstacle.getPosition()(1, 0) * 2.5]) + 0.01 << " to "
        << obstacle.getPosition()(0, 0) << "," << obstacle.getPosition()(1, 0) << ","
        << std::get<2>(frame[(obstacle.getPosition()(0, 0)) * 2.5][(obstacle.getPosition()(1, 0)) * 2.5]) + 0.01
-       << " filled front lw 4\n";
+       << " filled front lw 8\n";
   }
 
   auto edges = boost::edges(robots);
@@ -158,7 +158,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
        << std::get<2>(frame[robot.getPosition()(0, 0) * 2.5][robot.getPosition()(1, 0) * 2.5]) + 0.01 << " to "
        << robotTagret.getPosition()(0, 0) << "," << robotTagret.getPosition()(1, 0) << ","
        << std::get<2>(frame[robotTagret.getPosition()(0, 0) * 2.5][robotTagret.getPosition()(1, 0) * 2.5]) + 0.01
-       << "front lw 2 dt 0\n";
+       << "front lw 4 dt 0\n";
   }
   gp << "splot [0:40] [0:40] '-' \n";
   gp.send2d(frame);
