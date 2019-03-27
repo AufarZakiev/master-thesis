@@ -305,7 +305,7 @@ TEST(animatedObstacleTest1, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.01);
+  v.setParam("c2", 0.1);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -335,8 +335,8 @@ TEST(animatedObstacleTest1, ShouldPass)
   boost::add_vertex(Obstacle(Position_t(12, 19), 0.05), *og);
   boost::add_vertex(Obstacle(Position_t(21, 16), 0.05), *og);
   boost::add_vertex(Obstacle(Position_t(14, 21), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(23, 18), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(16, 23), 0.05), *og);
+  // boost::add_vertex(Obstacle(Position_t(23, 18), 0.05), *og);
+  // boost::add_vertex(Obstacle(Position_t(16, 23), 0.05), *og);
 
   //  boost::add_vertex(Obstacle(Position_t(20, 5), 1), *og);
   //  boost::add_vertex(Obstacle(Position_t(19, 6), 1), *og);
@@ -351,8 +351,8 @@ TEST(animatedObstacleTest1, ShouldPass)
   vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
   vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
   vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  //vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-  //vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
+  // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
+  // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
 
   boost::filesystem::create_directories("obstacleAnimation1");
   printPlotWithArrows("obstacleAnimation1/obstacleAnimation1_0_90_1.png", "obstacleAnimationtTest1", 0, 90, 1,
@@ -366,15 +366,15 @@ TEST(animatedObstacleTest1, ShouldPass)
     vg.getRobotGraph()[r2_desc].updatePosition();
     vg.getRobotGraph()[r3_desc].updatePosition();
     vg.getRobotGraph()[r4_desc].updatePosition();
-    //vg.getRobotGraph()[r5_desc].updatePosition();
-    //vg.getRobotGraph()[r6_desc].updatePosition();
+    // vg.getRobotGraph()[r5_desc].updatePosition();
+    // vg.getRobotGraph()[r6_desc].updatePosition();
     vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
                                                   getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
     vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
     vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-    //vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-    //vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
+    // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
+    // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
     vg.leavePreservedEdges(vv);
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -454,8 +454,8 @@ TEST(animatedObstacleTest2, ShouldPass)
   vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
   vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
   vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  //vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-  //vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
+  // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
+  // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
 
   boost::filesystem::create_directories("obstacleAnimation2");
   printPlotWithArrows("obstacleAnimation2/obstacleAnimation2_0_90_1.png", "obstacleAnimationtTest2", 0, 90, 1,
@@ -469,15 +469,15 @@ TEST(animatedObstacleTest2, ShouldPass)
     vg.getRobotGraph()[r2_desc].updatePosition();
     vg.getRobotGraph()[r3_desc].updatePosition();
     vg.getRobotGraph()[r4_desc].updatePosition();
-    //vg.getRobotGraph()[r5_desc].updatePosition();
-    //vg.getRobotGraph()[r6_desc].updatePosition();
+    // vg.getRobotGraph()[r5_desc].updatePosition();
+    // vg.getRobotGraph()[r6_desc].updatePosition();
     vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
                                                   getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
     vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
     vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-    //vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-    //vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
+    // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
+    // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
     vg.leavePreservedEdges(vv);
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
