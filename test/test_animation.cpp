@@ -408,9 +408,9 @@ TEST(animatedObstacleTest2, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.01);
+  v.setParam("c2", 0.1);
   v.setParam("c3", 0.01);
-  v.setParam("c4", 30.0);
+  v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
 
@@ -430,16 +430,16 @@ TEST(animatedObstacleTest2, ShouldPass)
   // auto r6_desc = boost::add_vertex(r6, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  boost::add_vertex(Obstacle(Position_t(15, 10), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(8, 15), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(17, 12), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(10, 17), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(19, 14), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(12, 19), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(21, 16), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(14, 21), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(23, 18), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(16, 23), 0.7), *og);
+  boost::add_vertex(Obstacle(Position_t(15, 10), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(8, 15), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(17, 12), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(10, 17), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(19, 14), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(12, 19), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(21, 16), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(14, 21), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(23, 18), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(16, 23), 0.05), *og);
 
   //  boost::add_vertex(Obstacle(Position_t(20, 5), 1), *og);
   //  boost::add_vertex(Obstacle(Position_t(19, 6), 1), *og);
@@ -483,7 +483,15 @@ TEST(animatedObstacleTest2, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i % 25 == 0)
+    if (i > 780)
+    {
+      std::cout << "Speed vector leader: " << vg.getRobotGraph()[r1_desc].getSpeedDirection() << std::endl;
+      std::cout << "Speed vector last: " << vg.getRobotGraph()[r2_desc].getSpeedDirection() << std::endl;
+      std::cout << "Speed vector r3: " << vg.getRobotGraph()[r3_desc].getSpeedDirection() << std::endl;
+      std::cout << "Speed vector r4: " << vg.getRobotGraph()[r4_desc].getSpeedDirection() << std::endl;
+    }
+
+    if (i % 50 == 0)
     {
       // std::thread draw([&]() {
       printPlotWithArrows("obstacleAnimation2/obstacleAnimation2_0_90_" + std::to_string(i) + ".png",
