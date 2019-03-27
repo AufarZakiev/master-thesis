@@ -43,16 +43,16 @@ TEST(animatedObstacleTest3, ShouldPass)
   // auto r6_desc = boost::add_vertex(r6, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  boost::add_vertex(Obstacle(Position_t(15, 10), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(8, 15), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(17, 12), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(10, 17), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(19, 14), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(12, 19), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(21, 16), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(14, 21), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(23, 18), 0.7), *og);
-  boost::add_vertex(Obstacle(Position_t(16, 23), 0.7), *og);
+  boost::add_vertex(Obstacle(Position_t(15, 10), 0.01), *og);
+  boost::add_vertex(Obstacle(Position_t(8, 15), 0.01), *og);
+  boost::add_vertex(Obstacle(Position_t(17, 12), 0.01), *og);
+  boost::add_vertex(Obstacle(Position_t(10, 17), 0.01), *og);
+  boost::add_vertex(Obstacle(Position_t(19, 14), 0.01), *og);
+  boost::add_vertex(Obstacle(Position_t(12, 19), 0.01), *og);
+  boost::add_vertex(Obstacle(Position_t(21, 16), 0.01), *og);
+  boost::add_vertex(Obstacle(Position_t(14, 21), 0.01), *og);
+  boost::add_vertex(Obstacle(Position_t(23, 18), 0.01), *og);
+  boost::add_vertex(Obstacle(Position_t(16, 23), 0.01), *og);
 
   //  boost::add_vertex(Obstacle(Position_t(20, 5), 1), *og);
   //  boost::add_vertex(Obstacle(Position_t(19, 6), 1), *og);
