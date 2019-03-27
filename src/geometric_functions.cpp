@@ -139,5 +139,10 @@ bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const 
                            abs((getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE)) < EQUALITY_CASE;
   bool areAllVectorsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
+  if (areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero)
+  {
+    std::cout << "ObjectInDashedTSet: " << i.getRobotID() << ", " << j.getRobotID() << ", " << m.getRobotID()
+              << std::endl;
+  }
   return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;
 }

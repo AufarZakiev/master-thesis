@@ -90,7 +90,8 @@ Obstacle::~Obstacle()
   obstacles_count--;
 }
 
-ValidatedGraphs::ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr<ObstacleGraph> og, const ValidatedVariables& vv)
+ValidatedGraphs::ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr<ObstacleGraph> og,
+                                 const ValidatedVariables& vv)
 {
   double OBSTACLES_AVOIDANCE_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE;
   vv.getParam("obstacles_avoidance_distance", OBSTACLES_AVOIDANCE_DISTANCE);
@@ -123,7 +124,6 @@ ValidatedGraphs::ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr
     }
   }
 
-
   validatedObstacleGraph = std::move(og);
   validatedRobotGraph = std::move(rg);
 
@@ -151,6 +151,8 @@ void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
   double NEIGHBOURHOOD_DISTANCE;
   vv.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
   auto& robots = *validatedRobotGraph;
+  std::vector<std::pair<size_t, size_t>> edgesToRemove;
+  std::vector<std::pair<size_t, size_t>> edgesToAdd;
   for (size_t it = 0; it != boost::num_vertices(robots); it++)
   {
     for (size_t it2 = 0; it2 != boost::num_vertices(robots); it2++)
@@ -159,16 +161,29 @@ void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
       {
         auto robot = robots[it];
         auto robotTarget = robots[it2];
-        if (getVectorLength(getRelativePosition(robot, robotTarget)) < NEIGHBOURHOOD_DISTANCE &&
-            isEdgePreserved(robot, robotTarget, robots, Variables(vv)))
+        if (getVectorLength(getRelativePosition(robot, robotTarget)) < NEIGHBOURHOOD_DISTANCE)
         {
-          boost::add_edge(it, it2, robots);
+          if (isEdgePreserved(robot, robotTarget, robots, Variables(vv)))
+          {
+            edgesToAdd.emplace_back(std::pair(it, it2));
+          }
         }
         else
         {
-          boost::remove_edge(it, it2, robots);
+          edgesToRemove.emplace_back(std::pair(it, it2));
         }
       }
     }
+  }
+  for (auto& edge : edgesToRemove)
+  {
+    std::cout << "Edge removed: " << edge.first << ", " << edge.second << std::endl;
+    boost::remove_edge(edge.first, edge.second, robots);
+  }
+
+  for (auto& edge : edgesToAdd)
+  {
+    std::cout << "Edge added: " << edge.first << ", " << edge.second << std::endl;
+    boost::add_edge(edge.first, edge.second, robots);
   }
 }
