@@ -305,16 +305,16 @@ TEST(animatedObstacleTest1, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.01);
+  v.setParam("c2", 0.1);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
 
-  Robot r1(Position_t(8.0, 8.0));
-  Robot r2(Position_t(0.0, 0.0));
-  Robot r3(Position_t(3.0, 5.0));
-  Robot r4(Position_t(8.0, 0.0));
+  Robot r1(Position_t(13.0, 13.0));
+  Robot r2(Position_t(3.0, 3.0));
+  Robot r3(Position_t(6.0, 8.0));
+  Robot r4(Position_t(11.0, 3.0));
   Robot r5(Position_t(1.0, 8.0));
   Robot r6(Position_t(8.0, 0.0));
 
@@ -323,25 +323,16 @@ TEST(animatedObstacleTest1, ShouldPass)
   auto r2_desc = boost::add_vertex(r2, *rg);
   auto r3_desc = boost::add_vertex(r3, *rg);
   auto r4_desc = boost::add_vertex(r4, *rg);
-  // auto r5_desc = boost::add_vertex(r5, *rg);
-  // auto r6_desc = boost::add_vertex(r6, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  boost::add_vertex(Obstacle(Position_t(15, 10), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(8, 15), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(17, 12), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(10, 17), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(19, 14), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(12, 19), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(21, 16), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(14, 21), 0.05), *og);
-  // boost::add_vertex(Obstacle(Position_t(23, 18), 0.05), *og);
-  // boost::add_vertex(Obstacle(Position_t(16, 23), 0.05), *og);
-
-  //  boost::add_vertex(Obstacle(Position_t(20, 5), 1), *og);
-  //  boost::add_vertex(Obstacle(Position_t(19, 6), 1), *og);
-  //  boost::add_vertex(Obstacle(Position_t(18, 7), 1), *og);
-  //  boost::add_vertex(Obstacle(Position_t(17, 8), 1), *og);
+  boost::add_vertex(Obstacle(Position_t(20, 15), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(15, 20), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(22, 17), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(17, 22), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(24, 19), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(19, 24), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(26, 21), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(21, 26), 0.05), *og);
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
@@ -351,43 +342,35 @@ TEST(animatedObstacleTest1, ShouldPass)
   vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
   vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
   vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-  // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
 
   boost::filesystem::create_directories("obstacleAnimation1");
   printPlotWithArrows("obstacleAnimation1/obstacleAnimation1_0_90_1.png", "obstacleAnimationtTest1", 0, 90, 1,
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  for (int i = 2; i < 800; i++)
+  for (int i = 2; i < 3000; i++)
   {
     auto start = std::chrono::system_clock::now();
     vg.getRobotGraph()[r1_desc].updatePosition();
     vg.getRobotGraph()[r2_desc].updatePosition();
     vg.getRobotGraph()[r3_desc].updatePosition();
     vg.getRobotGraph()[r4_desc].updatePosition();
-    // vg.getRobotGraph()[r5_desc].updatePosition();
-    // vg.getRobotGraph()[r6_desc].updatePosition();
     vg.leavePreservedEdges(vv);
     vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
                                                   getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
     vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
     vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-    // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-    // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
+
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
     if (i % 100 == 0)
     {
-      // std::thread draw([&]() {
       printPlotWithArrows("obstacleAnimation1/obstacleAnimation1_0_90_" + std::to_string(i) + ".png",
                           "obstacleAnimationTest1", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
-      //});
-      // draw.detach();
     }
   }
 }
@@ -408,16 +391,16 @@ TEST(animatedObstacleTest2, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.01);
+  v.setParam("c2", 0.1);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
 
-  Robot r1(Position_t(8.0, 8.0));
-  Robot r2(Position_t(0.0, 0.0));
-  Robot r3(Position_t(3.0, 5.0));
-  Robot r4(Position_t(8.0, 0.0));
+  Robot r1(Position_t(13.0, 13.0));
+  Robot r2(Position_t(3.0, 3.0));
+  Robot r3(Position_t(6.0, 8.0));
+  Robot r4(Position_t(11.0, 3.0));
   Robot r5(Position_t(1.0, 8.0));
   Robot r6(Position_t(8.0, 0.0));
 
@@ -426,25 +409,18 @@ TEST(animatedObstacleTest2, ShouldPass)
   auto r2_desc = boost::add_vertex(r2, *rg);
   auto r3_desc = boost::add_vertex(r3, *rg);
   auto r4_desc = boost::add_vertex(r4, *rg);
-  // auto r5_desc = boost::add_vertex(r5, *rg);
-  // auto r6_desc = boost::add_vertex(r6, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  boost::add_vertex(Obstacle(Position_t(15, 10), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(8, 15), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(17, 12), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(10, 17), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(19, 14), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(12, 19), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(21, 16), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(14, 21), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(23, 18), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(16, 23), 0.05), *og);
-
-  //  boost::add_vertex(Obstacle(Position_t(20, 5), 1), *og);
-  //  boost::add_vertex(Obstacle(Position_t(19, 6), 1), *og);
-  //  boost::add_vertex(Obstacle(Position_t(18, 7), 1), *og);
-  //  boost::add_vertex(Obstacle(Position_t(17, 8), 1), *og);
+  boost::add_vertex(Obstacle(Position_t(20, 15), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(15, 20), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(22, 17), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(17, 22), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(24, 19), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(19, 24), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(26, 21), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(21, 26), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(28, 23), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(23, 28), 0.05), *og);
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
@@ -454,15 +430,13 @@ TEST(animatedObstacleTest2, ShouldPass)
   vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
   vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
   vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-  // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-  // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
 
   boost::filesystem::create_directories("obstacleAnimation2");
   printPlotWithArrows("obstacleAnimation2/obstacleAnimation2_0_90_1.png", "obstacleAnimationtTest2", 0, 90, 1,
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  for (int i = 2; i < 1000; i++)
+  for (int i = 2; i < 2000; i++)
   {
     auto start = std::chrono::system_clock::now();
     vg.getRobotGraph()[r1_desc].updatePosition();
@@ -470,46 +444,21 @@ TEST(animatedObstacleTest2, ShouldPass)
     vg.getRobotGraph()[r3_desc].updatePosition();
     vg.getRobotGraph()[r4_desc].updatePosition();
     vg.leavePreservedEdges(vv);
-    // vg.getRobotGraph()[r5_desc].updatePosition();
-    // vg.getRobotGraph()[r6_desc].updatePosition();
     vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
                                                   getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
-    //    if (vg.getRobotGraph()[r2_desc].getSpeedDirection() == Vector_t(-0, -0))
-    //    {
-    //      vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg,
-    //      vv));
-    //    }
     vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
     vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
-    // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
-    // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
+
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i > 550)
-    {
-      std::cout << "Speed vector leader: " << vg.getRobotGraph()[r1_desc].getSpeedDirection() << std::endl;
-      std::cout << "Speed vector last: " << vg.getRobotGraph()[r2_desc].getSpeedDirection() << std::endl;
-      std::cout << "Speed vector r3: " << vg.getRobotGraph()[r3_desc].getSpeedDirection() << std::endl;
-      std::cout << "Speed vector r4: " << vg.getRobotGraph()[r4_desc].getSpeedDirection() << std::endl;
-      std::cout << "Distance last-2: "
-                << getVectorLength(getRelativePosition(vg.getRobotGraph()[r2_desc], vg.getRobotGraph()[r3_desc]))
-                << std::endl;
-      std::cout << "Distance last-3: "
-                << getVectorLength(getRelativePosition(vg.getRobotGraph()[r2_desc], vg.getRobotGraph()[r4_desc]))
-                << std::endl;
-    }
-
     if (i % 100 == 0)
     {
-      // std::thread draw([&]() {
       printPlotWithArrows("obstacleAnimation2/obstacleAnimation2_0_90_" + std::to_string(i) + ".png",
                           "obstacleAnimationTest2", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
-      //});
-      // draw.detach();
     }
   }
 }
