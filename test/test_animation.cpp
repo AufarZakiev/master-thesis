@@ -368,6 +368,7 @@ TEST(animatedObstacleTest1, ShouldPass)
     vg.getRobotGraph()[r4_desc].updatePosition();
     // vg.getRobotGraph()[r5_desc].updatePosition();
     // vg.getRobotGraph()[r6_desc].updatePosition();
+    vg.leavePreservedEdges(vv);
     vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
                                                   getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
@@ -375,7 +376,6 @@ TEST(animatedObstacleTest1, ShouldPass)
     vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
     // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
     // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
-    vg.leavePreservedEdges(vv);
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
@@ -469,26 +469,37 @@ TEST(animatedObstacleTest2, ShouldPass)
     vg.getRobotGraph()[r2_desc].updatePosition();
     vg.getRobotGraph()[r3_desc].updatePosition();
     vg.getRobotGraph()[r4_desc].updatePosition();
+    vg.leavePreservedEdges(vv);
     // vg.getRobotGraph()[r5_desc].updatePosition();
     // vg.getRobotGraph()[r6_desc].updatePosition();
     vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
                                                   getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
+    //    if (vg.getRobotGraph()[r2_desc].getSpeedDirection() == Vector_t(-0, -0))
+    //    {
+    //      vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg,
+    //      vv));
+    //    }
     vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
     vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
     // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
     // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
-    vg.leavePreservedEdges(vv);
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i > 780)
+    if (i > 550)
     {
       std::cout << "Speed vector leader: " << vg.getRobotGraph()[r1_desc].getSpeedDirection() << std::endl;
       std::cout << "Speed vector last: " << vg.getRobotGraph()[r2_desc].getSpeedDirection() << std::endl;
       std::cout << "Speed vector r3: " << vg.getRobotGraph()[r3_desc].getSpeedDirection() << std::endl;
       std::cout << "Speed vector r4: " << vg.getRobotGraph()[r4_desc].getSpeedDirection() << std::endl;
+      std::cout << "Distance last-2: "
+                << getVectorLength(getRelativePosition(vg.getRobotGraph()[r2_desc], vg.getRobotGraph()[r3_desc]))
+                << std::endl;
+      std::cout << "Distance last-3: "
+                << getVectorLength(getRelativePosition(vg.getRobotGraph()[r2_desc], vg.getRobotGraph()[r4_desc]))
+                << std::endl;
     }
 
     if (i % 50 == 0)
