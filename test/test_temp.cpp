@@ -21,7 +21,7 @@ TEST(animatedObstacleTest3, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.1);
+  v.setParam("c2", 0.01);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -75,7 +75,7 @@ TEST(animatedObstacleTest3, ShouldPass)
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  for (int i = 2; i < 1000; i++)
+  for (int i = 2; i < 4000; i++)
   {
     auto start = std::chrono::system_clock::now();
     vg.getRobotGraph()[r1_desc].updatePosition();
@@ -84,6 +84,7 @@ TEST(animatedObstacleTest3, ShouldPass)
     vg.getRobotGraph()[r4_desc].updatePosition();
     // vg.getRobotGraph()[r5_desc].updatePosition();
     // vg.getRobotGraph()[r6_desc].updatePosition();
+    vg.leavePreservedEdges(vv);
     vg.getRobotGraph()[r1_desc].setSpeedDirection(leaderV *
                                                   getConstrainedLeaderSpeed(vg.getRobotGraph()[r1_desc], vg, vv));
     vg.getRobotGraph()[r2_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r2_desc], vg, vv));
@@ -91,12 +92,11 @@ TEST(animatedObstacleTest3, ShouldPass)
     vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
     // vg.getRobotGraph()[r5_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r5_desc], vg, vv));
     // vg.getRobotGraph()[r6_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r6_desc], vg, vv));
-    vg.leavePreservedEdges(vv);
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i % 50 == 0)
+    if (i % 100 == 0)
     {
       // std::thread draw([&]() {
       printPlotWithArrows("obstacleAnimation3/obstacleAnimation3_0_90_" + std::to_string(i) + ".png",

@@ -305,7 +305,7 @@ TEST(animatedObstacleTest1, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.1);
+  v.setParam("c2", 0.01);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -380,7 +380,7 @@ TEST(animatedObstacleTest1, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i % 50 == 0)
+    if (i % 100 == 0)
     {
       // std::thread draw([&]() {
       printPlotWithArrows("obstacleAnimation1/obstacleAnimation1_0_90_" + std::to_string(i) + ".png",
@@ -408,7 +408,7 @@ TEST(animatedObstacleTest2, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.1);
+  v.setParam("c2", 0.01);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -502,7 +502,7 @@ TEST(animatedObstacleTest2, ShouldPass)
                 << std::endl;
     }
 
-    if (i % 50 == 0)
+    if (i % 100 == 0)
     {
       // std::thread draw([&]() {
       printPlotWithArrows("obstacleAnimation2/obstacleAnimation2_0_90_" + std::to_string(i) + ".png",

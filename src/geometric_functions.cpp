@@ -45,14 +45,17 @@ double getSquaredVectorLength(const Vector_t& v)
 {
   return v(0, 0) * v(0, 0) + v(1, 0) * v(1, 0);
 };
-bool isEdgePreserved(const Robot& i, const Robot& j, const RobotGraph& rg, const Variables& v)
+bool isEdgePreserved(const Robot& i, const Robot& j, const RobotGraph& robots, const Variables& v)
 {
-  for (RobotDesc id = 0; id < boost::num_vertices(rg); ++id)
+  for (RobotDesc id = 0; id < boost::num_vertices(robots); ++id)
   {
-    if (rg[id].getRobotID() != i.getRobotID() && rg[id].getRobotID() != j.getRobotID())
+    if (robots[id].getRobotID() != i.getRobotID() &&
+        robots[id].getRobotID() != j.getRobotID())
     {
-      if (isObjectInTSet(i, j, rg[id], rg, v) || isObjectInTSet(j, i, rg[id], rg, v) ||
-          isObjectInDashedTSet(i, j, rg[id], rg, v) || isObjectInDashedTSet(j, i, rg[id], rg, v))
+      if (isObjectInTSet(i, j, robots[id], robots, v) ||
+          isObjectInTSet(j, i, robots[id], robots, v) ||
+          isObjectInDashedTSet(i, j, robots[id], robots, v) ||
+          isObjectInDashedTSet(j, i, robots[id], robots, v))
         return false;
     }
   }
@@ -117,10 +120,10 @@ bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m, const RobotG
   v.getParam("edge_deletion_distance", EDGE_DELETION_DISTANCE);
   bool isPhiLessThanDeletionDistance = (getVectorLength(getProjectionPhi(mi, ji)) <= EDGE_DELETION_DISTANCE);
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
-  bool areAllVectorsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
+  bool areAllRobotsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
-  return isAngleBetweenVectorsGreaterThanZero && isPhiLessThanDeletionDistance && isMPointInDSpace &&
-         areAllVectorsInGraph;
+  return isAngleBetweenVectorsGreaterThanZero && isPhiLessThanDeletionDistance &&
+         isMPointInDSpace && areAllRobotsInGraph;
 }
 
 bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const RobotGraph& rg, const Variables& v)
@@ -137,12 +140,12 @@ bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const 
   bool areDistancesEqual = abs((getVectorLength(ji) - NEIGHBOURHOOD_DISTANCE)) < EQUALITY_CASE &&
                            abs((getVectorLength(mj) - NEIGHBOURHOOD_DISTANCE)) < EQUALITY_CASE &&
                            abs((getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE)) < EQUALITY_CASE;
-  bool areAllVectorsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
+  bool areAllRobotsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
-  if (areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero)
+  if (areDistancesEqual && isAngleBetweenVectorsGreaterThanZero && areAllRobotsInGraph)
   {
     std::cout << "ObjectInDashedTSet: " << i.getRobotID() << ", " << j.getRobotID() << ", " << m.getRobotID()
               << std::endl;
   }
-  return areDistancesEqual && areAllVectorsInGraph && isAngleBetweenVectorsGreaterThanZero;
+  return areDistancesEqual && isAngleBetweenVectorsGreaterThanZero && areAllRobotsInGraph;
 }

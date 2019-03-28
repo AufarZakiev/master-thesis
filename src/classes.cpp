@@ -24,8 +24,7 @@ void RigidObject::setPosition(Position_t position)
   current_position_ = std::move(position);
 }
 
-Robot::Robot(Position_t position, Vector_t current_speed_direction, double max_speed_value)
-  : RigidObject(std::move(position))
+Robot::Robot(Position_t position, Vector_t current_speed_direction) : RigidObject(std::move(position))
 {
   this->current_speed_direction_ = std::move(current_speed_direction);
   this->ID = robots_count;
@@ -159,8 +158,8 @@ void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
     {
       if (it != it2)
       {
-        auto robot = robots[it];
-        auto robotTarget = robots[it2];
+        auto& robot = robots[it];
+        auto& robotTarget = robots[it2];
         if (getVectorLength(getRelativePosition(robot, robotTarget)) < NEIGHBOURHOOD_DISTANCE)
         {
           if (isEdgePreserved(robot, robotTarget, robots, Variables(vv)))

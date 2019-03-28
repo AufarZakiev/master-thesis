@@ -230,6 +230,11 @@ if (TARGET multiple-turtlebots-test-temp)
     target_link_libraries(multiple-turtlebots-test-temp ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
 endif ()
 
+if (TARGET multiple-turtlebots-test)
+    include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+    target_link_libraries(multiple-turtlebots-test ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
+endif ()
+
 if (TARGET multiple-turtlebots-test-fields)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
     target_link_libraries(multiple-turtlebots-test-fields ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)

@@ -3,6 +3,7 @@
 
 #include "../include/headers/classes.h"
 #include "../include/headers/geometric_functions.h"
+#include "../include/headers/helper_functions.h"
 
 TEST(VectorDistanceTest, ShouldPass)
 {
@@ -199,20 +200,6 @@ TEST(getProjectionPhiTest, ShouldPass)
   EXPECT_EQ(a, getProjectionPhi(p, q));
 }
 
-TEST(isVectorInGraphTest, ShouldPass)
-{
-  RobotGraph rg;
-  Robot r1(Position_t(0,0));
-  Robot r2(Position_t(1,1));
-
-  RobotDesc r1_d = boost::add_vertex(r1, rg);
-  RobotDesc r2_d = boost::add_vertex(r2, rg);
-  EXPECT_EQ(false, isEdgeInGraph(r1, r2, rg));
-  boost::add_edge(r1_d, r2_d, rg);
-  EXPECT_EQ(true, isEdgeInGraph(r1, r2, rg));
-  boost::remove_edge(r1_d, r2_d, rg);
-}
-
 TEST(angleBetweenVectorsInRadiansTest, ShouldPass)
 {
   Vector_t v1;
@@ -241,20 +228,10 @@ TEST(isObjectInTSetTest, ShouldPass)
   Robot j(Position_t(1,0));
   Robot m(Position_t(0.5,0.5));
 
-  RobotDesc i_d = boost::add_vertex(i, rg);
-  RobotDesc j_d = boost::add_vertex(j, rg);
-  RobotDesc m_d = boost::add_vertex(m, rg);
+  boost::add_vertex(i, rg);
+  boost::add_vertex(j, rg);
+  boost::add_vertex(m, rg);
 
-  boost::add_edge(i_d, j_d, rg);
-  boost::add_edge(j_d, m_d, rg);
-  boost::add_edge(m_d, i_d, rg);
-
-  EXPECT_EQ(true, isObjectInTSet(i, j, m, rg, v));
-
-  boost::remove_edge(i_d, j_d, rg);
-  EXPECT_EQ(false, isObjectInTSet(i, j, m, rg, v));
-
-  boost::add_edge(i_d, j_d, rg);
   EXPECT_EQ(true, isObjectInTSet(i, j, m, rg, v));
 
   m.setPosition(Vector_t(0.5, -0.5));
@@ -272,20 +249,10 @@ TEST(isObjectInDashedTSetTest, ShouldPass)
   Robot i(Position_t(10, 0));
   Robot j(Position_t(5, 12));
 
-  RobotDesc i_d = boost::add_vertex(i, rg);
-  RobotDesc j_d = boost::add_vertex(j, rg);
-  RobotDesc m_d = boost::add_vertex(m, rg);
+  boost::add_vertex(i, rg);
+  boost::add_vertex(j, rg);
+  boost::add_vertex(m, rg);
 
-  boost::add_edge(i_d, j_d, rg);
-  boost::add_edge(j_d, m_d, rg);
-  boost::add_edge(m_d, i_d, rg);
-
-  EXPECT_EQ(true, isObjectInDashedTSet(i, j, m, rg, v));
-
-  boost::remove_edge(i_d, j_d, rg);
-  EXPECT_EQ(false, isObjectInDashedTSet(i, j, m, rg, v));
-
-  boost::add_edge(i_d, j_d, rg);
   EXPECT_EQ(true, isObjectInDashedTSet(i, j, m, rg, v));
 
   m.setPosition(Vector_t(5, -12));
@@ -310,13 +277,10 @@ TEST(isEdgePreservedTest, ShouldPass)
   Robot r5(Position_t(-1, 0));
   Robot r6(Position_t(-0.5, 0.5));
 
-  RobotDesc r1_d = boost::add_vertex(r1, rg);
-  RobotDesc r2_d = boost::add_vertex(r2, rg);
+  boost::add_vertex(r1, rg);
+  boost::add_vertex(r2, rg);
   RobotDesc r3_d = boost::add_vertex(r3, rg);
 
-  boost::add_edge(r1_d, r2_d, rg);
-  boost::add_edge(r2_d, r3_d, rg);
-  boost::add_edge(r3_d, r1_d, rg);
   EXPECT_EQ(false, isEdgePreserved(r1, r2, rg, v));
 
   boost::add_vertex(r4, rg);
@@ -324,14 +288,11 @@ TEST(isEdgePreservedTest, ShouldPass)
   boost::add_vertex(r6, rg);
   EXPECT_EQ(false, isEdgePreserved(r1, r2, rg, v));
 
-  boost::remove_edge(r3_d, r1_d, rg);
-  EXPECT_EQ(true, isEdgePreserved(r1, r2, rg, v));
-
   boost::remove_vertex(r3_d, rg);
   r3.setPosition(Vector_t(6, 0));
   r3_d = boost::add_vertex(r3, rg);
-  boost::add_edge(r3_d, r1_d, rg);
-  EXPECT_EQ(true, isEdgePreserved(r1, r2, rg, v));
+  auto neighbours = getNeighbourRobots(r3, rg, v);
+  EXPECT_EQ(false, isEdgePreserved(r1, r2, neighbours, v));
 }
 
 TEST(partialDerivativeTest, ShouldPass)

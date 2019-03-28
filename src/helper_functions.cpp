@@ -212,13 +212,11 @@ RobotGraph getNeighbourRobots(const Robot& robot, const RobotGraph& detected_rob
 RobotGraph getNeighbourPreservedRobots(const Robot& robot, const RobotGraph& neighbour_robots, const Variables& v)
 {
   RobotGraph neighbourhood_preserved_robots;
-  auto desc_robot = boost::add_vertex(robot, neighbourhood_preserved_robots);
   for (size_t i = 0; i < num_vertices(neighbour_robots); i++)
   {
     if (isEdgePreserved(robot, neighbour_robots[i], neighbour_robots, v))
     {
-      auto desc_i = boost::add_vertex(neighbour_robots[i], neighbourhood_preserved_robots);
-      boost::add_edge(desc_robot, desc_i, neighbourhood_preserved_robots);
+      boost::add_vertex(neighbour_robots[i], neighbourhood_preserved_robots);
     }
   }
   return neighbourhood_preserved_robots;
