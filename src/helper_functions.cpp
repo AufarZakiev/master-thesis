@@ -201,7 +201,8 @@ RobotGraph getNeighbourRobots(const Robot& robot, const RobotGraph& detected_rob
   RobotGraph neighbourhood_robots;
   for (size_t i = 0; i < num_vertices(detected_robots); i++)
   {
-    if (getVectorLength(getRelativePosition(robot, detected_robots[i])) < NEIGHBOORHOOD_DISTANCE)
+    if (robot.getRobotID() != detected_robots[i].getRobotID() &&
+        getVectorLength(getRelativePosition(robot, detected_robots[i])) < NEIGHBOORHOOD_DISTANCE)
     {
       boost::add_vertex(detected_robots[i], neighbourhood_robots);
     }

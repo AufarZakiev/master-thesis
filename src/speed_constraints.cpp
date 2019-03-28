@@ -122,6 +122,10 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
                                  const RobotGraph& neighbourhood_preserved_robots)
 {
   double min = std::numeric_limits<double>::max();
+  if (boost::num_vertices(neighbourhood_preserved_robots) == 0)
+  {
+    return min;
+  }
   for (size_t id = 0; id < boost::num_vertices(detected_obstacles); id++)
   {
     ObstacleGraph closing_obstacles_in_D_space =
@@ -142,6 +146,7 @@ Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, co
   vv.getParam("robot_max_speed", MAX_SPEED);
   Variables v = Variables(vv);
   RobotGraph detected_robots = vg.getRobotGraph();
+  boost::remove_vertex(findRobotInGraph(robot, detected_robots).value(), detected_robots);
   ObstacleGraph detected_obstacles = vg.getObstacleGraph();
 
   RobotGraph neighbour_robots = getNeighbourRobots(robot, detected_robots, v);
@@ -172,6 +177,7 @@ double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const 
   vv.getParam("robot_max_speed", MAX_SPEED);
   Variables v = Variables(vv);
   RobotGraph detected_robots = vg.getRobotGraph();
+  boost::remove_vertex(findRobotInGraph(robot, detected_robots).value(), detected_robots);
   ObstacleGraph detected_obstacles = vg.getObstacleGraph();
 
   RobotGraph neighbour_robots = getNeighbourRobots(robot, detected_robots, v);

@@ -325,14 +325,14 @@ TEST(animatedObstacleTest1, ShouldPass)
   auto r4_desc = boost::add_vertex(r4, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  boost::add_vertex(Obstacle(Position_t(20, 15), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(15, 20), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(22, 17), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(17, 22), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(24, 19), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(19, 24), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(26, 21), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(21, 26), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(20, 10), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(10, 20), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(22, 12), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(12, 22), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(24, 14), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(14, 24), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(26, 16), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(16, 26), 0.05), *og);
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
@@ -411,16 +411,14 @@ TEST(animatedObstacleTest2, ShouldPass)
   auto r4_desc = boost::add_vertex(r4, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  boost::add_vertex(Obstacle(Position_t(20, 15), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(15, 20), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(22, 17), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(17, 22), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(24, 19), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(19, 24), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(26, 21), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(21, 26), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(28, 23), 0.05), *og);
-  boost::add_vertex(Obstacle(Position_t(23, 28), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(21, 15), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(15, 19), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(23, 17), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(17, 21), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(25, 19), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(19, 23), 0.05), *og);
+//  boost::add_vertex(Obstacle(Position_t(27, 21), 0.05), *og);
+//  boost::add_vertex(Obstacle(Position_t(21, 25), 0.05), *og);
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
@@ -436,7 +434,7 @@ TEST(animatedObstacleTest2, ShouldPass)
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  for (int i = 2; i < 2000; i++)
+  for (int i = 2; i < 4000; i++)
   {
     auto start = std::chrono::system_clock::now();
     vg.getRobotGraph()[r1_desc].updatePosition();
