@@ -122,11 +122,7 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
                                  const RobotGraph& neighbourhood_preserved_robots)
 {
   double min = std::numeric_limits<double>::max();
-  if (boost::num_vertices(neighbourhood_preserved_robots) == 0)
-  {
-    return min;
-  }
-  for (size_t id = 0; id < boost::num_vertices(detected_obstacles); id++)
+  for (size_t id = 0; id < boost::num_vertices(neighbourhood_preserved_robots); id++)
   {
     ObstacleGraph closing_obstacles_in_D_space =
         closingObstaclesInDSpace(i, neighbourhood_preserved_robots[id], detected_obstacles);

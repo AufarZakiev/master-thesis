@@ -305,7 +305,7 @@ TEST(animatedObstacleTest1, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.1);
+  v.setParam("c2", 0.01);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -391,7 +391,7 @@ TEST(animatedObstacleTest2, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.1);
+  v.setParam("c2", 0.01);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -417,8 +417,6 @@ TEST(animatedObstacleTest2, ShouldPass)
   boost::add_vertex(Obstacle(Position_t(17, 21), 0.05), *og);
   boost::add_vertex(Obstacle(Position_t(25, 19), 0.05), *og);
   boost::add_vertex(Obstacle(Position_t(19, 23), 0.05), *og);
-//  boost::add_vertex(Obstacle(Position_t(27, 21), 0.05), *og);
-//  boost::add_vertex(Obstacle(Position_t(21, 25), 0.05), *og);
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
