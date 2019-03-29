@@ -95,7 +95,7 @@ double LOSUnitPreservationConstraint(const Robot& i, const ObstacleGraph& closin
   v.getParam("los_clearance_distance", LOS_CLEARANCE_DISTANCE);
 
   double min_speed = std::numeric_limits<double>::max();
-  for (size_t id = 0; id < boost::num_vertices(closing_obstacles_in_front_in_D_space); id++)
+  for (size_t id = 0; id < boost::num_vertices(neighbourhood_preserved_robots); id++)
   {
     auto closest_obstacle = closestObstacleToLOSinDSpaceAtFront(i, neighbourhood_preserved_robots[id],
                                                                 closing_obstacles_in_front_in_D_space);

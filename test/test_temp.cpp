@@ -21,7 +21,7 @@ TEST(animatedObstacleTest3, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.1);
+  v.setParam("c2", 0.01);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
