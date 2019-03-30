@@ -107,7 +107,7 @@ TEST(animatedLeaderTest, ShouldPass)
 
   for (int i = 0; i < 12; i++)
   {
-    vg.tick(r1_desc,leaderV, vv);
+    vg.tick(r1_desc, leaderV, vv);
 
     printPlotWithArrows("leaderAnimation/leaderAnimationTest_0_90_" + std::to_string(i) + ".png", "leaderAnimationTest",
                         0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(),
@@ -167,7 +167,7 @@ TEST(animatedLeaderTest2, ShouldPass)
   {
     auto start = std::chrono::system_clock::now();
 
-    vg.tick(r1_desc,leaderV, vv);
+    vg.tick(r1_desc, leaderV, vv);
 
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -241,7 +241,7 @@ TEST(animatedLeaderTest3, ShouldPass)
   {
     auto start = std::chrono::system_clock::now();
 
-    vg.tick(r1_desc,leaderV, vv);
+    vg.tick(r1_desc, leaderV, vv);
 
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -315,7 +315,7 @@ TEST(animatedWideCorridorTest_1, ShouldPass)
   {
     auto start = std::chrono::system_clock::now();
 
-    vg.tick(r1_desc,leaderV, vv);
+    vg.tick(r1_desc, leaderV, vv);
 
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -387,7 +387,7 @@ TEST(animatedNarrowCorridorTest_2, ShouldPass)
   {
     auto start = std::chrono::system_clock::now();
 
-    vg.tick(r1_desc,leaderV, vv);
+    vg.tick(r1_desc, leaderV, vv);
 
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -459,13 +459,13 @@ TEST(animatedNarrowCorridorTestWithBigObstacles_3, ShouldPass)
   {
     auto start = std::chrono::system_clock::now();
 
-    vg.tick(r1_desc,leaderV, vv);
+    vg.tick(r1_desc, leaderV, vv);
 
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i % 100 == 0)
+    if ((i >= 300 && i <= 400 && i % 10 == 0) || i % 100 == 0)
     {
       printPlotWithArrows("obstacleAnimation3/obstacleAnimation3_0_90_" + std::to_string(i) + ".png",
                           "obstacleAnimationTest3", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
@@ -490,7 +490,7 @@ TEST(animatedNarrowLongCorridorTestWithBigObstacles_4, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.1);
+  v.setParam("c2", 0.01);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -543,13 +543,13 @@ TEST(animatedNarrowLongCorridorTestWithBigObstacles_4, ShouldPass)
   {
     auto start = std::chrono::system_clock::now();
 
-    vg.tick(r1_desc,leaderV, vv);
+    vg.tick(r1_desc, leaderV, vv);
 
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i % 100 == 0)
+    if ((i >= 300 && i <= 500 && i % 10 == 0) || i % 100 == 0)
     {
       printPlotWithArrows("obstacleAnimation4/obstacleAnimation4_0_90_" + std::to_string(i) + ".png",
                           "obstacleAnimationTest4", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
@@ -627,7 +627,7 @@ TEST(animatedNarrowVeryLongCorridorTestWithBigObstacles_5, ShouldPass)
   {
     auto start = std::chrono::system_clock::now();
 
-    vg.tick(r1_desc,leaderV, vv);
+    vg.tick(r1_desc, leaderV, vv);
 
     auto end = std::chrono::system_clock::now();
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
