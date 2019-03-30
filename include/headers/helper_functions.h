@@ -89,12 +89,12 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
                          double amplifier, const RobotGraph robots, std::function<double(Args...)> func,
                          Args2&&... args)
 {
-  std::vector<std::vector<std::tuple<double, double, double>>> frame(100);
+  std::vector<std::vector<std::tuple<double, double, double>>> frame(200);
 
-  for (int i = 0; i < 100; i++)
+  for (int i = 0; i < 200; i++)
   {
-    frame[i].resize(100);
-    for (int j = 0; j < 100; j++)
+    frame[i].resize(200);
+    for (int j = 0; j < 200; j++)
     {
       Vector_t temp;
       temp << i / 2.5, j / 2.5;
@@ -113,7 +113,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
   gp << ", ";
   gp << rot_z_angle;
   gp << ", 1, 1\n";
-  gp << "set samples 100, 100\n";
+  gp << "set samples 200, 200\n";
   gp << "set style data lines\n";
   gp << "set pm3d\n";
   gp << "set title \"";
@@ -160,7 +160,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
        << std::get<2>(frame[robotTagret.getPosition()(0, 0) * 2.5][robotTagret.getPosition()(1, 0) * 2.5]) + 0.01
        << "front lw 4 dt 0\n";
   }
-  gp << "splot [0:40] [0:40] '-' \n";
+  gp << "splot [0:80] [0:80] '-' \n";
   gp.send2d(frame);
   gp.flush();
 }

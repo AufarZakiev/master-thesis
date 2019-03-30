@@ -41,12 +41,12 @@ TEST(animatedObstacleTest3, ShouldPass)
   auto r4_desc = boost::add_vertex(r4, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  boost::add_vertex(Obstacle(Position_t(21, 15), 0.1), *og);
-  boost::add_vertex(Obstacle(Position_t(15, 19), 0.1), *og);
-  boost::add_vertex(Obstacle(Position_t(23, 17), 0.1), *og);
-  boost::add_vertex(Obstacle(Position_t(17, 21), 0.1), *og);
-  boost::add_vertex(Obstacle(Position_t(25, 19), 0.1), *og);
-  boost::add_vertex(Obstacle(Position_t(19, 23), 0.1), *og);
+  boost::add_vertex(Obstacle(Position_t(21, 15), 0.15), *og);
+  boost::add_vertex(Obstacle(Position_t(15, 19), 0.15), *og);
+  boost::add_vertex(Obstacle(Position_t(23, 17), 0.15), *og);
+  boost::add_vertex(Obstacle(Position_t(17, 21), 0.15), *og);
+  boost::add_vertex(Obstacle(Position_t(25, 19), 0.15), *og);
+  boost::add_vertex(Obstacle(Position_t(19, 23), 0.15), *og);
   //  boost::add_vertex(Obstacle(Position_t(27, 21), 0.05), *og);
   //  boost::add_vertex(Obstacle(Position_t(21, 25), 0.05), *og);
 
@@ -64,7 +64,7 @@ TEST(animatedObstacleTest3, ShouldPass)
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  for (int i = 2; i < 4000; i++)
+  for (int i = 2; i < 800; i++)
   {
     auto start = std::chrono::system_clock::now();
     vg.getRobotGraph()[r1_desc].updatePosition();
