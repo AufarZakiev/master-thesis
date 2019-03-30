@@ -1,5 +1,6 @@
 #include "../include/headers/classes.h"
 #include "../include/headers/geometric_functions.h"
+#include "../include/headers/speed_constraints.h"
 
 int Robot::robots_count = 0;
 int Obstacle::obstacles_count = 0;
@@ -186,3 +187,24 @@ void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
     boost::add_edge(edge.first, edge.second, robots);
   }
 }
+
+void ValidatedGraphs::tick(const RobotDesc leaderDesc, const Vector_t& leaderDirection, const ValidatedVariables& vv)
+{
+  for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
+  {
+    (*validatedRobotGraph)[i].updatePosition();
+  }
+  this->leavePreservedEdges(vv);
+  for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
+  {
+    if (i == leaderDesc)
+    {
+      (*validatedRobotGraph)[i].setSpeedDirection(leaderDirection *
+                                                  getConstrainedLeaderSpeed((*validatedRobotGraph)[i], *this, vv));
+    }
+    else
+    {
+      (*validatedRobotGraph)[i].setSpeedDirection(getConstrainedDirectedSpeed((*validatedRobotGraph)[i], *this, vv));
+    }
+  }
+};

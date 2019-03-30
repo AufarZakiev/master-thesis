@@ -84,10 +84,11 @@ public:
   ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr<ObstacleGraph> og, const ValidatedVariables& vv);
   RobotGraph& getRobotGraph();
   ObstacleGraph& getObstacleGraph();
-  void leavePreservedEdges(const ValidatedVariables& vv);
+  void tick(const RobotDesc leaderDesc, const Vector_t& leaderDirection, const ValidatedVariables& vv);
 
 private:
   ValidatedGraphs() = default;
+  void leavePreservedEdges(const ValidatedVariables& vv);
   std::unique_ptr<RobotGraph> validatedRobotGraph;
   std::unique_ptr<ObstacleGraph> validatedObstacleGraph;
 };
