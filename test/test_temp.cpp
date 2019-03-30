@@ -5,7 +5,7 @@
 #include <chrono>
 #include <thread>
 
-TEST(animatedObstacleTest3, ShouldPass)
+TEST(animatedNarrowLongCorridorTestWithBigObstacles, ShouldPass)
 {
   Variables v = Variables();
   v.setParam("robots_avoidance_distance", 3.0);
@@ -21,7 +21,7 @@ TEST(animatedObstacleTest3, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.01);
+  v.setParam("c2", 0.1);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -47,8 +47,12 @@ TEST(animatedObstacleTest3, ShouldPass)
   boost::add_vertex(Obstacle(Position_t(17, 21), 0.15), *og);
   boost::add_vertex(Obstacle(Position_t(25, 19), 0.15), *og);
   boost::add_vertex(Obstacle(Position_t(19, 23), 0.15), *og);
-  //  boost::add_vertex(Obstacle(Position_t(27, 21), 0.05), *og);
-  //  boost::add_vertex(Obstacle(Position_t(21, 25), 0.05), *og);
+  boost::add_vertex(Obstacle(Position_t(27, 21), 0.15), *og);
+  boost::add_vertex(Obstacle(Position_t(21, 25), 0.15), *og);
+  boost::add_vertex(Obstacle(Position_t(29, 23), 0.15), *og);
+  boost::add_vertex(Obstacle(Position_t(23, 27), 0.15), *og);
+  boost::add_vertex(Obstacle(Position_t(31, 25), 0.15), *og);
+  boost::add_vertex(Obstacle(Position_t(25, 29), 0.15), *og);
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
@@ -59,12 +63,12 @@ TEST(animatedObstacleTest3, ShouldPass)
   vg.getRobotGraph()[r3_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r3_desc], vg, vv));
   vg.getRobotGraph()[r4_desc].setSpeedDirection(getConstrainedDirectedSpeed(vg.getRobotGraph()[r4_desc], vg, vv));
 
-  boost::filesystem::create_directories("obstacleAnimation3");
-  printPlotWithArrows("obstacleAnimation3/obstacleAnimation3_0_90_1.png", "obstacleAnimationtTest3", 0, 90, 1,
+  boost::filesystem::create_directories("obstacleAnimation4");
+  printPlotWithArrows("obstacleAnimation4/obstacleAnimation4_0_90_1.png", "obstacleAnimationtTest4", 0, 90, 1,
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  for (int i = 2; i < 800; i++)
+  for (int i = 2; i < 1200; i++)
   {
     auto start = std::chrono::system_clock::now();
     vg.getRobotGraph()[r1_desc].updatePosition();
@@ -82,10 +86,10 @@ TEST(animatedObstacleTest3, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i % 100 == 0)
+    if ((i >= 300 && i <= 500 && i % 10 == 0) || i % 100 == 0)
     {
-      printPlotWithArrows("obstacleAnimation3/obstacleAnimation3_0_90_" + std::to_string(i) + ".png",
-                          "obstacleAnimationTest3", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+      printPlotWithArrows("obstacleAnimation4/obstacleAnimation4_0_90_" + std::to_string(i) + ".png",
+                          "obstacleAnimationTest4", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }
   }
