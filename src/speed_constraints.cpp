@@ -147,15 +147,17 @@ Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, co
 
   RobotGraph neighbour_robots = getNeighbourRobots(robot, detected_robots, v);
   RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, neighbour_robots, v);
-  double calc_min =
-      std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
-                 maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),
-                 interrobotAvoidanceConstraint(robot, detected_robots, v),
-                 obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
-                 LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots), MAX_SPEED });
 
-  Vector_t gradientSpeed =
-      gradientPotential(robot.getPosition(), overallPotential, v, detected_robots, detected_obstacles);
+  Vector_t gradientSpeed = gradientPotentialOnly(robot, detected_robots, detected_obstacles, v);
+  Robot temp(robot);
+  temp.setSpeedDirection(gradientSpeed);
+
+  double calc_min =
+      std::min({ maximumDistanceConstraint(temp, neighbourhood_preserved_robots, v),
+                 maximumDistanceConstraint2(temp, neighbourhood_preserved_robots),
+                 interrobotAvoidanceConstraint(temp, detected_robots, v),
+                 obstacleAvoidanceConstraint(temp, detected_obstacles, v, 0.0),
+                 LOSPreservationConstraint(temp, detected_obstacles, v, neighbourhood_preserved_robots), MAX_SPEED });
 
   if (getVectorLength(gradientSpeed) > calc_min)
   {
@@ -178,6 +180,7 @@ double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const 
 
   RobotGraph neighbour_robots = getNeighbourRobots(robot, detected_robots, v);
   RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, neighbour_robots, v);
+
   double calc_min = std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
                                maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),
                                interrobotAvoidanceConstraint(robot, detected_robots, v),

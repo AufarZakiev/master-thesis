@@ -1,4 +1,5 @@
 #include "../include/headers/helper_functions.h"
+#include "../include/headers/field_functions.h"
 
 std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
                                                  const ObstacleGraph& detected_obstacle_graph_in_D_set)
@@ -236,3 +237,65 @@ void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, Variab
     ROS_ERROR("Failed to get param %s. Setting to default value", param_name.c_str());
   }
 }
+
+Vector_t gradientPotentialOnly(const Robot& robot, const RobotGraph& detected_robots,
+                               const ObstacleGraph& detected_obstacles, const Variables& v)
+{
+  auto point = robot.getPosition();
+  Vector_t answer;
+  {
+    double dx1;
+    v.getParam("derivative_epsilon", dx1);
+    const double dx2 = dx1 * 2;
+    const double dx3 = dx1 * 3;
+
+    const double m1 = (overallPotential(Robot(Position_t(point(0, 0) + dx1, point(1, 0)), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v) -
+                       overallPotential(Robot(Position_t(point(0, 0) - dx1, point(1, 0)), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v)) /
+                      2;
+    const double m2 = (overallPotential(Robot(Position_t(point(0, 0) + dx2, point(1, 0)), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v) -
+                       overallPotential(Robot(Position_t(point(0, 0) - dx2, point(1, 0)), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v)) /
+                      4;
+    const double m3 = (overallPotential(Robot(Position_t(point(0, 0) + dx3, point(1, 0)), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v) -
+                       overallPotential(Robot(Position_t(point(0, 0) - dx3, point(1, 0)), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v)) /
+                      6;
+
+    const double fifteen_m1 = 15 * m1;
+    const double six_m2 = 6 * m2;
+    const double ten_dx1 = 10 * dx1;
+    answer(0, 0) = ((fifteen_m1 - six_m2) + m3) / ten_dx1;
+  }
+  {
+    double dx1;
+    v.getParam("derivative_epsilon", dx1);
+    const double dx2 = dx1 * 2;
+    const double dx3 = dx1 * 3;
+
+    const double m1 = (overallPotential(Robot(Position_t(point(0, 0), point(1, 0) + dx1), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v) -
+                       overallPotential(Robot(Position_t(point(0, 0), point(1, 0) - dx1), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v)) /
+                      2;
+    const double m2 = (overallPotential(Robot(Position_t(point(0, 0), point(1, 0) + dx2), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v) -
+                       overallPotential(Robot(Position_t(point(0, 0), point(1, 0) - dx2), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v)) /
+                      4;
+    const double m3 = (overallPotential(Robot(Position_t(point(0, 0), point(1, 0) + dx3), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v) -
+                       overallPotential(Robot(Position_t(point(0, 0), point(1, 0) - dx3), robot.getRobotID()),
+                                        detected_robots, detected_obstacles, v)) /
+                      6;
+
+    const double fifteen_m1 = 15 * m1;
+    const double six_m2 = 6 * m2;
+    const double ten_dx1 = 10 * dx1;
+    answer(1, 0) = ((fifteen_m1 - six_m2) + m3) / ten_dx1;
+  }
+  return -answer;
+};

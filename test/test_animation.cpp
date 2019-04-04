@@ -27,9 +27,9 @@ TEST(animatedCohesionTest, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Vector_t(5.0, 3.0));
-  Robot r2(Vector_t(10.0, 3.0));
-  Robot r3(Vector_t(7.5, 14.0));
+  Robot r1(Vector_t(5.0, 3.0),0);
+  Robot r2(Vector_t(10.0, 3.0),1);
+  Robot r3(Vector_t(7.5, 14.0),2);
 
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
@@ -88,9 +88,9 @@ TEST(animatedLeaderTest, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Vector_t(5.0, 3.0));
-  Robot r2(Vector_t(5.0, 10.0));
-  Robot r3(Vector_t(0.0, 3.0));
+  Robot r1(Vector_t(5.0, 3.0), 0);
+  Robot r2(Vector_t(5.0, 10.0),1);
+  Robot r3(Vector_t(0.0, 3.0),2);
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
   auto r2_desc = boost::add_vertex(r2, *rg);
@@ -137,11 +137,11 @@ TEST(animatedLeaderTest2, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Vector_t(8.0, 8.0));
-  Robot r2(Vector_t(0.0, 0.0));
-  Robot r3(Vector_t(3.0, 5.0));
-  Robot r4(Vector_t(7.0, 4.0));
-  Robot r5(Vector_t(1.0, 8.0));
+  Robot r1(Vector_t(8.0, 8.0), 0);
+  Robot r2(Vector_t(0.0, 0.0), 1);
+  Robot r3(Vector_t(3.0, 5.0), 2);
+  Robot r4(Vector_t(7.0, 4.0), 3);
+  Robot r5(Vector_t(1.0, 8.0), 4);
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
   auto r2_desc = boost::add_vertex(r2, *rg);
@@ -204,12 +204,12 @@ TEST(animatedLeaderTest3, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Position_t(8.0, 8.0));
-  Robot r2(Position_t(0.0, 0.0));
-  Robot r3(Position_t(3.0, 5.0));
-  Robot r4(Position_t(7.0, 4.0));
-  Robot r5(Position_t(1.0, 8.0));
-  Robot r6(Position_t(8.0, 0.0));
+  Robot r1(Position_t(13.0, 13.0), 0);
+  Robot r2(Position_t(3.0, 3.0), 1);
+  Robot r3(Position_t(6.0, 8.0), 2);
+  Robot r4(Position_t(11.0, 3.0), 3);
+  Robot r5(Position_t(1.0, 8.0), 4);
+  Robot r6(Position_t(8.0, 0.0), 6);
 
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
@@ -237,7 +237,7 @@ TEST(animatedLeaderTest3, ShouldPass)
                       vg.getRobotGraph(), std::function(&overallPotential), vg.getRobotGraph(), vg.getObstacleGraph(),
                       v);
 
-  for (int i = 2; i < 80; i++)
+  for (int i = 2; i < 400; i++)
   {
     auto start = std::chrono::system_clock::now();
 
@@ -247,7 +247,7 @@ TEST(animatedLeaderTest3, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Iteration " << i << ": " << elapsed_seconds << std::endl;
 
-    if (i % 5 == 0)
+    if (i % 100 == 0)
     {
       printPlotWithArrows("leaderAnimation3/leaderAnimationTest3_0_90_" + std::to_string(i) + ".png",
                           "leaderAnimationTest", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
@@ -278,12 +278,12 @@ TEST(animatedWideCorridorTest_1, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Position_t(13.0, 13.0));
-  Robot r2(Position_t(3.0, 3.0));
-  Robot r3(Position_t(6.0, 8.0));
-  Robot r4(Position_t(11.0, 3.0));
-  Robot r5(Position_t(1.0, 8.0));
-  Robot r6(Position_t(8.0, 0.0));
+  Robot r1(Position_t(13.0, 13.0), 0);
+  Robot r2(Position_t(3.0, 3.0), 1);
+  Robot r3(Position_t(6.0, 8.0), 2);
+  Robot r4(Position_t(11.0, 3.0), 3);
+  Robot r5(Position_t(1.0, 8.0), 4);
+  Robot r6(Position_t(8.0, 0.0), 6);
 
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
@@ -352,12 +352,12 @@ TEST(animatedNarrowCorridorTest_2, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Position_t(13.0, 13.0));
-  Robot r2(Position_t(3.0, 3.0));
-  Robot r3(Position_t(6.0, 8.0));
-  Robot r4(Position_t(11.0, 3.0));
-  Robot r5(Position_t(1.0, 8.0));
-  Robot r6(Position_t(8.0, 0.0));
+  Robot r1(Position_t(13.0, 13.0), 0);
+  Robot r2(Position_t(3.0, 3.0), 1);
+  Robot r3(Position_t(6.0, 8.0), 2);
+  Robot r4(Position_t(11.0, 3.0), 3);
+  Robot r5(Position_t(1.0, 8.0), 4);
+  Robot r6(Position_t(8.0, 0.0), 6);
 
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
@@ -424,12 +424,12 @@ TEST(animatedNarrowCorridorTestWithBigObstacles_3, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Position_t(13.0, 13.0));
-  Robot r2(Position_t(3.0, 3.0));
-  Robot r3(Position_t(6.0, 8.0));
-  Robot r4(Position_t(11.0, 3.0));
-  Robot r5(Position_t(1.0, 8.0));
-  Robot r6(Position_t(8.0, 0.0));
+  Robot r1(Position_t(13.0, 13.0), 0);
+  Robot r2(Position_t(3.0, 3.0), 1);
+  Robot r3(Position_t(6.0, 8.0), 2);
+  Robot r4(Position_t(11.0, 3.0), 3);
+  Robot r5(Position_t(1.0, 8.0), 4);
+  Robot r6(Position_t(8.0, 0.0), 6);
 
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
@@ -496,12 +496,12 @@ TEST(animatedNarrowLongCorridorTestWithBigObstacles_4, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Position_t(13.0, 13.0));
-  Robot r2(Position_t(3.0, 3.0));
-  Robot r3(Position_t(6.0, 8.0));
-  Robot r4(Position_t(11.0, 3.0));
-  Robot r5(Position_t(1.0, 8.0));
-  Robot r6(Position_t(8.0, 0.0));
+  Robot r1(Position_t(13.0, 13.0), 0);
+  Robot r2(Position_t(3.0, 3.0), 1);
+  Robot r3(Position_t(6.0, 8.0), 2);
+  Robot r4(Position_t(11.0, 3.0), 3);
+  Robot r5(Position_t(1.0, 8.0), 4);
+  Robot r6(Position_t(8.0, 0.0), 6);
 
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
@@ -580,12 +580,12 @@ TEST(animatedNarrowVeryLongCorridorTestWithBigObstacles_5, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Position_t(13.0, 13.0));
-  Robot r2(Position_t(3.0, 3.0));
-  Robot r3(Position_t(6.0, 8.0));
-  Robot r4(Position_t(11.0, 3.0));
-  Robot r5(Position_t(1.0, 8.0));
-  Robot r6(Position_t(8.0, 0.0));
+  Robot r1(Position_t(13.0, 13.0), 0);
+  Robot r2(Position_t(3.0, 3.0), 1);
+  Robot r3(Position_t(6.0, 8.0), 2);
+  Robot r4(Position_t(11.0, 3.0), 3);
+  Robot r5(Position_t(1.0, 8.0), 4);
+  Robot r6(Position_t(8.0, 0.0), 6);
 
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);

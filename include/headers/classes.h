@@ -34,7 +34,7 @@ class Robot : public RigidObject
 {
 public:
   Robot() = default;
-  explicit Robot(Position_t position, Vector_t current_speed_direction = Vector_t(0, 0));
+  Robot(Position_t position, int ID, Vector_t current_speed_direction = Vector_t(0, 0));
 
   void updatePosition();
 
@@ -44,8 +44,6 @@ public:
   double getSpeedValue() const;
 
   int getRobotID() const;
-
-  ~Robot();
 
 private:
   static int robots_count;
@@ -63,8 +61,6 @@ public:
   void setRadius(double radius);
 
   int getObstacleID() const;
-
-  ~Obstacle();
 
 private:
   double radius_;

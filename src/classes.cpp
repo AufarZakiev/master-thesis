@@ -2,7 +2,6 @@
 #include "../include/headers/geometric_functions.h"
 #include "../include/headers/speed_constraints.h"
 
-int Robot::robots_count = 0;
 int Obstacle::obstacles_count = 0;
 
 RigidObject::RigidObject()
@@ -25,11 +24,10 @@ void RigidObject::setPosition(Position_t position)
   current_position_ = std::move(position);
 }
 
-Robot::Robot(Position_t position, Vector_t current_speed_direction) : RigidObject(std::move(position))
+Robot::Robot(Position_t position, int ID, Vector_t current_speed_direction) : RigidObject(std::move(position))
 {
   this->current_speed_direction_ = std::move(current_speed_direction);
-  this->ID = robots_count;
-  robots_count++;
+  this->ID = ID;
 }
 
 double Robot::getSpeedValue() const
@@ -57,11 +55,6 @@ void Robot::updatePosition()
   this->current_position_ += this->current_speed_direction_;
 }
 
-Robot::~Robot()
-{
-  robots_count--;
-}
-
 Obstacle::Obstacle(Position_t position, double radius)
 {
   this->radius_ = radius;
@@ -83,11 +76,6 @@ void Obstacle::setRadius(double radius)
 int Obstacle::getObstacleID() const
 {
   return ID;
-}
-
-Obstacle::~Obstacle()
-{
-  obstacles_count--;
 }
 
 ValidatedGraphs::ValidatedGraphs(std::unique_ptr<RobotGraph> rg, std::unique_ptr<ObstacleGraph> og,
@@ -190,10 +178,6 @@ void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
 
 void ValidatedGraphs::tick(const RobotDesc leaderDesc, const Vector_t& leaderDirection, const ValidatedVariables& vv)
 {
-  for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
-  {
-    (*validatedRobotGraph)[i].updatePosition();
-  }
   this->leavePreservedEdges(vv);
   for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
   {
@@ -206,5 +190,9 @@ void ValidatedGraphs::tick(const RobotDesc leaderDesc, const Vector_t& leaderDir
     {
       (*validatedRobotGraph)[i].setSpeedDirection(getConstrainedDirectedSpeed((*validatedRobotGraph)[i], *this, vv));
     }
+  }
+  for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
+  {
+    (*validatedRobotGraph)[i].updatePosition();
   }
 };

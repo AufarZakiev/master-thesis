@@ -38,6 +38,9 @@ RobotGraph getNeighbourRobots(const Robot& robot, const RobotGraph& detected_rob
 
 RobotGraph getNeighbourPreservedRobots(const Robot& robot, const RobotGraph& neighbour_robots, const Variables& v);
 
+Vector_t gradientPotentialOnly(const Robot& robot, const RobotGraph& detected_robots,
+                               const ObstacleGraph& detected_obstacles, const Variables& v);
+
 template <typename... Args, typename... Args2>
 void printPlot(const std::string& filename, const std::string& title, int rot_x_angle, int rot_z_angle,
                std::function<double(Args...)> func, Args2&&... args)
@@ -98,8 +101,8 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
     {
       Vector_t temp;
       temp << i / 2.5, j / 2.5;
-      Robot point(temp);
-      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), func(point, args...));
+      Robot robot(temp, -1);
+      frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), func(robot, args...));
     }
   }
 
