@@ -302,8 +302,8 @@ TEST(animatedNarrowCorridorTestWithBigObstacles_3, ShouldPass)
   auto og = std::make_unique<ObstacleGraph>();
   for (int i = 5; i < 21; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 5.0), *og);
-    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 5.0), *og);
+    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 5.2), *og);
+    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 5.2), *og);
   }
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
@@ -347,7 +347,7 @@ TEST(animatedNarrowLongCorridorTestWithBigObstacles_4, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.01);
+  v.setParam("c2", 0.1);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -367,10 +367,10 @@ TEST(animatedNarrowLongCorridorTestWithBigObstacles_4, ShouldPass)
   boost::add_vertex(r4, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  for (int i = 15; i < 41; i += 1)
+  for (int i = 5; i < 41; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(5 + i, 21 + i), 9.0), *og);
-    boost::add_vertex(Obstacle(Position_t(21 + i, 5 + i), 9.0), *og);
+    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 5.2), *og);
+    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 5.2), *og);
   }
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
@@ -425,19 +425,21 @@ TEST(animatedNarrowVeryLongCorridorTestWithBigObstacles_5, ShouldPass)
   Robot r3(Position_t(6.0, 8.0), 2);
   Robot r4(Position_t(11.0, 3.0), 3);
   Robot r5(Position_t(1.0, 8.0), 4);
-  Robot r6(Position_t(8.0, 0.0), 6);
+  Robot r6(Position_t(8.0, 0.0), 5);
 
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
   boost::add_vertex(r2, *rg);
   boost::add_vertex(r3, *rg);
   boost::add_vertex(r4, *rg);
+  boost::add_vertex(r5, *rg);
+  boost::add_vertex(r6, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  for (int i = 15; i < 41; i += 1)
+  for (int i = 5; i < 21; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(5 + i, 21 + i), 9.0), *og);
-    boost::add_vertex(Obstacle(Position_t(21 + i, 5 + i), 9.0), *og);
+    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 3.0), *og);
+    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 3.0), *og);
   }
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
