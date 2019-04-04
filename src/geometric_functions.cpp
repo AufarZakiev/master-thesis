@@ -49,13 +49,10 @@ bool isEdgePreserved(const Robot& i, const Robot& j, const RobotGraph& robots, c
 {
   for (RobotDesc id = 0; id < boost::num_vertices(robots); ++id)
   {
-    if (robots[id].getRobotID() != i.getRobotID() &&
-        robots[id].getRobotID() != j.getRobotID())
+    if (robots[id].getRobotID() != i.getRobotID() && robots[id].getRobotID() != j.getRobotID())
     {
-      if (isObjectInTSet(i, j, robots[id], robots, v) ||
-          isObjectInTSet(j, i, robots[id], robots, v) ||
-          isObjectInDashedTSet(i, j, robots[id], robots, v) ||
-          isObjectInDashedTSet(j, i, robots[id], robots, v))
+      if (isObjectInTSet(i, j, robots[id], robots, v) || isObjectInTSet(j, i, robots[id], robots, v) ||
+          isObjectInDashedTSet(i, j, robots[id], robots, v) || isObjectInDashedTSet(j, i, robots[id], robots, v))
         return false;
     }
   }
@@ -122,8 +119,8 @@ bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m, const RobotG
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
   bool areAllRobotsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
-  return isAngleBetweenVectorsGreaterThanZero && isPhiLessThanDeletionDistance &&
-         isMPointInDSpace && areAllRobotsInGraph;
+  return isAngleBetweenVectorsGreaterThanZero && isPhiLessThanDeletionDistance && isMPointInDSpace &&
+         areAllRobotsInGraph;
 }
 
 bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const RobotGraph& rg, const Variables& v)

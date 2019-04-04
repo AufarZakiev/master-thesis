@@ -68,8 +68,8 @@ private:
   int ID;
 };
 
-typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, Robot> RobotGraph;
-typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, Obstacle> ObstacleGraph;
+typedef boost::adjacency_list<boost::setS, boost::vecS, boost::undirectedS, Robot> RobotGraph;
+typedef boost::adjacency_list<boost::setS, boost::vecS, boost::undirectedS, Obstacle> ObstacleGraph;
 
 typedef boost::graph_traits<RobotGraph>::vertex_descriptor RobotDesc;
 typedef boost::graph_traits<ObstacleGraph>::vertex_descriptor ObstacleDesc;
