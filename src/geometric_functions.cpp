@@ -133,13 +133,14 @@ bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const 
   Vector_t mj = getRelativePosition(j, m);
   Vector_t jm = getRelativePosition(m, j);
   Vector_t ji = getRelativePosition(i, j);
-  double NEIGHBOURHOOD_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE, EQUALITY_CASE;
+  double NEIGHBOURHOOD_DISTANCE, ROBOTS_AVOIDANCE_DISTANCE;
   v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
   v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
-  EQUALITY_CASE = NEIGHBOURHOOD_DISTANCE * 0.1;
-  bool areDistancesEqual = abs((getVectorLength(ji) - NEIGHBOURHOOD_DISTANCE)) < EQUALITY_CASE &&
-                           abs((getVectorLength(mj) - NEIGHBOURHOOD_DISTANCE)) < EQUALITY_CASE &&
-                           abs((getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE)) < EQUALITY_CASE;
+  double EQUALITY_CASE_1 = NEIGHBOURHOOD_DISTANCE * 0.1;
+  double EQUALITY_CASE_2 = ROBOTS_AVOIDANCE_DISTANCE * 0.1;
+  bool areDistancesEqual = abs((getVectorLength(ji) - NEIGHBOURHOOD_DISTANCE)) < EQUALITY_CASE_1 &&
+                           abs((getVectorLength(mj) - NEIGHBOURHOOD_DISTANCE)) < EQUALITY_CASE_1 &&
+                           abs((getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE)) < EQUALITY_CASE_2;
   bool areAllRobotsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
   if (areDistancesEqual && isAngleBetweenVectorsGreaterThanZero && areAllRobotsInGraph)
