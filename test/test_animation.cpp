@@ -302,8 +302,8 @@ TEST(animatedNarrowCorridorTestWithBigObstacles_3, ShouldPass)
   auto og = std::make_unique<ObstacleGraph>();
   for (int i = 5; i < 21; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(10 + i, 16 + i), 1.5), *og);
-    boost::add_vertex(Obstacle(Position_t(16 + i, 10 + i), 1.5), *og);
+    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 5.0), *og);
+    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 5.0), *og);
   }
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
@@ -322,7 +322,7 @@ TEST(animatedNarrowCorridorTestWithBigObstacles_3, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "\tIteration " << i << " ends in " << elapsed_seconds << std::endl;
 
-    if (i % 100 == 0)
+    if ((i > 335 && i < 345) || i % 100 == 0)
     {
       printPlotWithArrows("obstacleAnimation3/obstacleAnimation3_0_90_" + std::to_string(i) + ".png",
                           "obstacleAnimationTest3", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),

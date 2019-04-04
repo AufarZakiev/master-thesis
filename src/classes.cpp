@@ -155,6 +155,10 @@ void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
           {
             edgesToAdd.emplace_back(std::pair(it, it2));
           }
+          else
+          {
+            edgesToRemove.emplace_back(std::pair(it, it2));
+          }
         }
         else
         {

@@ -117,10 +117,10 @@ bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m, const RobotG
   v.getParam("edge_deletion_distance", EDGE_DELETION_DISTANCE);
   bool isPhiLessThanDeletionDistance = (getVectorLength(getProjectionPhi(mi, ji)) <= EDGE_DELETION_DISTANCE);
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
-  bool areAllRobotsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
+  //  bool areAllRobotsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
-  return isAngleBetweenVectorsGreaterThanZero && isPhiLessThanDeletionDistance && isMPointInDSpace &&
-         areAllRobotsInGraph;
+  return isAngleBetweenVectorsGreaterThanZero && isPhiLessThanDeletionDistance &&
+         isMPointInDSpace;  // && areAllRobotsInGraph;
 }
 
 bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const RobotGraph& rg, const Variables& v)
@@ -134,16 +134,16 @@ bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const 
   v.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
   v.getParam("robots_avoidance_distance", ROBOTS_AVOIDANCE_DISTANCE);
   double EQUALITY_CASE_1 = NEIGHBOURHOOD_DISTANCE * 0.1;
-  double EQUALITY_CASE_2 = ROBOTS_AVOIDANCE_DISTANCE * 0.1;
+  double EQUALITY_CASE_2 = ROBOTS_AVOIDANCE_DISTANCE * 0.2;
   bool areDistancesEqual = abs((getVectorLength(ji) - NEIGHBOURHOOD_DISTANCE)) < EQUALITY_CASE_1 &&
                            abs((getVectorLength(mj) - NEIGHBOURHOOD_DISTANCE)) < EQUALITY_CASE_1 &&
                            abs((getVectorLength(mi) - ROBOTS_AVOIDANCE_DISTANCE)) < EQUALITY_CASE_2;
-  bool areAllRobotsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
+  //  bool areAllRobotsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
-  if (areDistancesEqual && isAngleBetweenVectorsGreaterThanZero && areAllRobotsInGraph)
+  if (areDistancesEqual && isAngleBetweenVectorsGreaterThanZero)  // && areAllRobotsInGraph
   {
     std::cout << "ObjectInDashedTSet: " << i.getRobotID() << ", " << j.getRobotID() << ", " << m.getRobotID()
               << std::endl;
   }
-  return areDistancesEqual && isAngleBetweenVectorsGreaterThanZero && areAllRobotsInGraph;
+  return areDistancesEqual && isAngleBetweenVectorsGreaterThanZero;  // && areAllRobotsInGraph
 }
