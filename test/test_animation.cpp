@@ -322,7 +322,7 @@ TEST(animatedNarrowCorridorTestWithBigObstacles_3, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "\tIteration " << i << " ends in " << elapsed_seconds << std::endl;
 
-    if ((i > 335 && i < 345) || i % 100 == 0)
+    if (i % 100 == 0)
     {
       printPlotWithArrows("obstacleAnimation3/obstacleAnimation3_0_90_" + std::to_string(i) + ".png",
                           "obstacleAnimationTest3", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
