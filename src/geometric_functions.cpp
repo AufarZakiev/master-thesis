@@ -115,7 +115,7 @@ bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m, const RobotG
   Vector_t ji = getRelativePosition(i, j);
   double EDGE_DELETION_DISTANCE;
   v.getParam("edge_deletion_distance", EDGE_DELETION_DISTANCE);
-  bool isPhiLessThanDeletionDistance = (getVectorLength(getProjectionPhi(mi, ji)) <= EDGE_DELETION_DISTANCE);
+  bool isPhiLessThanDeletionDistance = (getVectorLength(getProjectionPhi(mi, ji)) <= EDGE_DELETION_DISTANCE * 1.2);
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
   //  bool areAllRobotsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
