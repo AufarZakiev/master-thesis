@@ -14,13 +14,13 @@ TEST(animatedLeaderTest2, ShouldPass)
   v.setParam("neighbourhood_distance", 10.0);
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 2.0);
-  v.setParam("desired_distance", 7.0);
+  v.setParam("desired_distance", 6.5);
   v.setParam("sensing_distance", 20.0);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.01);
+  v.setParam("c2", 0.1);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -75,13 +75,13 @@ TEST(animatedLeaderTest3, ShouldPass)
   v.setParam("neighbourhood_distance", 10.0);
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 2.0);
-  v.setParam("desired_distance", 7.0);
+  v.setParam("desired_distance", 6.5);
   v.setParam("sensing_distance", 20.0);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.01);
+  v.setParam("c2", 0.1);
   v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
@@ -140,7 +140,7 @@ TEST(animatedWideCorridorTest_1, ShouldPass)
   v.setParam("neighbourhood_distance", 10.0);
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 2.0);
-  v.setParam("desired_distance", 7.0);
+  v.setParam("desired_distance", 6.5);
   v.setParam("sensing_distance", 20.0);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
@@ -207,7 +207,7 @@ TEST(animatedNarrowCorridorTest_2, ShouldPass)
   v.setParam("neighbourhood_distance", 10.0);
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 2.0);
-  v.setParam("desired_distance", 7.0);
+  v.setParam("desired_distance", 6.5);
   v.setParam("sensing_distance", 20.0);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
@@ -274,7 +274,7 @@ TEST(animatedNarrowCorridorTestWithBigObstacles_3, ShouldPass)
   v.setParam("neighbourhood_distance", 10.0);
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 2.0);
-  v.setParam("desired_distance", 7.0);
+  v.setParam("desired_distance", 6.5);
   v.setParam("sensing_distance", 20.0);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
@@ -341,7 +341,7 @@ TEST(animatedNarrowLongCorridorTestWithBigObstacles_4, ShouldPass)
   v.setParam("neighbourhood_distance", 10.0);
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 2.0);
-  v.setParam("desired_distance", 7.0);
+  v.setParam("desired_distance", 6.5);
   v.setParam("sensing_distance", 20.0);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
@@ -408,7 +408,7 @@ TEST(animatedNarrowVeryLongCorridorTestWithBigObstacles_5, ShouldPass)
   v.setParam("neighbourhood_distance", 10.0);
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 2.0);
-  v.setParam("desired_distance", 7.0);
+  v.setParam("desired_distance", 6.5);
   v.setParam("sensing_distance", 20.0);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
@@ -438,8 +438,8 @@ TEST(animatedNarrowVeryLongCorridorTestWithBigObstacles_5, ShouldPass)
   auto og = std::make_unique<ObstacleGraph>();
   for (int i = 5; i < 21; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 3.0), *og);
-    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 3.0), *og);
+    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 5.0), *og);
+    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 5.0), *og);
   }
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);

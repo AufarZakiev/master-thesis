@@ -102,6 +102,14 @@ bool isEdgeInGraph(const Robot& i, const Robot& j, const RobotGraph& rg)
 double angleBetweenVectorsInRadians(const Vector_t& v1, const Vector_t& v2)
 {
   double alpha = atan2(v2(1, 0), v2(0, 0)) - atan2(v1(1, 0), v1(0, 0));
+  if (alpha > M_PI)
+  {
+    alpha -= 2 * M_PI;
+  }
+  else if (alpha <= -M_PI)
+  {
+    alpha += 2 * M_PI;
+  }
   return alpha;
 }
 
@@ -115,7 +123,7 @@ bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m, const RobotG
   Vector_t ji = getRelativePosition(i, j);
   double EDGE_DELETION_DISTANCE;
   v.getParam("edge_deletion_distance", EDGE_DELETION_DISTANCE);
-  bool isPhiLessThanDeletionDistance = (getVectorLength(getProjectionPhi(mi, ji)) <= EDGE_DELETION_DISTANCE * 1.2);
+  bool isPhiLessThanDeletionDistance = (getVectorLength(getProjectionPhi(mi, ji)) <= EDGE_DELETION_DISTANCE);
   bool isMPointInDSpace = isObjectInDSpace(m, i, j);
   //  bool areAllRobotsInGraph = isEdgeInGraph(i, j, rg) && isEdgeInGraph(j, m, rg) && isEdgeInGraph(m, i, rg);
   bool isAngleBetweenVectorsGreaterThanZero = angleBetweenVectorsInRadians(im, jm) > 0.0;
