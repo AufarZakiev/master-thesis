@@ -80,10 +80,10 @@ double obstacleAvoidanceConstraint(const Robot& i, const ObstacleGraph& detected
                                   (OBS_AVOIDANCE_DISTANCE + detected_obstacles[id].getRadius()) -
                               l_c * l_c);
 
-    bool movesCloserToObstacle = getRelativePosition(i, detected_obstacles[id]).dot(i.getSpeedDirection()) > 0;
+    bool movesCloserToObstacle = getRelativePosition(i, detected_obstacles[id]).dot(i.getSpeedDirection()) > 0.0;
     bool cond = (l_c - detected_obstacles[id].getRadius()) < OBS_AVOIDANCE_DISTANCE;
 
-    if (movesCloserToObstacle && cond && speed < min_speed)
+    if (movesCloserToObstacle && cond && speed > 0.0 && (speed < min_speed))
     {
       min_speed = speed;
     }
