@@ -224,6 +224,49 @@ RobotGraph getNeighbourPreservedRobots(const Robot& robot, const RobotGraph& nei
   return neighbourhood_preserved_robots;
 }
 
+RobotGraph getDetectedRobots(const Robot& robot, const RobotGraph& all_robots, const ObstacleGraph& all_obstacles,
+                             const Variables& v)
+{
+  double SENSING_DISTANCE;
+  v.getParam("sensing_distance", SENSING_DISTANCE);
+  RobotGraph detected_robots;
+  for (size_t i = 0; i < num_vertices(all_robots); i++)
+  {
+    if (getVectorLength(getRelativePosition(robot, all_robots[i])) < SENSING_DISTANCE)
+    {
+      bool isInLOS = true;
+      for (size_t j = 0; j < num_vertices(all_obstacles); j++)
+      {
+        if (isObjectOnLineSegment(all_obstacles[j], robot, all_robots[i], v))
+        {
+          isInLOS = false;
+          break;
+        }
+      }
+      if (isInLOS)
+      {
+        boost::add_vertex(all_robots[i], detected_robots);
+      }
+    }
+  }
+  return detected_robots;
+}
+
+ObstacleGraph getDetectedObstacles(const Robot& robot, const ObstacleGraph& all_obstacles, const Variables& v)
+{
+  double SENSING_DISTANCE;
+  v.getParam("sensing_distance", SENSING_DISTANCE);
+  ObstacleGraph detected_obstacles;
+  for (size_t i = 0; i < num_vertices(all_obstacles); i++)
+  {
+    if (getVectorLength(getRelativePosition(robot, all_obstacles[i])) < SENSING_DISTANCE)
+    {
+      boost::add_vertex(all_obstacles[i], detected_obstacles);
+    }
+  }
+  return detected_obstacles;
+}
+
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, Variables& v)
 {
   double param_variable;

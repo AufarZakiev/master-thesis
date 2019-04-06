@@ -18,8 +18,8 @@ bool isEdgePreserved(const Robot& i, const Robot& j, const RobotGraph& robots,
 double angleBetweenVectorsInRadians(const Vector_t& v1,
                                     const Vector_t& v2);  // get the angle between two vectors in counter-clockwise
 // direction in radians
-bool isObjectOnLineSegment(const RigidObject& o, const RigidObject& line_start,
-                           const RigidObject& line_end);  // check if the object o is on the line between objects
+bool isObjectOnLineSegment(const RigidObject& o, const RigidObject& line_start, const RigidObject& line_end,
+                           const Variables& v);  // check if the object o is on the line between objects
 bool isObjectInDSpace(const RigidObject& o, const RigidObject& left_border,
                       const RigidObject& right_border);  // check if the object is in the D-space
 Vector_t getProjectionPhi(const Vector_t& p,

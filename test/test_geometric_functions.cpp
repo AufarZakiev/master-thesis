@@ -30,6 +30,7 @@ TEST(VectorLengthTest, ShouldPass)
 
 TEST(isObjectOnLineSegmentTest, ShouldPass)
 {
+  Variables v;
   Vector_t v1;
   Vector_t v2;
   Vector_t o;
@@ -41,7 +42,7 @@ TEST(isObjectOnLineSegmentTest, ShouldPass)
   RigidObject r2(v2);
   RigidObject ro(o);
 
-  EXPECT_EQ(true, isObjectOnLineSegment(ro, r1, r2));
+  EXPECT_EQ(true, isObjectOnLineSegment(ro, r1, r2, v));
 
   v1 << -3, 3;
   v2 << -2, 2;
@@ -49,7 +50,7 @@ TEST(isObjectOnLineSegmentTest, ShouldPass)
   r1.setPosition(v1);
   r2.setPosition(v2);
   ro.setPosition(o);
-  EXPECT_EQ(true, isObjectOnLineSegment(ro, r1, r2));
+  EXPECT_EQ(true, isObjectOnLineSegment(ro, r1, r2, v));
 
   v1 << -4, -3;
   v2 << -1, -1;
@@ -57,7 +58,7 @@ TEST(isObjectOnLineSegmentTest, ShouldPass)
   r1.setPosition(v1);
   r2.setPosition(v2);
   ro.setPosition(o);
-  EXPECT_EQ(true, isObjectOnLineSegment(ro, r1, r2));
+  EXPECT_EQ(true, isObjectOnLineSegment(ro, r1, r2, v));
 
   v1 << 3, 3;
   v2 << 2, 2;
@@ -65,7 +66,7 @@ TEST(isObjectOnLineSegmentTest, ShouldPass)
   r1.setPosition(v1);
   r2.setPosition(v2);
   ro.setPosition(o);
-  EXPECT_EQ(false, isObjectOnLineSegment(ro, r1, r2));
+  EXPECT_EQ(false, isObjectOnLineSegment(ro, r1, r2, v));
 
   v1 << -3, 3;
   v2 << -2, 2;
@@ -73,7 +74,7 @@ TEST(isObjectOnLineSegmentTest, ShouldPass)
   r1.setPosition(v1);
   r2.setPosition(v2);
   ro.setPosition(o);
-  EXPECT_EQ(false, isObjectOnLineSegment(ro, r1, r2));
+  EXPECT_EQ(false, isObjectOnLineSegment(ro, r1, r2, v));
 
   v1 << -4, -3;
   v2 << -1, -1;
@@ -81,7 +82,7 @@ TEST(isObjectOnLineSegmentTest, ShouldPass)
   r1.setPosition(v1);
   r2.setPosition(v2);
   ro.setPosition(o);
-  EXPECT_EQ(false, isObjectOnLineSegment(ro, r1, r2));
+  EXPECT_EQ(false, isObjectOnLineSegment(ro, r1, r2, v));
 }
 
 TEST(isObjectInDSpaceTest, NonBorderCases)

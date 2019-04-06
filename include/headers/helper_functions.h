@@ -38,6 +38,11 @@ RobotGraph getNeighbourRobots(const Robot& robot, const RobotGraph& detected_rob
 
 RobotGraph getNeighbourPreservedRobots(const Robot& robot, const RobotGraph& neighbour_robots, const Variables& v);
 
+RobotGraph getDetectedRobots(const Robot& robot, const RobotGraph& all_robots, const ObstacleGraph& all_obstacles,
+                             const Variables& v);
+
+ObstacleGraph getDetectedObstacles(const Robot& robot, const ObstacleGraph& all_obstacles, const Variables& v);
+
 Vector_t gradientPotentialOnly(const Robot& robot, const RobotGraph& detected_robots,
                                const ObstacleGraph& detected_obstacles, const Variables& v);
 

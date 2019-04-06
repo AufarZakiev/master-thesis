@@ -145,9 +145,10 @@ Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, co
   double MAX_SPEED;
   vv.getParam("robot_max_speed", MAX_SPEED);
   Variables v = Variables(vv);
-  RobotGraph detected_robots = vg.getRobotGraph();
+  ObstacleGraph detected_obstacles = getDetectedObstacles(robot, vg.getObstacleGraph(), v);
+  RobotGraph detected_robots = getDetectedRobots(robot, vg.getRobotGraph(), detected_obstacles, v);
+
   boost::remove_vertex(findRobotInGraph(robot, detected_robots).value(), detected_robots);
-  ObstacleGraph detected_obstacles = vg.getObstacleGraph();
 
   RobotGraph neighbour_robots = getNeighbourRobots(robot, detected_robots, v);
   RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, neighbour_robots, v);
@@ -162,6 +163,11 @@ Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, co
                  interrobotAvoidanceConstraint(temp, detected_robots, v),
                  obstacleAvoidanceConstraint(temp, detected_obstacles, v, 0.0),
                  LOSPreservationConstraint(temp, detected_obstacles, v, neighbourhood_preserved_robots), MAX_SPEED });
+
+  if (calc_min < 0.0)
+  {
+    throw "WTF speed constraint";
+  }
 
   if (getVectorLength(gradientSpeed) > calc_min)
   {
@@ -178,9 +184,10 @@ double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const 
   double MAX_SPEED;
   vv.getParam("robot_max_speed", MAX_SPEED);
   Variables v = Variables(vv);
-  RobotGraph detected_robots = vg.getRobotGraph();
+  ObstacleGraph detected_obstacles = getDetectedObstacles(robot, vg.getObstacleGraph(), v);
+  RobotGraph detected_robots = getDetectedRobots(robot, vg.getRobotGraph(), detected_obstacles, v);
+
   boost::remove_vertex(findRobotInGraph(robot, detected_robots).value(), detected_robots);
-  ObstacleGraph detected_obstacles = vg.getObstacleGraph();
 
   RobotGraph neighbour_robots = getNeighbourRobots(robot, detected_robots, v);
   RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, neighbour_robots, v);
@@ -191,5 +198,10 @@ double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const 
                                obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
                                LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots),
                                MAX_SPEED * (1.0 / 3.0) });
+  if (calc_min < 0.0)
+  {
+    throw "WTF speed constraint on leader";
+  }
+
   return calc_min;
 }

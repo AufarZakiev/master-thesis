@@ -58,14 +58,17 @@ bool isEdgePreserved(const Robot& i, const Robot& j, const RobotGraph& robots, c
   }
   return true;
 };
-bool isObjectOnLineSegment(const RigidObject& o, const RigidObject& line_start, const RigidObject& line_end)
+bool isObjectOnLineSegment(const RigidObject& o, const RigidObject& line_start, const RigidObject& line_end,
+                           const Variables& v)
 {
+  double EQUALITY_CASE;
+  v.getParam("equality_case", EQUALITY_CASE);
   // check if the object o is on the line between objects
   Position_t o_s = getRelativePosition(o, line_start);
   Position_t o_e = getRelativePosition(o, line_end);
   Eigen::Vector3d o_s_3d(o_s(0, 0), o_s(1, 0), 0);
   Eigen::Vector3d o_e_3d(o_e(0, 0), o_e(1, 0), 0);
-  bool isPointOnLine = (getVectorLength(o_s_3d.cross(o_e_3d)) == 0.0);
+  bool isPointOnLine = (getVectorLength(o_s_3d.cross(o_e_3d)) < EQUALITY_CASE);
   bool isPointBetweenSegmentEnds = (o_s.dot(o_e) <= 0.0);
   return isPointOnLine && isPointBetweenSegmentEnds;
 };
