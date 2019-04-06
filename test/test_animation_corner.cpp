@@ -220,11 +220,15 @@ TEST(obstacleCornerAnimation3, ShouldPass)
   {
     boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 5.0), *og);
   }
-
   for (int i = 0; i < 16; i += 1)
   {
     boost::add_vertex(Obstacle(Position_t(29 - i, 39 + i), 5.0), *og);
     boost::add_vertex(Obstacle(Position_t(49 - i, 39 + i), 5.0), *og);
+  }
+  for (int i = 0; i < 16; i += 1)
+  {
+    boost::add_vertex(Obstacle(Position_t(14 + i, 54 + i), 5.0), *og);
+    boost::add_vertex(Obstacle(Position_t(34 + i, 54 + i), 5.0), *og);
   }
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
@@ -237,6 +241,11 @@ TEST(obstacleCornerAnimation3, ShouldPass)
     if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 39)
     {
       leaderV = Vector_t(-sqrt(2), sqrt(2));
+    }
+
+    if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 54)
+    {
+      leaderV = Vector_t(sqrt(2), sqrt(2));
     }
     std::cout << "\tIteration " << i << " starts." << std::endl;
     auto start = std::chrono::system_clock::now();
