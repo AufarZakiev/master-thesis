@@ -124,7 +124,7 @@ TEST(animatedLeaderTest3, ShouldPass)
     if (i % 100 == 0)
     {
       printPlotWithArrows("leaderAnimation3/leaderAnimation3_0_90_" + std::to_string(i) + ".png",
-                          "leaderAnimationTest3", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                          "leaderAnimationTest3", 0, 90, 2, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }
   }
@@ -191,7 +191,7 @@ TEST(animatedWideCorridorTest_1, ShouldPass)
     if (i % 100 == 0)
     {
       printPlotWithArrows("obstacleAnimation1/obstacleAnimation1_0_90_" + std::to_string(i) + ".png",
-                          "obstacleAnimationTest1", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                          "obstacleAnimationTest1", 0, 90, 2, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }
   }
@@ -258,7 +258,7 @@ TEST(animatedNarrowCorridorTest_2, ShouldPass)
     if (i % 100 == 0)
     {
       printPlotWithArrows("obstacleAnimation2/obstacleAnimation2_0_90_" + std::to_string(i) + ".png",
-                          "obstacleAnimationTest2", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                          "obstacleAnimationTest2", 0, 90, 2, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }
   }
@@ -325,7 +325,7 @@ TEST(animatedNarrowCorridorTestWithBigObstacles_3, ShouldPass)
     if (i % 100 == 0)
     {
       printPlotWithArrows("obstacleAnimation3/obstacleAnimation3_0_90_" + std::to_string(i) + ".png",
-                          "obstacleAnimationTest3", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                          "obstacleAnimationTest3", 0, 90, 2, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }
   }
@@ -392,7 +392,7 @@ TEST(animatedNarrowLongCorridorTestWithBigObstacles_4, ShouldPass)
     if (i % 100 == 0)
     {
       printPlotWithArrows("obstacleAnimation4/obstacleAnimation4_0_90_" + std::to_string(i) + ".png",
-                          "obstacleAnimationTest4", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                          "obstacleAnimationTest4", 0, 90, 2, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }
   }
@@ -406,16 +406,16 @@ TEST(animatedNarrowVeryLongCorridorTestWithBigObstacles_5, ShouldPass)
   v.setParam("los_clearance_distance", 0.5);
   v.setParam("los_clearance_care_distance", 1.0);
   v.setParam("neighbourhood_distance", 10.0);
-  v.setParam("edge_deletion_distance", 2.5);
+  v.setParam("edge_deletion_distance", 2.598);
   v.setParam("obstacle_care_distance", 2.0);
   v.setParam("desired_distance", 6.5);
   v.setParam("sensing_distance", 20.0);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 0.5);
-  v.setParam("c2", 0.1);
-  v.setParam("c3", 0.01);
+  v.setParam("c1", 5.0);
+  v.setParam("c2", 0.25);
+  v.setParam("c3", 0.05);
   v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
@@ -426,6 +426,8 @@ TEST(animatedNarrowVeryLongCorridorTestWithBigObstacles_5, ShouldPass)
   Robot r4(Position_t(11.0, 3.0), 3);
   Robot r5(Position_t(1.0, 8.0), 4);
   Robot r6(Position_t(8.0, 0.0), 5);
+  Robot r7(Position_t(3.0, 11.0), 6);
+  Robot r8(Position_t(20.0, 3.0), 7);
 
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
@@ -434,12 +436,14 @@ TEST(animatedNarrowVeryLongCorridorTestWithBigObstacles_5, ShouldPass)
   boost::add_vertex(r4, *rg);
   boost::add_vertex(r5, *rg);
   boost::add_vertex(r6, *rg);
+  boost::add_vertex(r7, *rg);
+  boost::add_vertex(r8, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  for (int i = 5; i < 21; i += 1)
+  for (int i = 20; i < 36; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 5.0), *og);
-    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 5.0), *og);
+    boost::add_vertex(Obstacle(Position_t(6 + i, 20 + i), 7.0), *og);
+    boost::add_vertex(Obstacle(Position_t(20 + i, 6 + i), 7.0), *og);
   }
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
@@ -461,7 +465,7 @@ TEST(animatedNarrowVeryLongCorridorTestWithBigObstacles_5, ShouldPass)
     if (i % 100 == 0)
     {
       printPlotWithArrows("obstacleAnimation5/obstacleAnimation5_0_90_" + std::to_string(i) + ".png",
-                          "obstacleAnimationTest5", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
+                          "obstacleAnimationTest5", 0, 90, 2, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }
   }

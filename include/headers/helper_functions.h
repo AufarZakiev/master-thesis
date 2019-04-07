@@ -133,28 +133,13 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
   gp << "set ylabel  offset character 3, -2, 0 font \"\" textcolor lt -1 rotate\n";
   gp << "set zlabel \"Z axis\"\n";
   gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
-  for (size_t i = 0; i < boost::num_vertices(robots); i++)
-  {
-    auto robot = robots[i];
-    gp << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
-       << std::get<2>(frame[robot.getPosition()(0, 0) * 2.5][robot.getPosition()(1, 0) * 2.5]) + 0.01 << " to "
-       << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier << ","
-       << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier << ","
-       << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier) * 2.5]
-                           [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 2.5]) +
-              0.01
-       << " filled front lw 4\n";
-  }
 
   auto og = std::get<1>(std::forward_as_tuple(args...));
   for (size_t i = 0; i < boost::num_vertices(og); i++)
   {
     auto obstacle = og[i];
-    gp << "set arrow from " << obstacle.getPosition()(0, 0) << "," << obstacle.getPosition()(1, 0) << ","
-       << std::get<2>(frame[obstacle.getPosition()(0, 0) * 2.5][obstacle.getPosition()(1, 0) * 2.5]) + 0.01 << " to "
-       << obstacle.getPosition()(0, 0) << "," << obstacle.getPosition()(1, 0) << ","
-       << std::get<2>(frame[(obstacle.getPosition()(0, 0)) * 2.5][(obstacle.getPosition()(1, 0)) * 2.5]) + 0.01
-       << " filled front lw 8\n";
+    gp << "set object " << i + 1 << " circle at " << obstacle.getPosition()(0, 0) << "," << obstacle.getPosition()(1, 0)
+       << "," << 99 << " radius " << obstacle.getRadius() << " fs empty border lc \"black\" lw 2 front\n";
   }
 
   auto edges = boost::edges(robots);
@@ -166,7 +151,20 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
        << std::get<2>(frame[robot.getPosition()(0, 0) * 2.5][robot.getPosition()(1, 0) * 2.5]) + 0.01 << " to "
        << robotTagret.getPosition()(0, 0) << "," << robotTagret.getPosition()(1, 0) << ","
        << std::get<2>(frame[robotTagret.getPosition()(0, 0) * 2.5][robotTagret.getPosition()(1, 0) * 2.5]) + 0.01
-       << "front lw 4 dt 0\n";
+       << "nohead front lw 4 dt 1\n";
+  }
+
+  for (size_t i = 0; i < boost::num_vertices(robots); i++)
+  {
+    auto robot = robots[i];
+    gp << "set arrow from " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0) << ","
+       << std::get<2>(frame[robot.getPosition()(0, 0) * 2.5][robot.getPosition()(1, 0) * 2.5]) + 0.01 << " to "
+       << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier << ","
+       << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier << ","
+       << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier) * 2.5]
+                      [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 2.5]) +
+          0.01
+       << " filled front head ls 2 lw 8\n";
   }
   gp << "splot [0:80] [0:80] '-' \n";
   gp.send2d(frame);
