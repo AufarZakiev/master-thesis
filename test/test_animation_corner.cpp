@@ -429,7 +429,7 @@ TEST(obstacleCornerAnimation5, ShouldPass)
   auto leaderV = Vector_t(sqrt(2), sqrt(2));
   boost::filesystem::create_directories("obstacleCornerAnimation5");
 
-  for (int i = 0; i < 2500; i++)
+  for (int i = 0; i < 2300; i++)
   {
     if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 39)
     {
@@ -479,8 +479,8 @@ TEST(obstacleCornerAnimation6, ShouldPass)
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 0.5);
-  v.setParam("c2", 0.25);
+  v.setParam("c1", 3.0);
+  v.setParam("c2", 0.5);
   v.setParam("c3", 0.05);
   v.setParam("c4", 10.0);
 
