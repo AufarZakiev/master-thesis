@@ -169,13 +169,13 @@ void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
   }
   for (auto& edge : edgesToRemove)
   {
-    std::cout << "Edge removed: " << edge.first << ", " << edge.second << std::endl;
+    // std::cout << "Edge removed: " << edge.first << ", " << edge.second << std::endl;
     boost::remove_edge(edge.first, edge.second, robots);
   }
 
   for (auto& edge : edgesToAdd)
   {
-    std::cout << "Edge added: " << edge.first << ", " << edge.second << std::endl;
+    // std::cout << "Edge added: " << edge.first << ", " << edge.second << std::endl;
     boost::add_edge(edge.first, edge.second, robots);
   }
 }
