@@ -111,7 +111,7 @@ double LOSUnitPreservationConstraint(const Robot& i, const ObstacleGraph& closin
       angle = angle > M_PI ? (M_PI * 2 - angle) : angle;
       double speed = (getVectorLength(getProjectionPhi(getRelativePosition(i, closest_obstacle.value()),
                                                        getRelativePosition(i, neighbourhood_preserved_robots[id]))) -
-                      LOS_CLEARANCE_DISTANCE) /
+                      closest_obstacle.value().getRadius() - LOS_CLEARANCE_DISTANCE) /
                      sin(angle);
       if (speed < min_speed)
       {
@@ -166,7 +166,7 @@ Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, co
 
   if (calc_min < 0.0)
   {
-    throw "WTF speed constraint";
+    std::cout << "Minimum speed is negative" << std::endl;
   }
 
   if (getVectorLength(gradientSpeed) > calc_min)
@@ -200,7 +200,7 @@ double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const 
                                MAX_SPEED * (1.0 / 3.0) });
   if (calc_min < 0.0)
   {
-    throw "WTF speed constraint on leader";
+    std::cout << "Minimum speed is negative" << std::endl;
   }
 
   return calc_min;
