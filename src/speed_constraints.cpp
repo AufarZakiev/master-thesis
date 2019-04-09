@@ -164,6 +164,8 @@ Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, co
                  obstacleAvoidanceConstraint(temp, detected_obstacles, v, 0.0),
                  LOSPreservationConstraint(temp, detected_obstacles, v, neighbourhood_preserved_robots), MAX_SPEED });
 
+  calc_min = std::max({ calc_min, 0.0 });
+
   if (calc_min < 0.0)
   {
     std::cout << "Minimum speed is negative" << std::endl;
@@ -198,6 +200,9 @@ double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const 
                                obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
                                LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots),
                                MAX_SPEED * (1.0 / 3.0) });
+
+  calc_min = std::max({ calc_min, 0.0 });
+
   if (calc_min < 0.0)
   {
     std::cout << "Minimum speed is negative" << std::endl;

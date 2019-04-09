@@ -19,8 +19,8 @@ TEST(obstacleCornerAnimation1, ShouldPass)
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 0.5);
-  v.setParam("c2", 0.25);
+  v.setParam("c1", 3.0);
+  v.setParam("c2", 0.05);
   v.setParam("c3", 0.05);
   v.setParam("c4", 10.0);
 
@@ -190,7 +190,7 @@ TEST(obstacleCornerAnimation3, ShouldPass)
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 0.5);
-  v.setParam("c2", 0.25);
+  v.setParam("c2", 0.1);
   v.setParam("c3", 0.05);
   v.setParam("c4", 10.0);
 
@@ -379,7 +379,7 @@ TEST(obstacleCornerAnimation5, ShouldPass)
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 0.5);
+  v.setParam("c1", 1.0);
   v.setParam("c2", 0.25);
   v.setParam("c3", 0.05);
   v.setParam("c4", 10.0);
@@ -455,7 +455,7 @@ TEST(obstacleCornerAnimation5, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "\tIteration " << i << " ends in " << elapsed_seconds << std::endl;
 
-    if (i % 100 == 0)
+    if (i % 200 == 0)
     {
       printPlotWithArrows("obstacleCornerAnimation5/obstacleCornerAnimation5_0_90_" + std::to_string(i) + ".png",
                           "obstacleCornerAnimation5", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
@@ -479,8 +479,8 @@ TEST(obstacleCornerAnimation6, ShouldPass)
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 3.0);
-  v.setParam("c2", 0.5);
+  v.setParam("c1", 2.5);
+  v.setParam("c2", 0.05);
   v.setParam("c3", 0.05);
   v.setParam("c4", 10.0);
 
@@ -557,7 +557,7 @@ TEST(obstacleCornerAnimation6, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "\tIteration " << i << " ends in " << elapsed_seconds << std::endl;
 
-    if (i % 100 == 0)
+    if (i % 200 == 0)
     {
       printPlotWithArrows("obstacleCornerAnimation6/obstacleCornerAnimation6_0_90_" + std::to_string(i) + ".png",
                           "obstacleCornerAnimation6", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
