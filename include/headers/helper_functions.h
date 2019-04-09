@@ -112,7 +112,7 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
   }
 
   Gnuplot gp;
-  gp << "set term png size 1280, 960\n";
+  gp << "set term png size 960, 960\n";
   gp << "set output \"";
   gp << filename.c_str();
   gp << "\"\n";
