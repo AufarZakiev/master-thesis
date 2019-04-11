@@ -114,8 +114,7 @@ ObstacleGraph closingObstaclesInDSpace(const Robot& robot_i, const Robot& robot_
   return result;
 }
 
-std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, const Robot& j,
-                                                            const ObstacleGraph& detected_obstacles)
+double getDistanceClosestObstacleToLOSinDSpace(const Robot& i, const Robot& j, const ObstacleGraph& detected_obstacles)
 {
   ObstacleGraph detected_in_DSpace;
   for (size_t id = 0; id < boost::num_vertices(detected_obstacles); ++id)
@@ -123,6 +122,31 @@ std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, cons
     if (isObjectInDSpace(detected_obstacles[id], i, j))
     {
       boost::add_vertex(detected_obstacles[id], detected_in_DSpace);
+    }
+  }
+  Vector_t ji = getRelativePosition(i, j);
+  auto min = std::numeric_limits<double>::max();
+  for (size_t id = 0; id < boost::num_vertices(detected_in_DSpace); ++id)
+  {
+    double maybe_min = getVectorLength(getProjectionPhi(getRelativePosition(i, detected_in_DSpace[id]), ji)) -
+                       detected_in_DSpace[id].getRadius();
+    if (maybe_min < min)
+    {
+      min = maybe_min;
+    }
+  }
+  return min;
+}
+
+std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, const Robot& j,
+                                                            const ObstacleGraph& closing_obstacles_in_front_in_D_space)
+{
+  ObstacleGraph detected_in_DSpace;
+  for (size_t id = 0; id < boost::num_vertices(closing_obstacles_in_front_in_D_space); ++id)
+  {
+    if (isObjectInDSpace(closing_obstacles_in_front_in_D_space[id], i, j))
+    {
+      boost::add_vertex(closing_obstacles_in_front_in_D_space[id], detected_in_DSpace);
     }
   }
   if (boost::num_vertices(detected_in_DSpace) == 0)

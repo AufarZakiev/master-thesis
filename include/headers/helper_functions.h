@@ -16,6 +16,9 @@ Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
 
 std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, const ObstacleGraph& obstacles_detected);
 
+double getDistanceClosestObstacleToLOSinDSpace(const Robot& i, const Robot& j,
+                                                        const ObstacleGraph& detected_obstacles);
+
 std::pair<RobotGraph, RobotGraph>
 separateNeighbourRobotsBehindAndFront(const Robot& robot, const RobotGraph& neighbourhood_preserved_robots);
 
@@ -26,7 +29,7 @@ ObstacleGraph closingObstaclesInDSpace(const Robot& robot_i, const Robot& robot_
                                        const ObstacleGraph& detected_obstacles);
 
 std::optional<Obstacle> closestObstacleToLOSinDSpaceAtFront(const Robot& i, const Robot& j,
-                                                            const ObstacleGraph& detected_obstacles);
+                                                            const ObstacleGraph& closing_obstacles_in_front_in_D_space);
 
 std::optional<double> farthestRobotDistance(const Robot& position, const RobotGraph& robots);
 
@@ -162,8 +165,8 @@ void printPlotWithArrows(const std::string& filename, const std::string& title, 
        << robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier << ","
        << robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier << ","
        << std::get<2>(frame[(robot.getPosition()(0, 0) + robot.getSpeedDirection()(0, 0) * amplifier) * 2.5]
-                      [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 2.5]) +
-          0.01
+                           [(robot.getPosition()(1, 0) + robot.getSpeedDirection()(1, 0) * amplifier) * 2.5]) +
+              0.01
        << " filled front head ls 2 lw 8\n";
   }
   gp << "splot [0:80] [0:80] '-' \n";

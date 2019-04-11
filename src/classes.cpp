@@ -136,9 +136,11 @@ ObstacleGraph& ValidatedGraphs::getObstacleGraph()
 
 void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
 {
-  double NEIGHBOURHOOD_DISTANCE;
+  double NEIGHBOURHOOD_DISTANCE, LOS_CLEARANCE_DISTANCE;
   vv.getParam("neighbourhood_distance", NEIGHBOURHOOD_DISTANCE);
+  vv.getParam("los_clearance_distance", LOS_CLEARANCE_DISTANCE);
   auto& robots = *validatedRobotGraph;
+  auto& detected_obstacles = *validatedObstacleGraph;
   std::vector<std::pair<size_t, size_t>> edgesToRemove;
   std::vector<std::pair<size_t, size_t>> edgesToAdd;
   for (size_t it = 0; it != boost::num_vertices(robots); it++)
@@ -149,7 +151,10 @@ void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
       {
         auto& robot = robots[it];
         auto& robotTarget = robots[it2];
-        if (getVectorLength(getRelativePosition(robot, robotTarget)) < NEIGHBOURHOOD_DISTANCE)
+        auto distanceToclosestObstacleToLOSinDSpace =
+            getDistanceClosestObstacleToLOSinDSpace(robot, robotTarget, detected_obstacles);
+        if (getVectorLength(getRelativePosition(robot, robotTarget)) < NEIGHBOURHOOD_DISTANCE &&
+            distanceToclosestObstacleToLOSinDSpace > LOS_CLEARANCE_DISTANCE)
         {
           if (isEdgePreserved(robot, robotTarget, robots, Variables(vv)))
           {
@@ -169,22 +174,22 @@ void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
   }
   for (auto& edge : edgesToRemove)
   {
-    // std::cout << "Edge removed: " << edge.first << ", " << edge.second << std::endl;
+    std::cout << "Edge removed: " << edge.first << ", " << edge.second << std::endl;
     boost::remove_edge(edge.first, edge.second, robots);
   }
 
   for (auto& edge : edgesToAdd)
   {
-    // std::cout << "Edge added: " << edge.first << ", " << edge.second << std::endl;
+    std::cout << "Edge added: " << edge.first << ", " << edge.second << std::endl;
     boost::add_edge(edge.first, edge.second, robots);
   }
 }
 
 void ValidatedGraphs::tick(const RobotDesc leaderDesc, const Vector_t& leaderDirection, const ValidatedVariables& vv)
 {
-  this->leavePreservedEdges(vv);
   for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
   {
+    this->leavePreservedEdges(vv);
     if (i == leaderDesc)
     {
       (*validatedRobotGraph)[i].setSpeedDirection(leaderDirection *
@@ -194,9 +199,10 @@ void ValidatedGraphs::tick(const RobotDesc leaderDesc, const Vector_t& leaderDir
     {
       (*validatedRobotGraph)[i].setSpeedDirection(getConstrainedDirectedSpeed((*validatedRobotGraph)[i], *this, vv));
     }
-  }
-  for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
-  {
     (*validatedRobotGraph)[i].updatePosition();
   }
+  //  for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
+  //  {
+  //
+  //  }
 };
