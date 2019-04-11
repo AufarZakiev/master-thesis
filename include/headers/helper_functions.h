@@ -16,8 +16,7 @@ Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
 
 std::optional<Obstacle> closestDetectedObstacle(const RigidObject& position, const ObstacleGraph& obstacles_detected);
 
-double getDistanceClosestObstacleToLOSinDSpace(const Robot& i, const Robot& j,
-                                                        const ObstacleGraph& detected_obstacles);
+double getDistanceClosestObstacleToLOSinDSpace(const Robot& i, const Robot& j, const ObstacleGraph& detected_obstacles);
 
 std::pair<RobotGraph, RobotGraph>
 separateNeighbourRobotsBehindAndFront(const Robot& robot, const RobotGraph& neighbourhood_preserved_robots);
@@ -62,7 +61,7 @@ void printPlot(const std::string& filename, const std::string& title, int rot_x_
     {
       Vector_t temp;
       temp << i / 8.0, j / 8.0;
-      Robot point(temp);
+      Robot point(temp, -1);
       frame[i][j] = std::make_tuple(temp(0, 0), temp(1, 0), func(point, args...));
     }
   }
@@ -90,6 +89,13 @@ void printPlot(const std::string& filename, const std::string& title, int rot_x_
   gp << "set zlabel \"Z axis\"\n";
   gp << "set zlabel  offset character -5, 0, 0 font \"\" textcolor lt -1 norotate\n";
   // gp << "set zrange [ -1.00000 : 10.00000 ] noreverse nowriteback\n";
+  auto og = std::get<1>(std::forward_as_tuple(args...));
+  for (size_t i = 0; i < boost::num_vertices(og); i++)
+  {
+    auto obstacle = og[i];
+    gp << "set object " << i + 1 << " circle at " << obstacle.getPosition()(0, 0) << "," << obstacle.getPosition()(1, 0)
+       << "," << 99 << " radius " << obstacle.getRadius() << " fs empty border lc \"black\" lw 2 front\n";
+  }
   gp << "splot [0:15] [0:15] '-' \n";
   gp.send2d(frame);
   gp.flush();

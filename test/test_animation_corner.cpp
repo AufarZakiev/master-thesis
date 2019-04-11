@@ -431,6 +431,11 @@ TEST(obstacleCornerAnimation5, ShouldPass)
 
   for (int i = 0; i < 2300; i++)
   {
+    v.setParam("c1", 0.5);
+    v.setParam("c2", 0.01);
+    v.setParam("c3", 0.01);
+    v.setParam("c4", 10.0);
+
     if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 39)
     {
       leaderV = Vector_t(-sqrt(2), sqrt(2));
@@ -457,6 +462,10 @@ TEST(obstacleCornerAnimation5, ShouldPass)
 
     if (i % 200 == 0)
     {
+      //      v.setParam("c1", 0.0);
+      //      v.setParam("c2", 0.0);
+      //      v.setParam("c3", 1.0);
+      //      v.setParam("c4", 10.0);
       printPlotWithArrows("obstacleCornerAnimation5/obstacleCornerAnimation5_0_90_" + std::to_string(i) + ".png",
                           "obstacleCornerAnimation5", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);

@@ -9,9 +9,12 @@ std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
   Obstacle min_obstacle = detected_obstacle_graph_in_D_set[0];
   for (size_t id = 0; id < boost::num_vertices(detected_obstacle_graph_in_D_set); ++id)
   {
-    if (getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph_in_D_set[id]), ji)) < min)
+    double maybe_min =
+        getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph_in_D_set[id]), ji)) -
+        detected_obstacle_graph_in_D_set[id].getRadius();
+    if (maybe_min < min)
     {
-      min = getVectorLength(getProjectionPhi(getRelativePosition(i, detected_obstacle_graph_in_D_set[id]), ji));
+      min = maybe_min;
       min_obstacle = detected_obstacle_graph_in_D_set[id];
     }
   }
