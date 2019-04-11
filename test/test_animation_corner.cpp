@@ -379,9 +379,9 @@ TEST(obstacleCornerAnimation5, ShouldPass)
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 1.0);
-  v.setParam("c2", 0.5);
-  v.setParam("c3", 0.05);
+  v.setParam("c1", 0.5);
+  v.setParam("c2", 0.01);
+  v.setParam("c3", 0.01);
   v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);

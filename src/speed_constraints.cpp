@@ -140,10 +140,11 @@ double LOSPreservationConstraint(const Robot& i, const ObstacleGraph& detected_o
   return min;
 }
 
-Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, const ValidatedVariables& vv)
+Vector_t getFollowerDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, const ValidatedVariables& vv)
 {
-  double MAX_SPEED;
+  double MAX_SPEED, EQUALITY_CASE;
   vv.getParam("robot_max_speed", MAX_SPEED);
+  vv.getParam("equality_case", EQUALITY_CASE);
   Variables v = Variables(vv);
   ObstacleGraph detected_obstacles = getDetectedObstacles(robot, vg.getObstacleGraph(), v);
   RobotGraph detected_robots = getDetectedRobots(robot, vg.getRobotGraph(), detected_obstacles, v);
@@ -154,8 +155,26 @@ Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, co
   RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, neighbour_robots, v);
 
   Vector_t gradientSpeed = gradientPotentialOnly(robot, detected_robots, detected_obstacles, v);
+  return gradientSpeed;
+}
+
+double getConstrainedFollowerSpeed(const Robot& robot, ValidatedGraphs& vg, const Vector_t& directedSpeed,
+                                     const ValidatedVariables& vv)
+{
+  double MAX_SPEED, EQUALITY_CASE;
+  vv.getParam("robot_max_speed", MAX_SPEED);
+  vv.getParam("equality_case", EQUALITY_CASE);
+  Variables v = Variables(vv);
+  ObstacleGraph detected_obstacles = getDetectedObstacles(robot, vg.getObstacleGraph(), v);
+  RobotGraph detected_robots = getDetectedRobots(robot, vg.getRobotGraph(), detected_obstacles, v);
+
+  boost::remove_vertex(findRobotInGraph(robot, detected_robots).value(), detected_robots);
+
+  RobotGraph neighbour_robots = getNeighbourRobots(robot, detected_robots, v);
+  RobotGraph neighbourhood_preserved_robots = getNeighbourPreservedRobots(robot, neighbour_robots, v);
+
   Robot temp(robot);
-  temp.setSpeedDirection(gradientSpeed);
+  temp.setSpeedDirection(directedSpeed);
 
   double calc_min =
       std::min({ maximumDistanceConstraint(temp, neighbourhood_preserved_robots, v),
@@ -164,27 +183,24 @@ Vector_t getConstrainedDirectedSpeed(const Robot& robot, ValidatedGraphs& vg, co
                  obstacleAvoidanceConstraint(temp, detected_obstacles, v, 0.0),
                  LOSPreservationConstraint(temp, detected_obstacles, v, neighbourhood_preserved_robots), MAX_SPEED });
 
-  calc_min = std::max({ calc_min, 0.00001 });
+  calc_min = std::max({ calc_min, EQUALITY_CASE });
 
-  if (calc_min < 0.0)
-  {
-    std::cout << "Minimum speed is negative" << std::endl;
-  }
-
-  if (getVectorLength(gradientSpeed) > calc_min)
-  {
-    return calc_min * gradientSpeed / getVectorLength(gradientSpeed);
-  }
-  else
-  {
-    return gradientSpeed;
-  }
+  return calc_min;
+//  if (getVectorLength(directedSpeed) > calc_min)
+//  {
+//    return calc_min * directedSpeed / getVectorLength(directedSpeed);
+//  }
+//  else
+//  {
+//    return directedSpeed;
+//  }
 }
 
 double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const ValidatedVariables& vv)
 {
-  double MAX_SPEED;
+  double MAX_SPEED, EQUALITY_CASE;
   vv.getParam("robot_max_speed", MAX_SPEED);
+  vv.getParam("equality_case", EQUALITY_CASE);
   Variables v = Variables(vv);
   ObstacleGraph detected_obstacles = getDetectedObstacles(robot, vg.getObstacleGraph(), v);
   RobotGraph detected_robots = getDetectedRobots(robot, vg.getRobotGraph(), detected_obstacles, v);
@@ -201,12 +217,7 @@ double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const 
                                LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots),
                                MAX_SPEED * (1.0 / 3.0) });
 
-  calc_min = std::max({ calc_min, 0.00001 });
-
-  if (calc_min < 0.0)
-  {
-    std::cout << "Minimum speed is negative" << std::endl;
-  }
+  calc_min = std::max({ calc_min, EQUALITY_CASE });
 
   return calc_min;
 }

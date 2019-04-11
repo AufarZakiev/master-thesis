@@ -187,22 +187,35 @@ void ValidatedGraphs::leavePreservedEdges(const ValidatedVariables& vv)
 
 void ValidatedGraphs::tick(const RobotDesc leaderDesc, const Vector_t& leaderDirection, const ValidatedVariables& vv)
 {
+  double EQUALITY_CASE;
+  vv.getParam("equality_case", EQUALITY_CASE);
   for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
   {
     this->leavePreservedEdges(vv);
     if (i == leaderDesc)
     {
-      (*validatedRobotGraph)[i].setSpeedDirection(leaderDirection *
-                                                  getConstrainedLeaderSpeed((*validatedRobotGraph)[i], *this, vv));
+      double magnitude = getConstrainedLeaderSpeed((*validatedRobotGraph)[i], *this, vv);
+      (*validatedRobotGraph)[i].setSpeedDirection(leaderDirection * magnitude);
+
+      if (magnitude > EQUALITY_CASE)
+      {
+        (*validatedRobotGraph)[i].updatePosition();
+      }
     }
     else
     {
-      (*validatedRobotGraph)[i].setSpeedDirection(getConstrainedDirectedSpeed((*validatedRobotGraph)[i], *this, vv));
+      Vector_t speed = getFollowerDirectedSpeed((*validatedRobotGraph)[i], *this, vv);
+      double constraint = getConstrainedFollowerSpeed((*validatedRobotGraph)[i], *this, speed, vv);
+      if (getVectorLength(speed) > constraint)
+      {
+        speed = constraint * speed / getVectorLength(speed);
+      }
+      (*validatedRobotGraph)[i].setSpeedDirection(speed);
+
+      if (constraint > EQUALITY_CASE)
+      {
+        (*validatedRobotGraph)[i].updatePosition();
+      }
     }
-    (*validatedRobotGraph)[i].updatePosition();
   }
-  //  for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
-  //  {
-  //
-  //  }
-};
+}

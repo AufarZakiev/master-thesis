@@ -6,7 +6,7 @@ Variables::Variables()
 {
   storage.insert(std::pair("los_clearance_distance", std::nullopt));       // d_l
   storage.insert(std::pair("los_clearance_care_distance", std::nullopt));  // d_lr
-  storage.insert(std::pair("small_positive_constant", 0.2f));
+  storage.insert(std::pair("small_positive_constant", 0.2));
   storage.insert(std::pair("robots_avoidance_distance", std::nullopt));     // d_c
   storage.insert(std::pair("desired_distance", std::nullopt));              // d_r
   storage.insert(std::pair("neighbourhood_distance", std::nullopt));        // d_n
@@ -18,8 +18,8 @@ Variables::Variables()
   // distance on that potential
   // function of obstacle avoidance
   // starts to increase
-  storage.insert(std::pair("derivative_epsilon", 0.01f));
-  storage.insert(std::pair("equality_case", 0.00001f));  // for checking numbers for equality
+  storage.insert(std::pair("derivative_epsilon", 0.01));
+  storage.insert(std::pair("equality_case", 0.00001));  // for checking numbers for equality
   storage.insert(std::pair("k1", std::nullopt));         // design parameters in collision potential function
   storage.insert(std::pair("k2", std::nullopt));         // design parameters in collision potential function
   storage.insert(std::pair("c1", std::nullopt));  // design weights of potential functions - interrobot collisions

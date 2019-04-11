@@ -40,7 +40,8 @@ double LOSPreservePotential(const Robot& position, const RobotGraph& neighbourho
       getVectorLength(getProjectionPhi(
           getRelativePosition(closestObstacleToLOS(position, j_star, detected_obstacle_graph_in_D_space).first,
                               position),
-          getRelativePosition(j_star, position))),
+          getRelativePosition(j_star, position))) -
+          closestObstacleToLOS(position, j_star, detected_obstacle_graph_in_D_space).first.getRadius(),
       v);
 }
 
