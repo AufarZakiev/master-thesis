@@ -1,8 +1,8 @@
 #include "../include/headers/helper_functions.h"
 #include "../include/headers/field_functions.h"
 
-std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
-                                                 const ObstacleGraph& detected_obstacle_graph_in_D_set)
+std::pair<Obstacle, double> getClosestObstacleToLOS(const Robot& i, const Robot& j,
+                                                    const ObstacleGraph& detected_obstacle_graph_in_D_set)
 {
   Vector_t ji = getRelativePosition(i, j);
   auto min = std::numeric_limits<double>::max();
@@ -24,13 +24,13 @@ std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
 Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
                      const ObstacleGraph& detected_obstacle_graph_in_D_set)
 {
-  auto min = closestObstacleToLOS(i, robots_near_preserved[0], detected_obstacle_graph_in_D_set);
+  auto min = getClosestObstacleToLOS(i, robots_near_preserved[0], detected_obstacle_graph_in_D_set);
   size_t min_id = 0;
   for (size_t id = 0; id < boost::num_vertices(detected_obstacle_graph_in_D_set); ++id)
   {
-    if (closestObstacleToLOS(i, robots_near_preserved[id], detected_obstacle_graph_in_D_set).second < min.second)
+    if (getClosestObstacleToLOS(i, robots_near_preserved[id], detected_obstacle_graph_in_D_set).second < min.second)
     {
-      min = closestObstacleToLOS(i, robots_near_preserved[id], detected_obstacle_graph_in_D_set);
+      min = getClosestObstacleToLOS(i, robots_near_preserved[id], detected_obstacle_graph_in_D_set);
       min_id = id;
     }
   }

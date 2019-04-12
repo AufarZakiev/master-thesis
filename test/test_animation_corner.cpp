@@ -19,9 +19,9 @@ TEST(obstacleCornerAnimation1, ShouldPass)
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 3.0);
-  v.setParam("c2", 0.05);
-  v.setParam("c3", 0.05);
+  v.setParam("c1", 5.0);
+  v.setParam("c2", 0.5);
+  v.setParam("c3", 0.25);
   v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
@@ -65,7 +65,7 @@ TEST(obstacleCornerAnimation1, ShouldPass)
   auto leaderV = Vector_t(sqrt(2), sqrt(2));
   boost::filesystem::create_directories("obstacleCornerAnimation1");
 
-  for (int i = 0; i < 1200; i++)
+  for (int i = 0; i <= 1200; i++)
   {
     if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 39)
     {
@@ -80,7 +80,7 @@ TEST(obstacleCornerAnimation1, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "\tIteration " << i << " ends in " << elapsed_seconds << std::endl;
 
-    if (i % 100 == 0)
+    if (i % 200 == 0)
     {
       printPlotWithArrows("obstacleCornerAnimation1/obstacleCornerAnimation1_0_90_" + std::to_string(i) + ".png",
                           "obstacleCornerAnimation1", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
@@ -104,9 +104,9 @@ TEST(obstacleCornerAnimation2, ShouldPass)
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 1.0);
-  v.setParam("c2", 0.25);
-  v.setParam("c3", 0.05);
+  v.setParam("c1", 5.0);
+  v.setParam("c2", 0.5);
+  v.setParam("c3", 0.25);
   v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
@@ -279,9 +279,9 @@ TEST(obstacleCornerAnimation4, ShouldPass)
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 1.0);
-  v.setParam("c2", 0.5);
-  v.setParam("c3", 0.05);
+  v.setParam("c1", 5.0);
+  v.setParam("c2", 0.75);
+  v.setParam("c3", 0.5);
   v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
@@ -379,9 +379,9 @@ TEST(obstacleCornerAnimation5, ShouldPass)
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 0.5);
-  v.setParam("c2", 0.01);
-  v.setParam("c3", 0.01);
+  v.setParam("c1", 5.0);
+  v.setParam("c2", 0.75);
+  v.setParam("c3", 0.5);
   v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
@@ -488,9 +488,9 @@ TEST(obstacleCornerAnimation6, ShouldPass)
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
-  v.setParam("c1", 1.0);
-  v.setParam("c2", 0.5);
-  v.setParam("c3", 0.05);
+  v.setParam("c1", 5.0);
+  v.setParam("c2", 0.75);
+  v.setParam("c3", 0.5);
   v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
@@ -513,17 +513,17 @@ TEST(obstacleCornerAnimation6, ShouldPass)
   auto og = std::make_unique<ObstacleGraph>();
   for (int i = 5; i < 21; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 3.0), *og);
-    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 3.0), *og);
+    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 5.0), *og);
+    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 5.0), *og);
   }
   for (int i = 21; i < 31; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 3.0), *og);
+    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 5.0), *og);
   }
   for (int i = 0; i < 16; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(29 - i, 39 + i), 3.0), *og);
-    boost::add_vertex(Obstacle(Position_t(49 - i, 39 + i), 3.0), *og);
+    boost::add_vertex(Obstacle(Position_t(29 - i, 39 + i), 5.0), *og);
+    boost::add_vertex(Obstacle(Position_t(49 - i, 39 + i), 5.0), *og);
   }
   for (int i = 0; i < 16; i += 1)
   {

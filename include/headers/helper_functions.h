@@ -8,8 +8,8 @@
 
 void getNotifiedParam(ros::NodeHandle& n_, const std::string& param_name, Variables& v);
 
-std::pair<Obstacle, double> closestObstacleToLOS(const Robot& i, const Robot& j,
-                                                 const ObstacleGraph& detected_obstacle_graph_in_D_set);
+std::pair<Obstacle, double> getClosestObstacleToLOS(const Robot& i, const Robot& j,
+                                                    const ObstacleGraph& detected_obstacle_graph_in_D_set);
 
 Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
                      const ObstacleGraph& detected_obstacle_graph_in_D_set);

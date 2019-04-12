@@ -36,12 +36,11 @@ double LOSPreservePotential(const Robot& position, const RobotGraph& neighbourho
     return 0;
   }
   Robot j_star = j_star_compute(position, neighbourhood_robots, detected_obstacle_graph_in_D_space);
+  auto closestObstacleToLOS = getClosestObstacleToLOS(position, j_star, detected_obstacle_graph_in_D_space).first;
   return partialLOSPreservePotential(
-      getVectorLength(getProjectionPhi(
-          getRelativePosition(closestObstacleToLOS(position, j_star, detected_obstacle_graph_in_D_space).first,
-                              position),
-          getRelativePosition(j_star, position))) -
-          closestObstacleToLOS(position, j_star, detected_obstacle_graph_in_D_space).first.getRadius(),
+      getVectorLength(getProjectionPhi(getRelativePosition(closestObstacleToLOS, position),
+                                       getRelativePosition(j_star, position))) -
+          closestObstacleToLOS.getRadius(),
       v);
 }
 
