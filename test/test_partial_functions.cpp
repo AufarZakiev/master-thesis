@@ -70,7 +70,7 @@ TEST(partialObstacleCollisionPotentialTest, ShouldPass)
   // Plot line from given x and y data. Color is selected automatically.
   plt::named_plot("Phi Obstacle", x, y);
   // Set x-axis to interval [0,1000000]
-  plt::xlim(0.0, 0.5);
+  plt::xlim(0.0, 10.5);
   plt::ylim(0, 10);
   // Enable legend.
   plt::legend();
