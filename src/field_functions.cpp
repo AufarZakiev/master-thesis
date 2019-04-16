@@ -26,7 +26,7 @@ double LOSPreservePotential(const Robot& position, const RobotGraph& neighbourho
     {
       if (!isObjectInDSpace(detected_obstacle_graph[id], position, neighbourhood_robots[id_neighbour]))
       {
-        break;
+        continue;
       }
       boost::add_vertex(detected_obstacle_graph[id], detected_obstacle_graph_in_D_space);
     }

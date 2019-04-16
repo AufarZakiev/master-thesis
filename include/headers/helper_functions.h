@@ -67,7 +67,7 @@ void printPlot(const std::string& filename, const std::string& title, int rot_x_
   }
 
   Gnuplot gp;
-  gp << "set term png\n";
+  gp << "set term png size 960, 960\n";
   gp << "set output \"";
   gp << filename.c_str();
   gp << "\"\n";
@@ -95,6 +95,14 @@ void printPlot(const std::string& filename, const std::string& title, int rot_x_
     auto obstacle = og[i];
     gp << "set object " << i + 1 << " circle at " << obstacle.getPosition()(0, 0) << "," << obstacle.getPosition()(1, 0)
        << "," << 99 << " radius " << obstacle.getRadius() << " fs empty border lc \"black\" lw 2 front\n";
+  }
+
+  auto rg = std::get<0>(std::forward_as_tuple(args...));
+  for (size_t i = 0; i < boost::num_vertices(rg); i++)
+  {
+    auto robot = rg[i];
+    gp << "set object " << boost::num_vertices(og) + i + 1 << " circle at " << robot.getPosition()(0, 0) << "," << robot.getPosition()(1, 0)
+       << "," << 99 << " radius " << 0.1 << " fs empty border lc \"black\" lw 3 front\n";
   }
   gp << "splot [0:15] [0:15] '-' \n";
   gp.send2d(frame);
