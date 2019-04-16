@@ -26,7 +26,7 @@ Robot j_star_compute(const Robot& i, const RobotGraph& robots_near_preserved,
 {
   auto min = getClosestObstacleToLOS(i, robots_near_preserved[0], detected_obstacle_graph_in_D_set);
   size_t min_id = 0;
-  for (size_t id = 0; id < boost::num_vertices(detected_obstacle_graph_in_D_set); ++id)
+  for (size_t id = 0; id < boost::num_vertices(robots_near_preserved); ++id)
   {
     if (getClosestObstacleToLOS(i, robots_near_preserved[id], detected_obstacle_graph_in_D_set).second < min.second)
     {
