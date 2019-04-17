@@ -151,26 +151,22 @@ TEST(ObstaclePotentialTest_two_obstacle_interfere, ShouldPass)
 TEST(LOSPotentialTest_obstacle, ShouldPass)
 {
   Variables v = Variables();
-  v.setParam("los_clearance_care_distance", 0.4);
-  v.setParam("los_clearance_distance", 0.2);
+  v.setParam("los_clearance_care_distance", 6.5);
+  v.setParam("los_clearance_distance", 0.5);
   v.setParam("small_positive_constant", 0.2);
-  v.setParam("obstacle_care_distance", 3.0);
-  v.setParam("obstacles_avoidance_distance", 1.5);
 
   Obstacle o1(Position_t(7.5, 7.5), 1.5);
   ObstacleGraph og;
   boost::add_vertex(o1, og);
 
-  Robot r1(Position_t(12.0, 3.0), 0);
-  // Robot r2(Position_t(12.0, 3.0), 1);
+  Robot r1(Position_t(9.6, 6.0), 0);
+  Robot r2(Position_t(9.6, 9.0), 1);
   RobotGraph rg;
-  boost::add_vertex(r1, rg);
-  // boost::add_vertex(r2, rg);
+  //boost::add_vertex(r1, rg);
+  boost::add_vertex(r2, rg);
 
-  printPlot("LOS fields.png", "LOS preservation field", 45, 25, std::function(&LOSPreservePotential), rg, og, v);
+  printPlot("LOS fields.png", "LOS preservation field", 45, 115, std::function(&LOSPreservePotential), rg, og, v);
   printPlot("LOS fields_0_90.png", "LOS preservation field", 0, 90, std::function(&LOSPreservePotential), rg, og, v);
-  printPlot("LOS fields 2 robots.png", "LOS preservation field", 45, 25, std::function(&LOSPreservePotential), rg, og,
-            v);
 }
 
 TEST(overallPotentialTest, ShouldPass)
