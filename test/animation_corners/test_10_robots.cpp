@@ -4,7 +4,7 @@
 #include <boost/filesystem.hpp>
 #include <chrono>
 
-TEST(straight_8_robots_1, ShouldPass)
+TEST(corners_10_robots_1, ShouldPass)
 {
   Variables v = Variables();
   v.setParam("robots_avoidance_distance", 3.0);
@@ -32,8 +32,10 @@ TEST(straight_8_robots_1, ShouldPass)
   Robot r4(Position_t(11.0, 3.0), 3);
   Robot r5(Position_t(1.0, 8.0), 4);
   Robot r6(Position_t(8.0, 0.0), 5);
-  Robot r7(Position_t(3.0, 11.0), 6);
-  Robot r8(Position_t(20.0, 3.0), 7);
+  Robot r7(Position_t(8.0, 15.0), 6);
+  Robot r8(Position_t(15.0, 8.0), 7);
+  Robot r9(Position_t(2.5, 0.0), 8);
+  Robot r10(Position_t(0.0, 2.5), 9);
 
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
@@ -44,21 +46,61 @@ TEST(straight_8_robots_1, ShouldPass)
   boost::add_vertex(r6, *rg);
   boost::add_vertex(r7, *rg);
   boost::add_vertex(r8, *rg);
+  boost::add_vertex(r9, *rg);
+  boost::add_vertex(r10, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  for (int i = 20; i < 36; i += 1)
+  for (int i = 0; i < 8; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(6 + i, 20 + i), 7.0), *og);
-    boost::add_vertex(Obstacle(Position_t(20 + i, 6 + i), 7.0), *og);
+    boost::add_vertex(Obstacle(Position_t(23, 5 + i), 3.0), *og);
+    boost::add_vertex(Obstacle(Position_t(5 + i, 23), 3.0), *og);
+  }
+  for (int i = 5; i < 21; i += 1)
+  {
+    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 3.0), *og);
+    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 3.0), *og);
+  }
+  for (int i = 21; i < 31; i += 1)
+  {
+    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 3.0), *og);
+  }
+  for (int i = 0; i < 16; i += 1)
+  {
+    boost::add_vertex(Obstacle(Position_t(29 - i, 39 + i), 3.0), *og);
+    boost::add_vertex(Obstacle(Position_t(49 - i, 39 + i), 3.0), *og);
+  }
+  for (int i = 0; i < 16; i += 1)
+  {
+    boost::add_vertex(Obstacle(Position_t(14, 54 + i), 3.0), *og);
+  }
+  for (int i = 0; i < 30; i += 1)
+  {
+    boost::add_vertex(Obstacle(Position_t(14 + i * sqrt(2), 69), 3.0), *og);
+    boost::add_vertex(Obstacle(Position_t(34 + i * sqrt(2), 54), 3.0), *og);
   }
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
   auto leaderV = Vector_t(sqrt(2), sqrt(2));
-  boost::filesystem::create_directories("straight_8_robots_1");
+  boost::filesystem::create_directories("corners_10_robots_1");
 
-  for (int i = 0; i <= 1500; i++)
+  for (int i = 0; i < 2500; i++)
   {
+    if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 39)
+    {
+      leaderV = Vector_t(-sqrt(2), sqrt(2));
+    }
+
+    if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 54)
+    {
+      leaderV = Vector_t(0, 1);
+    }
+
+    if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 61)
+    {
+      leaderV = Vector_t(1, 0);
+    }
+
     std::cout << "\tIteration " << i << " starts." << std::endl;
     auto start = std::chrono::system_clock::now();
 
@@ -68,10 +110,10 @@ TEST(straight_8_robots_1, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "\tIteration " << i << " ends in " << elapsed_seconds << std::endl;
 
-    if (i % 100 == 0)
+    if (i % 200 == 0)
     {
-      printPlotWithArrows("straight_8_robots_1/straight_8_robots_1_" + std::to_string(i) + ".png",
-                          "straight_8_robots_1", 0, 90, 2, vg.getRobotGraph(), std::function(&overallPotential),
+      printPlotWithArrows("corners_10_robots_1/corners_10_robots_1_" + std::to_string(i) + ".png",
+                          "corners_10_robots_1", 0, 90, 1, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }
   }

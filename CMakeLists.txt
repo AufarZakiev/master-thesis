@@ -222,12 +222,41 @@ catkin_add_gtest(multiple-turtlebots-test-fields test/test_field_functions.cpp s
 catkin_add_gtest(multiple-turtlebots-test-functions test/test_partial_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
 catkin_add_gtest(multiple-turtlebots-test-helper-functions test/test_helper_functions.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
 catkin_add_gtest(multiple-turtlebots-test-speed-constraints test/test_speed_constraints.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
-catkin_add_gtest(multiple-turtlebots-test-animation test/test_animation.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
-catkin_add_gtest(multiple-turtlebots-test-animation-corner test/test_animation_corner.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
+catkin_add_gtest(multiple-turtlebots-test-animation-straight-4 test/animation_straight/test_4_robots.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
+catkin_add_gtest(multiple-turtlebots-test-animation-straight-8 test/animation_straight/test_8_robots.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
+catkin_add_gtest(multiple-turtlebots-test-animation-straight-follow test/animation_straight/test_follow.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
+catkin_add_gtest(multiple-turtlebots-test-animation-corners-4 test/animation_corners/test_4_robots.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
+catkin_add_gtest(multiple-turtlebots-test-animation-corners-8 test/animation_corners/test_8_robots.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
+catkin_add_gtest(multiple-turtlebots-test-animation-corners-12 test/animation_corners/test_10_robots.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
 
-if (TARGET multiple-turtlebots-test-animation-corner)
+if (TARGET multiple-turtlebots-test-animation-corners-12)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
-    target_link_libraries(multiple-turtlebots-test-animation-corner ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
+    target_link_libraries(multiple-turtlebots-test-animation-corners-12 ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
+endif ()
+
+if (TARGET multiple-turtlebots-test-animation-corners-8)
+    include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+    target_link_libraries(multiple-turtlebots-test-animation-corners-8 ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
+endif ()
+
+if (TARGET multiple-turtlebots-test-animation-corners-4)
+    include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+    target_link_libraries(multiple-turtlebots-test-animation-corners-4 ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
+endif ()
+
+if (TARGET multiple-turtlebots-test-animation-straight-follow)
+    include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+    target_link_libraries(multiple-turtlebots-test-animation-straight-follow ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
+endif ()
+
+if (TARGET multiple-turtlebots-test-animation-straight-8)
+    include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+    target_link_libraries(multiple-turtlebots-test-animation-straight-8 ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
+endif ()
+
+if (TARGET multiple-turtlebots-test-animation-straight-4)
+    include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+    target_link_libraries(multiple-turtlebots-test-animation-straight-4 ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
 endif ()
 
 if (TARGET multiple-turtlebots-test)
@@ -253,11 +282,6 @@ endif ()
 if (TARGET multiple-turtlebots-test-speed-constraints)
     include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
     target_link_libraries(multiple-turtlebots-test-speed-constraints ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
-endif ()
-
-if (TARGET multiple-turtlebots-test-animation)
-    include_directories(${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
-    target_link_libraries(multiple-turtlebots-test-animation ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} gmock)
 endif ()
 
 ## Add folders to be run by python nosetests
