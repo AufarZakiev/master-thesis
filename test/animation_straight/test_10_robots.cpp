@@ -15,7 +15,7 @@ TEST(straight_10_robots_1, ShouldPass)
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 6.5);
   v.setParam("desired_distance", 6.5);
-  v.setParam("sensing_distance", 20.0);
+  v.setParam("sensing_distance", 10.5);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
@@ -92,7 +92,7 @@ TEST(straight_10_robots_2, ShouldPass)
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 6.5);
   v.setParam("desired_distance", 6.5);
-  v.setParam("sensing_distance", 20.0);
+  v.setParam("sensing_distance", 10.5);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
@@ -138,8 +138,13 @@ TEST(straight_10_robots_2, ShouldPass)
   auto leaderV = Vector_t(sqrt(2), sqrt(2));
   boost::filesystem::create_directories("straight_10_robots_2");
 
-  for (int i = 0; i <= 1500; i++)
+  for (int i = 0; i <= 3000; i++)
   {
+    if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 59)
+    {
+      leaderV = Vector_t(0, 1);
+    }
+
     std::cout << "\tIteration " << i << " starts." << std::endl;
     auto start = std::chrono::system_clock::now();
 
@@ -151,7 +156,7 @@ TEST(straight_10_robots_2, ShouldPass)
 
     if (i % 200 == 0)
     {
-      printPlotWithArrows("straight_10_robots_2/straight_10_robots_2_" + std::to_string(i) + ".png",
+      printWidePlotWithArrows("straight_10_robots_2/straight_10_robots_2_" + std::to_string(i) + ".png",
                           "straight_10_robots_2", 0, 90, 2, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }
@@ -169,7 +174,7 @@ TEST(straight_10_robots_3, ShouldPass)
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 6.5);
   v.setParam("desired_distance", 6.5);
-  v.setParam("sensing_distance", 20.0);
+  v.setParam("sensing_distance", 10.5);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
@@ -246,7 +251,7 @@ TEST(straight_10_robots_4, ShouldPass)
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 6.5);
   v.setParam("desired_distance", 6.5);
-  v.setParam("sensing_distance", 20.0);
+  v.setParam("sensing_distance", 10.5);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
@@ -292,8 +297,13 @@ TEST(straight_10_robots_4, ShouldPass)
   auto leaderV = Vector_t(sqrt(2), sqrt(2));
   boost::filesystem::create_directories("straight_10_robots_4");
 
-  for (int i = 0; i <= 1500; i++)
+  for (int i = 0; i <= 3000; i++)
   {
+    if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 59)
+    {
+      leaderV = Vector_t(0, 1);
+    }
+
     std::cout << "\tIteration " << i << " starts." << std::endl;
     auto start = std::chrono::system_clock::now();
 
@@ -305,7 +315,7 @@ TEST(straight_10_robots_4, ShouldPass)
 
     if (i % 200 == 0)
     {
-      printPlotWithArrows("straight_10_robots_4/straight_10_robots_4_" + std::to_string(i) + ".png",
+      printWidePlotWithArrows("straight_10_robots_4/straight_10_robots_4_" + std::to_string(i) + ".png",
                           "straight_10_robots_4", 0, 90, 2, vg.getRobotGraph(), std::function(&overallPotential),
                           vg.getRobotGraph(), vg.getObstacleGraph(), v);
     }

@@ -15,7 +15,7 @@ TEST(corners_4_robots_1, ShouldPass)
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 6.5);
   v.setParam("desired_distance", 6.5);
-  v.setParam("sensing_distance", 20.0);
+  v.setParam("sensing_distance", 10.5);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
@@ -100,7 +100,7 @@ TEST(corners_4_robots_2, ShouldPass)
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 6.5);
   v.setParam("desired_distance", 6.5);
-  v.setParam("sensing_distance", 20.0);
+  v.setParam("sensing_distance", 10.5);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
