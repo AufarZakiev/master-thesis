@@ -62,8 +62,8 @@ TEST(obstacleAvoidanceConstraint, ShouldPass)
   boost::add_vertex(o1, og);
   boost::add_vertex(o2, og);
 
-  EXPECT_LT(obstacleAvoidanceConstraint(r0, og, v, 0), 2.9);
-  EXPECT_GT(obstacleAvoidanceConstraint(r0, og, v, 0), 2.8);
+  EXPECT_LT(obstacleAvoidanceConstraint(r0, og, v), 2.9);
+  EXPECT_GT(obstacleAvoidanceConstraint(r0, og, v), 2.8);
 }
 
 TEST(LOSPreservationConstraint, ShouldPass)

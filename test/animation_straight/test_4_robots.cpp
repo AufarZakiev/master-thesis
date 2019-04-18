@@ -15,7 +15,7 @@ TEST(straight_4_robots_1, ShouldPass)
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 6.5);
   v.setParam("desired_distance", 6.5);
-  v.setParam("sensing_distance", 20.0);
+  v.setParam("sensing_distance", 10.5);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
@@ -40,7 +40,7 @@ TEST(straight_4_robots_1, ShouldPass)
   boost::add_vertex(r4, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  for (int i = 5; i < 21; i += 1)
+  for (int i = 0; i < 16; i += 1)
   {
     boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 0.1), *og);
     boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 0.1), *og);
@@ -82,7 +82,7 @@ TEST(straight_4_robots_2, ShouldPass)
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 6.5);
   v.setParam("desired_distance", 6.5);
-  v.setParam("sensing_distance", 20.0);
+  v.setParam("sensing_distance", 10.5);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
@@ -107,7 +107,7 @@ TEST(straight_4_robots_2, ShouldPass)
   boost::add_vertex(r4, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  for (int i = 5; i < 21; i += 1)
+  for (int i = 0; i < 16; i += 1)
   {
     boost::add_vertex(Obstacle(Position_t(10 + i, 16 + i), 0.1), *og);
     boost::add_vertex(Obstacle(Position_t(16 + i, 10 + i), 0.1), *og);
@@ -149,7 +149,7 @@ TEST(straight_4_robots_3, ShouldPass)
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 6.5);
   v.setParam("desired_distance", 6.5);
-  v.setParam("sensing_distance", 20.0);
+  v.setParam("sensing_distance", 10.5);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
@@ -174,7 +174,7 @@ TEST(straight_4_robots_3, ShouldPass)
   boost::add_vertex(r4, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  for (int i = 5; i < 21; i += 1)
+  for (int i = 0; i < 16; i += 1)
   {
     boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 5.2), *og);
     boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 5.2), *og);
@@ -216,7 +216,7 @@ TEST(straight_4_robots_4, ShouldPass)
   v.setParam("edge_deletion_distance", 2.5);
   v.setParam("obstacle_care_distance", 6.5);
   v.setParam("desired_distance", 6.5);
-  v.setParam("sensing_distance", 20.0);
+  v.setParam("sensing_distance", 10.5);
   v.setParam("robot_max_speed", 0.1);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
@@ -241,7 +241,7 @@ TEST(straight_4_robots_4, ShouldPass)
   boost::add_vertex(r4, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  for (int i = 5; i < 41; i += 1)
+  for (int i = 0; i < 36; i += 1)
   {
     boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 5.2), *og);
     boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 5.2), *og);

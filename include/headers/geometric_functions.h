@@ -26,9 +26,9 @@ Vector_t getProjectionPhi(const Vector_t& p,
                           const Vector_t& q);  // get projection of vector p on the line orthogonal to q
 bool isEdgeInGraph(const Robot& i, const Robot& j,
                    const RobotGraph& rg);  // Check if the edge with vertices i,j exists in graph rg
-bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m, const RobotGraph& rg,
+bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m,
                     const Variables& v);  // check if (i,j,m) forms T set
-bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const RobotGraph& rg,
+bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m,
                           const Variables& v);  // check if (i,j,m) forms T-dash set
 
 #endif  // MULTIPLE_TURTLEBOTS_GEOMETRIC_FUNCTIONS_H

@@ -51,8 +51,8 @@ bool isEdgePreserved(const Robot& i, const Robot& j, const RobotGraph& robots, c
   {
     if (robots[id].getRobotID() != i.getRobotID() && robots[id].getRobotID() != j.getRobotID())
     {
-      if (isObjectInTSet(i, j, robots[id], robots, v) || isObjectInTSet(j, i, robots[id], robots, v) ||
-          isObjectInDashedTSet(i, j, robots[id], robots, v) || isObjectInDashedTSet(j, i, robots[id], robots, v))
+      if (isObjectInTSet(i, j, robots[id], v) || isObjectInTSet(j, i, robots[id], v) ||
+          isObjectInDashedTSet(i, j, robots[id], v) || isObjectInDashedTSet(j, i, robots[id], v))
         return false;
     }
   }
@@ -116,7 +116,7 @@ double angleBetweenVectorsInRadians(const Vector_t& v1, const Vector_t& v2)
   return alpha;
 }
 
-bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m, const RobotGraph& rg,
+bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m,
                     const Variables& v)  // three objects to check and graph with edges chosen to be saved
 {
   // check if (i,j,m) forms T set
@@ -134,7 +134,7 @@ bool isObjectInTSet(const Robot& i, const Robot& j, const Robot& m, const RobotG
          isMPointInDSpace;  // && areAllRobotsInGraph;
 }
 
-bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const RobotGraph& rg, const Variables& v)
+bool isObjectInDashedTSet(const Robot& i, const Robot& j, const Robot& m, const Variables& v)
 {
   Vector_t mi = getRelativePosition(i, m);
   Vector_t im = getRelativePosition(m, i);

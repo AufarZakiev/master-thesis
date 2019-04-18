@@ -61,8 +61,8 @@ double interrobotAvoidanceConstraint(const Robot& robot, const RobotGraph& detec
   }
 };
 
-double obstacleAvoidanceConstraint(const Robot& i, const ObstacleGraph& detected_obstacles, const Variables& v,
-                                   double discretization)  // TODO: change for non-circular obstacles
+double obstacleAvoidanceConstraint(const Robot& i, const ObstacleGraph& detected_obstacles,
+                                   const Variables& v)  // TODO: change for non-circular obstacles
 {
   double OBS_AVOIDANCE_DISTANCE;
   v.getParam("obstacles_avoidance_distance", OBS_AVOIDANCE_DISTANCE);
@@ -180,7 +180,7 @@ double getConstrainedFollowerSpeed(const Robot& robot, ValidatedGraphs& vg, cons
       std::min({ maximumDistanceConstraint(temp, neighbourhood_preserved_robots, v),
                  maximumDistanceConstraint2(temp, neighbourhood_preserved_robots),
                  interrobotAvoidanceConstraint(temp, detected_robots, v),
-                 obstacleAvoidanceConstraint(temp, detected_obstacles, v, 0.0),
+                 obstacleAvoidanceConstraint(temp, detected_obstacles, v),
                  LOSPreservationConstraint(temp, detected_obstacles, v, neighbourhood_preserved_robots), MAX_SPEED });
 
   calc_min = std::max({ calc_min, EQUALITY_CASE });
@@ -213,7 +213,7 @@ double getConstrainedLeaderSpeed(const Robot& robot, ValidatedGraphs& vg, const 
   double calc_min = std::min({ maximumDistanceConstraint(robot, neighbourhood_preserved_robots, v),
                                maximumDistanceConstraint2(robot, neighbourhood_preserved_robots),
                                interrobotAvoidanceConstraint(robot, detected_robots, v),
-                               obstacleAvoidanceConstraint(robot, detected_obstacles, v, 0.0),
+                               obstacleAvoidanceConstraint(robot, detected_obstacles, v),
                                LOSPreservationConstraint(robot, detected_obstacles, v, neighbourhood_preserved_robots),
                                MAX_SPEED * (1.0 / 3.0) });
 

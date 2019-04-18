@@ -11,8 +11,7 @@ double maximumDistanceConstraint2(const Robot& robot, const RobotGraph& neighbou
 
 double interrobotAvoidanceConstraint(const Robot& robot, const RobotGraph& detected_robots, const Variables& v);
 
-double obstacleAvoidanceConstraint(const Robot& i, const ObstacleGraph& detected_obstacles, const Variables& v,
-                                   double discretization);
+double obstacleAvoidanceConstraint(const Robot& i, const ObstacleGraph& detected_obstacles, const Variables& v);
 
 double LOSUnitPreservationConstraint(const Robot& i, const ObstacleGraph& closing_obstacles_in_front_in_D_space,
                                      const Variables& v, const RobotGraph& neighbourhood_preserved_robots);

@@ -16,7 +16,7 @@ Variables::Variables()
   storage.insert(std::pair("sensing_distance", std::nullopt));              // d_s
   storage.insert(std::pair("robot_max_speed", std::nullopt));               // u_max
   storage.insert(std::pair("derivative_epsilon", 0.01));
-  storage.insert(std::pair("equality_case", 0.000005));  // for checking numbers for equality
+  storage.insert(std::pair("equality_case", 0.0000001));  // for checking numbers for equality
   storage.insert(std::pair("k1", std::nullopt));         // design parameters in collision potential function
   storage.insert(std::pair("k2", std::nullopt));         // design parameters in collision potential function
   storage.insert(std::pair("c1", std::nullopt));  // design weights of potential functions - interrobot collisions

@@ -233,10 +233,10 @@ TEST(isObjectInTSetTest, ShouldPass)
   boost::add_vertex(j, rg);
   boost::add_vertex(m, rg);
 
-  EXPECT_EQ(true, isObjectInTSet(i, j, m, rg, v));
+  EXPECT_EQ(true, isObjectInTSet(i, j, m, v));
 
   m.setPosition(Vector_t(0.5, -0.5));
-  EXPECT_EQ(false, isObjectInTSet(i, j, m, rg, v));
+  EXPECT_EQ(false, isObjectInTSet(i, j, m, v));
 }
 
 TEST(isObjectInDashedTSetTest, ShouldPass)
@@ -254,13 +254,13 @@ TEST(isObjectInDashedTSetTest, ShouldPass)
   boost::add_vertex(j, rg);
   boost::add_vertex(m, rg);
 
-  EXPECT_EQ(true, isObjectInDashedTSet(i, j, m, rg, v));
+  EXPECT_EQ(true, isObjectInDashedTSet(i, j, m, v));
 
   m.setPosition(Vector_t(5, -12));
-  EXPECT_EQ(false, isObjectInDashedTSet(i, j, m, rg, v));
+  EXPECT_EQ(false, isObjectInDashedTSet(i, j, m, v));
 
   m.setPosition(Vector_t(5, 10));
-  EXPECT_EQ(false, isObjectInDashedTSet(i, j, m, rg, v));
+  EXPECT_EQ(false, isObjectInDashedTSet(i, j, m, v));
 }
 
 TEST(isEdgePreservedTest, ShouldPass)

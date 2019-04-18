@@ -189,7 +189,6 @@ void ValidatedGraphs::tick(const RobotDesc leaderDesc, const Vector_t& leaderDir
 {
   double EQUALITY_CASE;
   vv.getParam("equality_case", EQUALITY_CASE);
-  //  std::vector<size_t> updatePos;
   for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
   {
     this->leavePreservedEdges(vv);
@@ -219,8 +218,4 @@ void ValidatedGraphs::tick(const RobotDesc leaderDesc, const Vector_t& leaderDir
       }
     }
   }
-  //  for (auto& i : updatePos)
-  //  {
-  //    (*validatedRobotGraph)[i].updatePosition();
-  //  }
 }
