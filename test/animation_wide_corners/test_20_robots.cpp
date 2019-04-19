@@ -26,27 +26,27 @@ TEST(wide_corners_20_robots_1, ShouldPass)
 
   ValidatedVariables vv(v);
 
-  Robot r1(Position_t(28.0, 28.0), 0);
-  Robot r2(Position_t(18.0, 18.0), 1);
-  Robot r3(Position_t(21.0, 23.0), 2);
-  Robot r4(Position_t(26.0, 18.0), 3);
-  Robot r5(Position_t(16.0, 23.0), 4);
-  Robot r6(Position_t(23.0, 15.0), 5);
-  Robot r7(Position_t(23.0, 30.0), 6);
-  Robot r8(Position_t(30.0, 23.0), 7);
-  Robot r9(Position_t(17.5, 15.0), 8);
-  Robot r10(Position_t(15.0, 17.5), 9);
+  Robot r1(Position_t(28.0, 30.0), 0);
+  Robot r2(Position_t(26.0, 11.0), 1);
+  Robot r3(Position_t(31.0, 26.0), 2);
+  Robot r4(Position_t(25.0, 24.0), 3);
+  Robot r5(Position_t(25.0, 28.0), 4);
+  Robot r6(Position_t(20.0, 23.0), 5);
+  Robot r7(Position_t(25.0, 20.0), 6);
+  Robot r8(Position_t(30.0, 20.0), 7);
+  Robot r9(Position_t(22.5, 18.0), 8);
+  Robot r10(Position_t(27.5, 18.0), 9);
 
-  Robot r11(Position_t(2.0, 2.0), 10);
-  Robot r12(Position_t(12.0, 12.0), 11);
-  Robot r13(Position_t(9.0, 7.0), 12);
-  Robot r14(Position_t(4.0, 12.0), 13);
-  Robot r15(Position_t(14.0, 7.0), 14);
-  Robot r16(Position_t(7.0, 15.0), 15);
-  Robot r17(Position_t(7.0, 0.0), 16);
-  Robot r18(Position_t(0.0, 7.0), 17);
-  Robot r19(Position_t(12.5, 15.0), 18);
-  Robot r20(Position_t(15.0, 12.5), 19);
+  Robot r11(Position_t(18.0, 20.0), 10);
+  Robot r12(Position_t(15.0, 15.0), 11);
+  Robot r13(Position_t(19.0, 15.0), 12);
+  Robot r14(Position_t(15.0, 18.0), 13);
+  Robot r15(Position_t(25.0, 7.0), 14);
+  Robot r16(Position_t(10.0, 13.0), 15);
+  Robot r17(Position_t(15.0, 10.0), 16);
+  Robot r18(Position_t(20.0, 10.0), 17);
+  Robot r19(Position_t(12.5, 8.0), 18);
+  Robot r20(Position_t(27.5, 5.0), 19);
 
   auto rg = std::make_unique<RobotGraph>();
   auto r1_desc = boost::add_vertex(r1, *rg);
@@ -72,41 +72,48 @@ TEST(wide_corners_20_robots_1, ShouldPass)
   boost::add_vertex(r20, *rg);
 
   auto og = std::make_unique<ObstacleGraph>();
-  for (int i = 20; i < 41; i += 1)
+  for (int i = 0; i < 10; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(8 + i, 18 + i), 1.0), *og);
-    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(20 - i, 30 - i), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(35 + i, 30 - i), 1.0), *og);
   }
-  for (int i = 41; i < 51; i += 1)
+  for (int i = -10; i < 41; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(18 + i, 8 + i), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(20, 40 + i), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(35, 40 + i), 1.0), *og);
   }
   for (int i = 0; i < 16; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(49 - i, 59 + i), 1.0), *og);
-    boost::add_vertex(Obstacle(Position_t(69 - i, 59 + i), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(20, 80 + i), 1.0), *og);
+  }
+  for (int i = 0; i < 31; i += 1)
+  {
+    boost::add_vertex(Obstacle(Position_t(20 + i, 95), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(35 + i, 80), 1.0), *og);
   }
   for (int i = 0; i < 40; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(34, 74 + i), 1.0), *og);
-    boost::add_vertex(Obstacle(Position_t(54, 74 + i), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(50, 95 + i), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(65, 80 + i), 1.0), *og);
   }
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
-  auto leaderV = Vector_t(sqrt(2), sqrt(2));
+  auto leaderV = Vector_t(0, 1);
   boost::filesystem::create_directories("wide_corners_20_robots_1");
 
   for (int i = 0; i < 5000; i++)
   {
-    if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 59)
+    if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 87)
     {
-      leaderV = Vector_t(-sqrt(2), sqrt(2));
-    }
-
-    if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 74)
-    {
-      leaderV = Vector_t(0, 1);
+      if (vg.getRobotGraph()[r1_desc].getPosition()(0, 0) > 57)
+      {
+        leaderV = Vector_t(0, 1);
+      }
+      else
+      {
+        leaderV = Vector_t(1, 0);
+      }
     }
 
     std::cout << "\tIteration " << i << " starts." << std::endl;
@@ -118,7 +125,7 @@ TEST(wide_corners_20_robots_1, ShouldPass)
     int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "\tIteration " << i << " ends in " << elapsed_seconds << std::endl;
 
-    if (i % 200 == 0)
+    if (i % 50 == 0)
     {
       printWidePlotWithArrows("wide_corners_20_robots_1/wide_corners_20_robots_1_" + std::to_string(i) + ".png",
                               "wide_corners_20_robots_1", 0, 90, 1, vg.getRobotGraph(),

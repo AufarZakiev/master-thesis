@@ -150,7 +150,7 @@ include_directories(
 #add_executable(${ PROJECT_NAME } _node src / multiple_turtlebots_node.cpp)
 
 add_executable(map_union_node src/map_union.cpp)
-add_executable(follow_leader_node src/follow_leader.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/geometric_functions.cpp)
+add_executable(follow_leader_node src/follow_leader.cpp src/classes.cpp src/Variables.cpp src/helper_functions.cpp src/field_functions.cpp src/partial_functions.cpp src/geometric_functions.cpp src/speed_constraints.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
