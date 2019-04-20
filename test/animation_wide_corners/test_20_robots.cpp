@@ -38,9 +38,9 @@ TEST(wide_corners_20_robots_1, ShouldPass)
   Robot r10(Position_t(27.5, 18.0), 9);
 
   Robot r11(Position_t(18.0, 20.0), 10);
-  Robot r12(Position_t(15.0, 15.0), 11);
+  Robot r12(Position_t(30.0, 12.5), 11);
   Robot r13(Position_t(19.0, 15.0), 12);
-  Robot r14(Position_t(15.0, 18.0), 13);
+  Robot r14(Position_t(30.0, 16.0), 13);
   Robot r15(Position_t(25.0, 7.0), 14);
   Robot r16(Position_t(10.0, 13.0), 15);
   Robot r17(Position_t(15.0, 10.0), 16);
@@ -77,24 +77,24 @@ TEST(wide_corners_20_robots_1, ShouldPass)
     boost::add_vertex(Obstacle(Position_t(20 - i, 30 - i), 1.0), *og);
     boost::add_vertex(Obstacle(Position_t(35 + i, 30 - i), 1.0), *og);
   }
-  for (int i = -10; i < 41; i += 1)
+  for (int i = -10; i < 61; i += 1)
   {
     boost::add_vertex(Obstacle(Position_t(20, 40 + i), 1.0), *og);
     boost::add_vertex(Obstacle(Position_t(35, 40 + i), 1.0), *og);
   }
   for (int i = 0; i < 16; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(20, 80 + i), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(20, 100 + i), 1.0), *og);
   }
   for (int i = 0; i < 31; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(20 + i, 95), 1.0), *og);
-    boost::add_vertex(Obstacle(Position_t(35 + i, 80), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(20 + i, 115), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(35 + i, 100), 1.0), *og);
   }
   for (int i = 0; i < 40; i += 1)
   {
-    boost::add_vertex(Obstacle(Position_t(50, 95 + i), 1.0), *og);
-    boost::add_vertex(Obstacle(Position_t(65, 80 + i), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(50, 115 + i), 1.0), *og);
+    boost::add_vertex(Obstacle(Position_t(65, 100 + i), 1.0), *og);
   }
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
