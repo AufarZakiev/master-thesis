@@ -104,7 +104,7 @@ TEST(wide_corners_20_robots_1, ShouldPass)
 
   for (int i = 0; i < 5000; i++)
   {
-    if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 87)
+    if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 107)
     {
       if (vg.getRobotGraph()[r1_desc].getPosition()(0, 0) > 57)
       {

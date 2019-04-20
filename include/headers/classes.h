@@ -81,6 +81,7 @@ public:
   RobotGraph& getRobotGraph();
   ObstacleGraph& getObstacleGraph();
   void tick(const RobotDesc leaderDesc, const Vector_t& leaderDirection, const ValidatedVariables& vv);
+  void tickGazebo(const RobotDesc leaderDesc, const Vector_t& leaderDirection, const ValidatedVariables& vv);
 
 private:
   ValidatedGraphs() = default;
