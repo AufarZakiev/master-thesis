@@ -91,11 +91,6 @@ TEST(wide_corners_20_robots_1, ShouldPass)
     boost::add_vertex(Obstacle(Position_t(20 + i, 115), 1.0), *og);
     boost::add_vertex(Obstacle(Position_t(35 + i, 100), 1.0), *og);
   }
-  for (int i = 0; i < 40; i += 1)
-  {
-    boost::add_vertex(Obstacle(Position_t(50, 115 + i), 1.0), *og);
-    boost::add_vertex(Obstacle(Position_t(65, 100 + i), 1.0), *og);
-  }
 
   ValidatedGraphs vg(std::move(rg), std::move(og), vv);
 
@@ -106,14 +101,7 @@ TEST(wide_corners_20_robots_1, ShouldPass)
   {
     if (vg.getRobotGraph()[r1_desc].getPosition()(1, 0) > 107)
     {
-      if (vg.getRobotGraph()[r1_desc].getPosition()(0, 0) > 57)
-      {
-        leaderV = Vector_t(0, 1);
-      }
-      else
-      {
-        leaderV = Vector_t(1, 0);
-      }
+      leaderV = Vector_t(1, 0);
     }
 
     std::cout << "\tIteration " << i << " starts." << std::endl;

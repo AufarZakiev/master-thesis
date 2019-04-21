@@ -9,75 +9,17 @@ public:
     //    ros::Subscriber sub =
     //        n.subscribe("/tf", 1, &SwarmCoordinator::tfCallback, this, ros::TransportHints().tcpNoDelay());
 
-    pub1 = n.advertise<geometry_msgs::Twist>("swarmbot1/cmd_vel", 1000);
+    const int N = 4;
+    swarm_pubs.resize(N + 1);
+    for (int i = 1; i <= N; i++)
+    {
+      swarm_pubs[i] = n.advertise<geometry_msgs::Twist>("swarmbot" + std::to_string(i) + "/cmd_vel", 1000);
+    }
 
     while (ros::ok())
     {
-      tfCallback();
-      ros::Duration(0.1).sleep();
-    }
-
-    // auto angle = angleBetweenVectorsInRadians()
-    //    Robot r2(Position_t(tf_array[2].getOrigin().getX(), tf_array[2].getOrigin().getY()), 2);
-    //    Robot r3(Position_t(tf_array[3].getOrigin().getX(), tf_array[3].getOrigin().getY()), 3);
-    //    Robot r4(Position_t(tf_array[4].getOrigin().getX(), tf_array[4].getOrigin().getY()), 4);
-    //    ROS_INFO_STREAM("r1: " << r1.getPosition());
-    //    ROS_INFO_STREAM("r2: " << r2.getPosition());
-    //    ROS_INFO_STREAM("r3: " << r3.getPosition());
-    //    ROS_INFO_STREAM("r4: " << r4.getPosition());
-    //
-    //    auto rg = std::make_unique<RobotGraph>();
-    //    auto r1_desc = boost::add_vertex(r1, *rg);
-    //    boost::add_vertex(r2, *rg);
-    //    boost::add_vertex(r3, *rg);
-    //    boost::add_vertex(r4, *rg);
-    //
-    //    auto og = std::make_unique<ObstacleGraph>();
-    //
-    //    ValidatedGraphs vg(std::move(rg), std::move(og), vv);
-    //
-    //    auto leaderV = Vector_t(sqrt(2), sqrt(2));
-
-    //    vg.tickGazebo(r1_desc, leaderV, vv);
-    //
-    //    for (size_t i = 0; i < boost::num_vertices(vg.getRobotGraph()); i++)
-    //    {
-    //      angleBetweenVectorsInRadians()
-    //      if (tf_array[i].getRotation().getAngle()<vg.getRobotGraph()[i].getSpeedDirection().)
-    //        ;
-    //    }
-  }
-
-  void tfCallback()
-  {
-    ROS_INFO_STREAM("TfCallback");
-    const int N = 1;
-    std::array<tf::StampedTransform, N + 1> tf_array;
-    for (int i = 1; i <= N; i++)
-    {
-      tf_array[i] = getTransformRobotOnWorld(i);
-    }
-    Robot r1(Position_t(tf_array[1].getOrigin().getX(), tf_array[1].getOrigin().getY()), 1);
-
-    double yaw, pitch, roll;
-    tf::Matrix3x3 mat(tf_array[1].getRotation());
-    mat.getEulerYPR(yaw, pitch, roll);
-
-    ROS_INFO_STREAM("Yaw: " << yaw);
-    ROS_INFO_STREAM("Pitch: " << pitch);  // no sense here
-    ROS_INFO_STREAM("Roll: " << roll);    // no sense here
-
-    if (yaw > 1.57)
-    {
-      geometry_msgs::Twist command;
-      command.angular.z = -0.1;
-      pub1.publish(command);
-    }
-    else
-    {
-      geometry_msgs::Twist command;
-      command.angular.z = 0.1;
-      pub1.publish(command);
+      tick();
+      ros::Duration(0.001).sleep();
     }
   }
 
@@ -85,7 +27,108 @@ private:
   ValidatedVariables vv_;
   tf::TransformListener listener;
   ros::NodeHandle n;
-  ros::Publisher pub1;
+  std::vector<ros::Publisher> swarm_pubs;
+
+  void tick()
+  {
+    const int N = 4;
+    auto rg = std::make_unique<RobotGraph>();
+    for (int i = 1; i <= N; i++)
+    {
+      auto tf = getTransformRobotOnWorld(i);
+
+      Robot temp(Position_t(tf.getOrigin().getX(), tf.getOrigin().getY()), i);
+      double yaw, pitch, roll;
+      tf::Matrix3x3 mat(tf.getRotation());
+      mat.getEulerYPR(yaw, pitch, roll);
+
+      temp.setSpeedDirection(Vector_t(cos(yaw), sin(yaw)));
+
+      boost::add_vertex(temp, *rg);
+    }
+
+    auto og = std::make_unique<ObstacleGraph>();
+    Vector_t needDirection(-1, -1);
+
+    ValidatedGraphs vg(std::move(rg), std::move(og), vv_);
+
+    vg.tickGazebo(1, needDirection, vv_);
+
+    for (int i = 1; i <= N; i++)
+    {
+      rotateTo(vg.getRobotGraph()[i - 1].getSpeedDirection(), i);
+      moveTo(vg.getRobotGraph()[i - 1].getSpeedDirection(), i);
+    }
+  }
+
+  void rotateTo(const Vector_t& needDirection, int id)
+  {
+    ROS_INFO_STREAM("Needed direction of robot " << id << " is " << needDirection(0, 0) << ";" << needDirection(1, 0));
+    double angle;
+    do
+    {
+      double yaw, pitch, roll;
+      tf::Matrix3x3 mat(getTransformRobotOnWorld(id).getRotation());
+      mat.getEulerYPR(yaw, pitch, roll);
+
+      //      ROS_INFO_STREAM("Yaw: " << yaw);
+      //      ROS_INFO_STREAM("Pitch: " << pitch);  // no sense here
+      //      ROS_INFO_STREAM("Roll: " << roll);    // no sense here
+
+      angle = angleBetweenVectorsInRadians(needDirection, Vector_t(cos(yaw), sin(yaw)));
+      // ROS_INFO_STREAM("Angle: " << angle);
+      if (angle > 0.0)
+      {
+        geometry_msgs::Twist command;
+        command.angular.z = -0.5;
+        swarm_pubs[id].publish(command);
+      }
+      else
+      {
+        geometry_msgs::Twist command;
+        command.angular.z = 0.5;
+        swarm_pubs[id].publish(command);
+      }
+    } while (abs(angle) > 0.01);
+
+    {
+      geometry_msgs::Twist command;
+      command.angular.z = 0.0;
+      swarm_pubs[id].publish(command);
+    }
+  }
+
+  void moveTo(const Vector_t& needDirection, int id)
+  {
+    Vector_t start =
+        Vector_t(getTransformRobotOnWorld(id).getOrigin().getX(), getTransformRobotOnWorld(id).getOrigin().getY());
+    auto end = start + needDirection;
+    Vector_t diff;
+    do
+    {
+      diff = (end - Vector_t(getTransformRobotOnWorld(id).getOrigin().getX(),
+                             getTransformRobotOnWorld(id).getOrigin().getY()));
+      // ROS_INFO_STREAM("Diff: " << diff);
+      if (diff.dot(needDirection) > 0.0)
+      {
+        geometry_msgs::Twist command;
+        command.linear.x = (abs(diff(0, 0)) > 0.01) ? 0.1 : 0.05;
+        swarm_pubs[id].publish(command);
+      }
+      else
+      {
+        geometry_msgs::Twist command;
+        command.linear.x = -0.01;
+        swarm_pubs[id].publish(command);
+      }
+    } while (abs(diff(0, 0)) > 0.01);
+
+    {
+      geometry_msgs::Twist command;
+      command.linear.x = 0.0;
+      swarm_pubs[id].publish(command);
+    }
+  }
 
   tf::StampedTransform getTransformBetweenRobots(int id1, int id2)
   {

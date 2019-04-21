@@ -220,14 +220,16 @@ void ValidatedGraphs::tick(const RobotDesc leaderDesc, const Vector_t& leaderDir
   }
 }
 
-void ValidatedGraphs::tickGazebo(const RobotDesc leaderDesc, const Vector_t& leaderDirection, const ValidatedVariables& vv)
+void ValidatedGraphs::tickGazebo(const RobotDesc leaderDesc, const Vector_t& leaderDirection,
+                                 const ValidatedVariables& vv)
 {
+  auto realLeaderDesc = leaderDesc - 1;
   double EQUALITY_CASE;
   vv.getParam("equality_case", EQUALITY_CASE);
   for (size_t i = 0; i < boost::num_vertices(*validatedRobotGraph); i++)
   {
     this->leavePreservedEdges(vv);
-    if (i == leaderDesc)
+    if (i == realLeaderDesc)
     {
       double magnitude = getConstrainedLeaderSpeed((*validatedRobotGraph)[i], *this, vv);
       (*validatedRobotGraph)[i].setSpeedDirection(leaderDirection * magnitude);
