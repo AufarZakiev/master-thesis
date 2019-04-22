@@ -48,6 +48,18 @@ private:
     }
 
     auto og = std::make_unique<ObstacleGraph>();
+    boost::add_vertex(Obstacle(Position_t(-6.5, -0.5), 0.5), *og);
+    boost::add_vertex(Obstacle(Position_t(-7.5, -1.5), 0.5), *og);
+    boost::add_vertex(Obstacle(Position_t(-8.5, -2.5), 0.5), *og);
+    boost::add_vertex(Obstacle(Position_t(-9.5, -3.5), 0.5), *og);
+    boost::add_vertex(Obstacle(Position_t(-10.5, -4.5), 0.5), *og);
+    boost::add_vertex(Obstacle(Position_t(-11.5, -5.5), 0.5), *og);
+    boost::add_vertex(Obstacle(Position_t(0.5, -5.5), 0.5), *og);
+    boost::add_vertex(Obstacle(Position_t(-0.5, -6.5), 0.5), *og);
+    boost::add_vertex(Obstacle(Position_t(-1.5, -7.5), 0.5), *og);
+    boost::add_vertex(Obstacle(Position_t(-2.5, -8.5), 0.5), *og);
+    boost::add_vertex(Obstacle(Position_t(-3.5, -9.5), 0.5), *og);
+    boost::add_vertex(Obstacle(Position_t(-4.5, -10.5), 0.5), *og);
     Vector_t needDirection(-1, -1);
 
     ValidatedGraphs vg(std::move(rg), std::move(og), vv_);
@@ -168,22 +180,39 @@ int main(int argc, char** argv)
 
   Variables v = Variables();
 
-  getNotifiedParam(n_, "robots_avoidance_distance", v);
-  getNotifiedParam(n_, "obstacles_avoidance_distance", v);
-  getNotifiedParam(n_, "los_clearance_distance", v);
-  getNotifiedParam(n_, "los_clearance_care_distance", v);
-  getNotifiedParam(n_, "neighbourhood_distance", v);
-  getNotifiedParam(n_, "edge_deletion_distance", v);
-  getNotifiedParam(n_, "obstacle_care_distance", v);
-  getNotifiedParam(n_, "desired_distance", v);
-  getNotifiedParam(n_, "sensing_distance", v);
-  getNotifiedParam(n_, "robot_max_speed", v);
-  getNotifiedParam(n_, "k1", v);
-  getNotifiedParam(n_, "k2", v);
-  getNotifiedParam(n_, "c1", v);
-  getNotifiedParam(n_, "c2", v);
-  getNotifiedParam(n_, "c3", v);
-  getNotifiedParam(n_, "c4", v);
+  //  getNotifiedParam(n_, "robots_avoidance_distance", v);
+  //  getNotifiedParam(n_, "obstacles_avoidance_distance", v);
+  //  getNotifiedParam(n_, "los_clearance_distance", v);
+  //  getNotifiedParam(n_, "los_clearance_care_distance", v);
+  //  getNotifiedParam(n_, "neighbourhood_distance", v);
+  //  getNotifiedParam(n_, "edge_deletion_distance", v);
+  //  getNotifiedParam(n_, "obstacle_care_distance", v);
+  //  getNotifiedParam(n_, "desired_distance", v);
+  //  getNotifiedParam(n_, "sensing_distance", v);
+  //  getNotifiedParam(n_, "robot_max_speed", v);
+  //  getNotifiedParam(n_, "k1", v);
+  //  getNotifiedParam(n_, "k2", v);
+  //  getNotifiedParam(n_, "c1", v);
+  //  getNotifiedParam(n_, "c2", v);
+  //  getNotifiedParam(n_, "c3", v);
+  //  getNotifiedParam(n_, "c4", v);
+
+  v.setParam("robots_avoidance_distance", 3.0);
+  v.setParam("obstacles_avoidance_distance", 1.7);
+  v.setParam("los_clearance_distance", 0.1);
+  v.setParam("los_clearance_care_distance", 6.5);
+  v.setParam("neighbourhood_distance", 10.0);
+  v.setParam("edge_deletion_distance", 2.5);
+  v.setParam("obstacle_care_distance", 6.5);
+  v.setParam("desired_distance", 6.5);
+  v.setParam("sensing_distance", 10.5);
+  v.setParam("robot_max_speed", 0.1);
+  v.setParam("k1", 10);
+  v.setParam("k2", 10);
+  v.setParam("c1", 2.5);
+  v.setParam("c2", 1.25);
+  v.setParam("c3", 0.1);
+  v.setParam("c4", 10.0);
 
   ValidatedVariables vv(v);
 
