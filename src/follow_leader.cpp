@@ -48,18 +48,35 @@ private:
     }
 
     auto og = std::make_unique<ObstacleGraph>();
-    boost::add_vertex(Obstacle(Position_t(-6.5, -0.5), 0.5), *og);
-    boost::add_vertex(Obstacle(Position_t(-7.5, -1.5), 0.5), *og);
-    boost::add_vertex(Obstacle(Position_t(-8.5, -2.5), 0.5), *og);
-    boost::add_vertex(Obstacle(Position_t(-9.5, -3.5), 0.5), *og);
-    boost::add_vertex(Obstacle(Position_t(-10.5, -4.5), 0.5), *og);
-    boost::add_vertex(Obstacle(Position_t(-11.5, -5.5), 0.5), *og);
-    boost::add_vertex(Obstacle(Position_t(0.5, -5.5), 0.5), *og);
-    boost::add_vertex(Obstacle(Position_t(-0.5, -6.5), 0.5), *og);
-    boost::add_vertex(Obstacle(Position_t(-1.5, -7.5), 0.5), *og);
-    boost::add_vertex(Obstacle(Position_t(-2.5, -8.5), 0.5), *og);
-    boost::add_vertex(Obstacle(Position_t(-3.5, -9.5), 0.5), *og);
-    boost::add_vertex(Obstacle(Position_t(-4.5, -10.5), 0.5), *og);
+
+    //    boost::add_vertex(Obstacle(Position_t(-0.5, -6.5), 0.5), *og);
+    //    boost::add_vertex(Obstacle(Position_t(-1.5, -7.5), 0.5), *og);
+    //    boost::add_vertex(Obstacle(Position_t(-2.5, -8.5), 0.5), *og);
+    //    boost::add_vertex(Obstacle(Position_t(-3.5, -9.5), 0.5), *og);
+    //    boost::add_vertex(Obstacle(Position_t(-4.5, -10.5), 0.5), *og);
+    //    boost::add_vertex(Obstacle(Position_t(-5.5, -11.5), 0.5), *og);
+    //
+    //    boost::add_vertex(Obstacle(Position_t(-6.5, -0.5), 0.5), *og);
+    //    boost::add_vertex(Obstacle(Position_t(-7.5, -1.5), 0.5), *og);
+    //    boost::add_vertex(Obstacle(Position_t(-8.5, -2.5), 0.5), *og);
+    //    boost::add_vertex(Obstacle(Position_t(-9.5, -3.5), 0.5), *og);
+    //    boost::add_vertex(Obstacle(Position_t(-10.5, -4.5), 0.5), *og);
+    //    boost::add_vertex(Obstacle(Position_t(-11.5, -5.5), 0.5), *og);
+
+    boost::add_vertex(Obstacle(Position_t(-0.5, -6.5), 2.0), *og);
+    boost::add_vertex(Obstacle(Position_t(-1.5, -7.5), 2.0), *og);
+    boost::add_vertex(Obstacle(Position_t(-2.5, -8.5), 2.0), *og);
+    boost::add_vertex(Obstacle(Position_t(-3.5, -9.5), 2.0), *og);
+    boost::add_vertex(Obstacle(Position_t(-4.5, -10.5), 2.0), *og);
+    boost::add_vertex(Obstacle(Position_t(-5.5, -11.5), 2.0), *og);
+
+    boost::add_vertex(Obstacle(Position_t(-6.5, -0.5), 2.0), *og);
+    boost::add_vertex(Obstacle(Position_t(-7.5, -1.5), 2.0), *og);
+    boost::add_vertex(Obstacle(Position_t(-8.5, -2.5), 2.0), *og);
+    boost::add_vertex(Obstacle(Position_t(-9.5, -3.5), 2.0), *og);
+    boost::add_vertex(Obstacle(Position_t(-10.5, -4.5), 2.0), *og);
+    boost::add_vertex(Obstacle(Position_t(-11.5, -5.5), 2.0), *og);
+
     Vector_t needDirection(-1, -1);
 
     ValidatedGraphs vg(std::move(rg), std::move(og), vv_);
@@ -120,20 +137,18 @@ private:
     {
       diff = (end - Vector_t(getTransformRobotOnWorld(id).getOrigin().getX(),
                              getTransformRobotOnWorld(id).getOrigin().getY()));
-      // ROS_INFO_STREAM("Diff: " << diff);
-      if (diff.dot(needDirection) > 0.0)
+      // ROS_INFO_STREAM("Diff: " << getVectorLength(diff));
+      if (diff.dot(needDirection) >= 0.0)
       {
         geometry_msgs::Twist command;
-        command.linear.x = (abs(diff(0, 0)) > 0.01) ? 0.1 : 0.05;
+        command.linear.x = getVectorLength(diff) / 2.0;
         swarm_pubs[id].publish(command);
       }
       else
       {
-        geometry_msgs::Twist command;
-        command.linear.x = -0.01;
-        swarm_pubs[id].publish(command);
+        break;
       }
-    } while (abs(diff(0, 0)) > 0.01);
+    } while (getVectorLength(diff) > 0.02);
 
     {
       geometry_msgs::Twist command;
@@ -206,7 +221,7 @@ int main(int argc, char** argv)
   v.setParam("obstacle_care_distance", 6.5);
   v.setParam("desired_distance", 6.5);
   v.setParam("sensing_distance", 10.5);
-  v.setParam("robot_max_speed", 0.1);
+  v.setParam("robot_max_speed", 0.5);
   v.setParam("k1", 10);
   v.setParam("k2", 10);
   v.setParam("c1", 2.5);
