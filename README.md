@@ -5,7 +5,7 @@ This is launch files used to spawn multiple Turtlebots in single Gazebo simulati
 
 ## Prerequisites
 
-Install ROS Indigo or Kinetic.
+Install ROS Indigo or Kinetic. Also, [this package](https://gitlab.com/LIRS_Projects/simulation-turtlebot-laser) is needed to get the edited for LRF Turtlebot model.
 
 ### Indigo:
 Install Tutrlebot packages using:
@@ -15,6 +15,10 @@ sudo sudo apt-get install ros-indigo-turtlebot ros-indigo-turtlebot-apps ros-ind
 Install Eband local planner:
 ```sh
 sudo apt-get install ros-indigo-eband-local-planner
+```
+Install Hector SLAM:
+```sh
+sudo apt-get install ros-indigo-hector-slam
 ```
 
 ### Kinetic:
@@ -26,6 +30,10 @@ sudo sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-k
 Install Eband local planner:
 ```sh
 sudo apt-get install ros-kinetic-eband-local-planner
+```
+Install Hector SLAM:
+```sh
+sudo apt-get install ros-kinetic-hector-slam
 ```
 
 ## How to use

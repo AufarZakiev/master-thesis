@@ -11,7 +11,7 @@
   <arg name="z" default="0.1"/>
 
   <!-- Robot description is common for all the robots -->
-  <param name="robot_description" command="$(find xacro)/xacro.py $(find turtlebot_hector_mapping)/xacro/turtlebot_laser_setup.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find turtlebot_laser)/xacro/turtlebot_laser_setup.xacro" />
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="use_sim_time" value="true"/>
@@ -28,6 +28,11 @@
       <arg name="tf_prefix" value="robot1_tf" />
       <arg name="ns" value="turtlebot1" />
     </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot1_tf"/>
+      <arg name="ns" default="turtlebot1"/>
+    </include>
   </group>
 
   <group ns="turtlebot2">
@@ -37,6 +42,11 @@
       <arg name="z" default="0.1"/>
       <arg name="tf_prefix" value="robot2_tf" />
       <arg name="ns" value="turtlebot2" />
+    </include>
+
+    <include file="$(find multiple_turtlebots)/launch/includes/mt_hector.launch">
+      <arg name="tf_prefix" default="robot2_tf"/>
+      <arg name="ns" default="turtlebot2"/>
     </include>
   </group>
 </launch>
