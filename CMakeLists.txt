@@ -18,7 +18,7 @@ endif ()
 set(Boost_NO_SYSTEM_PATHS ON)
 set(BOOST_ROOT include/boost)
 set(BOOST_INCLUDEDIR include/boost/include/boost)
-set(BOOST_LIBRARYDIR include/boost/lib)
+set(BOOST_LIBRARYDIR libs)
 find_package(catkin REQUIRED COMPONENTS
         geometry_msgs
         roscpp

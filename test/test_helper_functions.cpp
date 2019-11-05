@@ -18,7 +18,7 @@ TEST(closestDetectedObstacleTest, ShouldPass)
   boost::add_vertex(o2, og);
 
   v3 << 10.0, 6.0;
-  Robot r(v3);
+  Robot r(v3,1);
   Obstacle o = closestDetectedObstacle(r, og).value();
   EXPECT_EQ(o1.getObstacleID(), o.getObstacleID());
 
@@ -35,8 +35,8 @@ TEST(closestDetectedObstacleTest, ShouldPass)
 
 TEST(separateNeighbourRobotsBehindAndFrontTest, ShouldPass)
 {
-  Robot r1(Position_t(5, 5), Vector_t(1, 1)), r2(Position_t(6, 6)), r3(Position_t(10, 5)), r4(Position_t(3, 3)),
-      r5(Position_t(0, 2));
+  Robot r1(Position_t(5, 5),1, Vector_t(1, 1)), r2(Position_t(6, 6),2), r3(Position_t(10, 5),3), r4(Position_t(3, 3),4),
+      r5(Position_t(0, 2),5);
   RobotGraph rg, behind, front;
 
   boost::add_vertex(r2, rg);
@@ -79,7 +79,7 @@ TEST(separateNeighbourRobotsBehindAndFrontTest, ShouldPass)
 
 TEST(closingObstaclesInDSpaceTest, ShouldPass)
 {
-  Robot r1(Position_t(5, 5), Vector_t(1, 1)), r2(Position_t(9, 5));
+  Robot r1(Position_t(5, 5),1, Vector_t(1, 1)), r2(Position_t(9, 5),2);
   Obstacle o1(Position_t(8, 8)), o2(Position_t(10, 5)), o3(Position_t(3, 0));
 
   ObstacleGraph og;
@@ -95,7 +95,7 @@ TEST(closingObstaclesInDSpaceTest, ShouldPass)
 
 TEST(closestObstacleToLOSinDSpaceAtFrontTest, ShouldPass)
 {
-  Robot r1(Position_t(5, 5), Vector_t(1, 1)), r2(Position_t(9, 5));
+  Robot r1(Position_t(5, 5),1, Vector_t(1, 1)), r2(Position_t(9, 5),2);
   Obstacle o1(Position_t(8, 8)), o2(Position_t(10, 5)), o3(Position_t(3, 0)), o4(Position_t(6, 4));
 
   ObstacleGraph og;
@@ -130,10 +130,10 @@ TEST(printPlotWithArrowsTest, ShouldPass)
   v.setParam("los_clearance_care_distance", 0.4);
   v.setParam("los_clearance_distance", 0.2);
   v.setParam("small_positive_constant", 0.2);
-  Robot r1(Position_t(1, 1), Vector_t(10, 10));
-  Robot r2(Position_t(4, 4), Vector_t(4, -4));
-  Robot r3(Position_t(10, 6), Vector_t(-2, 2));
-  Robot r4(Position_t(8, 5), Vector_t(-1, -5));
+  Robot r1(Position_t(1, 1),1, Vector_t(10, 10));
+  Robot r2(Position_t(4, 4),2, Vector_t(4, -4));
+  Robot r3(Position_t(10, 6),3, Vector_t(-2, 2));
+  Robot r4(Position_t(8, 5),4, Vector_t(-1, -5));
 
   RobotGraph rg;
   boost::add_vertex(r1, rg);
@@ -162,9 +162,9 @@ TEST(getNeighboursTest, ShouldPass)
   Variables v = Variables();
   v.setParam("neighbourhood_distance", 2.0);
 
-  Robot r1(Position_t(5.0, 5.0));
-  Robot r2(Position_t(4.0, 4.0));
-  Robot r3(Position_t(1.0, 3.0));
+  Robot r1(Position_t(5.0, 5.0),1);
+  Robot r2(Position_t(4.0, 4.0),2);
+  Robot r3(Position_t(1.0, 3.0),3);
 
   RobotGraph rg;
   boost::add_vertex(r2, rg);
@@ -181,9 +181,9 @@ TEST(getNeighboursPreservedTest, ShouldPass)
   v.setParam("robots_avoidance_distance", 1.0);
   v.setParam("edge_deletion_distance", 3.0 * sin(M_PI / 3));
 
-  Robot r1(Position_t(3.0, 5.0));
-  Robot r2(Position_t(2.0, 4.0));
-  Robot r3(Position_t(4.0, 4.0));
+  Robot r1(Position_t(3.0, 5.0),1);
+  Robot r2(Position_t(2.0, 4.0),2);
+  Robot r3(Position_t(4.0, 4.0),3);
 
   RobotGraph rg;
   boost::add_vertex(r2, rg);
