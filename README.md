@@ -7,6 +7,8 @@ This is launch files used to spawn multiple Turtlebots in single Gazebo simulati
 
 Install ROS Indigo or Kinetic. Also, [this package](https://gitlab.com/LIRS_Projects/simulation-turtlebot-laser) is needed to get the edited for LRF Turtlebot model.
 
+This project needs C++17 and, therefore, gcc version higher than 7.0. Please upgrade to **gcc-7** following [these instructions](https://tuxamito.com/wiki/index.php/Installing_newer_GCC_versions_in_Ubuntu). 
+
 ### Indigo:
 Install Tutrlebot packages using:
 ```sh
