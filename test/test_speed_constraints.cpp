@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../include/headers/speed_constraints.h"
-#include "../include/headers/field_functions.h"
+#include "headers/speed_constraints.h"
+#include "headers/field_functions.h"
 
 TEST(maximumDistanceConstraint, ShouldPass)
 {

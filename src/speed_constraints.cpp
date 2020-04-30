@@ -1,5 +1,5 @@
-#include "../include/headers/speed_constraints.h"
-#include "../include/headers/field_functions.h"
+#include "headers/speed_constraints.h"
+#include "headers/field_functions.h"
 
 double maximumDistanceConstraint(const Robot& robot, const RobotGraph& neighbourhood_preserved_robots,
                                  const Variables& v)

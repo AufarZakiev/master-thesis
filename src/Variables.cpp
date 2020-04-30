@@ -1,6 +1,6 @@
 #include <string>
 #include <cmath>
-#include "../include/headers/Variables.h"
+#include "headers/Variables.h"
 
 Variables::Variables()
 {

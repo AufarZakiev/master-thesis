@@ -1,4 +1,4 @@
-#include "../include/headers/field_functions.h"
+#include "headers/field_functions.h"
 
 double cohesionPotential(const Robot& position, const RobotGraph& detected_robots,
                          const ObstacleGraph& detected_obstacles, const Variables& v)

@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
-#include "../include/headers/matplotlibcpp.h"  // uses this library https://github.com/lava/matplotlib-cpp to draw plots
+#include "headers/matplotlibcpp.h"  // uses this library https://github.com/lava/matplotlib-cpp to draw plots
 
-#include "../include/headers/classes.h"
-#include "../include/headers/partial_functions.h"
+#include "headers/classes.h"
+#include "headers/partial_functions.h"
 
 TEST(partialInterrobotCollisionPotentialTest, ShouldPass)
 {

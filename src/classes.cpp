@@ -1,6 +1,6 @@
-#include "../include/headers/classes.h"
-#include "../include/headers/geometric_functions.h"
-#include "../include/headers/speed_constraints.h"
+#include "headers/classes.h"
+#include "headers/geometric_functions.h"
+#include "headers/speed_constraints.h"
 
 int Obstacle::obstacles_count = 0;
 

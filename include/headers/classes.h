@@ -5,8 +5,8 @@
 #include <ros/init.h>
 
 #include "Variables.h"
-#include "../Eigen/Dense"
-#include "../gnuplot-iostream/gnuplot-iostream.h"
+#include "Eigen/Dense"
+#include "gnuplot-iostream/gnuplot-iostream.h"
 
 #include <cmath>
 #include <algorithm>

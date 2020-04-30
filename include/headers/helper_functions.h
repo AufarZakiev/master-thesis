@@ -2,7 +2,7 @@
 #define MULTIPLE_TURTLEBOTS_HELPER_FUNCTIONS_H
 
 #include "classes.h"
-#include "../gnuplot-iostream/gnuplot-iostream.h"
+#include "gnuplot-iostream/gnuplot-iostream.h"
 #include <optional>
 #include "geometric_functions.h"
 

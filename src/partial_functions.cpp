@@ -1,4 +1,4 @@
-#include "../include/headers/partial_functions.h"
+#include "headers/partial_functions.h"
 
 double partialInterrobotCollisionPotential(double z, const Variables& v)
 {

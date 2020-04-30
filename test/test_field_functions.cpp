@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../include/headers/classes.h"
-#include "../include/headers/field_functions.h"
+#include "headers/classes.h"
+#include "headers/field_functions.h"
 
 TEST(CohesionPotentialTest_4_robots, ShouldPass)
 {

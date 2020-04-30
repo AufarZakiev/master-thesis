@@ -2,7 +2,7 @@
 #define MULTIPLE_TURTLEBOTS_GEOMETRIC_FUNCTIONS_H
 
 #include "classes.h"
-#include "../templates/derivatives.tcc"
+#include "templates/derivatives.tcc"
 
 std::optional<RobotDesc> findRobotInGraph(const Robot& ro, const RobotGraph& graph);
 std::optional<ObstacleDesc> findObstacleInGraph(const Obstacle& ro, const ObstacleGraph& graph);

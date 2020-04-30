@@ -1,4 +1,4 @@
-#include "../include/headers/geometric_functions.h"
+#include "headers/geometric_functions.h"
 
 std::optional<RobotDesc> findRobotInGraph(const Robot& ro, const RobotGraph& graph)
 {

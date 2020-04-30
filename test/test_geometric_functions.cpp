@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-#include "../include/headers/matplotlibcpp.h"  // uses this library https://github.com/lava/matplotlib-cpp to draw plots
+#include "headers/matplotlibcpp.h"  // uses this library https://github.com/lava/matplotlib-cpp to draw plots
 
-#include "../include/headers/classes.h"
-#include "../include/headers/geometric_functions.h"
-#include "../include/headers/helper_functions.h"
+#include "headers/classes.h"
+#include "headers/geometric_functions.h"
+#include "headers/helper_functions.h"
 
 TEST(VectorDistanceTest, ShouldPass) {
     Vector_t v1;

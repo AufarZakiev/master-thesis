@@ -1,5 +1,5 @@
-#include "../include/headers/helper_functions.h"
-#include "../include/headers/field_functions.h"
+#include "headers/helper_functions.h"
+#include "headers/field_functions.h"
 
 std::pair<Obstacle, double> getClosestObstacleToLOS(const Robot& i, const Robot& j,
                                                     const ObstacleGraph& detected_obstacle_graph_in_D_set)

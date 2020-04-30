@@ -1,4 +1,4 @@
-#include "../headers/classes.h"
+#include "headers/classes.h"
 
 template<typename function_type>
 double partialDerivative(const double &point, function_type objective_func, const Variables &v) {
